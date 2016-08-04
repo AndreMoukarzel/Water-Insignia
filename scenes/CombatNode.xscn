@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resource_file type="PackedScene" subresource_count="3" version="2.0" version_name="Godot Engine v2.0.stable.official">
+	<ext_resource path="res://scripts/CombatNode.gd" type="Script" index="0"></ext_resource>
+	<ext_resource path="res://scenes/body.xscn" type="PackedScene" index="1"></ext_resource>
+	<main_resource>
+		<dictionary name="_bundled" shared="false">
+			<string> "conn_count" </string>
+			<int> 0 </int>
+			<string> "conns" </string>
+			<int_array  len="0"> 				 </int_array>
+			<string> "editable_instances" </string>
+			<array  len="0" shared="false">
+			</array>
+			<string> "names" </string>
+			<string_array  len="38">
+				<string> "CombatNode" </string>
+				<string> "script/script" </string>
+				<string> "Node2D" </string>
+				<string> "Allies" </string>
+				<string> "transform/pos" </string>
+				<string> "__meta__" </string>
+				<string> "Member1" </string>
+				<string> "body" </string>
+				<string> "Member2" </string>
+				<string> "Member3" </string>
+				<string> "Member4" </string>
+				<string> "Enemies" </string>
+				<string> "ActionMenu" </string>
+				<string> "focus/ignore_mouse" </string>
+				<string> "focus/stop_mouse" </string>
+				<string> "size_flags/horizontal" </string>
+				<string> "size_flags/vertical" </string>
+				<string> "margin/left" </string>
+				<string> "margin/top" </string>
+				<string> "margin/right" </string>
+				<string> "margin/bottom" </string>
+				<string> "Panel" </string>
+				<string> "Selection" </string>
+				<string> "alignment" </string>
+				<string> "HBoxContainer" </string>
+				<string> "Attack" </string>
+				<string> "toggle_mode" </string>
+				<string> "flat" </string>
+				<string> "Button" </string>
+				<string> "Skill" </string>
+				<string> "Item" </string>
+				<string> "Defend" </string>
+				<string> "visibility/visible" </string>
+				<string> "Slot1" </string>
+				<string> "Slot2" </string>
+				<string> "Slot3" </string>
+				<string> "Slot4" </string>
+				<string> "Return" </string>
+			</string_array>
+			<string> "node_count" </string>
+			<int> 34 </int>
+			<string> "node_paths" </string>
+			<array  len="0" shared="false">
+			</array>
+			<string> "nodes" </string>
+			<int_array  len="684"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 2, 4, 1, 5, 2, 0, 1, 0, 2, 6, -1, 0, 0, 2, 0, 2147483647, 7, 3, 0, 0, 1, 0, 2, 8, -1, 0, 0, 1, 0, 2, 9, -1, 0, 0, 1, 0, 2, 10, -1, 0, 0, 0, 0, 2, 11, -1, 2, 4, 4, 5, 5, 0, 7, 0, 2, 6, -1, 0, 0, 7, 0, 2, 8, -1, 0, 0, 7, 0, 2, 9, -1, 0, 0, 7, 0, 2, 10, -1, 0, 0, 0, 0, 21, 12, -1, 8, 13, 6, 14, 7, 15, 8, 16, 8, 17, 9, 18, 10, 19, 11, 20, 12, 0, 12, 0, 24, 22, -1, 9, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 13, 0, 28, 25, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 29, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 19, 18, 16, 19, 20, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 30, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 21, 18, 16, 19, 22, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 31, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 23, 18, 16, 19, 24, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 25, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 18, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 29, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 23, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 30, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 28, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 28, 37, -1, 11, 32, 6, 13, 6, 14, 7, 15, 8, 16, 8, 17, 9, 18, 9, 19, 17, 20, 25, 26, 6, 27, 6, 0 </int_array>
+			<string> "variants" </string>
+			<array  len="26" shared="false">
+				<resource  external="0">  </resource>
+				<vector2> 212.535, 6.02936 </vector2>
+				<dictionary  shared="false">
+					<string> "_edit_group_" </string>
+					<bool> True </bool>
+				</dictionary>
+				<resource  external="1">  </resource>
+				<vector2> 857.676, 21.1028 </vector2>
+				<dictionary  shared="false">
+					<string> "_edit_group_" </string>
+					<bool> True </bool>
+					<string> "_editor_collapsed" </string>
+					<bool> True </bool>
+				</dictionary>
+				<bool> False </bool>
+				<bool> True </bool>
+				<int> 2 </int>
+				<real> 0 </real>
+				<real> 500 </real>
+				<real> 1024 </real>
+				<real> 600 </real>
+				<real> 40 </real>
+				<int> 0 </int>
+				<int> 1 </int>
+				<real> 10 </real>
+				<real> 12 </real>
+				<real> 29 </real>
+				<real> 16 </real>
+				<real> 28 </real>
+				<real> 32 </real>
+				<real> 44 </real>
+				<real> 48 </real>
+				<real> 60 </real>
+				<real> 19 </real>
+			</array>
+			<string> "version" </string>
+			<int> 2 </int>
+		</dictionary>
+
+	</main_resource>
+</resource_file>
