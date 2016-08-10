@@ -20,7 +20,7 @@ const DEF = 5
 var char_database = [
 	{
 		FOLDER : "res://characters/monsters/bat/",
-		CHAR_NAME : "Bat",
+		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
 		ATK : 2,
