@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="25" version="2.0" version_name="Godot Engine v2.0.stable.official">
-	<ext_resource path="res://resources/sprites/basebody/base_arm_up_l.tex" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://resources/sprites/basebody/base_foot_tip.tex" type="Texture" index="7"></ext_resource>
+	<ext_resource path="res://resources/sprites/basebody/base_arm_up_l.tex" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://resources/sprites/basebody/base_torso.tex" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://resources/sprites/basebody/base_arm_down.tex" type="Texture" index="2"></ext_resource>
 	<ext_resource path="res://resources/sprites/basebody/base_leg_up.tex" type="Texture" index="4"></ext_resource>
@@ -8867,6 +8867,7 @@
 				<string> "transform/scale" </string>
 				<string> "Node2D" </string>
 				<string> "center" </string>
+				<string> "z/z" </string>
 				<string> "__meta__" </string>
 				<string> "torso" </string>
 				<string> "transform/rot" </string>
@@ -8875,7 +8876,6 @@
 				<string> "Sprite" </string>
 				<string> "arm_r" </string>
 				<string> "transform/pos" </string>
-				<string> "z/z" </string>
 				<string> "arm_down_r" </string>
 				<string> "bone_display" </string>
 				<string> "arm_l" </string>
@@ -8924,20 +8924,21 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="385"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 1, 4, 1, 0, 1, 0, 9, 5, -1, 3, 6, 2, 7, 3, 8, 4, 0, 2, 0, 9, 10, -1, 6, 11, 5, 6, 6, 12, 7, 7, 8, 8, 9, 4, 10, 0, 3, 0, 9, 13, -1, 5, 11, 11, 6, 12, 7, 13, 8, 14, 4, 15, 0, 4, 0, 2, 14, -1, 3, 11, 16, 6, 17, 4, 18, 0, 2, 0, 9, 15, -1, 6, 11, 19, 6, 20, 12, 21, 7, 8, 8, 22, 4, 23, 0, 6, 0, 9, 16, -1, 5, 11, 11, 6, 24, 7, 13, 8, 25, 4, 26, 0, 7, 0, 2, 14, -1, 2, 11, 27, 4, 28, 0, 2, 0, 9, 17, -1, 3, 11, 29, 7, 30, 8, 31, 0, 9, 0, 9, 14, -1, 2, 11, 32, 4, 33, 0, 9, 0, 9, 18, -1, 7, 11, 34, 6, 35, 12, 7, 7, 36, 8, 37, 19, 38, 4, 39, 0, 11, 0, 9, 20, -1, 6, 11, 40, 6, 41, 7, 42, 8, 43, 19, 44, 4, 45, 0, 12, 0, 9, 21, -1, 6, 11, 46, 6, 47, 7, 48, 8, 49, 19, 50, 4, 51, 0, 13, 0, 9, 22, -1, 6, 11, 52, 6, 53, 7, 54, 8, 55, 19, 56, 4, 57, 0, 14, 0, 2, 14, -1, 2, 11, 58, 4, 59, 0, 9, 0, 9, 23, -1, 5, 11, 60, 6, 61, 7, 36, 8, 62, 4, 63, 0, 16, 0, 9, 24, -1, 5, 11, 40, 6, 64, 7, 42, 8, 43, 4, 65, 0, 17, 0, 9, 25, -1, 5, 11, 66, 6, 67, 7, 48, 8, 49, 4, 68, 0, 18, 0, 9, 26, -1, 6, 27, 69, 11, 52, 6, 70, 7, 54, 8, 55, 4, 71, 0, 19, 0, 2, 14, -1, 2, 11, 58, 4, 72, 0, 0, 0, 53, 28, -1, 24, 29, 21, 30, 73, 31, 74, 32, 75, 33, 76, 34, 77, 35, 78, 36, 79, 37, 80, 38, 81, 39, 82, 40, 83, 41, 84, 42, 85, 43, 86, 44, 87, 45, 88, 46, 89, 47, 90, 48, 91, 49, 92, 50, 93, 51, 94, 52, 95, 0, 0, 0, 2, 2, -1, 1, 11, 96, 0 </int_array>
+			<int_array  len="387"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 3, 1, 1, 4, 2, 5, 3, 0, 1, 0, 10, 6, -1, 3, 7, 4, 8, 5, 9, 6, 0, 2, 0, 10, 11, -1, 6, 12, 7, 7, 8, 4, 2, 8, 9, 9, 10, 5, 11, 0, 3, 0, 10, 13, -1, 5, 12, 12, 7, 13, 8, 14, 9, 15, 5, 16, 0, 4, 0, 2, 14, -1, 3, 12, 17, 7, 18, 5, 19, 0, 2, 0, 10, 15, -1, 6, 12, 20, 7, 21, 4, 22, 8, 9, 9, 23, 5, 24, 0, 6, 0, 10, 16, -1, 5, 12, 12, 7, 25, 8, 14, 9, 26, 5, 27, 0, 7, 0, 2, 14, -1, 2, 12, 28, 5, 29, 0, 2, 0, 10, 17, -1, 3, 12, 30, 8, 31, 9, 32, 0, 9, 0, 10, 14, -1, 2, 12, 33, 5, 34, 0, 9, 0, 10, 18, -1, 7, 12, 35, 7, 36, 4, 2, 8, 37, 9, 38, 19, 39, 5, 40, 0, 11, 0, 10, 20, -1, 6, 12, 41, 7, 42, 8, 43, 9, 44, 19, 45, 5, 46, 0, 12, 0, 10, 21, -1, 6, 12, 47, 7, 48, 8, 49, 9, 50, 19, 51, 5, 52, 0, 13, 0, 10, 22, -1, 5, 12, 53, 8, 54, 9, 55, 19, 56, 5, 57, 0, 14, 0, 2, 14, -1, 2, 12, 58, 5, 59, 0, 9, 0, 10, 23, -1, 5, 12, 60, 7, 61, 8, 37, 9, 62, 5, 63, 0, 16, 0, 10, 24, -1, 5, 12, 41, 7, 64, 8, 43, 9, 44, 5, 65, 0, 17, 0, 10, 25, -1, 5, 12, 41, 7, 66, 8, 49, 9, 50, 5, 67, 0, 18, 0, 10, 26, -1, 6, 27, 68, 12, 53, 7, 69, 8, 54, 9, 55, 5, 70, 0, 19, 0, 2, 14, -1, 2, 12, 58, 5, 71, 0, 0, 0, 53, 28, -1, 24, 29, 22, 30, 72, 31, 73, 32, 74, 33, 75, 34, 76, 35, 77, 36, 78, 37, 79, 38, 80, 39, 81, 40, 82, 41, 83, 42, 84, 43, 85, 44, 86, 45, 87, 46, 88, 47, 89, 48, 90, 49, 91, 50, 92, 51, 93, 52, 94, 0, 0, 0, 2, 2, -1, 1, 12, 95, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="97" shared="false">
+			<array  len="96" shared="false">
 				<vector2> 0.5, 0.5 </vector2>
+				<vector2> 3, 3 </vector2>
+				<int> -1 </int>
 				<dictionary  shared="false">
 					<string> "_edit_lock_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<real> 3.504752 </real>
+				<real> 3.519716 </real>
 				<resource  external="0">  </resource>
 				<vector2> 0.210518, -12.312 </vector2>
-				<vector2> -9.37435, -22.6213 </vector2>
-				<real> -12.683629 </real>
-				<int> -1 </int>
+				<vector2> -9.37025, -22.6264 </vector2>
+				<real> -12.689127 </real>
 				<resource  external="1">  </resource>
 				<vector2> 0, 8.23358 </vector2>
 				<dictionary  shared="false">
@@ -8945,7 +8946,7 @@
 					<bool> True </bool>
 				</dictionary>
 				<vector2> 0, 19 </vector2>
-				<real> -81.725891 </real>
+				<real> -81.782204 </real>
 				<resource  external="2">  </resource>
 				<vector2> 1, 11 </vector2>
 				<dictionary  shared="false">
@@ -8960,15 +8961,15 @@
 					<string> "_edit_lock_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<vector2> 9.62681, -22.6246 </vector2>
-				<real> 1080.80957 </real>
+				<vector2> 9.62975, -22.6264 </vector2>
+				<real> 1080.743896 </real>
 				<int> 1 </int>
 				<vector2> -0.909069, 7.99294 </vector2>
 				<dictionary  shared="false">
 					<string> "_edit_ik_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<real> -98.055267 </real>
+				<real> -98.089088 </real>
 				<vector2> 0.830531, 10.585 </vector2>
 				<dictionary  shared="false">
 					<string> "_edit_bone_" </string>
@@ -8981,7 +8982,7 @@
 					<string> "_edit_lock_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<vector2> 0, 3.00265 </vector2>
+				<vector2> 0, 3 </vector2>
 				<resource  external="3">  </resource>
 				<vector2> -0.178814, 2.04116 </vector2>
 				<vector2> 0, 6 </vector2>
@@ -8990,7 +8991,7 @@
 					<bool> True </bool>
 				</dictionary>
 				<vector2> -6, 7 </vector2>
-				<real> -19.244806 </real>
+				<real> -19.224924 </real>
 				<resource  external="4">  </resource>
 				<vector2> -0.107098, 6.34286 </vector2>
 				<color> 0.730469, 0.719055, 0.719055, 1 </color>
@@ -8999,7 +9000,7 @@
 					<bool> True </bool>
 				</dictionary>
 				<vector2> 0, 17 </vector2>
-				<real> 12.835418 </real>
+				<real> 12.807262 </real>
 				<resource  external="5">  </resource>
 				<vector2> 0, 7.5 </vector2>
 				<color> 0.75, 0.738281, 0.738281, 1 </color>
@@ -9007,8 +9008,8 @@
 					<string> "_edit_bone_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<vector2> -3.78939e-06, 17 </vector2>
-				<real> 6.308781 </real>
+				<vector2> -3.8147e-06, 17 </vector2>
+				<real> 6.316516 </real>
 				<resource  external="6">  </resource>
 				<vector2> 0, -1.5 </vector2>
 				<color> 0.699219, 0.677368, 0.677368, 1 </color>
@@ -9017,7 +9018,6 @@
 					<bool> True </bool>
 				</dictionary>
 				<vector2> -4, 0 </vector2>
-				<real> -0.004326 </real>
 				<resource  external="7">  </resource>
 				<vector2> -3, -1.5 </vector2>
 				<color> 0.75, 0.726563, 0.726563, 1 </color>
@@ -9033,19 +9033,18 @@
 					<bool> True </bool>
 				</dictionary>
 				<vector2> 6, 7 </vector2>
-				<real> 375.020599 </real>
+				<real> 374.996429 </real>
 				<vector2> -0.00786901, 6.46314 </vector2>
 				<dictionary  shared="false">
 					<string> "_edit_ik_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<real> -9.432806 </real>
+				<real> -9.410995 </real>
 				<dictionary  shared="false">
 					<string> "_edit_bone_" </string>
 					<bool> True </bool>
 				</dictionary>
-				<vector2> -1.01227e-08, 17 </vector2>
-				<real> -4.078754 </real>
+				<real> -4.067952 </real>
 				<dictionary  shared="false">
 					<string> "_edit_bone_" </string>
 					<bool> True </bool>

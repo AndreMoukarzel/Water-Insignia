@@ -1,22 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="3" version="2.0" version_name="Godot Engine v2.0.stable.official">
+<resource_file type="PackedScene" subresource_count="13" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://scripts/CombatNode.gd" type="Script" index="0"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0000.tex" type="Texture" index="2"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0001.tex" type="Texture" index="3"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0002.tex" type="Texture" index="4"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0003.tex" type="Texture" index="5"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0004.tex" type="Texture" index="6"></ext_resource>
 	<ext_resource path="res://scenes/body.xscn" type="PackedScene" index="1"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0005.tex" type="Texture" index="7"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0006.tex" type="Texture" index="8"></ext_resource>
+	<ext_resource path="res://resources/sprites/monsters/bat/bat0007.tex" type="Texture" index="9"></ext_resource>
+	<resource type="SpriteFrames" path="local://2">
+		<array name="animations" len="1" shared="false">
+			<dictionary  shared="false">
+				<string> "frames" </string>
+				<array  len="8" shared="false">
+					<resource  external="2">  </resource>
+					<resource  external="3">  </resource>
+					<resource  external="4">  </resource>
+					<resource  external="5">  </resource>
+					<resource  external="6">  </resource>
+					<resource  external="7">  </resource>
+					<resource  external="8">  </resource>
+					<resource  external="9">  </resource>
+				</array>
+				<string> "loop" </string>
+				<bool> True </bool>
+				<string> "name" </string>
+				<string> "default" </string>
+				<string> "speed" </string>
+				<real> 5 </real>
+			</dictionary>
+		</array>
+
+	</resource>
+	<resource type="Animation" path="local://1">
+		<string name="resource/name"> "idle" </string>
+		<real name="length"> 0.8 </real>
+		<bool name="loop"> True </bool>
+		<real name="step"> 0.1 </real>
+		<string name="tracks/0/type"> "value" </string>
+		<node_path name="tracks/0/path"> ".:frame" </node_path>
+		<int name="tracks/0/interp"> 1 </int>
+		<bool name="tracks/0/imported"> False </bool>
+		<dictionary name="tracks/0/keys" shared="false">
+			<string> "times" </string>
+			<real_array  len="4"> 				0, 0.2, 0.4, 0.6 </real_array>
+			<string> "transitions" </string>
+			<real_array  len="4"> 				1, 1, 1, 1 </real_array>
+			<string> "update" </string>
+			<int> 1 </int>
+			<string> "values" </string>
+			<array  len="4" shared="false">
+				<int> 0 </int>
+				<int> 1 </int>
+				<int> 2 </int>
+				<int> 3 </int>
+			</array>
+		</dictionary>
+
+	</resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>
-			<int> 0 </int>
+			<int> 4 </int>
 			<string> "conns" </string>
-			<int_array  len="0"> 				 </int_array>
+			<int_array  len="24"> 				14, 0, 55, 54, 2, 0, 15, 0, 55, 56, 2, 0, 16, 0, 55, 57, 2, 0, 33, 0, 55, 58, 2, 0 </int_array>
 			<string> "editable_instances" </string>
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="38">
+			<string_array  len="59">
 				<string> "CombatNode" </string>
 				<string> "script/script" </string>
 				<string> "Node2D" </string>
 				<string> "Allies" </string>
+				<string> "editor/display_folded" </string>
 				<string> "transform/pos" </string>
 				<string> "__meta__" </string>
 				<string> "Member1" </string>
@@ -40,6 +99,8 @@
 				<string> "HBoxContainer" </string>
 				<string> "Attack" </string>
 				<string> "toggle_mode" </string>
+				<string> "enabled_focus_mode" </string>
+				<string> "shortcut" </string>
 				<string> "flat" </string>
 				<string> "Button" </string>
 				<string> "Skill" </string>
@@ -51,18 +112,37 @@
 				<string> "Slot3" </string>
 				<string> "Slot4" </string>
 				<string> "Return" </string>
+				<string> "AnimatedSprite" </string>
+				<string> "transform/scale" </string>
+				<string> "frames" </string>
+				<string> "animation" </string>
+				<string> "AnimationPlayer" </string>
+				<string> "playback/process_mode" </string>
+				<string> "playback/default_blend_time" </string>
+				<string> "root/root" </string>
+				<string> "anims/idle" </string>
+				<string> "playback/active" </string>
+				<string> "playback/speed" </string>
+				<string> "blend_times" </string>
+				<string> "autoplay" </string>
+				<string> "_on_Attack_pressed" </string>
+				<string> "pressed" </string>
+				<string> "_on_Skill_pressed" </string>
+				<string> "_on_Item_pressed" </string>
+				<string> "_on_Return_pressed" </string>
 			</string_array>
 			<string> "node_count" </string>
-			<int> 34 </int>
+			<int> 36 </int>
 			<string> "node_paths" </string>
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="684"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 2, 4, 1, 5, 2, 0, 1, 0, 2, 6, -1, 0, 0, 2, 0, 2147483647, 7, 3, 0, 0, 1, 0, 2, 8, -1, 0, 0, 1, 0, 2, 9, -1, 0, 0, 1, 0, 2, 10, -1, 0, 0, 0, 0, 2, 11, -1, 2, 4, 4, 5, 5, 0, 7, 0, 2, 6, -1, 0, 0, 7, 0, 2, 8, -1, 0, 0, 7, 0, 2, 9, -1, 0, 0, 7, 0, 2, 10, -1, 0, 0, 0, 0, 21, 12, -1, 8, 13, 6, 14, 7, 15, 8, 16, 8, 17, 9, 18, 10, 19, 11, 20, 12, 0, 12, 0, 24, 22, -1, 9, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 13, 0, 28, 25, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 29, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 19, 18, 16, 19, 20, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 30, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 21, 18, 16, 19, 22, 20, 18, 26, 6, 27, 6, 0, 13, 0, 28, 31, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 23, 18, 16, 19, 24, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 25, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 18, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 18, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 29, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 23, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 23, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 24, 30, -1, 10, 32, 6, 13, 6, 14, 6, 15, 8, 16, 8, 17, 9, 18, 9, 19, 13, 20, 13, 23, 14, 0, 28, 0, 28, 33, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 34, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 35, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 28, 0, 28, 36, -1, 10, 13, 6, 14, 7, 15, 15, 16, 15, 17, 9, 18, 16, 19, 17, 20, 18, 26, 6, 27, 6, 0, 12, 0, 28, 37, -1, 11, 32, 6, 13, 6, 14, 7, 15, 8, 16, 8, 17, 9, 18, 9, 19, 17, 20, 25, 26, 6, 27, 6, 0 </int_array>
+			<int_array  len="794"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 3, 4, 1, 5, 2, 6, 3, 0, 1, 0, 2, 7, -1, 0, 0, 2, 0, 2147483647, 8, 4, 0, 0, 1, 0, 2, 9, -1, 0, 0, 1, 0, 2, 10, -1, 0, 0, 1, 0, 2, 11, -1, 0, 0, 0, 0, 2, 12, -1, 3, 4, 1, 5, 5, 6, 6, 0, 7, 0, 2, 7, -1, 0, 0, 7, 0, 2, 9, -1, 0, 0, 7, 0, 2, 10, -1, 0, 0, 7, 0, 2, 11, -1, 0, 0, 0, 0, 22, 13, -1, 8, 14, 7, 15, 1, 16, 8, 17, 8, 18, 9, 19, 10, 20, 11, 21, 12, 0, 12, 0, 25, 23, -1, 9, 14, 7, 15, 7, 16, 8, 17, 8, 18, 9, 19, 9, 20, 11, 21, 13, 24, 14, 0, 13, 0, 31, 26, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 16, 19, 17, 20, 18, 21, 19, 27, 7, 28, 8, 29, 20, 30, 7, 0, 13, 0, 31, 32, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 21, 19, 17, 20, 22, 21, 19, 27, 7, 28, 8, 29, 20, 30, 7, 0, 13, 0, 31, 33, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 23, 19, 17, 20, 24, 21, 19, 27, 7, 28, 8, 29, 20, 30, 7, 0, 13, 0, 31, 34, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 25, 19, 17, 20, 26, 21, 19, 27, 7, 28, 8, 29, 20, 30, 7, 0, 12, 0, 25, 26, -1, 10, 35, 7, 14, 7, 15, 7, 16, 8, 17, 8, 18, 9, 19, 9, 20, 11, 21, 13, 24, 14, 0, 18, 0, 31, 36, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 18, 0, 31, 37, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 18, 0, 31, 38, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 18, 0, 31, 39, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 12, 0, 25, 32, -1, 10, 35, 7, 14, 7, 15, 7, 16, 8, 17, 8, 18, 9, 19, 9, 20, 11, 21, 13, 24, 14, 0, 23, 0, 31, 36, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 23, 0, 31, 37, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 23, 0, 31, 38, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 23, 0, 31, 39, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 12, 0, 25, 33, -1, 10, 35, 7, 14, 7, 15, 7, 16, 8, 17, 8, 18, 9, 19, 9, 20, 11, 21, 13, 24, 14, 0, 28, 0, 31, 36, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 28, 0, 31, 37, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 28, 0, 31, 38, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 28, 0, 31, 39, -1, 12, 14, 7, 15, 1, 16, 15, 17, 15, 18, 9, 19, 27, 20, 28, 21, 29, 27, 7, 28, 8, 29, 20, 30, 7, 0, 12, 0, 31, 40, -1, 13, 35, 7, 14, 7, 15, 1, 16, 8, 17, 8, 18, 9, 19, 9, 20, 28, 21, 30, 27, 7, 28, 8, 29, 20, 30, 7, 0, 0, 0, 41, 41, -1, 4, 5, 31, 42, 32, 43, 33, 44, 34, 0, 34, 0, 45, 45, -1, 8, 46, 15, 47, 9, 48, 35, 49, 36, 50, 1, 51, 37, 52, 38, 53, 39, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="26" shared="false">
+			<array  len="40" shared="false">
 				<resource  external="0">  </resource>
-				<vector2> 212.535, 6.02936 </vector2>
+				<bool> True </bool>
+				<vector2> 247.535, 82.0294 </vector2>
 				<dictionary  shared="false">
 					<string> "_edit_group_" </string>
 					<bool> True </bool>
@@ -72,29 +152,40 @@
 				<dictionary  shared="false">
 					<string> "_edit_group_" </string>
 					<bool> True </bool>
-					<string> "_editor_collapsed" </string>
-					<bool> True </bool>
 				</dictionary>
 				<bool> False </bool>
-				<bool> True </bool>
 				<int> 2 </int>
 				<real> 0 </real>
 				<real> 500 </real>
 				<real> 1024 </real>
 				<real> 600 </real>
-				<real> 40 </real>
+				<real> 100 </real>
 				<int> 0 </int>
 				<int> 1 </int>
+				<real> 120 </real>
+				<real> 40 </real>
+				<real> 132 </real>
+				<real> 60 </real>
+				<resource name=""></resource>				<real> 377 </real>
+				<real> 389 </real>
+				<real> 634 </real>
+				<real> 646 </real>
+				<real> 891 </real>
+				<real> 903 </real>
 				<real> 10 </real>
 				<real> 12 </real>
 				<real> 29 </real>
-				<real> 16 </real>
-				<real> 28 </real>
-				<real> 32 </real>
-				<real> 44 </real>
-				<real> 48 </real>
-				<real> 60 </real>
 				<real> 19 </real>
+				<vector2> 497.982, 108.277 </vector2>
+				<vector2> 5, 5 </vector2>
+				<resource  resource_type="SpriteFrames" path="local://2">  </resource>
+				<string> "default" </string>
+				<node_path> ".." </node_path>
+				<resource  resource_type="Animation" path="local://1">  </resource>
+				<real> 1 </real>
+				<array  len="0" shared="false">
+				</array>
+				<string> "idle" </string>
 			</array>
 			<string> "version" </string>
 			<int> 2 </int>
