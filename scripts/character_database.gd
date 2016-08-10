@@ -28,6 +28,8 @@ var char_database = [
 	}
 ]
 
+# new #
+var cd_map = { }
 
 func _ready():
 	pass
@@ -38,3 +40,7 @@ func get_char_folder(id):
 
 func get_char_name(id):
 	return char_database[id][CHAR_NAME]
+
+# WIP #
+func get_animation_name(id, anim_num):
+	return char_database[id][ANIM_ARRAY][anim_num]
