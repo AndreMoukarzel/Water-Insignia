@@ -1,0 +1,15 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=1]
+
+[ext_resource path="res://characters/monsters/bat/bat0000.tex" type="Texture" id=1]
+[ext_resource path="res://characters/monsters/bat/bat0001.tex" type="Texture" id=2]
+[ext_resource path="res://characters/monsters/bat/bat0002.tex" type="Texture" id=3]
+[ext_resource path="res://characters/monsters/bat/bat0003.tex" type="Texture" id=4]
+[ext_resource path="res://characters/monsters/bat/bat0004.tex" type="Texture" id=5]
+[ext_resource path="res://characters/monsters/bat/bat0005.tex" type="Texture" id=6]
+[ext_resource path="res://characters/monsters/bat/bat0006.tex" type="Texture" id=7]
+[ext_resource path="res://characters/monsters/bat/bat0007.tex" type="Texture" id=8]
+
+[resource]
+
+animations = [ { "frames":[ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ], "loop":true, "name":"default", "speed":5.0 } ]
+
