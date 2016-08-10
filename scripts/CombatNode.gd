@@ -6,7 +6,38 @@ var window_size
 func _ready():
 	window_size = OS.get_window_size()
 
+	var bat_scn = preload("res://scenes/characters/bat.xscn")
+
+	# TESTING INSTANCING #
+	var bat = bat_scn.instance()
+	get_node("Allies").add_child(bat)
+	var bat = bat_scn.instance()
+	get_node("Enemies").add_child(bat)
+	var bat = bat_scn.instance()
+	get_node("Enemies").add_child(bat)
+	########################
+
+	reposition_units()
 	resize_menu()
+
+
+func reposition_units():
+	var num = 0
+	var temp = 1
+
+	num = get_node("Allies").get_child_count()
+
+	for child in get_node("Allies").get_children():
+		child.set_pos(Vector2(200 - 30*temp, temp*500/(num + 1)))
+		temp += 1 
+
+	num = get_node("Enemies").get_child_count()
+	temp = 1
+
+	for child in get_node("Enemies").get_children():
+		child.set_pos(Vector2(window_size.x - 200 + 30*temp, temp*500/(num + 1)))
+		temp += 1 
+
 
 
 func resize_menu():
