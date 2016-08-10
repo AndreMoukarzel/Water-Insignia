@@ -6,7 +6,7 @@ var window_size
 func _ready():
 	window_size = OS.get_window_size()
 
-	var bat_scn = preload("res://scenes/characters/bat.xscn")
+	var bat_scn = preload("res://characters/monsters/bat/bat.xscn")
 
 	# TESTING INSTANCING #
 	var bat = bat_scn.instance()
