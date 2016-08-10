@@ -1,7 +1,8 @@
 
 extends Node2D
 
-var char_database = preload("character_database.gd")
+const char_database = preload("character_database.gd")
+
 var window_size
 
 func _ready():
@@ -9,17 +10,19 @@ func _ready():
 
 	var bat_scn = preload("res://characters/monsters/bat/bat.xscn")
 
+
  # TESTING CREATING CHAR FROM SCRIPT #
-	var anim_sprite = AnimatedSprite.new()
-	var anim_player = AnimationPlayer.new()
-	
-	anim_player.add_animation("idle",load("res://characters/monsters/bat/idle.xml"))
-	anim_player.play("idle")
-	anim_sprite.set_pos(Vector2(200, 200))
-	anim_sprite.set_sprite_frames(load("res://characters/monsters/bat/bat.tres"))
-	anim_sprite.add_child(anim_player)
-	anim_sprite.set_scale(Vector2(5,5))
-	add_child(anim_sprite)
+#	var anim_sprite = AnimatedSprite.new()
+#	var anim_player = AnimationPlayer.new()
+#	
+#	anim_player.add_animation("idle",load("res://characters/monsters/bat/idle.xml"))
+#	anim_player.play("idle")
+#	anim_sprite.set_pos(Vector2(200, 200))
+#	anim_sprite.set_sprite_frames(load("res://characters/monsters/bat/bat.tres"))
+#	anim_sprite.add_child(anim_player)
+#	anim_sprite.set_scale(Vector2(5,5))
+#	add_child(anim_sprite)
+	instance_unit(0)
 
 ########################################
 	# TESTING INSTANCING #
@@ -40,8 +43,19 @@ func instance_unit(id):
 	var anim_sprite = AnimatedSprite.new()
 	var anim_player = AnimationPlayer.new()
 
-#	anim_player.add_animation(char_database.char_database[0]
+	var char_folder = char_database.get_char_folder(id)
+	var anim_names = char_database.get_animation_array(id)
 
+	for i in range(anim_names.size()):
+		anim_player.add_animation(anim_names[i], load(str(char_folder, anim_names, ".xml")))
+	anim_player.play("idle")
+
+	anim_sprite.set_pos(Vector2(200, 200))
+	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
+	anim_sprite.set_scale(Vector2(5,5))
+
+	anim_sprite.add_child(anim_player)
+	add_child(anim_sprite)
 # Transferir as funções de extração de dados, para ficar mais #
 # claro para nós, ao fazer os scripts, o que estamos fazendo. #
 
