@@ -46,7 +46,3 @@ func get_char_name(id):
 
 func get_animation_array(id):
 	return char_database[id][ANIM_ARRAY]
-
-# WIP #
-func get_animation_name(id, anim_num):
-	return char_database[id][ANIM_ARRAY][anim_num]

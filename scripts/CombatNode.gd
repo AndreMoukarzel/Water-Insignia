@@ -1,8 +1,9 @@
 
 extends Node2D
 
-var char_database
+const scale = 5
 
+var char_database
 var window_size
 
 func _ready():
@@ -21,8 +22,6 @@ func _ready():
 	reposition_units()
 	resize_menu()
 
-	
-
 
 func instance_unit(id, path):
 	var anim_sprite = AnimatedSprite.new()
@@ -37,7 +36,7 @@ func instance_unit(id, path):
 	anim_player.play("idle")
 
 	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
-	anim_sprite.set_scale(Vector2(5,5))
+	anim_sprite.set_scale(Vector2(scale, scale))
 
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
@@ -59,6 +58,7 @@ func reposition_units():
 
 	for child in get_node("Enemies").get_children():
 		child.set_pos(Vector2(window_size.x - 300 + 50*temp, temp*500/(num + 1)))
+		child.set_scale(Vector2(-scale, scale))
 		temp += 1 
 
 
