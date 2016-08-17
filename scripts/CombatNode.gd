@@ -6,6 +6,15 @@ const scale = 5
 var char_database
 var window_size
 
+var allies_status
+var enemies_status = [[]]
+
+var actor
+var action
+
+var time
+
+
 func _ready():
 	
 	# Acess character database (is a global script) #
@@ -24,8 +33,11 @@ func _ready():
 	# TESTING INSTANCING END #
 
 	reposition_units()
-	
 	resize_menu()
+	name_units("Allies")
+	name_units("Enemies")
+	initialize_status("Allies")
+	initialize_status("Enemies")
 
 
 func instance_unit(id, path):
@@ -47,6 +59,7 @@ func instance_unit(id, path):
 	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
 	anim_sprite.set_scale(Vector2(scale, scale))
 
+	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
 
@@ -72,6 +85,20 @@ func reposition_units():
 		child.set_scale(Vector2(-scale, scale))
 		temp += 1 
 
+
+func initialize_status(path):
+	if path == "Enemies":
+		for i in get_node(path).get_child_count():
+			enemies_status.append(0)
+			enemies_status[0].append(0)
+		return 1
+
+	if path == "Allies":
+		for i in get_node(path).get_child_count():
+			allies_status.append(0)
+			allies_status[0].append(0)
+		return 1
+
 func resize_menu():
 	get_node("ActionMenu").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Selection").set_size(Vector2(window_size.x, window_size.y - 500))
@@ -79,6 +106,14 @@ func resize_menu():
 	get_node("ActionMenu/Skill").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Item").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - 50, -50))
+
+
+func name_units(path):
+	var i = 1;
+
+	for child in get_node(path).get_children():
+		child.set_name(str(i))
+		i += 1
 
 
 func _on_Return_pressed():
@@ -96,6 +131,16 @@ func _on_Attack_pressed():
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Attack").show()
 
+func _on_AttackSlot1_pressed():
+	actor = "Allies/1/"
+	action = "attack"
+
+	time = get_node(str(actor,"anim_player")).get_animation(action).get_length()
+	time *= 60
+	print(time)
+	get_node(str(actor,"anim_player")).play(action)
+	set_fixed_process(true)
+
 
 func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
@@ -107,3 +152,10 @@ func _on_Item_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Item").show()
+
+
+func _fixed_process(delta):
+	if time <= 0:
+		get_node(str(actor,"anim_player")).play("idle")
+		set_fixed_process(false)
+	time -= 1
