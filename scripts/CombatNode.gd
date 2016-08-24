@@ -20,7 +20,7 @@ var window_size
 var actor
 var action
 
-var time
+var time = 0
 
 
 func _ready():
@@ -43,8 +43,8 @@ func _ready():
 	resize_menu()
 	name_units("Allies")
 	name_units("Enemies")
-#	initialize_status("Allies")
-#	initialize_status("Enemies")
+
+	set_fixed_process(true)
 
 
 func instance_unit(id, path):
@@ -106,20 +106,6 @@ func reposition_units():
 		temp += 1 
 
 
-#func initialize_status(path):
-#	if path == "Enemies":
-#		for i in get_node(path).get_child_count():
-#			enemies_status.append(0)
-#			enemies_status[0].append(0)
-#		return 1
-#
-#	if path == "Allies":
-#		for i in get_node(path).get_child_count():
-#			allies_status.append(0)
-#			allies_status[0].append(0)
-#		return 1
-
-
 func resize_menu():
 	get_node("ActionMenu").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Selection").set_size(Vector2(window_size.x, window_size.y - 500))
@@ -152,15 +138,16 @@ func _on_Attack_pressed():
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Attack").show()
 
+
 func _on_AttackSlot1_pressed():
 	actor = "Allies/1/"
 	action = "attack"
 
-	time = get_node(str(actor,"anim_player")).get_animation(action).get_length()
-	time *= 60
-	print(time)
-	get_node(str(actor,"anim_player")).play(action)
-	set_fixed_process(true)
+
+	if time == 0:
+		time = get_node(str(actor,"anim_player")).get_animation(action).get_length()
+		time *= 60
+		get_node(str(actor,"anim_player")).play(action)
 
 
 func _on_Skill_pressed():
@@ -176,7 +163,11 @@ func _on_Item_pressed():
 
 
 func _fixed_process(delta):
-	if time <= 0:
-		get_node(str(actor,"anim_player")).play("idle")
-		set_fixed_process(false)
-	time -= 1
+	var mouse = get_global_mouse_pos()
+
+	print(mouse.x)
+
+	if time < 0:
+		if time == 1:
+			get_node(str(actor,"anim_player")).play("idle")
+		time -= 1
