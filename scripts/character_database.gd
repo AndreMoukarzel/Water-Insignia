@@ -57,3 +57,9 @@ func get_animation_array(id):
 
 func get_hp_max(id):
 	return char_database[id][HP_MAX]
+
+func get_attack(id):
+	return char_database[id][ATK]
+	
+func get_defense(id):
+	return char_database[id][DEF]
