@@ -17,6 +17,7 @@ var enemies_vector = []
 var allies_pos = []
 var enemies_pos = []
 
+var action = false
 var action_memory = [[]]
 
 var char_database
@@ -27,6 +28,9 @@ var animation
 
 var mouse_cooldown = 0
 var time = 0
+
+var STATE = ""
+var STATE_NEXT = "SELECT TARGET"
 
 
 func _ready():
@@ -151,6 +155,7 @@ func turn_based_system():
 		process_action(action_number)
 		action_number += 1
 
+
 func process_action(acting_unit):
 	print("ola, vamos começar a fazer?")
 	
@@ -214,6 +219,7 @@ func _on_AttackSlot1_pressed():
 	actor = "Allies/1/"
 	animation = "attack"
 
+	action = true
 
 func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
@@ -227,34 +233,90 @@ func _on_Item_pressed():
 	get_node("ActionMenu/Item").show()
 
 
+func target_select(target):
+	var mouse = get_global_mouse_pos()
+	var mouse_temp = mouse
+	var closest = -1
+	var team = -1
+	var distance = 500
+
+
+	if target == "allies":
+		team = 0
+		for i in allies_pos:
+			if i != null:
+				mouse_temp = (mouse - i).length()
+				if mouse_temp < 100:
+					if mouse_temp < distance:
+						distance = mouse_temp
+						closest = allies_pos.find(i)
+		return [closest, team]
+
+	if target == "enemies":
+		team = 1
+		for i in enemies_pos:
+			if i != null:
+				mouse_temp = (mouse - i).length()
+				if mouse_temp < 100:
+					if mouse_temp < distance:
+						distance = mouse_temp
+						closest = enemies_pos.find(i)
+		return [closest, team]
+
+	if target == "all":
+		for i in allies_pos:
+			if i != null:
+				mouse_temp = (mouse - i).length()
+				if mouse_temp < 100:
+					if mouse_temp < distance:
+						distance = mouse_temp
+						closest = allies_pos.find(i)
+						team = 0
+		for i in enemies_pos:
+			if i != null:
+				mouse_temp = (mouse - i).length()
+				if mouse_temp < 100:
+					if mouse_temp < distance:
+						distance = mouse_temp
+						closest = enemies_pos.find(i)
+						team = 1
+		return [closest, team]
 # ############################### #
 # ######## FIXED PROCESS ######## # 
 # ############################### #
 
 func _fixed_process(delta):
-	var mouse = get_global_mouse_pos()
-	var mouse_temp = mouse
-	var closest = -1
-	var distance = 500
+#	var mouse = get_global_mouse_pos()
+#	var mouse_temp = mouse
+	var closest = [-1, -1]
+#	var distance = 500
 
-	for i in enemies_pos:
-		if i != null:
-			mouse_temp = (mouse - i).length()
-			if mouse_temp < 100:
-				if mouse_temp < distance:
-					distance = mouse_temp
-					closest = enemies_pos.find(i)
+	if STATE == "SELECT TARGET":
+#		for i in enemies_pos:
+#			if i != null:
+#				mouse_temp = (mouse - i).length()
+#				if mouse_temp < 100:
+#					if mouse_temp < distance:
+#						distance = mouse_temp
+#						closest = enemies_pos.find(i)
+		closest = target_select("all")
+		print(closest[0],closest[1])
+	elif STATE == "EXECUTE ACTION":
+		pass
 
-	if closest != -1:
+
+	if closest[0] != -1 and action == true:
 		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 			if time == 0:
 				time = get_node(str(actor,"anim_player")).get_animation(animation).get_length()
 				time *= 60
 				get_node(str(actor,"anim_player")).play(animation)
 	
-			if (process_attack(allies_vector[1], "Enemies", closest)):
-				enemies_pos[closest] = null
+			if (process_attack(allies_vector[1], "Enemies", closest[0])):
+				enemies_pos[closest[0]] = null
 			mouse_cooldown = 30
+
+			action = false
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
@@ -263,3 +325,5 @@ func _fixed_process(delta):
 		if time == 1:
 			get_node(str(actor,"anim_player")).play("idle")
 		time -= 1
+
+	STATE = STATE_NEXT
