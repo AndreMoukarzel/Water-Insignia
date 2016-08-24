@@ -14,12 +14,16 @@ class unit:
 var allies_vector = []
 var enemies_vector = []
 
+var allies_pos = []
+var enemies_pos = []
+
 var char_database
 var window_size
 
 var actor
 var action
 
+var mouse_cooldown = 0
 var time = 0
 
 
@@ -33,6 +37,7 @@ func _ready():
 
 	# TESTING INSTANCING #
 	instance_unit(0, "Allies")
+	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
 	instance_unit(1, "Enemies")
@@ -94,7 +99,8 @@ func reposition_units():
 	num = get_node("Allies").get_child_count()
 
 	for child in get_node("Allies").get_children():
-		child.set_pos(Vector2(200 - 30*temp, temp*500/(num + 1)))
+		child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
+		allies_pos.append(child.get_pos())
 		temp += 1 
 
 	num = get_node("Enemies").get_child_count()
@@ -103,6 +109,7 @@ func reposition_units():
 	for child in get_node("Enemies").get_children():
 		child.set_pos(Vector2(window_size.x - 300 + 50*temp, temp*500/(num + 1)))
 		child.set_scale(Vector2(-scale, scale))
+		enemies_pos.append(child.get_pos())
 		temp += 1 
 
 
@@ -164,10 +171,26 @@ func _on_Item_pressed():
 
 func _fixed_process(delta):
 	var mouse = get_global_mouse_pos()
+	var mouse_temp = mouse
+	var closest = -1
+	var distance = 500
 
-	print(mouse.x)
+	for i in enemies_pos:
+		mouse_temp = (mouse - i).length()
+		if mouse_temp < 100:
+			if mouse_temp < distance:
+				distance = mouse_temp
+				closest = enemies_pos.find(i)
 
-	if time < 0:
+	if closest != -1:
+		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
+			print(closest)
+			mouse_cooldown = 30
+
+	if mouse_cooldown > 0:
+		mouse_cooldown -= 1
+		
+	if time > 0:
 		if time == 1:
 			get_node(str(actor,"anim_player")).play("idle")
 		time -= 1
