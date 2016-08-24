@@ -26,7 +26,7 @@ func _ready():
 
 	# TESTING INSTANCING #
 	instance_unit(0, "Allies")
-	instance_unit(0, "Allies")
+	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
 	instance_unit(0, "Enemies")
 	instance_unit(0, "Enemies")
@@ -36,8 +36,8 @@ func _ready():
 	resize_menu()
 	name_units("Allies")
 	name_units("Enemies")
-	initialize_status("Allies")
-	initialize_status("Enemies")
+#	initialize_status("Allies")
+#	initialize_status("Enemies")
 
 
 func instance_unit(id, path):
@@ -86,18 +86,18 @@ func reposition_units():
 		temp += 1 
 
 
-func initialize_status(path):
-	if path == "Enemies":
-		for i in get_node(path).get_child_count():
-			enemies_status.append(0)
-			enemies_status[0].append(0)
-		return 1
-
-	if path == "Allies":
-		for i in get_node(path).get_child_count():
-			allies_status.append(0)
-			allies_status[0].append(0)
-		return 1
+#func initialize_status(path):
+#	if path == "Enemies":
+#		for i in get_node(path).get_child_count():
+#			enemies_status.append(0)
+#			enemies_status[0].append(0)
+#		return 1
+#
+#	if path == "Allies":
+#		for i in get_node(path).get_child_count():
+#			allies_status.append(0)
+#			allies_status[0].append(0)
+#		return 1
 
 func resize_menu():
 	get_node("ActionMenu").set_size(Vector2(window_size.x, window_size.y - 500))

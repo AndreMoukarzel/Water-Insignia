@@ -5,14 +5,14 @@
 	<ext_resource path="res://resources/sprites/gui/mainmenu/OptionsClicked.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameNormal.png" type="Texture" index="4"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/NewGameHover.png" type="Texture" index="3"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameClicked.png" type="Texture" index="5"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/mainmenu/OptionsNormal.png" type="Texture" index="7"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/mainmenu/QuitPressed.png" type="Texture" index="11"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/QuitNormal.png" type="Texture" index="10"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/NewGameClicked.png" type="Texture" index="2"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/OptionsHover.png" type="Texture" index="9"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/NewGameNormal.png" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameHover.png" type="Texture" index="6"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameClicked.png" type="Texture" index="5"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/mainmenu/OptionsNormal.png" type="Texture" index="7"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/mainmenu/QuitPressed.png" type="Texture" index="11"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>

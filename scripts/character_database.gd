@@ -25,6 +25,14 @@ var char_database = [
 		HP_MAX : 10,
 		ATK : 2,
 		DEF : 2
+	},
+	{
+		FOLDER : "res://characters/samurai/",
+		CHAR_NAME : "samurai",
+		ANIM_ARRAY : ["idle", "attack"],
+		HP_MAX : 10,
+		ATK : 2,
+		DEF : 2
 	}
 ]
 

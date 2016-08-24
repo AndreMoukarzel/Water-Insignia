@@ -1,43 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="14" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://characters/samurai/altsamurai0003.tex" type="Texture" index="3"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0004.tex" type="Texture" index="4"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0005.tex" type="Texture" index="5"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0006.tex" type="Texture" index="6"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0007.tex" type="Texture" index="7"></ext_resource>
-	<ext_resource path="res://characters/samurai/idle.tres" type="Animation" index="11"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0001.tex" type="Texture" index="1"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0000.tex" type="Texture" index="0"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0002.tex" type="Texture" index="2"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0008.tex" type="Texture" index="8"></ext_resource>
-	<ext_resource path="res://characters/samurai/attack.tres" type="Animation" index="10"></ext_resource>
-	<ext_resource path="res://characters/samurai/altsamurai0009.tex" type="Texture" index="9"></ext_resource>
-	<resource type="SpriteFrames" path="local://1">
-		<array name="animations" len="1" shared="false">
-			<dictionary  shared="false">
-				<string> "frames" </string>
-				<array  len="10" shared="false">
-					<resource  external="0">  </resource>
-					<resource  external="1">  </resource>
-					<resource  external="2">  </resource>
-					<resource  external="3">  </resource>
-					<resource  external="4">  </resource>
-					<resource  external="5">  </resource>
-					<resource  external="6">  </resource>
-					<resource  external="7">  </resource>
-					<resource  external="8">  </resource>
-					<resource  external="9">  </resource>
-				</array>
-				<string> "loop" </string>
-				<bool> True </bool>
-				<string> "name" </string>
-				<string> "default" </string>
-				<string> "speed" </string>
-				<real> 5 </real>
-			</dictionary>
-		</array>
-
-	</resource>
+<resource_file type="PackedScene" subresource_count="4" version="2.1" version_name="Godot Engine v2.1.stable.official">
+	<ext_resource path="res://characters/samurai/samurai.tres" type="SpriteFrames" index="0"></ext_resource>
+	<ext_resource path="res://characters/samurai/idle.xml" type="Animation" index="2"></ext_resource>
+	<ext_resource path="res://characters/samurai/attack.xml" type="Animation" index="1"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>
@@ -75,13 +40,13 @@
 			<string> "variants" </string>
 			<array  len="12" shared="false">
 				<vector2> 5, 5 </vector2>
-				<resource  resource_type="SpriteFrames" path="local://1">  </resource>
+				<resource  external="0">  </resource>
 				<string> "default" </string>
 				<int> 1 </int>
 				<real> 0 </real>
 				<node_path> ".." </node_path>
-				<resource  external="10">  </resource>
-				<resource  external="11">  </resource>
+				<resource  external="1">  </resource>
+				<resource  external="2">  </resource>
 				<bool> True </bool>
 				<real> 1 </real>
 				<array  len="0" shared="false">
