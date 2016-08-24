@@ -3,11 +3,19 @@ extends Node2D
 
 const scale = 5
 
+class unit:
+	var id
+	var name
+	var hp_current
+	var bonus_attack
+	var bonus_defense
+#	var status_condition
+
+var allies_vector = []
+var enemies_vector = []
+
 var char_database
 var window_size
-
-var allies_status
-var enemies_status = [[]]
 
 var actor
 var action
@@ -23,14 +31,13 @@ func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
 
-
 	# TESTING INSTANCING #
 	instance_unit(0, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
+	instance_unit(1, "Enemies")
 	instance_unit(0, "Enemies")
-	instance_unit(0, "Enemies")
-	# TESTING INSTANCING END #
+	######################
 
 	reposition_units()
 	resize_menu()
@@ -62,6 +69,19 @@ func instance_unit(id, path):
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
+	
+	# Data instancing segment
+
+	var unit_instance = unit.new()
+	unit_instance.id = id
+	unit_instance.name = char_database.get_char_name(id)
+	unit_instance.hp_current = char_database.get_hp_max(id)
+
+	if path == "Allies":
+		allies_vector.append(unit_instance)
+	elif path == "Enemies":
+		enemies_vector.append(unit_instance)
+
 
 func reposition_units():
 	# This function might be altered later, so #
@@ -99,6 +119,7 @@ func reposition_units():
 #			allies_status[0].append(0)
 #		return 1
 
+
 func resize_menu():
 	get_node("ActionMenu").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Selection").set_size(Vector2(window_size.x, window_size.y - 500))
@@ -109,7 +130,7 @@ func resize_menu():
 
 
 func name_units(path):
-	var i = 1;
+	var i = 0;
 
 	for child in get_node(path).get_children():
 		child.set_name(str(i))

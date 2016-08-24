@@ -18,7 +18,7 @@ const DEF = 5
 
 
 var char_database = [
-	{
+	{ # ID = 0
 		FOLDER : "res://characters/monsters/bat/",
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
@@ -26,13 +26,13 @@ var char_database = [
 		ATK : 2,
 		DEF : 2
 	},
-	{
+	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
 		ANIM_ARRAY : ["idle", "attack"],
-		HP_MAX : 10,
-		ATK : 2,
-		DEF : 2
+		HP_MAX : 15,
+		ATK : 5,
+		DEF : 3
 	}
 ]
 
@@ -54,3 +54,6 @@ func get_char_name(id):
 
 func get_animation_array(id):
 	return char_database[id][ANIM_ARRAY]
+
+func get_hp_max(id):
+	return char_database[id][HP_MAX]
