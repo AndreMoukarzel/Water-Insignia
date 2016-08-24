@@ -23,7 +23,7 @@ var char_database
 var window_size
 
 var actor
-var action
+var animation
 
 var mouse_cooldown = 0
 var time = 0
@@ -212,14 +212,7 @@ func _on_Attack_pressed():
 
 func _on_AttackSlot1_pressed():
 	actor = "Allies/1/"
-	action = "attack"
-
-	# test animation
-	if time == 0:
-		time = get_node(str(actor,"anim_player")).get_animation(action).get_length()
-		time *= 60
-		get_node(str(actor,"anim_player")).play(action)
-
+	animation = "attack"
 
 
 func _on_Skill_pressed():
@@ -254,16 +247,10 @@ func _fixed_process(delta):
 
 	if closest != -1:
 		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
-			print(closest)
-				#attack teste
-				# Futuramente, pegaremos o id dos monstros on click, #
-				# e o dos aliados na hora de atacar, possivelmente.  #
-				
-				# O ultimo argumento sera a casa do vetor em que o   #
-				# defender se encontra, pois caso ele morra, temos   #
-				# que saber aonde liberar ele. Faremos isso tornando #
-				# sua referencia no vetor como NULL, e o garbage     #
-				# collector lidará com o resto.                      #
+			if time == 0:
+				time = get_node(str(actor,"anim_player")).get_animation(animation).get_length()
+				time *= 60
+				get_node(str(actor,"anim_player")).play(animation)
 	
 			if (process_attack(allies_vector[1], "Enemies", closest)):
 				enemies_pos[closest] = null
