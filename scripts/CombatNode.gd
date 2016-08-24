@@ -136,27 +136,31 @@ func name_units(path):
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
 
-func process_attack(attacker, defender, defender_side, defender_vpos):
+func process_attack(attacker, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
 	# entre outros fatores como status condition, no    #
 	# futuro. Por ora, deve ser simples.                #
 	
 	# Depois podem haver até mais formas de dar dano
-	
-	var damage = char_database.get_attack(attacker.id) -  char_database.get_defense(defender.id)
+	var defender
+	if defender_side == "Enemies":
+		defender = enemies_vector
+	elif defender_side == "Allies":
+		defender = allies_vector
+	var damage = char_database.get_attack(attacker.id) -  char_database.get_defense(defender[defender_vpos].id)
 	if (damage < 0):
 		damage = 0
-	defender.hp_current -= damage
-	print(str("Um ataque direto! O hp restante é: ", defender.hp_current))
-	if (defender.hp_current <= 0):
-		print(str("O inimigo ", defender.name, " foi derrotado!"))
+	defender[defender_vpos].hp_current -= damage
+	print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
+	
+	if (defender[defender_vpos].hp_current <= 0):
+		print(str("O inimigo ", defender[defender_vpos].name, " foi derrotado!"))
 		#efeito visual aqui#
-		if (defender_side == "Enemies"):
-			enemies_vector[defender_vpos] = null
-		else:
-			# Tera tratamento adicional para remove-lo da party #
-			allies_vector[defender_vpos] = null
+		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
+
+		return 1
+	return 0
 
 # ############################### #
 # ###### MENU FUNTIONALITY ###### # 
@@ -187,18 +191,7 @@ func _on_AttackSlot1_pressed():
 		time = get_node(str(actor,"anim_player")).get_animation(action).get_length()
 		time *= 60
 		get_node(str(actor,"anim_player")).play(action)
-	
-	#attack teste
-	# Futuramente, pegaremos o id dos monstros on click, #
-	# e o dos aliados na hora de atacar, possivelmente.  #
-	
-	# O ultimo argumento sera a casa do vetor em que o   #
-	# defender se encontra, pois caso ele morra, temos   #
-	# que saber aonde liberar ele. Faremos isso tornando #
-	# sua referencia no vetor como NULL, e o garbage     #
-	# collector lidará com o resto.                      #
-	
-	process_attack(allies_vector[1], enemies_vector[0], "Enemies", 0)
+
 
 
 func _on_Skill_pressed():
@@ -219,21 +212,33 @@ func _on_Item_pressed():
 
 func _fixed_process(delta):
 	var mouse = get_global_mouse_pos()
-<<<<<<< HEAD
 	var mouse_temp = mouse
 	var closest = -1
 	var distance = 500
 
 	for i in enemies_pos:
-		mouse_temp = (mouse - i).length()
-		if mouse_temp < 100:
-			if mouse_temp < distance:
-				distance = mouse_temp
-				closest = enemies_pos.find(i)
+		if i != null:
+			mouse_temp = (mouse - i).length()
+			if mouse_temp < 100:
+				if mouse_temp < distance:
+					distance = mouse_temp
+					closest = enemies_pos.find(i)
 
 	if closest != -1:
 		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 			print(closest)
+				#attack teste
+				# Futuramente, pegaremos o id dos monstros on click, #
+				# e o dos aliados na hora de atacar, possivelmente.  #
+				
+				# O ultimo argumento sera a casa do vetor em que o   #
+				# defender se encontra, pois caso ele morra, temos   #
+				# que saber aonde liberar ele. Faremos isso tornando #
+				# sua referencia no vetor como NULL, e o garbage     #
+				# collector lidará com o resto.                      #
+	
+			if (process_attack(allies_vector[1], "Enemies", closest)):
+				enemies_pos[closest] = null
 			mouse_cooldown = 30
 
 	if mouse_cooldown > 0:
