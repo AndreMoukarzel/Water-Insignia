@@ -17,6 +17,8 @@ var enemies_vector = []
 var allies_pos = []
 var enemies_pos = []
 
+var action_memory = [[]]
+
 var char_database
 var window_size
 
@@ -135,6 +137,32 @@ func name_units(path):
 # ############################### #
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
+
+func turn_based_system():
+	# A ideia é chamar a função no ready, e que ela seja auto-suficiente  #
+	# até a condição de fim do combate (o vetor dos inimigos estar        #
+	# completamente vazia ou a party tomar wipe). Ele precisa estar integrado com a seleção dos #
+	# menus, logo, é pertinente fazer uma função que aguarda os comandos  #
+	# do jogador, dependendo do numero de party members.                  #
+	
+	var action_number = 0
+	
+	while (action_number < count_party_members()):
+		process_action(action_number)
+		action_number += 1
+
+func process_action(acting_unit):
+	print("ola, vamos começar a fazer?")
+	
+	
+	
+
+func count_party_members():
+	var count = 0
+	for i in allies_vector:
+		if(i != null):
+			count += 1
+	return count
 
 func process_attack(attacker, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
