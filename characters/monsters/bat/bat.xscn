@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="12" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://characters/monsters/bat/bat0003.tex" type="Texture" index="3"></ext_resource>
+	<ext_resource path="res://characters/monsters/bat/bat0006.tex" type="Texture" index="6"></ext_resource>
 	<ext_resource path="res://characters/monsters/bat/bat0004.tex" type="Texture" index="4"></ext_resource>
+	<ext_resource path="res://characters/monsters/bat/bat0003.tex" type="Texture" index="3"></ext_resource>
+	<ext_resource path="res://characters/monsters/bat/attack.xml" type="Animation" index="8"></ext_resource>
+	<ext_resource path="res://characters/monsters/bat/bat0000.tex" type="Texture" index="0"></ext_resource>
+	<ext_resource path="res://characters/monsters/bat/bat0002.tex" type="Texture" index="2"></ext_resource>
 	<ext_resource path="res://characters/monsters/bat/bat0001.tex" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://characters/monsters/bat/bat0005.tex" type="Texture" index="5"></ext_resource>
-	<ext_resource path="res://characters/monsters/bat/bat0000.tex" type="Texture" index="0"></ext_resource>
-	<ext_resource path="res://characters/monsters/bat/attack.xml" type="Animation" index="8"></ext_resource>
-	<ext_resource path="res://characters/monsters/bat/bat0002.tex" type="Texture" index="2"></ext_resource>
-	<ext_resource path="res://characters/monsters/bat/bat0006.tex" type="Texture" index="6"></ext_resource>
 	<ext_resource path="res://characters/monsters/bat/bat0007.tex" type="Texture" index="7"></ext_resource>
 	<resource type="SpriteFrames" path="local://2">
 		<array name="animations" len="1" shared="false">
