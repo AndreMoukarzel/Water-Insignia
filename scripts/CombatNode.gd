@@ -180,7 +180,8 @@ func process_attack(attacker, defender_side, defender_vpos):
 	if (damage < 0):
 		damage = 0
 	defender[defender_vpos].hp_current -= damage
-	print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
+	if hp_current > 0:
+		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
 	
 	if (defender[defender_vpos].hp_current <= 0):
 		print(str("O inimigo ", defender[defender_vpos].name, " foi derrotado!"))
@@ -297,7 +298,7 @@ func _fixed_process(delta):
 	elif STATE == "EXECUTE ACTION":
 		pass
 	turn_based_system()
-	print(action_memory)
+#	print(action_memory)
 
 	if closest[0] != -1 and action_memory.size() != 0:
 		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
@@ -317,8 +318,8 @@ func _fixed_process(delta):
 		mouse_cooldown -= 1
 		
 	if time > 0:
-		if time == 1:
-			get_node(str("Allies/", actor, "anim_player")).play("idle")
+		if time <= 1:
+			get_node(str("Allies/", actor, "/anim_player")).play("idle")
 		time -= 1
 
 	STATE = STATE_NEXT
