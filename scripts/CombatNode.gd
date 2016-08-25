@@ -44,7 +44,6 @@ func _ready():
 	# TESTING INSTANCING #
 	instance_unit(0, "Allies")
 	instance_unit(1, "Allies")
-	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
 	instance_unit(1, "Enemies")
 	instance_unit(0, "Enemies")
@@ -52,8 +51,7 @@ func _ready():
 
 	reposition_units()
 	resize_menu()
-	name_units("Allies")
-	name_units("Enemies")
+	name_units()
 
 	set_fixed_process(true)
 
@@ -85,7 +83,6 @@ func instance_unit(id, path):
 	get_node(path).add_child(anim_sprite)
 	
 	# Data instancing segment
-
 	var unit_instance = unit.new()
 	unit_instance.id = id
 	unit_instance.name = char_database.get_char_name(id)
@@ -131,10 +128,14 @@ func resize_menu():
 	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - 50, -50))
 
 
-func name_units(path):
+func name_units():
 	var i = 0;
 
-	for child in get_node(path).get_children():
+	for child in get_node("Allies").get_children():
+		child.set_name(str(i))
+		i += 1
+	i = 0
+	for child in get_node("Enemies").get_children():
 		child.set_name(str(i))
 		i += 1
 
@@ -159,8 +160,7 @@ func turn_based_system():
 func process_action(acting_unit):
 	print("ola, vamos começar a fazer?")
 	
-	
-	
+
 
 func count_party_members():
 	var count = 0
@@ -168,6 +168,7 @@ func count_party_members():
 		if(i != null):
 			count += 1
 	return count
+
 
 func process_attack(attacker, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
@@ -237,12 +238,11 @@ func target_select(target):
 	var mouse = get_global_mouse_pos()
 	var mouse_temp = mouse
 	var closest = -1
-	var team = -1
+	var team = null
 	var distance = 500
 
 
-	if target == "allies":
-		team = 0
+	if target == "Allies":
 		for i in allies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -250,10 +250,10 @@ func target_select(target):
 					if mouse_temp < distance:
 						distance = mouse_temp
 						closest = allies_pos.find(i)
+						team = "Allies"
 		return [closest, team]
 
-	if target == "enemies":
-		team = 1
+	if target == "Enemies":
 		for i in enemies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -261,9 +261,10 @@ func target_select(target):
 					if mouse_temp < distance:
 						distance = mouse_temp
 						closest = enemies_pos.find(i)
+						team = "Enemies"
 		return [closest, team]
 
-	if target == "all":
+	if target == "All":
 		for i in allies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -271,7 +272,7 @@ func target_select(target):
 					if mouse_temp < distance:
 						distance = mouse_temp
 						closest = allies_pos.find(i)
-						team = 0
+						team = "Allies"
 		for i in enemies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -279,27 +280,19 @@ func target_select(target):
 					if mouse_temp < distance:
 						distance = mouse_temp
 						closest = enemies_pos.find(i)
-						team = 1
+						team = "Enemies"
 		return [closest, team]
+
+
 # ############################### #
 # ######## FIXED PROCESS ######## # 
 # ############################### #
 
 func _fixed_process(delta):
-#	var mouse = get_global_mouse_pos()
-#	var mouse_temp = mouse
 	var closest = [-1, -1]
-#	var distance = 500
 
 	if STATE == "SELECT TARGET":
-#		for i in enemies_pos:
-#			if i != null:
-#				mouse_temp = (mouse - i).length()
-#				if mouse_temp < 100:
-#					if mouse_temp < distance:
-#						distance = mouse_temp
-#						closest = enemies_pos.find(i)
-		closest = target_select("all")
+		closest = target_select("All")
 		print(closest[0],closest[1])
 	elif STATE == "EXECUTE ACTION":
 		pass
@@ -310,12 +303,11 @@ func _fixed_process(delta):
 			if time == 0:
 				time = get_node(str(actor,"anim_player")).get_animation(animation).get_length()
 				time *= 60
-				get_node(str(actor,"anim_player")).play(animation)
+			get_node(str(actor,"anim_player")).play(animation)
 	
 			if (process_attack(allies_vector[1], "Enemies", closest[0])):
 				enemies_pos[closest[0]] = null
 			mouse_cooldown = 30
-
 			action = false
 
 	if mouse_cooldown > 0:
