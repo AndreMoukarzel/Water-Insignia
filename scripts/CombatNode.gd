@@ -164,19 +164,19 @@ func turn_based_system(closest):
 			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 				mouse_cooldown = 30
 				action_memory[actor].to = closest
-				actor += 1
+				actor = (actor + 1) % get_node("Allies").get_child_count()
 				targeting = false
-				print(action_memory[actor-1].from)
-				print(action_memory[actor-1].action)
-				print(action_memory[actor-1].to)
+#				print(action_memory[actor-1].from)
+#				print(action_memory[actor-1].action)
+#				print(action_memory[actor-1].to)
 
-	if(action_memory.size() == get_node("Allies").get_child_count()):
-		pass # excecute all actions
+	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
+		STATE_NEXT = "EXECUTE ACTION"
 
 func process_action():
 	if action != null:
 		var action_instance = action_class.new()
-		action_instance.from = actor #should be a vector, to indicate team
+		action_instance.from = [actor, "Allies"]
 		action_instance.action = action
 		action_memory.append(action_instance)
 		action = null
@@ -184,18 +184,27 @@ func process_action():
 	return 0
 
 
-func process_attack(attacker, defender_side, defender_vpos):
+func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
 	# entre outros fatores como status condition, no    #
 	# futuro. Por ora, deve ser simples.                #
 	
-	# Depois podem haver até mais formas de dar dano
+	# Agora que o turno processa diversas ações ao mesmo tempo,
+	# temos que checar se o alvo ainda está vivo para processarmos
+	# o ataque. Além disso, devemos associar a animação a isso.
+	# A forma que faremos é: ao criar a database de armas, associaremos
+	# a cada arma uma animação, e puxar o tempo dessa animação usando o Godot.
+	var attacker
+	if attacker_side == "Enemies":
+		attacker = enemies_vector
+	elif attacker_side == "Allies":
+		attacker = allies_vector
 	var defender
 	if defender_side == "Enemies":
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
-	var damage = char_database.get_attack(attacker.id) -  char_database.get_defense(defender[defender_vpos].id)
+	var damage = char_database.get_attack(attacker[attacker_vpos].id) -  char_database.get_defense(defender[defender_vpos].id)
 	if (damage < 0):
 		damage = 0
 	defender[defender_vpos].hp_current -= damage
@@ -318,26 +327,12 @@ func _fixed_process(delta):
 	if STATE == "SELECT TARGET":
 		blink(actor)
 		closest = target_select("All")
+		turn_based_system(closest)
 	elif STATE == "EXECUTE ACTION":
-		pass
-	turn_based_system(closest)
-
-
-#	if closest[0] != -1 and action_memory.size() == actor:
-#		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
-#			# Run action animation
-#			if time == 0:
-#				time = get_node(str("Allies/", actor, "/anim_player")).get_animation(action_memory[0].action).get_length()
-#				time *= 60
-#			get_node(str("Allies/", actor, "/anim_player")).play(action_memory[0].action)
-#
-#			# Execute action
-#			if action_memory[0].action == "attack":
-#				if (process_attack(allies_vector[1], closest[1], closest[0])):
-#					enemies_pos[closest[0]] = null
-#			action_memory.pop_front()
-#			mouse_cooldown = 30
-#			action = null
+		for i in action_memory:
+			process_attack(i.from[1], i.from[0], i.to[1], i.to[0])
+		action_memory.clear()
+		STATE_NEXT = "SELECT TARGET"
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1

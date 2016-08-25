@@ -24,7 +24,7 @@ var char_database = [
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
 		ATK : 2,
-		DEF : 2
+		DEF : 1
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
