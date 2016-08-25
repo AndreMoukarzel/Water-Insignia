@@ -11,6 +11,12 @@ class unit:
 	var bonus_defense
 #	var status_condition
 
+class action_class:
+	var from
+	var to
+	var action
+	var speed
+
 var allies_vector = []
 var enemies_vector = []
 
@@ -21,10 +27,10 @@ var actor = 0
 var action = null
 var action_memory = []
 
+var targeting = false
+
 var char_database
 var window_size
-
-var animation
 
 var mouse_cooldown = 0
 var time = 0
@@ -143,7 +149,7 @@ func name_units():
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
 
-func turn_based_system():
+func turn_based_system(closest):
 	# A ideia é chamar a função no ready, e que ela seja auto-suficiente  #
 	# até a condição de fim do combate (o vetor dos inimigos estar        #
 	# completamente vazia ou a party tomar wipe). Ele precisa estar integrado com a seleção dos #
@@ -152,14 +158,27 @@ func turn_based_system():
 	
 	if(action_memory.size() < get_node("Allies").get_child_count()):
 		if(process_action()):
-			actor += 1
-			if actor >= get_node("Allies").get_child_count():
-				actor = 0
+			targeting = true
+	if(targeting):
+		if closest[0] != -1:
+			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
+				mouse_cooldown = 30
+				action_memory[actor].to = closest
+				actor += 1
+				targeting = false
+				print(action_memory[actor-1].from)
+				print(action_memory[actor-1].action)
+				print(action_memory[actor-1].to)
 
+	if(action_memory.size() == get_node("Allies").get_child_count()):
+		pass # excecute all actions
 
 func process_action():
 	if action != null:
-		action_memory.append(action)
+		var action_instance = action_class.new()
+		action_instance.from = actor #should be a vector, to indicate team
+		action_instance.action = action
+		action_memory.append(action_instance)
 		action = null
 		return 1
 	return 0
@@ -180,7 +199,7 @@ func process_attack(attacker, defender_side, defender_vpos):
 	if (damage < 0):
 		damage = 0
 	defender[defender_vpos].hp_current -= damage
-	if hp_current > 0:
+	if defender[defender_vpos].hp_current > 0:
 		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
 	
 	if (defender[defender_vpos].hp_current <= 0):
@@ -205,6 +224,12 @@ func blink(actor):
 func _on_Return_pressed():
 	var action_menu = get_node("ActionMenu")
 
+	action = null
+	if(actor == (action_memory.size() - 1)):
+		action_memory.pop_back()
+		actor -= 1
+		targeting = false
+
 	action_menu.get_node("Selection").show()
 	action_menu.get_node("Attack").hide()
 	action_menu.get_node("Skill").hide()
@@ -219,7 +244,6 @@ func _on_Attack_pressed():
 
 
 func _on_AttackSlot1_pressed():
-	animation = "attack"
 	action = "attack"
 
 func _on_Skill_pressed():
@@ -294,25 +318,26 @@ func _fixed_process(delta):
 	if STATE == "SELECT TARGET":
 		blink(actor)
 		closest = target_select("All")
-#		print(closest[0],closest[1])
 	elif STATE == "EXECUTE ACTION":
 		pass
-	turn_based_system()
-#	print(action_memory)
+	turn_based_system(closest)
 
-	if closest[0] != -1 and action_memory.size() != 0:
-		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
-			if time == 0:
-				time = get_node(str("Allies/", actor, "/anim_player")).get_animation(action_memory[0]).get_length()
-				time *= 60
-			get_node(str("Allies/", actor, "/anim_player")).play(action_memory[0])
-	
-			if action_memory[0] == "attack":
-				if (process_attack(allies_vector[1], "Enemies", closest[0])):
-					enemies_pos[closest[0]] = null
-			action_memory.pop_front()
-			mouse_cooldown = 30
-			action = null
+
+#	if closest[0] != -1 and action_memory.size() == actor:
+#		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
+#			# Run action animation
+#			if time == 0:
+#				time = get_node(str("Allies/", actor, "/anim_player")).get_animation(action_memory[0].action).get_length()
+#				time *= 60
+#			get_node(str("Allies/", actor, "/anim_player")).play(action_memory[0].action)
+#
+#			# Execute action
+#			if action_memory[0].action == "attack":
+#				if (process_attack(allies_vector[1], closest[1], closest[0])):
+#					enemies_pos[closest[0]] = null
+#			action_memory.pop_front()
+#			mouse_cooldown = 30
+#			action = null
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
