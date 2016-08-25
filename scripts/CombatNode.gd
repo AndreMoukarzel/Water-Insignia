@@ -17,13 +17,13 @@ var enemies_vector = []
 var allies_pos = []
 var enemies_pos = []
 
-var action = false
-var action_memory = [[]]
+var actor = 0
+var action = null
+var action_memory = []
 
 var char_database
 var window_size
 
-var actor
 var animation
 
 var mouse_cooldown = 0
@@ -150,24 +150,19 @@ func turn_based_system():
 	# menus, logo, é pertinente fazer uma função que aguarda os comandos  #
 	# do jogador, dependendo do numero de party members.                  #
 	
-	var action_number = 0
-	
-	while (action_number < count_party_members()):
-		process_action(action_number)
-		action_number += 1
+	if(action_memory.size() < get_node("Allies").get_child_count()):
+		if(process_action()):
+			actor += 1
+			if actor >= get_node("Allies").get_child_count():
+				actor = 0
 
 
-func process_action(acting_unit):
-	print("ola, vamos começar a fazer?")
-	
-
-
-func count_party_members():
-	var count = 0
-	for i in allies_vector:
-		if(i != null):
-			count += 1
-	return count
+func process_action():
+	if action != null:
+		action_memory.append(action)
+		action = null
+		return 1
+	return 0
 
 
 func process_attack(attacker, defender_side, defender_vpos):
@@ -193,8 +188,14 @@ func process_attack(attacker, defender_side, defender_vpos):
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
 
-		return 1
+		return 1 # defender death
 	return 0
+
+
+func blink(actor):
+	#Makes the current acting unit blink
+	pass
+
 
 # ############################### #
 # ###### MENU FUNTIONALITY ###### # 
@@ -217,10 +218,8 @@ func _on_Attack_pressed():
 
 
 func _on_AttackSlot1_pressed():
-	actor = "Allies/1/"
 	animation = "attack"
-
-	action = true
+	action = "attack"
 
 func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
@@ -292,30 +291,34 @@ func _fixed_process(delta):
 	var closest = [-1, -1]
 
 	if STATE == "SELECT TARGET":
+		blink(actor)
 		closest = target_select("All")
-		print(closest[0],closest[1])
+#		print(closest[0],closest[1])
 	elif STATE == "EXECUTE ACTION":
 		pass
+	turn_based_system()
+	print(action_memory)
 
-
-	if closest[0] != -1 and action == true:
+	if closest[0] != -1 and action_memory.size() != 0:
 		if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 			if time == 0:
-				time = get_node(str(actor,"anim_player")).get_animation(animation).get_length()
+				time = get_node(str("Allies/", actor, "/anim_player")).get_animation(action_memory[0]).get_length()
 				time *= 60
-			get_node(str(actor,"anim_player")).play(animation)
+			get_node(str("Allies/", actor, "/anim_player")).play(action_memory[0])
 	
-			if (process_attack(allies_vector[1], "Enemies", closest[0])):
-				enemies_pos[closest[0]] = null
+			if action_memory[0] == "attack":
+				if (process_attack(allies_vector[1], "Enemies", closest[0])):
+					enemies_pos[closest[0]] = null
+			action_memory.pop_front()
 			mouse_cooldown = 30
-			action = false
+			action = null
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
 		
 	if time > 0:
 		if time == 1:
-			get_node(str(actor,"anim_player")).play("idle")
+			get_node(str("Allies/", actor, "anim_player")).play("idle")
 		time -= 1
 
 	STATE = STATE_NEXT
