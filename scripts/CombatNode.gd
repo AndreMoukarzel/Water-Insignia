@@ -346,18 +346,28 @@ func _fixed_process(delta):
 
 		turn_based_system()
 	elif STATE == "EXECUTE ACTION":
-		for i in action_memory:
-			if get_node(str(i.to[1],"/",i.to[0])) != null: # prevents crashes when enemy dies before last attack
-				process_attack(i.from[1], i.from[0], i.to[1], i.to[0])
-		action_memory.clear()
-		STATE_NEXT = "SELECT TARGET"
+		if action_memory.empty():
+			STATE_NEXT = "SELECT TARGET"
+		else:
+			var act = action_memory[0]
+			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
+	
+			if get_node(str(act.to[1],"/",act.to[0])) != null:
+				time = (player.get_animation(act.action).get_length()) * 60
+				player.play(act.action)
+				STATE_NEXT = "ANIMATION"
+	elif STATE == "ANIMATION":
+		var act = action_memory[0]
+		var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
+
+		time -= 1
+		if time <= 1:
+			player.play("idle")
+			process_attack(act.from[1], act.from[0], act.to[1], act.to[0])
+			action_memory.pop_front()
+			STATE_NEXT = "EXECUTE ACTION"
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
-
-	if time > 0:
-		if time <= 1:
-			get_node(str("Allies/", actor, "/anim_player")).play("idle")
-		time -= 1
 
 	STATE = STATE_NEXT
