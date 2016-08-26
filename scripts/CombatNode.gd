@@ -34,6 +34,7 @@ var window_size
 
 var mouse_cooldown = 0
 var time = 0
+var blink_counter = 0
 
 var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
@@ -149,23 +150,31 @@ func name_units():
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
 
-func turn_based_system(closest):
+func turn_based_system():
 	# A ideia é chamar a função no ready, e que ela seja auto-suficiente  #
 	# até a condição de fim do combate (o vetor dos inimigos estar        #
 	# completamente vazia ou a party tomar wipe). Ele precisa estar integrado com a seleção dos #
 	# menus, logo, é pertinente fazer uma função que aguarda os comandos  #
 	# do jogador, dependendo do numero de party members.                  #
+	var closest = [-1,-1]
 	
 	if(action_memory.size() < get_node("Allies").get_child_count()):
 		if(process_action()):
 			targeting = true
 	if(targeting):
+		closest = target_select("All")
 		if closest[0] != -1:
+			get_node("Target").show()
+			get_node("Target").set_pos(get_node(str(closest[1],"/",closest[0])).get_pos())
+	
 			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 				mouse_cooldown = 30
 				action_memory[actor].to = closest
+				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % get_node("Allies").get_child_count()
 				targeting = false
+
+				return_to_Selection()
 #				print(action_memory[actor-1].from)
 #				print(action_memory[actor-1].action)
 #				print(action_memory[actor-1].to)
@@ -221,29 +230,35 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	return 0
 
 
-func blink(actor):
+func blink(actor, counter):
 	#Makes the current acting unit blink
-	pass
+	if counter < 20:
+		get_node(str("Allies/",actor)).set_opacity(1)
+	else:
+		get_node(str("Allies/",actor)).set_opacity(0.5)
 
 
 # ############################### #
 # ###### MENU FUNTIONALITY ###### # 
 # ############################### #
-
-func _on_Return_pressed():
+func return_to_Selection():
 	var action_menu = get_node("ActionMenu")
-
-	action = null
-	if(actor == (action_memory.size() - 1)):
-		action_memory.pop_back()
-		actor -= 1
-		targeting = false
 
 	action_menu.get_node("Selection").show()
 	action_menu.get_node("Attack").hide()
 	action_menu.get_node("Skill").hide()
 	action_menu.get_node("Item").hide()
 	action_menu.get_node("Return").hide()
+
+
+func _on_Return_pressed():
+	action = null
+	if(actor == (action_memory.size() - 1)):
+		action_memory.pop_back()
+		actor -= 1
+		targeting = false
+
+	return_to_Selection()
 
 
 func _on_Attack_pressed():
@@ -284,9 +299,8 @@ func target_select(target):
 						distance = mouse_temp
 						closest = allies_pos.find(i)
 						team = "Allies"
-		return [closest, team]
 
-	if target == "Enemies":
+	elif target == "Enemies":
 		for i in enemies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -295,9 +309,8 @@ func target_select(target):
 						distance = mouse_temp
 						closest = enemies_pos.find(i)
 						team = "Enemies"
-		return [closest, team]
 
-	if target == "All":
+	elif target == "All":
 		for i in allies_pos:
 			if i != null:
 				mouse_temp = (mouse - i).length()
@@ -314,7 +327,8 @@ func target_select(target):
 						distance = mouse_temp
 						closest = enemies_pos.find(i)
 						team = "Enemies"
-		return [closest, team]
+
+	return [closest, team]
 
 
 # ############################### #
@@ -322,21 +336,25 @@ func target_select(target):
 # ############################### #
 
 func _fixed_process(delta):
-	var closest = [-1, -1]
+	get_node("Target").hide()
 
 	if STATE == "SELECT TARGET":
-		blink(actor)
-		closest = target_select("All")
-		turn_based_system(closest)
+		if blink_counter == 0:
+			blink_counter = 40
+		blink_counter -= 1
+		blink(actor, blink_counter)
+
+		turn_based_system()
 	elif STATE == "EXECUTE ACTION":
 		for i in action_memory:
-			process_attack(i.from[1], i.from[0], i.to[1], i.to[0])
+			if get_node(str(i.to[1],"/",i.to[0])) != null: # prevents crashes when enemy dies before last attack
+				process_attack(i.from[1], i.from[0], i.to[1], i.to[0])
 		action_memory.clear()
 		STATE_NEXT = "SELECT TARGET"
 
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
-		
+
 	if time > 0:
 		if time <= 1:
 			get_node(str("Allies/", actor, "/anim_player")).play("idle")
