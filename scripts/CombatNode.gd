@@ -183,8 +183,9 @@ func turn_based_system():
 				return_to_Selection()
 
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
-		action_memory.sort_custom(self, "compare_speed")
 		toggle_buttons(true)
+		enemy_attack_beta()
+		action_memory.sort_custom(self, "compare_speed")
 		STATE_NEXT = "EXECUTE ACTION"
 
 func process_action():
@@ -249,11 +250,31 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	return 0
 
 
+func enemy_attack_beta():
+	var enemies = 0
+	while(enemies < get_node("Enemies").get_child_count()):
+		var action_instance = action_class.new()
+
+		while (enemies_vector[enemies] == null):
+			enemies += 1
+
+		action_instance.from = [enemies, "Enemies"]
+		# so com chance de acertar allies, por ora
+		var random_target = rand_range(0, get_node("Allies").get_child_count()) #claramente menos chance de acertar o ultimo
+		action_instance.to = [int(random_target), "Allies"]
+		print("O inimigo numero ",enemies," vai tentar atacar o aliado numero ",int(random_target))
+		action_instance.action = "attack"
+		action_instance.speed = char_database.get_speed(enemies_vector[enemies].id)
+		action_memory.append(action_instance)
+		enemies += 1
+
+
 func compare_speed(act1, act2):
 	if act1.speed <= act2.speed:
 		return false
 	else:
 		return true
+
 
 func blink(actor, counter):
 	#Makes the current acting unit blink
