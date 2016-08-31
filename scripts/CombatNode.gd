@@ -26,6 +26,7 @@ var enemies_pos = []
 var actor = 0
 var action = null
 var action_memory = []
+var action_count = 0
 
 var targeting = false
 
@@ -169,15 +170,13 @@ func turn_based_system():
 	
 			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 				mouse_cooldown = 30
-				action_memory[actor].to = closest
+				action_memory[action_count].to = closest
 				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % get_node("Allies").get_child_count()
+				action_count = (action_count + 1) % get_node("Allies").get_child_count()
 				targeting = false
 
 				return_to_Selection()
-#				print(action_memory[actor-1].from)
-#				print(action_memory[actor-1].action)
-#				print(action_memory[actor-1].to)
 
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
 		STATE_NEXT = "EXECUTE ACTION"
@@ -255,7 +254,6 @@ func _on_Return_pressed():
 	action = null
 	if(actor == (action_memory.size() - 1)):
 		action_memory.pop_back()
-		actor -= 1
 		targeting = false
 
 	return_to_Selection()
@@ -342,20 +340,28 @@ func _fixed_process(delta):
 		if blink_counter == 0:
 			blink_counter = 40
 		blink_counter -= 1
+
+		while get_node(str("Allies/", actor)) == null:
+			actor += 1;
+			if actor >= allies_vector.size():
+				print("GAME OVER")
 		blink(actor, blink_counter)
 
 		turn_based_system()
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty():
+			action_count = 0
 			STATE_NEXT = "SELECT TARGET"
 		else:
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
-	
+
 			if get_node(str(act.to[1],"/",act.to[0])) != null:
 				time = (player.get_animation(act.action).get_length()) * 60
 				player.play(act.action)
 				STATE_NEXT = "ANIMATION"
+			else:
+				action_memory.pop_front()
 	elif STATE == "ANIMATION":
 		var act = action_memory[0]
 		var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
