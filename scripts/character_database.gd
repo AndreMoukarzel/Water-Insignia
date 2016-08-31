@@ -10,6 +10,7 @@ const HP_MAX = 3
 #     recupera automaticamente depois do combate             #
 const ATK = 4
 const DEF = 5
+const SPD = 6
 # Fazer um vetor com as animações. As animações serão:       #
 # Idle, Attack, Critical (para allies) e Death (o monstro    #
 # fica branco, e depois gradualmente some. Talvez Defend.    #
@@ -24,7 +25,8 @@ var char_database = [
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
 		ATK : 11,
-		DEF : 1
+		DEF : 1,
+		SPD : 10
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
@@ -32,7 +34,8 @@ var char_database = [
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 15,
 		ATK : 800,
-		DEF : 3
+		DEF : 3,
+		SPD : 7
 	}
 ]
 

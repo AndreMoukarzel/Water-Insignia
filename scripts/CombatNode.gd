@@ -9,6 +9,7 @@ class unit:
 	var hp_current
 	var bonus_attack
 	var bonus_defense
+	var bonus_speed
 #	var status_condition
 
 class action_class:
@@ -53,6 +54,7 @@ func _ready():
 
 	# TESTING INSTANCING #
 	instance_unit(0, "Allies")
+	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
 	instance_unit(1, "Enemies")
@@ -383,7 +385,7 @@ func _fixed_process(delta):
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 
-			if get_node(str(act.to[1],"/",act.to[0])) != null:
+			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 				time = (player.get_animation(act.action).get_length()) * 60
 				player.play(act.action)
 				STATE_NEXT = "ANIMATION"
