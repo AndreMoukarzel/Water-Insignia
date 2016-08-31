@@ -183,6 +183,7 @@ func turn_based_system():
 				return_to_Selection()
 
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
+		action_memory.sort_custom(self, "compare_speed")
 		toggle_buttons(true)
 		STATE_NEXT = "EXECUTE ACTION"
 
@@ -191,6 +192,7 @@ func process_action():
 		var action_instance = action_class.new()
 		action_instance.from = [actor, "Allies"]
 		action_instance.action = action
+		action_instance.speed = char_database.get_speed(allies_vector[actor].id)
 		action_memory.append(action_instance)
 		action = null
 		return 1
@@ -246,6 +248,12 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 		return 1 # defender death
 	return 0
 
+
+func compare_speed(act1, act2):
+	if act1.speed <= act2.speed:
+		return false
+	else:
+		return true
 
 func blink(actor, counter):
 	#Makes the current acting unit blink

@@ -35,7 +35,7 @@ var char_database = [
 		HP_MAX : 15,
 		ATK : 800,
 		DEF : 3,
-		SPD : 7
+		SPD : 20
 	}
 ]
 
@@ -66,3 +66,6 @@ func get_attack(id):
 	
 func get_defense(id):
 	return char_database[id][DEF]
+
+func get_speed(id):
+	return char_database[id][SPD]
