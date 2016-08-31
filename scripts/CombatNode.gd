@@ -37,12 +37,14 @@ var mouse_cooldown = 0
 var time = 0
 var blink_counter = 0
 
+var end = 0
+
 var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
 
 func _ready():
-	
+
 	# Acess character database (is a global script) #
 	char_database = get_node("/root/character_database")
 	
@@ -179,6 +181,7 @@ func turn_based_system():
 				return_to_Selection()
 
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
+		toggle_buttons(true)
 		STATE_NEXT = "EXECUTE ACTION"
 
 func process_action():
@@ -224,6 +227,19 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 		#efeito visual aqui#
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
+		if defender_side == "Enemies":
+			enemies_pos[defender_vpos] = Vector2(-100, -100)
+		elif defender_side == "Allies":
+			allies_pos[defender_vpos] = Vector2(-100, -100)
+
+		if get_node(defender_side).get_child_count() == 1:
+			if defender_side == "Allies":
+				print("KILL YOURSELF")
+				end = -1
+			elif defender_side == "Enemies":
+				print("GG IZI")
+				end = 1
+			get_node("/root/global").goto_scene("res://scenes/MainMenu.xscn")
 
 		return 1 # defender death
 	return 0
@@ -240,6 +256,18 @@ func blink(actor, counter):
 # ############################### #
 # ###### MENU FUNTIONALITY ###### # 
 # ############################### #
+func toggle_buttons(boolean):
+	get_node("ActionMenu/Selection/Attack").set_ignore_mouse(boolean)
+	get_node("ActionMenu/Selection/Skill").set_ignore_mouse(boolean)
+	get_node("ActionMenu/Selection/Item").set_ignore_mouse(boolean)
+	get_node("ActionMenu/Selection/Defend").set_ignore_mouse(boolean)
+
+	get_node("ActionMenu/Selection/Attack").set_disabled(boolean)
+	get_node("ActionMenu/Selection/Skill").set_disabled(boolean)
+	get_node("ActionMenu/Selection/Item").set_disabled(boolean)
+	get_node("ActionMenu/Selection/Defend").set_disabled(boolean)
+
+
 func return_to_Selection():
 	var action_menu = get_node("ActionMenu")
 
@@ -343,14 +371,13 @@ func _fixed_process(delta):
 
 		while get_node(str("Allies/", actor)) == null:
 			actor += 1;
-			if actor >= allies_vector.size():
-				print("GAME OVER")
 		blink(actor, blink_counter)
 
 		turn_based_system()
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty():
 			action_count = 0
+			toggle_buttons(false)
 			STATE_NEXT = "SELECT TARGET"
 		else:
 			var act = action_memory[0]

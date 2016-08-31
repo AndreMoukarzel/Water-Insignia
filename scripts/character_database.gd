@@ -23,7 +23,7 @@ var char_database = [
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
-		ATK : 10,
+		ATK : 11,
 		DEF : 1
 	},
 	{ # ID = 1
@@ -31,7 +31,7 @@ var char_database = [
 		CHAR_NAME : "samurai",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 15,
-		ATK : 5,
+		ATK : 800,
 		DEF : 3
 	}
 ]
