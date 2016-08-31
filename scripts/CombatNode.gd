@@ -176,8 +176,8 @@ func turn_based_system():
 				mouse_cooldown = 30
 				action_memory[action_count].to = closest
 				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
-				actor = (actor + 1) % get_node("Allies").get_child_count()
-				action_count = (action_count + 1) % get_node("Allies").get_child_count()
+				actor = (actor + 1) % allies_pos.size()
+				action_count = (action_count + 1) % allies_pos.size()
 				targeting = false
 
 				return_to_Selection()
@@ -252,20 +252,21 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 
 func enemy_attack_beta():
 	var enemies = 0
-	while(enemies < get_node("Enemies").get_child_count()):
+	while(enemies < enemies_pos.size()):
 		var action_instance = action_class.new()
 
-		while (enemies_vector[enemies] == null):
+		while ((enemies_vector[enemies] == null) and (enemies < enemies_pos.size() - 1)):
 			enemies += 1
 
-		action_instance.from = [enemies, "Enemies"]
-		# so com chance de acertar allies, por ora
-		var random_target = rand_range(0, get_node("Allies").get_child_count()) #claramente menos chance de acertar o ultimo
-		action_instance.to = [int(random_target), "Allies"]
-		print("O inimigo numero ",enemies," vai tentar atacar o aliado numero ",int(random_target))
-		action_instance.action = "attack"
-		action_instance.speed = char_database.get_speed(enemies_vector[enemies].id)
-		action_memory.append(action_instance)
+		if enemies_vector[enemies] != null:
+			action_instance.from = [enemies, "Enemies"]
+			# so com chance de acertar allies, por ora
+			var random_target = rand_range(0, get_node("Allies").get_child_count()) #claramente menos chance de acertar o ultimo
+			action_instance.to = [int(random_target), "Allies"]
+			print("O inimigo numero ",enemies," vai tentar atacar o aliado numero ",int(random_target))
+			action_instance.action = "attack"
+			action_instance.speed = char_database.get_speed(enemies_vector[enemies].id)
+			action_memory.append(action_instance)
 		enemies += 1
 
 
