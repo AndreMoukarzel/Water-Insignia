@@ -7,8 +7,8 @@ class unit:
 	var id
 	var name
 	var hp_current
-	var bonus_attack
-	var bonus_defense
+	var bonus_attack = 0
+	var bonus_defense = 0
 	var bonus_speed
 #	var status_condition
 
@@ -168,6 +168,13 @@ func turn_based_system():
 			if action_memory[action_count].action != "defend":
 				targeting = true
 			else:
+				var act = action_memory[action_count]
+
+				if act.from[1] == "Allies":
+					allies_vector[act.from[0]].bonus_defense = char_database.get_defense(allies_vector[act.from[0]].id) * 2
+				elif act.from[1] == "Enemies":
+					enemies_vector[act.from[0]].bonus_defense = char_database.get_defense(enemies_vector[act.from[0]].id) * 2
+
 				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
@@ -228,7 +235,9 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
-	var damage = char_database.get_attack(attacker[attacker_vpos].id) -  char_database.get_defense(defender[defender_vpos].id)
+
+	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
+	defender[defender_vpos].bonus_defense = 0
 	if (damage < 0):
 		damage = 0
 	defender[defender_vpos].hp_current -= damage
