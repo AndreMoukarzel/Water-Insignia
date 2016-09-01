@@ -10,7 +10,13 @@ class unit:
 	var bonus_attack = 0
 	var bonus_defense = 0
 	var bonus_speed
+	var wpn_vector = []
 #	var status_condition
+
+class weapon:
+	var id
+	var name
+	var durability
 
 class action_class:
 	var from
@@ -32,6 +38,7 @@ var action_count = 0
 var targeting = false
 
 var char_database
+var wpn_database
 var window_size
 
 var mouse_cooldown = 0
@@ -46,19 +53,31 @@ var STATE_NEXT = "SELECT TARGET"
 
 func _ready():
 
-	# Acess character database (is a global script) #
+	# Acess databases (are global scripts) #
 	char_database = get_node("/root/character_database")
+	wpn_database = get_node("/root/weapon_database")
 	
 	# Get window size #
 	window_size = OS.get_window_size()
 
-	# TESTING INSTANCING #
+	# TESTING INSTANCING UNITS#
 	instance_unit(0, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
 	instance_unit(1, "Enemies")
 	instance_unit(0, "Enemies")
+	
+	#TESTING INSTANCING WEAPONS #
+	
+	for unit in allies_vector:
+		if unit.name == "bat":
+			instance_weapon("Bat Fangs", unit)
+			instance_weapon("Bat Wings", unit)
+		if unit.name == "samurai":
+			instance_weapon("Katana", unit)
+			instance_weapon("Bamboo Sword", unit)
+	
 	######################
 
 	reposition_units()
@@ -70,6 +89,10 @@ func _ready():
 # ############################### #
 # ##### INSTANCING FUNCTIONS #### # 
 # ############################### #
+
+# Vamos precisar de um script auxiliar, que tenhamos o estado inicial
+# de cada mob, para quando formos gera-los, termos noção de qual armas,
+# skills e etc. eles devem ter no momento inicial.
 
 func instance_unit(id, path):
 	
@@ -104,6 +127,18 @@ func instance_unit(id, path):
 		allies_vector.append(unit_instance)
 	elif path == "Enemies":
 		enemies_vector.append(unit_instance)
+		
+# owner is the reference in the correct vector (allies or enemies)
+func instance_weapon(name, owner):
+	
+	var id = wpn_database.get_wpn_id(name)
+	
+	# Data instancing segment
+	var wpn_instance = weapon.new()
+	wpn_instance.id = id
+	wpn_instance.name = name
+	wpn_instance.durability = wpn_database.get_durability(id)
+	owner.wpn_vector.append(wpn_instance)
 
 
 func reposition_units():
