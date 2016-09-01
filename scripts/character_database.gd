@@ -24,18 +24,18 @@ var char_database = [
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
-		ATK : 11,
+		ATK : 5,
 		DEF : 1,
-		SPD : 10
+		SPD : 15
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 15,
-		ATK : 800,
+		ATK : 8,
 		DEF : 3,
-		SPD : 20
+		SPD : 11
 	}
 ]
 

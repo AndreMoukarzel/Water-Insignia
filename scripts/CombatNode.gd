@@ -165,7 +165,15 @@ func turn_based_system():
 	
 	if(action_memory.size() < get_node("Allies").get_child_count()):
 		if(process_action()):
-			targeting = true
+			if action_memory[action_count].action != "defend":
+				targeting = true
+			else:
+				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
+				action_memory[action_count].to = [actor, "Allies"]
+				actor = (actor + 1) % allies_pos.size()
+				action_count = (action_count + 1) % allies_pos.size()
+				return_to_Selection()
+
 	if(targeting):
 		closest = target_select("All")
 		if closest[0] != -1:
@@ -261,7 +269,10 @@ func enemy_attack_beta():
 		if enemies_vector[enemies] != null:
 			action_instance.from = [enemies, "Enemies"]
 			# so com chance de acertar allies, por ora
-			var random_target = rand_range(0, get_node("Allies").get_child_count()) #claramente menos chance de acertar o ultimo
+			randomize()
+			var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
+			while (get_node(str("Allies/",int(random_target))) == null):
+				random_target = (random_target + 1) % allies_vector.size()
 			action_instance.to = [int(random_target), "Allies"]
 			print("O inimigo numero ",enemies," vai tentar atacar o aliado numero ",int(random_target))
 			action_instance.action = "attack"
@@ -328,6 +339,7 @@ func _on_Attack_pressed():
 func _on_AttackSlot1_pressed():
 	action = "attack"
 
+
 func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
@@ -338,6 +350,10 @@ func _on_Item_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Item").show()
+
+
+func _on_Defend_pressed():
+	action = "defend"
 
 
 func target_select(target):
@@ -406,6 +422,7 @@ func _fixed_process(delta):
 		blink(actor, blink_counter)
 
 		turn_based_system()
+
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty():
 			action_count = 0
@@ -416,11 +433,15 @@ func _fixed_process(delta):
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 
 			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
-				time = (player.get_animation(act.action).get_length()) * 60
-				player.play(act.action)
-				STATE_NEXT = "ANIMATION"
+				if act.action == "defend":
+					action_memory.pop_front() # add defense behavior here
+				else:
+					time = (player.get_animation(act.action).get_length()) * 60
+					player.play(act.action)
+					STATE_NEXT = "ANIMATION"
 			else:
 				action_memory.pop_front()
+
 	elif STATE == "ANIMATION":
 		var act = action_memory[0]
 		var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
