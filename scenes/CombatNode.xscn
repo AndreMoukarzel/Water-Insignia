@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="21" version="2.1" version_name="Godot Engine v2.1.stable.official">
+<resource_file type="PackedScene" subresource_count="30" version="2.1" version_name="Godot Engine v2.1.stable.official">
+	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotPressed.png" type="Texture" index="19"></ext_resource>
 	<ext_resource path="res://scripts/CombatNode.gd" type="Script" index="0"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" index="20"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0004.tex" type="Texture" index="5"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0002.tex" type="Texture" index="3"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotNormal.png" type="Texture" index="24"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0001.tex" type="Texture" index="2"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemPressed.png" type="Texture" index="13"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" index="1"></ext_resource>
@@ -17,7 +20,13 @@
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlHover.png" type="Texture" index="17"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlNormal.png" type="Texture" index="15"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillHover.png" type="Texture" index="11"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotHover.png" type="Texture" index="23"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" index="22"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlPressed.png" type="Texture" index="16"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" index="25"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotHover.png" type="Texture" index="26"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotNormal.png" type="Texture" index="18"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" index="21"></ext_resource>
 	<resource type="SpriteFrames" path="local://1">
 		<array name="animations" len="1" shared="false">
 			<dictionary  shared="false">
@@ -133,8 +142,6 @@
 				<string> "Defend" </string>
 				<string> "visibility/visible" </string>
 				<string> "AttackSlot1" </string>
-				<string> "flat" </string>
-				<string> "Button" </string>
 				<string> "AttackSlot2" </string>
 				<string> "AttackSlot3" </string>
 				<string> "AttackSlot4" </string>
@@ -147,6 +154,8 @@
 				<string> "ItemSlot3" </string>
 				<string> "ItemSlot4" </string>
 				<string> "Return" </string>
+				<string> "flat" </string>
+				<string> "Button" </string>
 				<string> "_on_Attack_pressed" </string>
 				<string> "pressed" </string>
 				<string> "_on_Skill_pressed" </string>
@@ -161,9 +170,9 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="763"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 1, 4, 1, 0, 0, 0, 2, 5, -1, 1, 4, 2, 0, 0, 0, 12, 6, -1, 5, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 0, 3, 0, 13, 13, -1, 8, 14, 8, 15, 9, 16, 10, 17, 11, 18, 3, 19, 12, 20, 13, 21, 14, 0, 0, 0, 31, 22, -1, 8, 23, 15, 24, 3, 25, 16, 26, 16, 27, 9, 28, 17, 29, 18, 30, 19, 0, 5, 0, 34, 32, -1, 9, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 6, 0, 44, 35, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 22, 28, 9, 29, 23, 30, 20, 36, 15, 37, 16, 38, 24, 39, 25, 40, 26, 41, 27, 42, 26, 43, 28, 0, 6, 0, 44, 45, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 29, 28, 9, 29, 30, 30, 20, 36, 15, 37, 16, 38, 24, 39, 31, 40, 32, 41, 33, 42, 32, 43, 28, 0, 6, 0, 44, 46, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 34, 28, 9, 29, 35, 30, 20, 36, 15, 37, 16, 38, 24, 39, 36, 40, 37, 41, 38, 42, 37, 43, 28, 0, 6, 0, 44, 47, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 39, 28, 9, 29, 40, 30, 20, 36, 15, 37, 16, 38, 24, 39, 41, 40, 42, 41, 43, 42, 42, 43, 28, 0, 5, 0, 34, 35, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 11, 0, 51, 49, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 11, 0, 51, 52, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 11, 0, 51, 53, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 11, 0, 51, 54, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 5, 0, 34, 45, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 16, 0, 51, 55, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 16, 0, 51, 56, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 16, 0, 51, 57, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 16, 0, 51, 58, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 5, 0, 34, 46, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 21, 0, 51, 59, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 21, 0, 51, 60, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 21, 0, 51, 61, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 21, 0, 51, 62, -1, 12, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 50, 15, 0, 5, 0, 51, 63, -1, 13, 48, 15, 23, 15, 24, 3, 25, 16, 26, 16, 27, 9, 28, 9, 29, 45, 30, 47, 36, 15, 37, 16, 38, 24, 50, 15, 0 </int_array>
+			<int_array  len="837"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 1, 4, 1, 0, 0, 0, 2, 5, -1, 1, 4, 2, 0, 0, 0, 12, 6, -1, 5, 7, 3, 8, 4, 9, 5, 10, 6, 11, 7, 0, 3, 0, 13, 13, -1, 8, 14, 8, 15, 9, 16, 10, 17, 11, 18, 3, 19, 12, 20, 13, 21, 14, 0, 0, 0, 31, 22, -1, 8, 23, 15, 24, 3, 25, 16, 26, 16, 27, 9, 28, 17, 29, 18, 30, 19, 0, 5, 0, 34, 32, -1, 10, 7, 3, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 6, 0, 44, 35, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 22, 28, 9, 29, 23, 30, 20, 36, 15, 37, 16, 38, 24, 39, 25, 40, 26, 41, 27, 42, 26, 43, 28, 0, 6, 0, 44, 45, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 29, 28, 9, 29, 30, 30, 20, 36, 15, 37, 16, 38, 24, 39, 31, 40, 32, 41, 33, 42, 32, 43, 28, 0, 6, 0, 44, 46, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 34, 28, 9, 29, 35, 30, 20, 36, 15, 37, 16, 38, 24, 39, 36, 40, 37, 41, 38, 42, 37, 43, 28, 0, 6, 0, 44, 47, -1, 16, 23, 15, 24, 3, 25, 8, 26, 8, 27, 39, 28, 9, 29, 40, 30, 20, 36, 15, 37, 16, 38, 24, 39, 41, 40, 42, 41, 43, 42, 42, 43, 28, 0, 5, 0, 34, 35, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 11, 0, 44, 49, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 47, 40, 48, 41, 49, 43, 28, 0, 11, 0, 44, 50, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 47, 40, 48, 41, 49, 43, 28, 0, 11, 0, 44, 51, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 47, 40, 48, 41, 49, 43, 28, 0, 11, 0, 44, 52, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 47, 40, 48, 41, 49, 43, 28, 0, 5, 0, 34, 45, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 16, 0, 44, 53, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 50, 40, 51, 41, 52, 43, 28, 0, 16, 0, 44, 54, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 50, 40, 51, 41, 52, 43, 28, 0, 16, 0, 44, 55, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 50, 40, 51, 41, 52, 43, 28, 0, 16, 0, 44, 56, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 50, 40, 51, 41, 52, 43, 28, 0, 5, 0, 34, 46, -1, 11, 7, 3, 48, 15, 23, 15, 24, 15, 25, 16, 26, 16, 27, 9, 28, 9, 29, 18, 30, 20, 33, 21, 0, 21, 0, 44, 57, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 53, 40, 54, 41, 55, 43, 28, 0, 21, 0, 44, 58, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 53, 40, 54, 41, 55, 43, 28, 0, 21, 0, 44, 59, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 53, 40, 54, 41, 55, 43, 28, 0, 21, 0, 44, 60, -1, 15, 23, 15, 24, 3, 25, 8, 26, 8, 27, 9, 28, 44, 29, 45, 30, 46, 36, 15, 37, 16, 38, 24, 39, 53, 40, 54, 41, 55, 43, 28, 0, 5, 0, 63, 61, -1, 13, 48, 15, 23, 15, 24, 3, 25, 16, 26, 16, 27, 9, 28, 9, 29, 45, 30, 56, 36, 15, 37, 16, 38, 24, 62, 15, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="48" shared="false">
+			<array  len="57" shared="false">
 				<resource  external="0">  </resource>
 				<dictionary  shared="false">
 					<string> "_edit_group_" </string>
@@ -217,6 +226,15 @@
 				<real> 10 </real>
 				<real> 12 </real>
 				<real> 29 </real>
+				<resource  external="18">  </resource>
+				<resource  external="19">  </resource>
+				<resource  external="20">  </resource>
+				<resource  external="21">  </resource>
+				<resource  external="22">  </resource>
+				<resource  external="23">  </resource>
+				<resource  external="24">  </resource>
+				<resource  external="25">  </resource>
+				<resource  external="26">  </resource>
 				<real> 19 </real>
 			</array>
 			<string> "version" </string>
