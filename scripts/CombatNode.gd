@@ -47,6 +47,9 @@ var blink_counter = 0
 
 var end = 0
 
+var BUTTON = null
+var BUTTON_LAST = null
+
 var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
@@ -197,7 +200,26 @@ func turn_based_system():
 	# menus, logo, é pertinente fazer uma função que aguarda os comandos  #
 	# do jogador, dependendo do numero de party members.                  #
 	var closest = [-1,-1]
+
+	if(targeting):
+		toggle_button(true, BUTTON)
+		closest = target_select("All")
+		if closest[0] != -1:
+			get_node("Target").show()
+			get_node("Target").set_pos(get_node(str(closest[1],"/",closest[0])).get_pos())
 	
+			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
+				toggle_button(false, BUTTON)
+				BUTTON = null
+				mouse_cooldown = 30
+				action_memory[action_count].to = closest
+				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
+				actor = (actor + 1) % allies_pos.size()
+				action_count = (action_count + 1) % allies_pos.size()
+				targeting = false
+
+				return_to_Selection()
+
 	if(action_memory.size() < get_node("Allies").get_child_count()):
 		if(process_action()):
 			if action_memory[action_count].action != "defend":
@@ -216,27 +238,12 @@ func turn_based_system():
 				action_count = (action_count + 1) % allies_pos.size()
 				return_to_Selection()
 
-	if(targeting):
-		closest = target_select("All")
-		if closest[0] != -1:
-			get_node("Target").show()
-			get_node("Target").set_pos(get_node(str(closest[1],"/",closest[0])).get_pos())
-	
-			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
-				mouse_cooldown = 30
-				action_memory[action_count].to = closest
-				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
-				actor = (actor + 1) % allies_pos.size()
-				action_count = (action_count + 1) % allies_pos.size()
-				targeting = false
-
-				return_to_Selection()
-
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
-		toggle_buttons(true)
+		toggle_menu(true)
 		enemy_attack_beta()
 		action_memory.sort_custom(self, "compare_speed")
 		STATE_NEXT = "EXECUTE ACTION"
+
 
 func process_action():
 	if action != null:
@@ -343,16 +350,15 @@ func blink(actor, counter):
 # ############################### #
 # ###### MENU FUNTIONALITY ###### # 
 # ############################### #
-func toggle_buttons(boolean):
-	get_node("ActionMenu/Selection/Attack").set_ignore_mouse(boolean)
-	get_node("ActionMenu/Selection/Skill").set_ignore_mouse(boolean)
-	get_node("ActionMenu/Selection/Item").set_ignore_mouse(boolean)
-	get_node("ActionMenu/Selection/Defend").set_ignore_mouse(boolean)
-
+func toggle_menu(boolean):
 	get_node("ActionMenu/Selection/Attack").set_disabled(boolean)
 	get_node("ActionMenu/Selection/Skill").set_disabled(boolean)
 	get_node("ActionMenu/Selection/Item").set_disabled(boolean)
 	get_node("ActionMenu/Selection/Defend").set_disabled(boolean)
+
+
+func toggle_button(boolean, path):
+	get_node(str("ActionMenu/",path)).set_disabled(boolean)
 
 
 func return_to_Selection():
@@ -371,6 +377,7 @@ func _on_Return_pressed():
 		action_memory.pop_back()
 		targeting = false
 
+	toggle_button(false, BUTTON)
 	return_to_Selection()
 
 
@@ -381,6 +388,18 @@ func _on_Attack_pressed():
 
 
 func _on_AttackSlot1_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Attack/AttackSlot1"
+	action = "attack"
+
+
+func _on_AttackSlot2_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Attack/AttackSlot2"
 	action = "attack"
 
 
@@ -470,7 +489,7 @@ func _fixed_process(delta):
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty():
 			action_count = 0
-			toggle_buttons(false)
+			toggle_menu(false)
 			STATE_NEXT = "SELECT TARGET"
 		else:
 			var act = action_memory[0]
