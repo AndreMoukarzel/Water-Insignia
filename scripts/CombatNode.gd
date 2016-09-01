@@ -376,8 +376,9 @@ func _on_Return_pressed():
 	if(actor == (action_memory.size() - 1)):
 		action_memory.pop_back()
 		targeting = false
+		if (BUTTON != null):
+			toggle_button(false, BUTTON)
 
-	toggle_button(false, BUTTON)
 	return_to_Selection()
 
 
@@ -400,6 +401,22 @@ func _on_AttackSlot2_pressed():
 		action_memory.pop_back()
 		toggle_button(false, BUTTON)
 	BUTTON = "Attack/AttackSlot2"
+	action = "attack"
+
+
+func _on_AttackSlot3_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Attack/AttackSlot3"
+	action = "attack"
+
+
+func _on_AttackSlot4_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Attack/AttackSlot4"
 	action = "attack"
 
 
@@ -475,6 +492,7 @@ func target_select(target):
 func _fixed_process(delta):
 	get_node("Target").hide()
 
+	print(action_memory)
 	if STATE == "SELECT TARGET":
 		if blink_counter == 0:
 			blink_counter = 40
