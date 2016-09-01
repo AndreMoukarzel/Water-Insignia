@@ -16,6 +16,7 @@ const SPD = 6
 # fica branco, e depois gradualmente some. Talvez Defend.    #
 # A ideia disso é não precisarmos mais de uma scene para     #
 # cada unit, assim chamando tudo pela database.              #
+const WPN_VECTOR = 7
 
 
 var char_database = [
@@ -26,7 +27,8 @@ var char_database = [
 		HP_MAX : 10,
 		ATK : 5,
 		DEF : 1,
-		SPD : 15
+		SPD : 15,
+		WPN_VECTOR: ["Bat Fangs", "Bat Wings"]
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
@@ -35,7 +37,8 @@ var char_database = [
 		HP_MAX : 15,
 		ATK : 8,
 		DEF : 3,
-		SPD : 11
+		SPD : 11,
+		WPN_VECTOR: ["Katana", "Bamboo Sword"]
 	}
 ]
 
