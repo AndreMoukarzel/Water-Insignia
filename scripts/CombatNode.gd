@@ -189,6 +189,17 @@ func name_units():
 		child.set_name(str(i))
 		i += 1
 
+
+func damage_box(damage, color, pos):
+	var box_scn = load("res://scenes/DamageBox.xml")
+	var box = box_scn.instance()
+
+	box.damage = damage
+	box.color = color
+	box.set_pos(pos)
+	add_child(box)
+
+
 # ############################### #
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
@@ -283,6 +294,7 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	if (damage < 0):
 		damage = 0
 	defender[defender_vpos].hp_current -= damage
+	damage_box(damage, Color(1, 0, 0), get_node(str(defender_side,"/",defender_vpos)).get_pos())
 	if defender[defender_vpos].hp_current > 0:
 		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
 	
@@ -492,7 +504,6 @@ func target_select(target):
 func _fixed_process(delta):
 	get_node("Target").hide()
 
-	print(action_memory)
 	if STATE == "SELECT TARGET":
 		if blink_counter == 0:
 			blink_counter = 40
