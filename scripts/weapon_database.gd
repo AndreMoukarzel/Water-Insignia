@@ -29,7 +29,7 @@ var wpn_database = [
 		WPN_NAME : "Bamboo Sword",
 		TYPE : "Sword",
 		ATK : 1,
-		DURABILITY : 1
+		DURABILITY : 2
 	},
 	
 	# ############################### #

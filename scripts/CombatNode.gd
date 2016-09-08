@@ -18,6 +18,11 @@ class weapon:
 	var name
 	var durability
 
+class item:
+	var id
+	var name
+	var amount
+
 class action_class:
 	var from
 	var to
@@ -286,7 +291,10 @@ func filter_action(act):
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
 	if (act.action == "attack"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
-
+	elif (act.action == "skill"):
+		pass 
+	elif (act.action == "item"):
+		pass
 
 func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
@@ -313,6 +321,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Calcular o dano para o ataque #
 	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack + wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id)) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
+	attacker[attacker_vpos].wpn_vector[action_id].durability -= 1
 	# Remove a defesa bonus garantida pelo comando DEFEND, terá que ser alterado futuramente #
 	defender[defender_vpos].bonus_defense = 0
 	# Não deixa o dano ser menor que 0. Magias que curam ficarão sob o comando skill. #
@@ -349,6 +358,10 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 		return 1 # defender death
 	return 0
+
+
+func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
+	pass
 
 
 func enemy_attack_beta():
@@ -390,9 +403,11 @@ func blink(actor, counter):
 		get_node(str("Allies/",actor)).set_opacity(0.5)
 
 
-# ############################### #
-# ###### MENU FUNTIONALITY ###### # 
-# ############################### #
+# ################################ #
+# ###### MENU FUNCTIONALITY ###### # 
+# ############################3### #
+
+
 func toggle_menu(boolean):
 	get_node("ActionMenu/Selection/Attack").set_disabled(boolean)
 	get_node("ActionMenu/Selection/Skill").set_disabled(boolean)
@@ -479,6 +494,42 @@ func _on_Item_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Item").show()
+
+
+func _on_ItemSlot1_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Item/ItemSlot1"
+	action = "item"
+	action_id = 0
+
+
+func _on_ItemSlot2_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Item/ItemSlot1"
+	action = "item"
+	action_id = 1
+
+
+func _on_ItemSlot3_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Item/ItemSlot1"
+	action = "item"
+	action_id = 2
+
+
+func _on_ItemSlot4_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Item/ItemSlot1"
+	action = "item"
+	action_id = 3
 
 
 func _on_Defend_pressed():
