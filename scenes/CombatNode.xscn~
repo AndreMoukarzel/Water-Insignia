@@ -30,9 +30,15 @@
 	<ext_resource path="res://resources/sprites/gui/combat/ItemHover.png" type="Texture" index="15"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillNormal.png" type="Texture" index="10"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemNormal.png" type="Texture" index="13"></ext_resource>
+<<<<<<< HEAD
+	<ext_resource path="res://resources/sprites/gui/combat/AttackNormal.png" type="Texture" index="7"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/DefendlPressed.png" type="Texture" index="17"></ext_resource>
+	<ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" index="23"></ext_resource>
+=======
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnPressed.png" type="Texture" index="30"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnNormal.png" type="Texture" index="29"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnHover.png" type="Texture" index="31"></ext_resource>
+>>>>>>> 568a4d0d97c5d8422ab60ee89d0f5f31aa4aeca5
 	<resource type="SpriteFrames" path="local://1">
 		<array name="animations" len="1" shared="false">
 			<dictionary  shared="false">
