@@ -235,13 +235,16 @@ func turn_based_system():
 		if(process_action()):
 			if action_memory[action_count].action != "defend":
 				targeting = true
-			else:
+			else: # Execução da defesa
 				var act = action_memory[action_count]
+				var effect = get_node("Effects")
 
 				if act.from[1] == "Allies":
 					allies_vector[act.from[0]].bonus_defense = char_database.get_defense(allies_vector[act.from[0]].id) * 2
 				elif act.from[1] == "Enemies":
 					enemies_vector[act.from[0]].bonus_defense = char_database.get_defense(enemies_vector[act.from[0]].id) * 2
+				effect.set_pos(get_node(str(act.from[1],"/",act.from[0])).get_pos())
+				effect.get_node("AnimatedSprite/AnimationPlayer").play("defend")
 
 				get_node(str("Allies/",actor)).set_opacity(1) # in case of blinking
 				action_memory[action_count].to = [actor, "Allies"]
