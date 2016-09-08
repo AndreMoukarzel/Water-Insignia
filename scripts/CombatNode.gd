@@ -130,7 +130,7 @@ func instance_unit(id, path):
 		allies_vector.append(unit_instance)
 	elif path == "Enemies":
 		enemies_vector.append(unit_instance)
-		
+
 # owner is the reference in the correct vector (allies or enemies)
 func instance_weapon(name, owner):
 	
@@ -212,6 +212,7 @@ func turn_based_system():
 	# do jogador, dependendo do numero de party members.                  #
 	var closest = [-1,-1]
 
+	organize_slots(actor)
 	if(targeting):
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
@@ -498,6 +499,38 @@ func target_select(target):
 						team = "Enemies"
 
 	return [closest, team]
+
+
+func organize_slots(actor):
+	var unit = allies_vector[actor]
+	var num = 1
+
+	for weapon in unit.wpn_vector:
+		var node = get_node(str("ActionMenu/Attack/AttackSlot",num,"/Weapon"))
+		var durability = wpn_database.get_durability(weapon.id)
+
+		node.get_node("Label").set_text(str(weapon.name))
+		node.show()
+		node.get_parent().set_disabled(false)
+		if durability < 0:
+			node.get_node("Label1").hide()
+			node.get_node("ProgressBar").hide()
+		else:
+			node.get_node("Label1").show()
+			node.get_node("ProgressBar").show()
+			node.get_node("ProgressBar").set_max(durability)
+			node.get_node("ProgressBar").set_value(weapon.durability)
+
+		num += 1
+
+	if num < 5:
+		var count = 5
+		while(count > num):
+			count -= 1
+			var node = get_node(str("ActionMenu/Attack/AttackSlot",count))
+			
+			node.get_node("Weapon").hide()
+			node.set_disabled(true)
 
 
 # ############################### #
