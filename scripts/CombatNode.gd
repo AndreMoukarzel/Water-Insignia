@@ -221,7 +221,6 @@ func turn_based_system():
 	# do jogador, dependendo do numero de party members.                  #
 	var closest = [-1,-1]
 
-	organize_slots(actor)
 	if(targeting):
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
@@ -282,10 +281,12 @@ func process_action():
 		return 1
 	return 0
 
+
 func filter_action(act):
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
 	if (act.action == "attack"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
+
 
 func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
@@ -311,7 +312,6 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 
 	# Calcular o dano para o ataque #
-	print("action_id = ", action_id)
 	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack + wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id)) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
 	# Remove a defesa bonus garantida pelo comando DEFEND, terá que ser alterado futuramente #
 	defender[defender_vpos].bonus_defense = 0
@@ -421,6 +421,7 @@ func _on_Return_pressed():
 		targeting = false
 		if (BUTTON != null):
 			toggle_button(false, BUTTON)
+	BUTTON = null
 
 	return_to_Selection()
 
@@ -429,6 +430,8 @@ func _on_Attack_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Attack").show()
+
+	organize_slots(actor)
 
 
 func _on_AttackSlot1_pressed():
