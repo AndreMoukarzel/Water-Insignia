@@ -11,6 +11,7 @@ class unit:
 	var bonus_defense = 0
 	var bonus_speed
 	var wpn_vector = []
+	var item_vector = []
 #	var status_condition
 
 class weapon:
@@ -21,6 +22,10 @@ class weapon:
 class item:
 	var id
 	var name
+	var type
+	var HP
+	var BD
+	var status
 	var amount
 
 class action_class:
@@ -46,6 +51,7 @@ var targeting = false
 
 var char_database
 var wpn_database
+var item_database
 var window_size
 
 var mouse_cooldown = 0
@@ -66,6 +72,7 @@ func _ready():
 	# Acess databases (are global scripts) #
 	char_database = get_node("/root/character_database")
 	wpn_database = get_node("/root/weapon_database")
+	item_database = get_node("/root/item_database")
 	
 	# Get window size #
 	window_size = OS.get_window_size()
@@ -87,6 +94,8 @@ func _ready():
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
+			instance_item("Bomb", unit)
+			instance_item("Potion", unit)
 	
 	for unit in enemies_vector:
 		if unit.name == "bat":
@@ -156,6 +165,19 @@ func instance_weapon(name, owner):
 	wpn_instance.name = name
 	wpn_instance.durability = wpn_database.get_durability(id)
 	owner.wpn_vector.append(wpn_instance)
+
+
+func instance_item(name, owner):
+	
+	var id = item_database.get_item_id(name)
+	
+	# Data instancing segment
+	var item_instance = item.new()
+	item_instance.id = id
+	item_instance.name = name
+	item_instance.type = item_database.get_item_type(id)
+	item_instance.amount = 10
+	owner.item_vector.append(item_instance)
 
 
 func reposition_units():
@@ -288,13 +310,15 @@ func process_action():
 
 
 func filter_action(act):
+	print (act.action)
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
 	if (act.action == "attack"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 	elif (act.action == "skill"):
 		pass 
 	elif (act.action == "item"):
-		pass
+		process_item(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
+
 
 func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
@@ -320,7 +344,13 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 
 	# Calcular o dano para o ataque #
-	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack + wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id)) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
+	var char_atk = char_database.get_attack(attacker[attacker_vpos].id)
+	var char_bonus_atk = attacker[attacker_vpos].bonus_attack
+	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id)
+	var char_def = char_database.get_defense(defender[defender_vpos].id)
+	var char_bonus_def = defender[defender_vpos].bonus_defense
+	var damage = (char_atk + char_bonus_atk + wpn_atk) -  (char_def + char_bonus_def)
+	# Decrementa a durabilidade da arma após um ataque independentemente de ter acertado ou não
 	attacker[attacker_vpos].wpn_vector[action_id].durability -= 1
 	# Remove a defesa bonus garantida pelo comando DEFEND, terá que ser alterado futuramente #
 	defender[defender_vpos].bonus_defense = 0
@@ -361,7 +391,19 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
-	pass
+	
+	var user = allies_vector
+	var type = user[user_vpos].item_vector[action_id].type
+	
+	
+	if type == "HP":
+		pass
+		
+	elif type == "BD":
+		pass
+		
+	elif type == "Status":
+		pass
 
 
 func enemy_attack_beta():
@@ -509,7 +551,7 @@ func _on_ItemSlot2_pressed():
 	if (BUTTON != null):
 		action_memory.pop_back()
 		toggle_button(false, BUTTON)
-	BUTTON = "Item/ItemSlot1"
+	BUTTON = "Item/ItemSlot2"
 	action = "item"
 	action_id = 1
 
@@ -518,7 +560,7 @@ func _on_ItemSlot3_pressed():
 	if (BUTTON != null):
 		action_memory.pop_back()
 		toggle_button(false, BUTTON)
-	BUTTON = "Item/ItemSlot1"
+	BUTTON = "Item/ItemSlot3"
 	action = "item"
 	action_id = 2
 
@@ -527,7 +569,7 @@ func _on_ItemSlot4_pressed():
 	if (BUTTON != null):
 		action_memory.pop_back()
 		toggle_button(false, BUTTON)
-	BUTTON = "Item/ItemSlot1"
+	BUTTON = "Item/ItemSlot4"
 	action = "item"
 	action_id = 3
 
@@ -647,6 +689,8 @@ func _fixed_process(delta):
 			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 				if act.action == "defend":
 					action_memory.pop_front() # add defense behavior here
+				elif act.action == "item":
+					STATE_NEXT = "ANIMATION"
 				else:
 					time = (player.get_animation(act.action).get_length()) * 60
 					player.play(act.action)
@@ -662,6 +706,7 @@ func _fixed_process(delta):
 		time -= 1
 		if time <= 1:
 			player.play("idle")
+			print ("act.action = ", act.action)
 			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
 			filter_action(act)
 			action_memory.pop_front()

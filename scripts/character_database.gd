@@ -17,6 +17,7 @@ const SPD = 6
 # A ideia disso é não precisarmos mais de uma scene para     #
 # cada unit, assim chamando tudo pela database.              #
 const WPN_VECTOR = 7
+const ITEM_VECTOR = 8
 
 
 var char_database = [
@@ -28,7 +29,8 @@ var char_database = [
 		ATK : 5,
 		DEF : 1,
 		SPD : 15,
-		WPN_VECTOR: ["Bat Fangs", "Bat Wings"]
+		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
+		ITEM_VECTOR : []
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
@@ -38,7 +40,8 @@ var char_database = [
 		ATK : 8,
 		DEF : 3,
 		SPD : 11,
-		WPN_VECTOR: ["Katana", "Bamboo Sword"]
+		WPN_VECTOR : ["Katana", "Bamboo Sword"],
+		ITEM_VECTOR : []
 	}
 ]
 

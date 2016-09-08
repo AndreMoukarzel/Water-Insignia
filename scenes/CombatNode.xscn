@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="35" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" index="22"></ext_resource>
 	<ext_resource path="res://scripts/CombatNode.gd" type="Script" index="0"></ext_resource>
-	<ext_resource path="res://scenes/Effects.xml" type="PackedScene" index="6"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillHover.png" type="Texture" index="12"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0001.tex" type="Texture" index="2"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0004.tex" type="Texture" index="5"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/AttackPressed.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotHover.png" type="Texture" index="25"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillPressed.png" type="Texture" index="11"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" index="1"></ext_resource>
-	<ext_resource path="res://scenes/Effects.xml" type="PackedScene" index="6"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0001.tex" type="Texture" index="2"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0004.tex" type="Texture" index="5"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/AttackPressed.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0002.tex" type="Texture" index="3"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemPressed.png" type="Texture" index="14"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" index="24"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotNormal.png" type="Texture" index="19"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotNormal.png" type="Texture" index="26"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotHover.png" type="Texture" index="28"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" index="24"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotNormal.png" type="Texture" index="19"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotPressed.png" type="Texture" index="20"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackHover.png" type="Texture" index="9"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/ItemHover.png" type="Texture" index="15"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlNormal.png" type="Texture" index="16"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0003.tex" type="Texture" index="4"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" index="27"></ext_resource>
+	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" index="21"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackNormal.png" type="Texture" index="7"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlPressed.png" type="Texture" index="17"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" index="23"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlHover.png" type="Texture" index="18"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0003.tex" type="Texture" index="4"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" index="27"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" index="21"></ext_resource>
-	<ext_resource path="res://resources/sprites/gui/combat/ItemHover.png" type="Texture" index="15"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillNormal.png" type="Texture" index="10"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemNormal.png" type="Texture" index="13"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnPressed.png" type="Texture" index="30"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnNormal.png" type="Texture" index="29"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ReturnHover.png" type="Texture" index="31"></ext_resource>
+	<ext_resource path="res://scenes/Effects.xml" type="PackedScene" index="6"></ext_resource>
+	<ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" index="22"></ext_resource>
 	<resource type="SpriteFrames" path="local://1">
 		<array name="animations" len="1" shared="false">
 			<dictionary  shared="false">
@@ -92,12 +91,12 @@
 			<string> "conn_count" </string>
 			<int> 13 </int>
 			<string> "conns" </string>
-			<int_array  len="78"> 				8, 0, 65, 64, 2, 0, 9, 0, 65, 66, 2, 0, 10, 0, 65, 67, 2, 0, 11, 0, 65, 68, 2, 0, 13, 0, 65, 69, 2, 0, 15, 0, 65, 70, 2, 0, 17, 0, 65, 71, 2, 0, 19, 0, 65, 72, 2, 0, 27, 0, 65, 73, 2, 0, 28, 0, 65, 74, 2, 0, 29, 0, 65, 75, 2, 0, 30, 0, 65, 76, 2, 0, 31, 0, 65, 77, 2, 0 </int_array>
+			<int_array  len="78"> 				8, 0, 66, 65, 2, 0, 9, 0, 66, 67, 2, 0, 10, 0, 66, 68, 2, 0, 11, 0, 66, 69, 2, 0, 13, 0, 66, 70, 2, 0, 15, 0, 66, 71, 2, 0, 17, 0, 66, 72, 2, 0, 19, 0, 66, 73, 2, 0, 27, 0, 66, 74, 2, 0, 28, 0, 66, 75, 2, 0, 29, 0, 66, 76, 2, 0, 30, 0, 66, 77, 2, 0, 31, 0, 66, 78, 2, 0 </int_array>
 			<string> "editable_instances" </string>
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="78">
+			<string_array  len="79">
 				<string> "CombatNode" </string>
 				<string> "script/script" </string>
 				<string> "Node2D" </string>
@@ -161,6 +160,7 @@
 				<string> "ItemSlot2" </string>
 				<string> "ItemSlot3" </string>
 				<string> "ItemSlot4" </string>
+				<string> "textures/focused" </string>
 				<string> "Return" </string>
 				<string> "_on_Attack_pressed" </string>
 				<string> "pressed" </string>
@@ -183,7 +183,7 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="888"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 0, 0, 0, 0, 2, 4, -1, 1, 5, 1, 0, 0, 0, 12, 6, -1, 5, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0, 3, 0, 13, 13, -1, 8, 14, 7, 15, 8, 16, 9, 17, 10, 18, 2, 19, 11, 20, 12, 21, 13, 0, 0, 0, 2147483647, 22, 14, 1, 8, 15, 0, 0, 0, 32, 23, -1, 8, 24, 16, 25, 2, 26, 17, 27, 17, 28, 8, 29, 18, 30, 19, 31, 20, 0, 6, 0, 35, 33, -1, 10, 7, 2, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 7, 0, 45, 36, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 23, 29, 8, 30, 24, 31, 21, 37, 16, 38, 17, 39, 25, 40, 26, 41, 27, 42, 28, 43, 27, 44, 29, 0, 7, 0, 45, 46, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 30, 29, 8, 30, 31, 31, 21, 37, 16, 38, 17, 39, 25, 40, 32, 41, 33, 42, 34, 43, 33, 44, 29, 0, 7, 0, 45, 47, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 35, 29, 8, 30, 36, 31, 21, 37, 16, 38, 17, 39, 25, 40, 37, 41, 38, 42, 39, 43, 38, 44, 29, 0, 7, 0, 45, 48, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 40, 29, 8, 30, 41, 31, 21, 37, 16, 38, 17, 39, 25, 40, 42, 41, 43, 42, 44, 43, 43, 44, 29, 0, 6, 0, 35, 36, -1, 10, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 12, 0, 45, 50, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 23, 29, 8, 30, 24, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 13, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 52, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 30, 29, 8, 30, 31, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 15, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 53, -1, 17, 7, 2, 24, 16, 25, 2, 26, 7, 27, 7, 28, 35, 29, 8, 30, 36, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 17, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 54, -1, 17, 7, 2, 24, 16, 25, 2, 26, 7, 27, 7, 28, 40, 29, 8, 30, 41, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 19, 0, 2147483647, 51, 48, 0, 0, 6, 0, 35, 46, -1, 11, 7, 2, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 21, 0, 45, 55, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 56, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 57, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 58, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 6, 0, 35, 47, -1, 11, 7, 2, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 26, 0, 45, 59, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 44, 29, 0, 26, 0, 45, 60, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 44, 29, 0, 26, 0, 45, 61, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 44, 29, 0, 26, 0, 45, 62, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 44, 29, 0, 6, 0, 45, 63, -1, 16, 49, 16, 24, 16, 25, 2, 26, 17, 27, 17, 28, 8, 29, 8, 30, 50, 31, 58, 37, 16, 38, 17, 39, 25, 40, 59, 41, 60, 42, 61, 44, 62, 0 </int_array>
+			<int_array  len="896"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2, 3, -1, 0, 0, 0, 0, 2, 4, -1, 1, 5, 1, 0, 0, 0, 12, 6, -1, 5, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0, 3, 0, 13, 13, -1, 8, 14, 7, 15, 8, 16, 9, 17, 10, 18, 2, 19, 11, 20, 12, 21, 13, 0, 0, 0, 2147483647, 22, 14, 1, 8, 15, 0, 0, 0, 32, 23, -1, 8, 24, 16, 25, 2, 26, 17, 27, 17, 28, 8, 29, 18, 30, 19, 31, 20, 0, 6, 0, 35, 33, -1, 10, 7, 2, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 7, 0, 45, 36, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 23, 29, 8, 30, 24, 31, 21, 37, 16, 38, 17, 39, 25, 40, 26, 41, 27, 42, 28, 43, 27, 44, 29, 0, 7, 0, 45, 46, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 30, 29, 8, 30, 31, 31, 21, 37, 16, 38, 17, 39, 25, 40, 32, 41, 33, 42, 34, 43, 33, 44, 29, 0, 7, 0, 45, 47, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 35, 29, 8, 30, 36, 31, 21, 37, 16, 38, 17, 39, 25, 40, 37, 41, 38, 42, 39, 43, 38, 44, 29, 0, 7, 0, 45, 48, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 40, 29, 8, 30, 41, 31, 21, 37, 16, 38, 17, 39, 25, 40, 42, 41, 43, 42, 44, 43, 43, 44, 29, 0, 6, 0, 35, 36, -1, 11, 7, 2, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 12, 0, 45, 50, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 23, 29, 8, 30, 24, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 13, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 52, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 30, 29, 8, 30, 31, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 15, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 53, -1, 17, 7, 2, 24, 16, 25, 2, 26, 7, 27, 7, 28, 35, 29, 8, 30, 36, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 17, 0, 2147483647, 51, 48, 0, 0, 12, 0, 45, 54, -1, 17, 7, 2, 24, 16, 25, 2, 26, 7, 27, 7, 28, 40, 29, 8, 30, 41, 31, 21, 37, 16, 38, 17, 39, 25, 40, 45, 41, 46, 42, 47, 43, 46, 44, 29, 0, 19, 0, 2147483647, 51, 48, 0, 0, 6, 0, 35, 46, -1, 11, 7, 2, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 21, 0, 45, 55, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 56, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 57, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 21, 0, 45, 58, -1, 15, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 52, 41, 53, 42, 54, 44, 29, 0, 6, 0, 35, 47, -1, 10, 49, 16, 24, 16, 25, 16, 26, 17, 27, 17, 28, 8, 29, 8, 30, 19, 31, 21, 34, 22, 0, 26, 0, 45, 59, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 43, 56, 44, 29, 0, 26, 0, 45, 60, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 43, 56, 44, 29, 0, 26, 0, 45, 61, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 43, 56, 44, 29, 0, 26, 0, 45, 62, -1, 16, 24, 16, 25, 2, 26, 7, 27, 7, 28, 8, 29, 49, 30, 50, 31, 51, 37, 16, 38, 17, 39, 25, 40, 55, 41, 56, 42, 57, 63, 56, 44, 29, 0, 6, 0, 45, 64, -1, 16, 49, 16, 24, 16, 25, 2, 26, 17, 27, 17, 28, 8, 29, 8, 30, 50, 31, 58, 37, 16, 38, 17, 39, 25, 40, 59, 41, 60, 42, 61, 44, 62, 0 </int_array>
 			<string> "variants" </string>
 			<array  len="63" shared="false">
 				<resource  external="0">  </resource>
