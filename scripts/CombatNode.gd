@@ -22,6 +22,7 @@ class action_class:
 	var from
 	var to
 	var action
+	var action_id
 	var speed
 
 var allies_vector = []
@@ -32,6 +33,7 @@ var enemies_pos = []
 
 var actor = 0
 var action = null
+var action_id = 10 # Qualquer numero fora do intervalo 0 - 3 é invalido #
 var action_memory = []
 var action_count = 0
 
@@ -81,6 +83,13 @@ func _ready():
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
 	
+	for unit in enemies_vector:
+		if unit.name == "bat":
+			instance_weapon("Bat Fangs", unit)
+			instance_weapon("Bat Wings", unit)
+		if unit.name == "samurai":
+			instance_weapon("Katana", unit)
+			instance_weapon("Bamboo Sword", unit)
 	######################
 
 	reposition_units()
@@ -265,14 +274,20 @@ func process_action():
 		var action_instance = action_class.new()
 		action_instance.from = [actor, "Allies"]
 		action_instance.action = action
+		action_instance.action_id = action_id
 		action_instance.speed = char_database.get_speed(allies_vector[actor].id)
 		action_memory.append(action_instance)
 		action = null
+		action_id = 10
 		return 1
 	return 0
 
+func filter_action(act):
+	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
+	if (act.action == "attack"):
+		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 
-func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
+func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# A formula contara com ataque bonus, defesa bonus, #
 	# entre outros fatores como status condition, no    #
 	# futuro. Por ora, deve ser simples.                #
@@ -282,6 +297,8 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	# o ataque. Além disso, devemos associar a animação a isso.
 	# A forma que faremos é: ao criar a database de armas, associaremos
 	# a cada arma uma animação, e puxar o tempo dessa animação usando o Godot.
+	
+	# Definindo as referencias para cada lado do combate #
 	var attacker
 	if attacker_side == "Enemies":
 		attacker = enemies_vector
@@ -293,25 +310,34 @@ func process_attack(attacker_side, attacker_vpos, defender_side, defender_vpos):
 	elif defender_side == "Allies":
 		defender = allies_vector
 
-	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
+	# Calcular o dano para o ataque #
+	print("action_id = ", action_id)
+	var damage = (char_database.get_attack(attacker[attacker_vpos].id) + attacker[attacker_vpos].bonus_attack + wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id)) -  (char_database.get_defense(defender[defender_vpos].id) + defender[defender_vpos].bonus_defense)
+	# Remove a defesa bonus garantida pelo comando DEFEND, terá que ser alterado futuramente #
 	defender[defender_vpos].bonus_defense = 0
+	# Não deixa o dano ser menor que 0. Magias que curam ficarão sob o comando skill. #
 	if (damage < 0):
 		damage = 0
+	# Processa o dano, mostra na tela #
 	defender[defender_vpos].hp_current -= damage
 	damage_box(damage, Color(1, 0, 0), get_node(str(defender_side,"/",defender_vpos)).get_pos())
+	# Se o defender não morrer, gera esta mensagem #
 	if defender[defender_vpos].hp_current > 0:
 		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
 	
+	# Processa a morte do defender #
 	if (defender[defender_vpos].hp_current <= 0):
 		print(str("O inimigo ", defender[defender_vpos].name, " foi derrotado!"))
 		#efeito visual aqui#
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
+		# Retira o inimigo da tela, para não poder mais ser clicado #
 		if defender_side == "Enemies":
 			enemies_pos[defender_vpos] = Vector2(-100, -100)
 		elif defender_side == "Allies":
 			allies_pos[defender_vpos] = Vector2(-100, -100)
 
+		# Condições de vitória / derrota #
 		if get_node(defender_side).get_child_count() == 1:
 			if defender_side == "Allies":
 				print("KILL YOURSELF")
@@ -343,6 +369,7 @@ func enemy_attack_beta():
 			action_instance.to = [int(random_target), "Allies"]
 			print("O inimigo numero ",enemies," vai tentar atacar o aliado numero ",int(random_target))
 			action_instance.action = "attack"
+			action_instance.action_id = 0
 			action_instance.speed = char_database.get_speed(enemies_vector[enemies].id)
 			action_memory.append(action_instance)
 		enemies += 1
@@ -410,6 +437,7 @@ func _on_AttackSlot1_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Attack/AttackSlot1"
 	action = "attack"
+	action_id = 0
 
 
 func _on_AttackSlot2_pressed():
@@ -418,7 +446,7 @@ func _on_AttackSlot2_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Attack/AttackSlot2"
 	action = "attack"
-
+	action_id = 1
 
 func _on_AttackSlot3_pressed():
 	if (BUTTON != null):
@@ -426,6 +454,7 @@ func _on_AttackSlot3_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Attack/AttackSlot3"
 	action = "attack"
+	action_id = 2
 
 
 func _on_AttackSlot4_pressed():
@@ -434,6 +463,7 @@ func _on_AttackSlot4_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Attack/AttackSlot4"
 	action = "attack"
+	action_id = 3
 
 
 func _on_Skill_pressed():
@@ -568,6 +598,7 @@ func _fixed_process(delta):
 					player.play(act.action)
 					STATE_NEXT = "ANIMATION"
 			else:
+				# Alvo invalido #
 				action_memory.pop_front()
 
 	elif STATE == "ANIMATION":
@@ -577,7 +608,8 @@ func _fixed_process(delta):
 		time -= 1
 		if time <= 1:
 			player.play("idle")
-			process_attack(act.from[1], act.from[0], act.to[1], act.to[0])
+			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
+			filter_action(act)
 			action_memory.pop_front()
 			STATE_NEXT = "EXECUTE ACTION"
 
