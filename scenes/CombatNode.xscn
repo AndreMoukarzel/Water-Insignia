@@ -7,6 +7,7 @@
 	<ext_resource path="res://resources/sprites/gui/combat/SkillPressed.png" type="Texture" index="11"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackPressed.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" index="1"></ext_resource>
+	<ext_resource path="res://scenes/Effects.xml" type="PackedScene" index="6"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0002.tex" type="Texture" index="3"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemPressed.png" type="Texture" index="14"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/moving target/target0004.tex" type="Texture" index="5"></ext_resource>
@@ -23,13 +24,12 @@
 	<ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" index="24"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlHover.png" type="Texture" index="18"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" index="21"></ext_resource>
-	<ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" index="23"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemHover.png" type="Texture" index="15"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/SkillNormal.png" type="Texture" index="10"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/ItemNormal.png" type="Texture" index="13"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/AttackNormal.png" type="Texture" index="7"></ext_resource>
 	<ext_resource path="res://resources/sprites/gui/combat/DefendlPressed.png" type="Texture" index="17"></ext_resource>
-	<ext_resource path="res://scenes/Effects.xml" type="PackedScene" index="6"></ext_resource>
+	<ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" index="23"></ext_resource>
 	<resource type="SpriteFrames" path="local://1">
 		<array name="animations" len="1" shared="false">
 			<dictionary  shared="false">
