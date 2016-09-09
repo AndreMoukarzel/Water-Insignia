@@ -1,9 +1,7 @@
 
 extends Node
 
-# member variables here, example:
-# var a=2
-# var b="textvar"
+const SLOT_SIZE = 64
 
 func _ready():
 	# Called every time the node is added to the scene.
