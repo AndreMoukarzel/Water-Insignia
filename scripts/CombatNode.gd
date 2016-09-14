@@ -23,10 +23,9 @@ class item:
 	var id
 	var name
 	var type
-	var HP
-	var BD
-	var status
+	var intensity
 	var amount
+	var durability
 
 class action_class:
 	var from
@@ -176,7 +175,7 @@ func instance_item(name, owner):
 	item_instance.id = id
 	item_instance.name = name
 	item_instance.type = item_database.get_item_type(id)
-	item_instance.amount = 10
+	item_instance.durability = 10
 	owner.item_vector.append(item_instance)
 
 
@@ -325,12 +324,6 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	# entre outros fatores como status condition, no    #
 	# futuro. Por ora, deve ser simples.                #
 	
-	# Agora que o turno processa diversas ações ao mesmo tempo,
-	# temos que checar se o alvo ainda está vivo para processarmos
-	# o ataque. Além disso, devemos associar a animação a isso.
-	# A forma que faremos é: ao criar a database de armas, associaremos
-	# a cada arma uma animação, e puxar o tempo dessa animação usando o Godot.
-	
 	# Definindo as referencias para cada lado do combate #
 	var attacker
 	if attacker_side == "Enemies":
@@ -363,7 +356,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	# Se o defender não morrer, gera esta mensagem #
 	if defender[defender_vpos].hp_current > 0:
 		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
-	
+
 	# Processa a morte do defender #
 	if (defender[defender_vpos].hp_current <= 0):
 		print(str("O inimigo ", defender[defender_vpos].name, " foi derrotado!"))
@@ -391,18 +384,15 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
-	
 	var user = allies_vector
 	var type = user[user_vpos].item_vector[action_id].type
-	
-	
+
+
 	if type == "HP":
 		pass
-		
-	elif type == "BD":
-		pass
-		
 	elif type == "Status":
+		pass
+	elif type == "Dispell":
 		pass
 
 
@@ -488,7 +478,7 @@ func _on_Attack_pressed():
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Attack").show()
 
-	organize_slots(actor)
+	organize_slots("Weapon", actor)
 
 
 func _on_AttackSlot1_pressed():
@@ -536,6 +526,8 @@ func _on_Item_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Item").show()
+	
+	organize_slots("Item", actor)
 
 
 func _on_ItemSlot1_pressed():
@@ -627,15 +619,33 @@ func target_select(target):
 	return [closest, team]
 
 
-func organize_slots(actor):
+func organize_slots(type, actor):
 	var unit = allies_vector[actor]
 	var num = 1
+	var database
+	var path
+	var object
+	var vector
+	
+	if type == "Weapon":
+		database = wpn_database
+		path = "ActionMenu/Attack/AttackSlot"
+		vector = unit.wpn_vector
+	elif type == "Item":
+		database = item_database
+		path = "ActionMenu/Item/ItemSlot"
+		vector = unit.item_vector
 
-	for weapon in unit.wpn_vector:
-		var node = get_node(str("ActionMenu/Attack/AttackSlot",num,"/Weapon"))
-		var durability = wpn_database.get_durability(weapon.id)
+	for object in vector:
+		var node = get_node(str(path,num,"/", type))
+		var durability
 
-		node.get_node("Label").set_text(str(weapon.name))
+		if type == "Weapon":
+			durability = database.get_durability(object.id)
+		elif type == "Item":
+			durability = object.durability
+
+		node.get_node("Label").set_text(str(object.name))
 		node.show()
 		node.get_parent().set_disabled(false)
 		if durability < 0:
@@ -645,7 +655,7 @@ func organize_slots(actor):
 			node.get_node("Label1").show()
 			node.get_node("ProgressBar").show()
 			node.get_node("ProgressBar").set_max(durability)
-			node.get_node("ProgressBar").set_value(weapon.durability)
+			node.get_node("ProgressBar").set_value(object.durability)
 
 		num += 1
 
@@ -653,9 +663,9 @@ func organize_slots(actor):
 		var count = 5
 		while(count > num):
 			count -= 1
-			var node = get_node(str("ActionMenu/Attack/AttackSlot",count))
+			var node = get_node(str(path,count))
 			
-			node.get_node("Weapon").hide()
+			node.get_node(type).hide()
 			node.set_disabled(true)
 
 

@@ -3,9 +3,8 @@ extends Node
 
 const ITEM_NAME = 0
 const TYPE = 1
-const HP = 2
-const BD = 3
-const STATUS = 4
+const EFFECT = 2
+const STATUS = 3
 
 ###################################
 #
@@ -24,40 +23,35 @@ var item_database = [
 	{ # ID = 0
 		ITEM_NAME : "Potion",
 		TYPE : "HP",
-		HP : 10,
-		BD : null,
+		EFFECT : 10,
 		STATUS : null
 	},
 	
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : "HP",
-		HP : -7,
-		BD : null,
+		EFFECT : -7,
 		STATUS : null
 	},
 
 	{ # ID = 2
 		ITEM_NAME : "Def up",
-		TYPE : "BD",
-		HP : null,
-		BD : "Defense",
-		STATUS : null
+		TYPE : "Status",
+		EFFECT : 1.5,
+		STATUS : "Defense"
 	},
 
 	{ # ID = 3
 		ITEM_NAME : "Speed up",
-		TYPE : "BD",
-		HP : null,
-		BD : "Speed",
-		STATUS : null
+		TYPE : "Status",
+		EFFECT : 1.5,
+		STATUS : "Speed"
 	},
 
 	{ # ID = 4
 		ITEM_NAME : "Detox",
-		TYPE : "Status",
-		HP : null,
-		BD : null,
+		TYPE : "Dispell",
+		EFFECT : 1,
 		STATUS : "Poison"
 	}
 ]
@@ -78,11 +72,8 @@ func get_item_name(id):
 func get_item_type(id):
 	return item_database[id][TYPE]
 
-func get_item_hp(id):
-	return item_database[id][HP]
-
-func get_item_bd(id):
-	return item_database[id][BD]
+func get_item_effect(id):
+	return item_database[id][EFFECT]
 
 func get_item_status(id):
 	return item_database[id][STATUS]
