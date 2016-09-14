@@ -13,6 +13,8 @@ var window_size
 var active_units = []
 var barracks_units = []
 
+var current_screen 
+
 class unit:
 	var id
 	var name
@@ -65,14 +67,17 @@ func instance_unit(id, path):
 func size_update():
 	OS.set_window_resizable(0)
 	set_size(window_size)
-	get_node("UnitManagement/ActiveParty").set_size(Vector2(window_size.x/2, window_size.y/2))
-	get_node("UnitManagement/Barracks").set_size(Vector2(window_size.x/2, window_size.y/2))
+	get_node("Selection").set_size(window_size)
+	get_node("PartyMenu").set_size(window_size)
+	get_node("UnitManagement/ActiveParty").set_size(Vector2(window_size.x/3, window_size.y/3))
+	get_node("UnitManagement/Barracks").set_size(Vector2(window_size.x/3, window_size.y/3))
+	get_node("UnitManagement/Barracks").set_pos((Vector2(window_size.x - 40 - get_node("UnitManagement/Barracks").get_size().x, 40)))
 
 # #################################### #
 # ##### UNIT MANAGEMENT FUNCTIONS #### # 
 # #################################### #
 
-func swap_units():
+func _on_Swap_pressed():
 	# Active and Barracks units selected
 	if (get_node("UnitManagement/ActiveParty").get_selected_items().size() != 0 and get_node("UnitManagement/Barracks").get_selected_items().size() != 0):
 		var a_unit = active_units[get_node("UnitManagement/ActiveParty").get_selected_items()[0]]
@@ -104,6 +109,38 @@ func swap_units():
 		get_node("UnitManagement/ActiveParty").add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		barracks_units.remove(b_local_id)
 		get_node("UnitManagement/Barracks").remove_item(b_local_id)
-	
-func _on_Swap_pressed():
-	swap_units()
+
+
+# ################################ #
+# ###### MENU FUNCTIONALITY ###### # 
+# ################################ #
+
+
+func _on_Units_pressed():
+	get_node("Selection").hide()
+	get_node("PartyMenu").show()
+
+
+func _on_Repair_pressed():
+	pass # replace with function body
+
+
+func _on_Shop_pressed():
+	pass # replace with function body
+
+
+func _on_ManageUnits_pressed():
+	get_node("PartyMenu").hide()
+	get_node("UnitManagement").show()
+
+	current_screen = "UnitManagement"
+
+
+func _on_Return_pressed():
+	get_node("UnitManagement").hide()
+	if current_screen == "UnitManagement":
+		get_node("PartyMenu").show()
+
+
+func _on_ManageItems_pressed():
+	pass # replace with function body
