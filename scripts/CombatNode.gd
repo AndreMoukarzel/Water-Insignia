@@ -24,8 +24,9 @@ class item:
 	var name
 	var type
 	var intensity
-	var amount
 	var durability
+	var amount
+	var effect
 
 class action_class:
 	var from
@@ -176,6 +177,8 @@ func instance_item(name, owner):
 	item_instance.name = name
 	item_instance.type = item_database.get_item_type(id)
 	item_instance.durability = 10
+	item_instance.amount = item_instance.durability
+	item_instance.effect = item_database.get_item_effect(id)
 	owner.item_vector.append(item_instance)
 
 
@@ -384,12 +387,47 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
+	print ("blub")
 	var user = allies_vector
+	var target
+	if target_side == "Enemies":
+		target = enemies_vector
+	elif target_side == "Allies":
+		target = allies_vector
+	
 	var type = user[user_vpos].item_vector[action_id].type
 
-
 	if type == "HP":
-		pass
+		var damage = user[user_vpos].item_vector[action_id].effect
+		user[user_vpos].item_vector[action_id].amount -= 1
+		if damage < 0:
+			damage_box(-damage, Color(1, 0, 0), get_node(str(target_side,"/",target_vpos)).get_pos())
+			target[target_vpos].hp_current += damage
+		else:
+			damage_box(damage, Color(0, 1, 0), get_node(str(target_side,"/",target_vpos)).get_pos())
+			target[target_vpos].hp_current += damage
+			
+		if target[target_vpos].hp_current <= 0:
+			target[target_vpos] = null
+			get_node(str(target_side, "/", target_vpos)).queue_free()
+			if target_side == "Enemies":
+				enemies_pos[target_vpos] = Vector2(-100, -100)
+			elif target_side == "Allies":
+				allies_pos[target_vpos] = Vector2(-100, -100)
+			
+			# Condições de vitória / derrota #
+			if get_node(target_side).get_child_count() == 1:
+				if target_side == "Allies":
+					print("KILL YOURSELF")
+					end = -1
+				elif target_side == "Enemies":
+					print("GG IZI")
+					end = 1
+				get_node("/root/global").goto_scene("res://scenes/MainMenu.xscn")
+			
+		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
+			target[target_vpos].hp_current = char_database.get_hp_max(target[target_vpos].id)
+	
 	elif type == "Status":
 		pass
 	elif type == "Dispell":
