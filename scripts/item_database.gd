@@ -30,7 +30,7 @@ var item_database = [
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : "HP",
-		EFFECT : -70,
+		EFFECT : -7,
 		STATUS : null
 	},
 
@@ -51,6 +51,13 @@ var item_database = [
 	{ # ID = 4
 		ITEM_NAME : "Detox",
 		TYPE : "Dispell",
+		EFFECT : 1,
+		STATUS : "Poison"
+	},
+	
+	{ # ID = 5
+		ITEM_NAME : "Poison bomb",
+		TYPE : "Status",
 		EFFECT : 1,
 		STATUS : "Poison"
 	}

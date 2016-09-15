@@ -12,7 +12,7 @@ class unit:
 	var bonus_speed
 	var wpn_vector = []
 	var item_vector = []
-#	var status_condition
+	var status_vector = []
 
 class weapon:
 	var id
@@ -34,6 +34,10 @@ class action_class:
 	var action
 	var action_id
 	var speed
+
+class status:
+	var name
+	var timer
 
 var allies_vector = []
 var enemies_vector = []
@@ -66,6 +70,9 @@ var BUTTON_LAST = null
 var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
+var turn_start = 0
+# turn_start == 0 : beginning of turn
+# turn_start == 1 : begin actions
 
 func _ready():
 
@@ -96,6 +103,7 @@ func _ready():
 			instance_weapon("Bamboo Sword", unit)
 			instance_item("Bomb", unit)
 			instance_item("Potion", unit)
+			instance_item("Poison bomb", unit)
 	
 	for unit in enemies_vector:
 		if unit.name == "bat":
@@ -182,6 +190,13 @@ func instance_item(name, owner):
 	owner.item_vector.append(item_instance)
 
 
+func instance_status(name, target):
+	var status_instance = status.new()
+	status_instance.name = name
+	status_instance.timer = 3
+	target.status_vector.append(status_instance)
+
+
 func reposition_units():
 	# This function might be altered later, so #
 	# enemy units will appear in different     #
@@ -249,7 +264,16 @@ func turn_based_system():
 	# menus, logo, é pertinente fazer uma função que aguarda os comandos  #
 	# do jogador, dependendo do numero de party members.                  #
 	var closest = [-1,-1]
-
+	
+	if (turn_start == 0):
+		for char in allies_vector:
+			if (char != null):
+				status_apply(char) 
+		for char in enemies_vector:
+			if (char != null):
+				status_apply(char)
+		turn_start = 1
+	
 	if(targeting):
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
@@ -295,6 +319,7 @@ func turn_based_system():
 		enemy_attack_beta()
 		action_memory.sort_custom(self, "compare_speed")
 		STATE_NEXT = "EXECUTE ACTION"
+		turn_start = 0
 
 
 func process_action():
@@ -387,19 +412,18 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
-	print ("blub")
 	var user = allies_vector
 	var target
 	if target_side == "Enemies":
 		target = enemies_vector
 	elif target_side == "Allies":
 		target = allies_vector
-	
-	var type = user[user_vpos].item_vector[action_id].type
+	var item = user[user_vpos].item_vector[action_id]
+	var type = item.type
 
 	if type == "HP":
-		var damage = user[user_vpos].item_vector[action_id].effect
-		user[user_vpos].item_vector[action_id].amount -= 1
+		var damage = item.effect
+		item.amount -= 1
 		if damage < 0:
 			damage_box(-damage, Color(1, 0, 0), get_node(str(target_side,"/",target_vpos)).get_pos())
 			target[target_vpos].hp_current += damage
@@ -429,7 +453,8 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			target[target_vpos].hp_current = char_database.get_hp_max(target[target_vpos].id)
 	
 	elif type == "Status":
-		pass
+		instance_status(type, target[target_vpos])
+		target[target_vpos].status_vector[0]
 	elif type == "Dispell":
 		pass
 
@@ -471,6 +496,20 @@ func blink(actor, counter):
 		get_node(str("Allies/",actor)).set_opacity(1)
 	else:
 		get_node(str("Allies/",actor)).set_opacity(0.5)
+
+
+func status_apply(actor):
+	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+	if (actor.status_vector.size() != 0):
+		print("blub blub blub blub blub blub blub blub")
+		for effect in actor.status_vector:
+			print("effect")
+			if effect.name == "Poison":
+				print("poison")
+				print("AAAAAA = ", actor.hp_current)
+				actor.hp_current -= 5
+				print("VIDAAAAA = ", actor.hp_current)
+				effect.timer -= 1
 
 
 # ################################ #
@@ -693,7 +732,10 @@ func organize_slots(type, actor):
 			node.get_node("Label1").show()
 			node.get_node("ProgressBar").show()
 			node.get_node("ProgressBar").set_max(durability)
-			node.get_node("ProgressBar").set_value(object.durability)
+			if type == "Weapon":
+				node.get_node("ProgressBar").set_value(object.durability)
+			elif type == "Item":
+				node.get_node("ProgressBar").set_value(object.amount)
 
 		num += 1
 
