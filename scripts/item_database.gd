@@ -30,7 +30,7 @@ var item_database = [
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : "HP",
-		EFFECT : -7,
+		EFFECT : -70,
 		STATUS : null
 	},
 

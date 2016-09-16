@@ -29,7 +29,14 @@ var wpn_database = [
 		WPN_NAME : "Bamboo Sword",
 		TYPE : "Sword",
 		ATK : 1,
-		DURABILITY : 2
+		DURABILITY : 1
+	},
+	
+	{ # ID = 42
+		WPN_NAME : "Seppuku Knaifu",
+		TYPE : "Sudoku",
+		ATK : 42424242,
+		DURABILITY : 1
 	},
 	
 	# ############################### #
