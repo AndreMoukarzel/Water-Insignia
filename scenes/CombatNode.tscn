@@ -1,0 +1,520 @@
+[gd_scene load_steps=35 format=1]
+
+[ext_resource path="res://scripts/CombatNode.gd" type="Script" id=1]
+[ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" id=2]
+[ext_resource path="res://resources/sprites/gui/combat/moving target/target0001.tex" type="Texture" id=3]
+[ext_resource path="res://resources/sprites/gui/combat/moving target/target0002.tex" type="Texture" id=4]
+[ext_resource path="res://resources/sprites/gui/combat/moving target/target0003.tex" type="Texture" id=5]
+[ext_resource path="res://resources/sprites/gui/combat/moving target/target0004.tex" type="Texture" id=6]
+[ext_resource path="res://scenes/Effects.xml" type="PackedScene" id=7]
+[ext_resource path="res://resources/sprites/gui/combat/AttackNormal.png" type="Texture" id=8]
+[ext_resource path="res://resources/sprites/gui/combat/AttackPressed.png" type="Texture" id=9]
+[ext_resource path="res://resources/sprites/gui/combat/AttackHover.png" type="Texture" id=10]
+[ext_resource path="res://resources/sprites/gui/combat/SkillNormal.png" type="Texture" id=11]
+[ext_resource path="res://resources/sprites/gui/combat/SkillPressed.png" type="Texture" id=12]
+[ext_resource path="res://resources/sprites/gui/combat/SkillHover.png" type="Texture" id=13]
+[ext_resource path="res://resources/sprites/gui/combat/ItemNormal.png" type="Texture" id=14]
+[ext_resource path="res://resources/sprites/gui/combat/ItemPressed.png" type="Texture" id=15]
+[ext_resource path="res://resources/sprites/gui/combat/ItemHover.png" type="Texture" id=16]
+[ext_resource path="res://resources/sprites/gui/combat/DefendlNormal.png" type="Texture" id=17]
+[ext_resource path="res://resources/sprites/gui/combat/DefendlPressed.png" type="Texture" id=18]
+[ext_resource path="res://resources/sprites/gui/combat/DefendlHover.png" type="Texture" id=19]
+[ext_resource path="res://resources/sprites/gui/combat/AttackSlotNormal.png" type="Texture" id=20]
+[ext_resource path="res://resources/sprites/gui/combat/AttackSlotPressed.png" type="Texture" id=21]
+[ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" id=22]
+[ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" id=23]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" id=24]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" id=25]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotHover.png" type="Texture" id=26]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotNormal.png" type="Texture" id=27]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" id=28]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotHover.png" type="Texture" id=29]
+[ext_resource path="res://resources/sprites/gui/combat/ReturnNormal.png" type="Texture" id=30]
+[ext_resource path="res://resources/sprites/gui/combat/ReturnPressed.png" type="Texture" id=31]
+[ext_resource path="res://resources/sprites/gui/combat/ReturnHover.png" type="Texture" id=32]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ { "frames":[ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ], "loop":true, "name":"default", "speed":5.0 } ]
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "idle"
+length = 1.8
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.2, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 1.4, 1.5, 1.6 ), "transitions":FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 0, 1, 2, 3, 4, 3, 4, 2, 1 ] }
+
+[node name="CombatNode" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Allies" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+__meta__ = { "_edit_group_":true }
+
+[node name="Target" type="AnimatedSprite" parent="."]
+
+editor/display_folded = true
+transform/scale = Vector2( 5, 5 )
+frames = SubResource( 1 )
+animation = "default"
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Target"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "idle"
+
+[node name="Effects" parent="." instance=ExtResource( 7 )]
+
+transform/scale = Vector2( 3, 3 )
+
+[node name="ActionMenu" type="Panel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 500.0
+margin/right = 1024.0
+margin/bottom = 600.0
+
+[node name="Selection" type="HBoxContainer" parent="ActionMenu"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 100.0
+alignment = 0
+
+[node name="Attack" type="TextureButton" parent="ActionMenu/Selection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 6.0
+margin/top = 0.0
+margin/right = 246.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 8 )
+textures/pressed = ExtResource( 9 )
+textures/hover = ExtResource( 10 )
+textures/disabled = ExtResource( 9 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Skill" type="TextureButton" parent="ActionMenu/Selection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 263.0
+margin/top = 0.0
+margin/right = 503.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+textures/pressed = ExtResource( 12 )
+textures/hover = ExtResource( 13 )
+textures/disabled = ExtResource( 12 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" type="TextureButton" parent="ActionMenu/Selection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 520.0
+margin/top = 0.0
+margin/right = 760.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+textures/pressed = ExtResource( 15 )
+textures/hover = ExtResource( 16 )
+textures/disabled = ExtResource( 15 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Defend" type="TextureButton" parent="ActionMenu/Selection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 777.0
+margin/top = 0.0
+margin/right = 1017.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 17 )
+textures/pressed = ExtResource( 18 )
+textures/hover = ExtResource( 19 )
+textures/disabled = ExtResource( 18 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Attack" type="HBoxContainer" parent="ActionMenu"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 100.0
+alignment = 0
+
+[node name="AttackSlot1" type="TextureButton" parent="ActionMenu/Attack"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 6.0
+margin/top = 0.0
+margin/right = 246.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 20 )
+textures/pressed = ExtResource( 21 )
+textures/hover = ExtResource( 22 )
+textures/disabled = ExtResource( 21 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot1" instance=ExtResource( 23 )]
+
+[node name="AttackSlot2" type="TextureButton" parent="ActionMenu/Attack"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 263.0
+margin/top = 0.0
+margin/right = 503.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 20 )
+textures/pressed = ExtResource( 21 )
+textures/hover = ExtResource( 22 )
+textures/disabled = ExtResource( 21 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot2" instance=ExtResource( 23 )]
+
+[node name="AttackSlot3" type="TextureButton" parent="ActionMenu/Attack"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 520.0
+margin/top = 0.0
+margin/right = 760.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 20 )
+textures/pressed = ExtResource( 21 )
+textures/hover = ExtResource( 22 )
+textures/disabled = ExtResource( 21 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot3" instance=ExtResource( 23 )]
+
+[node name="AttackSlot4" type="TextureButton" parent="ActionMenu/Attack"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 777.0
+margin/top = 0.0
+margin/right = 1017.0
+margin/bottom = 100.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 20 )
+textures/pressed = ExtResource( 21 )
+textures/hover = ExtResource( 22 )
+textures/disabled = ExtResource( 21 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot4" instance=ExtResource( 23 )]
+
+[node name="Skill" type="HBoxContainer" parent="ActionMenu"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 100.0
+alignment = 0
+
+[node name="SkillSlot1" type="TextureButton" parent="ActionMenu/Skill"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="SkillSlot2" type="TextureButton" parent="ActionMenu/Skill"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="SkillSlot3" type="TextureButton" parent="ActionMenu/Skill"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="SkillSlot4" type="TextureButton" parent="ActionMenu/Skill"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" type="HBoxContainer" parent="ActionMenu"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 100.0
+alignment = 0
+
+[node name="ItemSlot1" type="TextureButton" parent="ActionMenu/Item"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" parent="ActionMenu/Item/ItemSlot1" instance=ExtResource( 23 )]
+
+[node name="ItemSlot2" type="TextureButton" parent="ActionMenu/Item"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" parent="ActionMenu/Item/ItemSlot2" instance=ExtResource( 23 )]
+
+[node name="ItemSlot3" type="TextureButton" parent="ActionMenu/Item"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" parent="ActionMenu/Item/ItemSlot3" instance=ExtResource( 23 )]
+
+[node name="ItemSlot4" type="TextureButton" parent="ActionMenu/Item"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 12.0
+margin/bottom = 29.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/focused = ExtResource( 28 )
+params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Item" parent="ActionMenu/Item/ItemSlot4" instance=ExtResource( 23 )]
+
+[node name="Return" type="TextureButton" parent="ActionMenu"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 19.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 30 )
+textures/pressed = ExtResource( 31 )
+textures/hover = ExtResource( 32 )
+params/scale = Vector2( 0.2, 0.2 )
+
+[connection signal="pressed" from="ActionMenu/Selection/Attack" to="." method="_on_Attack_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Selection/Skill" to="." method="_on_Skill_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Selection/Item" to="." method="_on_Item_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Selection/Defend" to="." method="_on_Defend_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Attack/AttackSlot1" to="." method="_on_AttackSlot1_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Attack/AttackSlot2" to="." method="_on_AttackSlot2_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Attack/AttackSlot3" to="." method="_on_AttackSlot3_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Attack/AttackSlot4" to="." method="_on_AttackSlot4_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Item/ItemSlot1" to="." method="_on_ItemSlot1_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Item/ItemSlot2" to="." method="_on_ItemSlot2_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Item/ItemSlot3" to="." method="_on_ItemSlot3_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Item/ItemSlot4" to="." method="_on_ItemSlot4_pressed"]
+
+[connection signal="pressed" from="ActionMenu/Return" to="." method="_on_Return_pressed"]
+
+

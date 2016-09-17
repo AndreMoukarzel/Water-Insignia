@@ -19,7 +19,7 @@ func size_update():
 
 
 func _on_NewGame_pressed():
-	get_node("/root/global").goto_scene("res://scenes/Main.xscn")
+	get_node("/root/global").goto_scene("res://scenes/Main.tscn")
 
 
 func _on_Continue_pressed():

@@ -1,7 +1,7 @@
 
 extends Node
 
-var mode = preload("res://scenes/CombatNode.xscn")
+var mode = preload("res://scenes/CombatNode.tscn)
 
 func _ready():
 	var level = mode.instance()

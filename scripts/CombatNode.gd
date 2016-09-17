@@ -457,7 +457,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			elif defender_side == "Enemies":
 				print("GG IZI")
 				end = 1
-			get_node("/root/global").goto_scene("res://scenes/MainMenu.xscn")
+			get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
 		
 		return 1 # defender death
 	return 0
@@ -505,7 +505,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 				elif target_side == "Enemies":
 					print("GG IZI")
 					end = 1
-				get_node("/root/global").goto_scene("res://scenes/MainMenu.xscn")
+				get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
 		
 		# If the item tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
