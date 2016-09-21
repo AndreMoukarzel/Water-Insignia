@@ -344,7 +344,13 @@ func _on_Return_pressed():
 			im_ap.unselect(item)
 		for item in im_b.get_selected_items():
 			im_b.unselect(item)
-		
+		im_apw.clear()
+		im_api.clear()
+		im_bw.clear()
+		im_bi.clear()
+		last_selected_party = -1
+		last_selected_barracks = -1
+
 	elif (current_screen == "RepairMenu"):
 		get_node("Selection").show()
 
