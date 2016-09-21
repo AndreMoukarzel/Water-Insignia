@@ -123,6 +123,19 @@ func _fixed_process(delta):
 	# Condições do botão de swap
 	if (item_swap_mode == 0 and get_node("ItemManagement/ActiveParty").get_selected_items().size() != 0 and get_node("ItemManagement/Barracks").get_selected_items().size() != 0):
 		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 or get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
+			if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() == 0):
+				if (get_node("ItemManagement/ActivePartyWeapons").get_item_count() != 4):
+					get_node("ItemManagement/SwapItems").set_disabled(false)
+				else:
+					get_node("ItemManagement/SwapItems").set_disabled(true)
+			if (get_node("ItemManagement/BarracksWeapons").get_selected_items().size() == 0):
+				if (get_node("ItemManagement/BarracksWeapons").get_item_count() != 4):
+					get_node("ItemManagement/SwapItems").set_disabled(false)
+				else:
+					get_node("ItemManagement/SwapItems").set_disabled(true)
+		else:
+			get_node("ItemManagement/SwapItems").set_disabled(true)
+		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 and get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
 			get_node("ItemManagement/SwapItems").set_disabled(false)
 	else:
 		get_node("ItemManagement/SwapItems").set_disabled(true)
