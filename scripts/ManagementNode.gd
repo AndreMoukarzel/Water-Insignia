@@ -243,9 +243,9 @@ func _on_SwapItems_pressed():
 			get_node("ItemManagement/ActivePartyWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count(), b_wpn.name)
 			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.remove(b_local_wpn_id)
 			get_node("ItemManagement/BarracksWeapons").remove_item(b_local_wpn_id)
-	print(active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector[get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]].durability)
-	
-Corrected unit stancing in ManagementNode
+
+
+# Corrected unit stancing in ManagementNode
 func _on_StorageBarracks_pressed():
 	if (item_swap_mode == 0):
 		get_node("ItemManagement/Barracks").hide()
