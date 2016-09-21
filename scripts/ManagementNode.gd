@@ -5,6 +5,10 @@ const SLOT_SIZE = 64
 
 var last_selected_party = -1
 var last_selected_barracks = -1
+var populated_storage = 0
+var last_selected_repair = -1
+var last_selected_type = -1 # 0 = ap, 1 = barracks
+
 
 var item_swap_mode = 0 # 0 = barracks, 1 = storage
 
@@ -81,10 +85,15 @@ func _ready():
 	um_b.set_max_columns(3)
 	im_ap.set_max_columns(3)
 	im_b.set_max_columns(3)
+	rm_ap.set_max_columns(3)
+	rm_b.set_max_columns(3)
 	im_apw.set_max_columns(4)
 	im_api.set_max_columns(4)
 	im_bw.set_max_columns(4)
 	im_bi.set_max_columns(4)
+	im_stw.set_max_columns(4)
+	im_sti.set_max_columns(4)
+	rm_w.set_max_columns(4)
 	
 	#populating character lists
 	for unit in active_units:
@@ -127,37 +136,93 @@ func _fixed_process(delta):
 			for weapon in active_units[im_ap.get_selected_items()[0]].wpn_vector:
 				im_apw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
 				im_apw.set_item_tooltip(im_apw.get_item_count() - 1, weapon.name)
+				if (wpn_database.get_lock(weapon.id) == 1):
+						im_bw.set_item_selectable(im_bw.get_item_count() - 1, false)
 			last_selected_party = im_ap.get_selected_items()[0]
-	# Vai precisar da condição do mode tambem (ser o modo de trocar com os membros das barracks, não com o storage)
-	if (im_b.get_selected_items().size() != 0):
-		#populate and show weapons list for barracks member
-		if (last_selected_barracks != im_b.get_selected_items()[0]):
-			im_bw.clear()
-			for weapon in barracks_units[im_b.get_selected_items()[0]].wpn_vector:
-				im_bw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
-				im_bw.set_item_tooltip(im_bw.get_item_count() - 1, weapon.name)
-			last_selected_barracks = im_b.get_selected_items()[0]
-
-	# Condições do botão de swap
-	if (item_swap_mode == 0 and im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
-		if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
-			if (im_apw.get_selected_items().size() == 0):
-				if (im_apw.get_item_count() != 4):
-					im_si.set_disabled(false)
-				else:
-					im_si.set_disabled(true)
-			if (im_bw.get_selected_items().size() == 0):
-				if (im_bw.get_item_count() != 4):
-					im_si.set_disabled(false)
-				else:
-					im_si.set_disabled(true)
+	# Checagens para o modo managem barracks items
+	if (item_swap_mode == 0):
+		if (im_b.get_selected_items().size() != 0):
+			#populate and show weapons list for barracks member
+			if (last_selected_barracks != im_b.get_selected_items()[0]):
+				im_bw.clear()
+				for weapon in barracks_units[im_b.get_selected_items()[0]].wpn_vector:
+					im_bw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					im_bw.set_item_tooltip(im_bw.get_item_count() - 1, weapon.name)
+					if (wpn_database.get_lock(weapon.id) == 1):
+						im_bw.set_item_selectable(im_bw.get_item_count() - 1, false)
+				last_selected_barracks = im_b.get_selected_items()[0]
+	
+		# Condições do botão de swap
+		if (im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
+			if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
+				if (im_apw.get_selected_items().size() == 0):
+					if (im_apw.get_item_count() != 4):
+						im_si.set_disabled(false)
+					else:
+						im_si.set_disabled(true)
+				if (im_bw.get_selected_items().size() == 0):
+					if (im_bw.get_item_count() != 4):
+						im_si.set_disabled(false)
+					else:
+						im_si.set_disabled(true)
+			else:
+				im_si.set_disabled(true)
+			if (im_apw.get_selected_items().size() != 0 and im_bw.get_selected_items().size() != 0):
+				im_si.set_disabled(false)
 		else:
 			im_si.set_disabled(true)
-		if (im_apw.get_selected_items().size() != 0 and im_bw.get_selected_items().size() != 0):
-			im_si.set_disabled(false)
+	# Checagens para o modo managem storage items
 	else:
-		im_si.set_disabled(true)
-
+		if (populated_storage == 0):
+			for weapon in storage_weapons:
+				im_stw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+				im_stw.set_item_tooltip(im_bw.get_item_count() - 1, weapon.name)
+			populated_storage = 1
+		# Condições do botão de swap
+		if (im_ap.get_selected_items().size() != 0):
+			if (im_apw.get_selected_items().size() != 0 or im_stw.get_selected_items().size() != 0):
+				if (im_apw.get_selected_items().size() == 0):
+					if (im_apw.get_item_count() != 4):
+						im_si.set_disabled(false)
+					else:
+						im_si.set_disabled(true)
+				else:
+					im_si.set_disabled(false)
+			else:
+				im_si.set_disabled(true)
+		else:
+			im_si.set_disabled(true)
+	# Repair menu
+	if (rm_ap.get_selected_items().size() != 0 or rm_b.get_selected_items().size() != 0):
+		#populate and show weapons for party member
+		if (rm_ap.get_selected_items().size() != 0):
+			#tem que clear a seleção do barracks
+			if (last_selected_type == 1 or last_selected_repair != rm_ap.get_selected_items()[0]):
+				for item in rm_b.get_selected_items():
+					rm_b.unselect(item)
+				rm_w.clear()
+				for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					rm_w.set_item_tooltip(rm_ap.get_item_count() - 1, weapon.name)
+					if (wpn_database.get_durability(weapon.id) < 0):
+						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
+				last_selected_repair = rm_ap.get_selected_items()[0]
+				last_selected_type = 0
+		#populate and show weapons for barracks member
+		if (rm_b.get_selected_items().size() != 0):
+			#tem que clear a seleção do party
+			if (last_selected_type == 0 or last_selected_repair != rm_b.get_selected_items()[0]):
+				for item in rm_ap.get_selected_items():
+					rm_ap.unselect(item)
+				rm_w.clear()
+				for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					rm_w.set_item_tooltip(rm_b.get_item_count() - 1, weapon.name)
+					if (wpn_database.get_durability(weapon.id) < 0):
+						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
+				last_selected_repair = rm_b.get_selected_items()[0]
+				last_selected_type = 1
+	
 func size_update():
 	OS.set_window_resizable(0)
 	set_size(window_size)
@@ -280,9 +345,50 @@ func _on_SwapItems_pressed():
 			im_apw.set_item_tooltip(im_apw.get_item_count(), b_wpn.name)
 			barracks_units[im_b.get_selected_items()[0]].wpn_vector.remove(b_local_wpn_id)
 			im_bw.remove_item(b_local_wpn_id)
+	# Storage management
+	else:
+		# Active and Storage weapons selected
+		if (im_apw.get_selected_items().size() != 0 and im_stw.get_selected_items().size() != 0):
+			var a_unit = active_units[im_ap.get_selected_items()[0]]
+			var a_wpn = a_unit.wpn_vector[im_apw.get_selected_items()[0]]
+			var a_local_wpn_id = im_apw.get_selected_items()[0]
+			var st_wpn = storage_weapons[im_stw.get_selected_items()[0]]
+			var st_local_wpn_id = im_stw.get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			active_units[im_ap.get_selected_items()[0]].wpn_vector.append(st_wpn)
+			im_apw.add_item("", load(str("res://resources/sprites/weapons/",st_wpn.name,".tex")), 1)
+			im_apw.set_item_tooltip(im_apw.get_item_count() - 1, st_wpn.name)
+			storage_weapons.append(a_wpn)
+			im_stw.add_item("", load(str("res://resources/sprites/weapons/",a_wpn.name,".tex")), 1)
+			im_stw.set_item_tooltip(im_apw.get_item_count() - 1, a_wpn.name)
+			active_units[im_ap.get_selected_items()[0]].wpn_vector.remove(a_local_wpn_id)
+			im_apw.remove_item(a_local_wpn_id)
+			storage_weapons.remove(st_local_wpn_id)
+			im_stw.remove_item(st_local_wpn_id)
+			
+		# Only Active unit weapon selected
+		if (im_apw.get_selected_items().size() != 0 and im_stw.get_selected_items().size() == 0):
+			var a_unit = active_units[im_ap.get_selected_items()[0]]
+			var a_wpn = a_unit.wpn_vector[im_apw.get_selected_items()[0]]
+			var a_local_wpn_id = im_apw.get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			storage_weapons.append(a_wpn)
+			im_stw.add_item("", load(str("res://resources/sprites/weapons/",a_wpn.name,".tex")), 1)
+			im_stw.set_item_tooltip(im_apw.get_item_count(), a_wpn.name)
+			active_units[im_ap.get_selected_items()[0]].wpn_vector.remove(a_local_wpn_id)
+			im_apw.remove_item(a_local_wpn_id)
+		# Only Storage weapon selected
+		if (im_apw.get_selected_items().size() == 0 and im_stw.get_selected_items().size() != 0):
+			var st_wpn = storage_weapons[im_stw.get_selected_items()[0]]
+			var st_local_wpn_id = im_stw.get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			active_units[im_ap.get_selected_items()[0]].wpn_vector.append(st_wpn)
+			im_apw.add_item("", load(str("res://resources/sprites/weapons/",st_wpn.name,".tex")), 1)
+			im_apw.set_item_tooltip(im_apw.get_item_count(), st_wpn.name)
+			storage_weapons.remove(st_local_wpn_id)
+			im_stw.remove_item(st_local_wpn_id)
+		
 
-
-# Corrected unit stancing in ManagementNode
 func _on_StorageBarracks_pressed():
 	if (item_swap_mode == 0):
 		im_b.hide()
@@ -290,6 +396,12 @@ func _on_StorageBarracks_pressed():
 		im_bi.hide()
 		im_stw.show()
 		im_sti.show()
+		
+		for item in im_b.get_selected_items():
+			im_b.unselect(item)
+		im_bw.clear()
+		im_bi.clear()
+		last_selected_barracks = -1
 		item_swap_mode = 1
 	else:
 		im_b.show()
@@ -351,7 +463,22 @@ func _on_Return_pressed():
 		last_selected_party = -1
 		last_selected_barracks = -1
 
+		#Neutralize start on ItemManagement screen
+		item_swap_mode = 1
+		populated_storage = 0
+		_on_StorageBarracks_pressed()
+	if (current_screen == "RepairMenu"):
+		get_node("Selection").show()
+		for unit in rm_ap.get_selected_items():
+			rm_ap.unselect(unit)
+		for unit in rm_b.get_selected_items():
+			rm_b.unselect(unit)
+		rm_w.clear()
+		last_selected_repair = -1
+		last_selected_type = -1
+
 	elif (current_screen == "RepairMenu"):
+		#adicionar o resto depois
 		get_node("Selection").show()
 
 
