@@ -25,6 +25,10 @@ onready var im_bi = get_node("ItemManagement/BarracksItems")
 onready var im_si = get_node("ItemManagement/SwapItems")
 onready var im_r = get_node("ItemManagement/Return")
 
+onready var rm_ap = get_node("RepairMenu/ActiveParty")
+onready var rm_b = get_node("RepairMenu/Barracks")
+onready var rm_w = get_node("RepairMenu/Weapons")
+
 var char_database
 var wpn_database
 var item_database
@@ -86,10 +90,12 @@ func _ready():
 	for unit in active_units:
 		um_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 	
 	for unit in barracks_units:
 		um_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 		im_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 
 	size_update()
 	
@@ -112,7 +118,7 @@ func _fixed_process(delta):
 		um_s.set_disabled(true)
 	if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
 		um_s.set_disabled(false)
-		
+
 	# Item management
 	if (im_ap.get_selected_items().size() != 0):
 		#populate and show weapons list for active party member
@@ -131,7 +137,7 @@ func _fixed_process(delta):
 				im_bw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
 				im_bw.set_item_tooltip(im_bw.get_item_count() - 1, weapon.name)
 			last_selected_barracks = im_b.get_selected_items()[0]
-	
+
 	# Condições do botão de swap
 	if (item_swap_mode == 0 and im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
 		if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
