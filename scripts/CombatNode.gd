@@ -11,7 +11,7 @@ class unit:
 	var hp_current # Unit's current HP
 	var bonus_attack = 0 # Unit's bonus attack
 	var bonus_defense = 0 # Unit's bonus defense
-	var bonus_speed # Unit's bonus speed
+	var bonus_speed = 0 # Unit's bonus speed
 	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
 	var item_vector = [] # Array containing the unit's available items
 	var status_vector = [] # Array containing the Status class (see below)
@@ -43,6 +43,7 @@ class action_class:
 # Status class - for knowing which status is afflicting an unit
 class status:
 	var name # Status' name - it can come from an item or a skill, so it doesn't have its own database
+	var status # Status' status - Poison, paralysis, speed up, attack up, ...
 	var timer # Number of turns remaining the status will be afflicting the unit
 
 # Arrays containing each unit in combat
@@ -103,7 +104,7 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(1, "Allies")
+	instance_unit(0, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
@@ -115,10 +116,11 @@ func _ready():
 		if unit.name == "bat":
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
+			instance_item("PAR bomb", unit)
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
-			instance_item("Bomb", unit)
+			instance_item("Detox", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison bomb", unit)
 			instance_item("Speed up", unit)
@@ -213,9 +215,10 @@ func instance_item(name, owner):
 
 
 # target is the unit who is going to be afflicted by the status
-func instance_status(name, target):
+func instance_status(name, stat, target):
 	var status_instance = status.new()
 	status_instance.name = name
+	status_instance.status = stat
 	status_instance.timer = 3 # <-- number is placeholder
 	target.status_vector.append(status_instance)
 
@@ -372,7 +375,7 @@ func process_action():
 		action_instance.from = [actor, "Allies"]
 		action_instance.action = action
 		action_instance.action_id = action_id
-		action_instance.speed = char_database.get_speed(allies_vector[actor].id)
+		action_instance.speed = char_database.get_speed(allies_vector[actor].id) + allies_vector[actor].bonus_speed
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -382,14 +385,24 @@ func process_action():
 
 # Receives an action_class instance and decides if it's an ATTACK, an SKILL or an ITEM
 func filter_action(act):
-	print (act.action)
-	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
-	if (act.action == "attack"):
-		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
-	elif (act.action == "skill"):
-		pass 
-	elif (act.action == "item"):
-		process_item(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
+	var flag = true
+	var attacker
+	if act.from[1] == "Allies":
+		attacker = allies_vector
+	elif act.from[1] == "Enemies":
+		attacker = enemies_vector
+	for stat in attacker[act.from[0]].status_vector:
+		if stat.status == "Paralysis":
+			flag = false
+	
+	if flag == true:
+		# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
+		if (act.action == "attack"):
+			process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
+		elif (act.action == "skill"):
+			pass 
+		elif (act.action == "item"):
+			process_item(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 
 
 # Executes an ATTACK action
@@ -516,12 +529,19 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	# If the item is an Status-type item
 	# WORK IN PROGRESS
 	elif type == "Status":
-		instance_status(item.status, target[target_vpos])  # Applies the status
+		instance_status(item.name, item.status, target[target_vpos])  # Applies the status
 		item.amount -= 1                                   # Reduces its amount in one. Item isn't spent if the target dies before the item is used
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
-		pass
+		var effect = item.status
+		item.amount -= 1
+		if effect == "Poison":
+			var i = 0
+			for stat in target[target_vpos].status_vector:
+				if stat.status == "Poison":
+					target[target_vpos].status_vector.remove(i)
+				i += 1
 
 
 # Process the enemies attacks
@@ -584,7 +604,7 @@ func status_apply(actor, target_side, target_vpos):
 		for effect in actor.status_vector:
 			
 			# Applies the effect of Poison
-			if effect.name == "Poison":
+			if effect.status == "Poison":
 				var damage = 2
 				damage_box(damage, Color(0.4, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
 				actor.hp_current -= damage
@@ -610,20 +630,31 @@ func status_apply(actor, target_side, target_vpos):
 							end = 1
 						get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
 				
-				# Removes the status effect one its time is up
+				# Removes the status effect once its time is up
 				if effect.timer == 0:
 					var i = 0
 					for stat in actor.status_vector:
-						print ("SIZE = ", actor.status_vector.size())
-						if stat.name == "Poison":
+						if stat.status == "Poison":
 							actor.status_vector.remove(i)
-							print ("size = ", actor.status_vector.size())
 						i += 1
 			
 			# Applies the effect of speed boost
-			elif effect.name == "Speed":
-				actor.bonus_speed = 10
+			elif effect.status == "Speed":
+				if effect.timer == 3:
+					actor.bonus_speed += 10
 				effect.timer -= 1
+				if effect.timer == 0:
+					actor.bonus_speed -= 10
+			
+			elif effect.status == "Paralysis":
+				effect.timer -= 1
+				
+				if effect.timer == 0:
+					var i = 0
+					for stat in actor.status_vector:
+						if stat.status == "Paralysis":
+							actor.status_vector.remove(i)
+						i += 1
 
 
 # ################################ #
