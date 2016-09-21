@@ -18,8 +18,8 @@ var window_size
 var active_units = []
 var barracks_units = []
 
-var active_unit_weapons = []
-var barracks_unit_weapons = []
+#var active_unit_weapons = []
+#var barracks_unit_weapons = []
 
 var storage_weapons = []
 var storage_items = []
@@ -77,10 +77,10 @@ func _ready():
 	get_node("UnitManagement/Barracks").set_max_columns(3)
 	get_node("ItemManagement/ActiveParty").set_max_columns(3)
 	get_node("ItemManagement/Barracks").set_max_columns(3)
-	get_node("ItemManagement/ActivePartyWeapons").set_max_columns(2)
-	get_node("ItemManagement/ActivePartyItems").set_max_columns(2)
-	get_node("ItemManagement/BarracksWeapons").set_max_columns(2)
-	get_node("ItemManagement/BarracksItems").set_max_columns(2)
+	get_node("ItemManagement/ActivePartyWeapons").set_max_columns(4)
+	get_node("ItemManagement/ActivePartyItems").set_max_columns(4)
+	get_node("ItemManagement/BarracksWeapons").set_max_columns(4)
+	get_node("ItemManagement/BarracksItems").set_max_columns(4)
 	
 	#populating character lists
 	for unit in active_units:
@@ -126,16 +126,18 @@ func _fixed_process(delta):
 			last_selected_party = get_node("ItemManagement/ActiveParty").get_selected_items()[0]
 	# Vai precisar da condição do mode tambem (ser o modo de trocar com os membros das barracks, não com o storage)
 	if (get_node("ItemManagement/Barracks").get_selected_items().size() != 0):
-		#populate and show weapons list for active party member
+		#populate and show weapons list for barracks member
 		if (last_selected_barracks != get_node("ItemManagement/Barracks").get_selected_items()[0]):
 			get_node("ItemManagement/BarracksWeapons").clear()
 			for weapon in barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector:
 				get_node("ItemManagement/BarracksWeapons").add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
-				get_node("ItemManagement/BarracksWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count() - 1, weapon.name)
+				get_node("ItemManagement/BarracksWeapons").set_item_tooltip(get_node("ItemManagement/BarracksWeapons").get_item_count() - 1, weapon.name)
 			last_selected_barracks = get_node("ItemManagement/Barracks").get_selected_items()[0]
 	
-	if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 or get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
-		get_node("ItemManagement/SwapItems").set_disabled(false)
+	# Condições do botão de swap
+	if (item_swap_mode == 0 and get_node("ItemManagement/ActiveParty").get_selected_items().size() != 0 and get_node("ItemManagement/Barracks").get_selected_items().size() != 0):
+		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 or get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
+			get_node("ItemManagement/SwapItems").set_disabled(false)
 	else:
 		get_node("ItemManagement/SwapItems").set_disabled(true)
 
@@ -153,13 +155,13 @@ func size_update():
 	get_node("ItemManagement/Barracks").set_size(Vector2(window_size.x/3, window_size.y/3))
 	get_node("ItemManagement/Barracks").set_pos((Vector2(window_size.x - 40 - get_node("ItemManagement/Barracks").get_size().x, 40)))
 
-	get_node("ItemManagement/ActivePartyWeapons").set_size(Vector2(300, 70))
+	get_node("ItemManagement/ActivePartyWeapons").set_size(Vector2(300, 73))
 	get_node("ItemManagement/ActivePartyWeapons").set_pos(Vector2(40, 300))
-	get_node("ItemManagement/ActivePartyItems").set_size(Vector2(300, 70))
+	get_node("ItemManagement/ActivePartyItems").set_size(Vector2(300, 73))
 	get_node("ItemManagement/ActivePartyItems").set_pos(Vector2(40, 400))
-	get_node("ItemManagement/BarracksWeapons").set_size(Vector2(300, 70))
+	get_node("ItemManagement/BarracksWeapons").set_size(Vector2(300, 73))
 	get_node("ItemManagement/BarracksWeapons").set_pos(Vector2(get_node("ItemManagement/Barracks").get_pos().x, 300))
-	get_node("ItemManagement/BarracksItems").set_size(Vector2(300, 70))
+	get_node("ItemManagement/BarracksItems").set_size(Vector2(300, 73))
 	get_node("ItemManagement/BarracksItems").set_pos(Vector2(get_node("ItemManagement/Barracks").get_pos().x, 400))
 	
 	get_node("ItemManagement/StorageWeapons").set_size(Vector2(window_size.x/3, window_size.y/3))
@@ -212,9 +214,50 @@ func _on_Swap_pressed():
 		get_node("ItemManagement/Barracks").remove_item(b_local_id)
 		
 func _on_SwapItems_pressed():
-	pass # replace with function body
-	# Only active party item selected
-	
+	if (item_swap_mode == 0):
+		# Active and Barracks weapons selected
+		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 and get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
+			var a_unit = active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]]
+			var a_wpn = a_unit.wpn_vector[get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]]
+			var a_local_wpn_id = get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]
+			var b_unit = barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]]
+			var b_wpn = b_unit.wpn_vector[get_node("ItemManagement/BarracksWeapons").get_selected_items()[0]]
+			var b_local_wpn_id = get_node("ItemManagement/BarracksWeapons").get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector.append(b_wpn)
+			get_node("ItemManagement/ActivePartyWeapons").add_item("", load(str("res://resources/sprites/weapons/",b_wpn.name,".tex")), 1)
+			get_node("ItemManagement/ActivePartyWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count() - 1, b_wpn.name)
+			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.append(a_wpn)
+			get_node("ItemManagement/BarracksWeapons").add_item("", load(str("res://resources/sprites/weapons/",a_wpn.name,".tex")), 1)
+			get_node("ItemManagement/BarracksWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count() - 1, a_wpn.name)
+			active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector.remove(a_local_wpn_id)
+			get_node("ItemManagement/ActivePartyWeapons").remove_item(a_local_wpn_id)
+			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.remove(b_local_wpn_id)
+			get_node("ItemManagement/BarracksWeapons").remove_item(b_local_wpn_id)
+			
+		# Only Active unit weapon selected
+		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 and get_node("ItemManagement/BarracksWeapons").get_selected_items().size() == 0):
+			var a_unit = active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]]
+			var a_wpn = a_unit.wpn_vector[get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]]
+			var a_local_wpn_id = get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.append(a_wpn)
+			get_node("ItemManagement/BarracksWeapons").add_item("", load(str("res://resources/sprites/weapons/",a_wpn.name,".tex")), 1)
+			get_node("ItemManagement/BarracksWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count(), a_wpn.name)
+			active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector.remove(a_local_wpn_id)
+			get_node("ItemManagement/ActivePartyWeapons").remove_item(a_local_wpn_id)
+		# Only Barracks unit weapon selected
+		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() == 0 and get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
+			var b_unit = barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]]
+			var b_wpn = b_unit.wpn_vector[get_node("ItemManagement/BarracksWeapons").get_selected_items()[0]]
+			var b_local_wpn_id = get_node("ItemManagement/BarracksWeapons").get_selected_items()[0]
+			#condiçao de lock da arma vem aqui
+			active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector.append(b_wpn)
+			get_node("ItemManagement/ActivePartyWeapons").add_item("", load(str("res://resources/sprites/weapons/",b_wpn.name,".tex")), 1)
+			get_node("ItemManagement/ActivePartyWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count(), b_wpn.name)
+			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.remove(b_local_wpn_id)
+			get_node("ItemManagement/BarracksWeapons").remove_item(b_local_wpn_id)
+		
 func _on_StorageBarracks_pressed():
 	if (item_swap_mode == 0):
 		get_node("ItemManagement/Barracks").hide()
