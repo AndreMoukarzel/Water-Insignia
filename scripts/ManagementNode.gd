@@ -61,9 +61,9 @@ func _ready():
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
-			instance_item("Bomb", unit)
-			instance_item("Potion", unit)
-	
+#			instance_item("Bomb", unit)
+#			instance_item("Potion", unit)
+
 	for unit in barracks_units:
 		if unit.name == "bat":
 			instance_weapon("Bat Fangs", unit)

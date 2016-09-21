@@ -1,11 +1,3 @@
-# A defesa bônus de uma unidade está caindo para zero após ela ser atacada
-# Deveria ser reduzido apenas o quanto o comando DEFEND aumentou
-
-# Para que serve o método name_units()?
-
-# Status timer está com um valor placeholder de 3
-
-# O que o trecho no final do organize_slots() faz?
 
 extends Node2D
 
@@ -457,7 +449,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			elif defender_side == "Enemies":
 				print("GG IZI")
 				end = 1
-			get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
+			get_parent().set_level("management")
 		
 		return 1 # defender death
 	return 0
@@ -505,7 +497,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 				elif target_side == "Enemies":
 					print("GG IZI")
 					end = 1
-				get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
+				get_parent().set_level("management")
 		
 		# If the item tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
@@ -836,24 +828,9 @@ func organize_slots(type, actor):
 			node.get_node("ProgressBar").set_value(object.amount)
 			if object.amount <= 0:
 				get_node(str(path, num)).set_disabled(true)
-		
-# Older version
-#		if (object.durability <= 0):
-#			node.get_node("Label1").hide()
-#			node.get_node("ProgressBar").hide()
-#			get_node(str(path, num)).set_disabled(true)
-#		else:
-#			node.get_node("Label1").show()
-#			node.get_node("ProgressBar").show()
-#			node.get_node("ProgressBar").set_max(durability)
-#			if type == "Weapon":
-#				node.get_node("ProgressBar").set_value(object.durability)
-#			elif type == "Item":
-#				node.get_node("ProgressBar").set_value(object.amount)
-		
 		num += 1
-	
-	# ???
+
+	# Trava botões vazios
 	if num < 5:
 		var count = 5
 		while(count > num):
