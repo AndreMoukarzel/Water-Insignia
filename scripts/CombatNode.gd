@@ -825,7 +825,7 @@ func organize_slots(type, actor):
 			node.get_node("ProgressBar").show()
 			node.get_node("ProgressBar").set_max(durability)
 			node.get_node("ProgressBar").set_value(object.durability)
-			if object.durability <= 0:
+			if object.durability == 0:
 				get_node(str(path, num)).set_disabled(true)
 		
 		elif type == "Item":
