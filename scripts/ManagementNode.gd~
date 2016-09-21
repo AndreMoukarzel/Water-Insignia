@@ -200,6 +200,7 @@ func _on_Swap_pressed():
 		get_node("ItemManagement/Barracks").remove_item(b_local_id)
 		
 func _on_SwapItems_pressed():
+<<<<<<< HEAD
 	if (item_swap_mode == 0):
 		# Active and Barracks weapons selected
 		if (get_node("ItemManagement/ActivePartyWeapons").get_selected_items().size() != 0 and get_node("ItemManagement/BarracksWeapons").get_selected_items().size() != 0):
@@ -243,6 +244,8 @@ func _on_SwapItems_pressed():
 			get_node("ItemManagement/ActivePartyWeapons").set_item_tooltip(get_node("ItemManagement/ActivePartyWeapons").get_item_count(), b_wpn.name)
 			barracks_units[get_node("ItemManagement/Barracks").get_selected_items()[0]].wpn_vector.remove(b_local_wpn_id)
 			get_node("ItemManagement/BarracksWeapons").remove_item(b_local_wpn_id)
+=======
+>>>>>>> afa39f044db52c0e1fc8aabc6d2c2be86219e759
 	print(active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector[get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]].durability)
 	
 Corrected unit stancing in ManagementNode
