@@ -77,3 +77,6 @@ func get_attack(id):
 	
 func get_durability(id):
 	return wpn_database[id][DURABILITY]
+
+func get_lock(id):
+	return wpn_database[id][LOCK]
