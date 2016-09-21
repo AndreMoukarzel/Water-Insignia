@@ -881,6 +881,7 @@ func organize_slots(type, actor):
 			if object.amount <= 0:
 				get_node(str(path, num)).set_disabled(true)
 		num += 1
+
 	# Trava botões não utilizados
 	if num < 5:
 		var count = 5
