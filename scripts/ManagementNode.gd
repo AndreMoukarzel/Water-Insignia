@@ -47,22 +47,8 @@ func _ready():
 	item_database = get_node("/root/item_database")
 
 	# instance testing, will be replaced
-	instance_unit(0, "Party")
-	instance_unit(0, "Party")
-	instance_unit(0, "Party")
-	
 	instance_unit(1, "Barracks")
 	instance_unit(0, "Barracks")
-	
-	for unit in active_units:
-		if unit.name == "bat":
-			instance_weapon("Bat Fangs", unit)
-			instance_weapon("Bat Wings", unit)
-		if unit.name == "samurai":
-			instance_weapon("Katana", unit)
-			instance_weapon("Bamboo Sword", unit)
-#			instance_item("Bomb", unit)
-#			instance_item("Potion", unit)
 
 	for unit in barracks_units:
 		if unit.name == "bat":
@@ -212,8 +198,7 @@ func _on_Swap_pressed():
 		get_node("ItemManagement/Barracks").remove_item(b_local_id)
 		
 func _on_SwapItems_pressed():
-	pass # replace with function body
-	# Only active party item selected
+	print(active_units[get_node("ItemManagement/ActiveParty").get_selected_items()[0]].wpn_vector[get_node("ItemManagement/ActivePartyWeapons").get_selected_items()[0]].durability)
 	
 func _on_StorageBarracks_pressed():
 	if (item_swap_mode == 0):
