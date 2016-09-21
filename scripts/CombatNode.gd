@@ -1,3 +1,4 @@
+# Status timer está com um valor placeholder de 3
 
 extends Node2D
 
@@ -29,6 +30,7 @@ class item:
 	var durability # Item's initial amount when the battle begins
 	var amount # Item's current amount
 	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
+	var status # Item's status effect (poison, speed up, ...)
 
 # Action class - for storing the action of each unit
 class action_class:
@@ -101,13 +103,13 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(0, "Allies")
+	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(1, "Allies")
 	instance_unit(0, "Enemies")
-	instance_unit(1, "Enemies")
+	instance_unit(0, "Enemies")
 	
-	#TESTING INSTANCING WEAPONS #
+	# TESTING INSTANCING WEAPONS #
 	
 	for unit in allies_vector:
 		if unit.name == "bat":
@@ -119,6 +121,7 @@ func _ready():
 			instance_item("Bomb", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison bomb", unit)
+			instance_item("Speed up", unit)
 	
 	for unit in enemies_vector:
 		if unit.name == "bat":
@@ -131,7 +134,7 @@ func _ready():
 	
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
-	name_units()       # ???
+	name_units()       # Renomeia as unidades par 0, 1, 2, ..., para não ficar com a estranha da Godot
 	
 	set_fixed_process(true)
 
@@ -202,9 +205,10 @@ func instance_item(name, owner):
 	item_instance.id = id
 	item_instance.name = name
 	item_instance.type = item_database.get_item_type(id)
-	item_instance.durability = 1
+	item_instance.durability = 3
 	item_instance.amount = item_instance.durability
 	item_instance.effect = item_database.get_item_effect(id)
+	item_instance.status = item_database.get_item_status(id)
 	owner.item_vector.append(item_instance)
 
 
@@ -293,12 +297,18 @@ func turn_based_system():
 	# Apply the afflicted status on each unit if they are afflicted by anything at all
 	# WORK IN PROGRESS
 	if (turn_start == 0):
+		var i = 0
 		for char in allies_vector:
 			if (char != null):
-				status_apply(char) 
+				print ("allies status apply")
+				status_apply(char, "Allies", i)
+			i += 1
+		i = 0
 		for char in enemies_vector:
 			if (char != null):
-				status_apply(char)
+				print ("enemies status apply")
+				status_apply(char, "Enemies", i)
+			i += 1
 		turn_start = 1
 	
 	# Choose an action and a target (if allowed)
@@ -399,7 +409,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
-
+	
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = char_database.get_attack(attacker[attacker_vpos].id)                     # attacker's base attack
 	var char_bonus_atk = attacker[attacker_vpos].bonus_attack                               # attacker's bonus attack due to buffs
@@ -422,7 +432,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 	# Reduces the defender's HP and shows it in the combat screen
 	defender[defender_vpos].hp_current -= damage
-	damage_box(damage, Color(1, 0, 0), get_node(str(defender_side,"/",defender_vpos)).get_pos())
+	damage_box(damage, Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	
 	# Message for when the defender doesn't die
 	# Mostly for debugging purpose
@@ -473,10 +483,10 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 		item.amount -= 1         # Reduces its amount in one. Item isn't spent if the target dies before the item is used
 		
 		if damage < 0: # If it's a damage-type HP item
-			damage_box(-damage, Color(1, 0, 0), get_node(str(target_side,"/",target_vpos)).get_pos())
+			damage_box(-damage, Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			target[target_vpos].hp_current += damage
 		else: # If it's a heal-type HP item
-			damage_box(damage, Color(0, 1, 0), get_node(str(target_side,"/",target_vpos)).get_pos())
+			damage_box(damage, Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			target[target_vpos].hp_current += damage
 		
 		# If the item kills the target
@@ -506,8 +516,8 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	# If the item is an Status-type item
 	# WORK IN PROGRESS
 	elif type == "Status":
-		instance_status(type, target[target_vpos])
-		target[target_vpos].status_vector[0]
+		instance_status(item.status, target[target_vpos])  # Applies the status
+		item.amount -= 1                                   # Reduces its amount in one. Item isn't spent if the target dies before the item is used
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
@@ -563,17 +573,56 @@ func blink(actor, counter):
 
 # Applies the status in a unit (actor)
 # WORK IN PROGRESS
-func status_apply(actor):
-	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+func status_apply(actor, target_side, target_vpos):
+	var target
+	if target_side == "Enemies":
+		target = enemies_vector
+	elif target_side == "Allies":
+		target = allies_vector
+	
 	if (actor.status_vector.size() != 0):
-		print("blub blub blub blub blub blub blub blub")
 		for effect in actor.status_vector:
-			print("effect")
+			
+			# Applies the effect of Poison
 			if effect.name == "Poison":
-				print("poison")
-				print("AAAAAA = ", actor.hp_current)
-				actor.hp_current -= 5
-				print("VIDAAAAA = ", actor.hp_current)
+				var damage = 2
+				damage_box(damage, Color(0.4, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
+				actor.hp_current -= damage
+				effect.timer -= 1
+				
+				# If the item kills the target
+				if target[target_vpos].hp_current <= 0:
+					target[target_vpos] = null
+					get_node(str(target_side, "/", target_vpos)).queue_free()
+					# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
+					if target_side == "Enemies":
+						enemies_pos[target_vpos] = Vector2(-100, -100)
+					elif target_side == "Allies":
+						allies_pos[target_vpos] = Vector2(-100, -100)
+					
+					# Victory/Defeat condition
+					if get_node(target_side).get_child_count() == 1:
+						if target_side == "Allies":
+							print("KILL YOURSELF")
+							end = -1
+						elif target_side == "Enemies":
+							print("GG IZI")
+							end = 1
+						get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
+				
+				# Removes the status effect one its time is up
+				if effect.timer == 0:
+					var i = 0
+					for stat in actor.status_vector:
+						print ("SIZE = ", actor.status_vector.size())
+						if stat.name == "Poison":
+							actor.status_vector.remove(i)
+							print ("size = ", actor.status_vector.size())
+						i += 1
+			
+			# Applies the effect of speed boost
+			elif effect.name == "Speed":
+				actor.bonus_speed = 10
 				effect.timer -= 1
 
 
@@ -746,7 +795,7 @@ func target_select(target):
 						distance = mouse_temp
 						closest = allies_pos.find(i)
 						team = "Allies"
-
+	
 	elif target == "Enemies":
 		for i in enemies_pos:
 			if i != null:
@@ -819,6 +868,9 @@ func organize_slots(type, actor):
 			node.get_node("ProgressBar").set_value(object.durability)
 			if object.durability == 0:
 				get_node(str(path, num)).set_disabled(true)
+			elif object.durability == -1:
+				node.get_node("Label1").hide()
+				node.get_node("ProgressBar").hide()
 		
 		elif type == "Item":
 			node.get_node("Label1").set_text("Amount")
@@ -829,8 +881,7 @@ func organize_slots(type, actor):
 			if object.amount <= 0:
 				get_node(str(path, num)).set_disabled(true)
 		num += 1
-
-	# Trava botões vazios
+	# Trava botões não utilizados
 	if num < 5:
 		var count = 5
 		while(count > num):
