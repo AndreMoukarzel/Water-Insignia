@@ -5,6 +5,7 @@ const WPN_NAME = 0
 const TYPE = 1
 const ATK = 2
 const DURABILITY = 3
+const LOCK = 4
 
 # Fazer um vetor com as animações. As animações serão:       #
 # Idle, Attack, Critical (para allies) e Death (o monstro    #
@@ -22,23 +23,18 @@ var wpn_database = [
 		WPN_NAME : "Katana",
 		TYPE : "Sword",
 		ATK : 10,
-		DURABILITY : 45
+		DURABILITY : 45,
+		LOCK : 0
 	},
 	
 	{ # ID = 1
 		WPN_NAME : "Bamboo Sword",
 		TYPE : "Sword",
 		ATK : 1,
-		DURABILITY : 1
+		DURABILITY : 1,
+		LOCK : 0
 	},
-	
-	{ # ID = 42
-		WPN_NAME : "Seppuku Knaifu",
-		TYPE : "Sudoku",
-		ATK : 42424242,
-		DURABILITY : 1
-	},
-	
+
 	# ############################### #
 	# ####### NATURAL WEAPONS ####### # 
 	# ############################### #
@@ -46,14 +42,17 @@ var wpn_database = [
 		WPN_NAME : "Bat Fangs",
 		TYPE : "Natural",
 		ATK : 2,
-		DURABILITY : -1 #infinite
+		DURABILITY : -1, #infinite
+		LOCK : 1
+		
 	},
 	
 	{ # ID = 3
 		WPN_NAME : "Bat Wings",
 		TYPE : "Natural",
 		ATK : 3,
-		DURABILITY : -1 #infinite
+		DURABILITY : -1, #infinite
+		LOCK : 1
 	}
 ]
 
