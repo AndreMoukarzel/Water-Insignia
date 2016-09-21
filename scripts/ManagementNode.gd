@@ -35,9 +35,6 @@ var window_size
 var active_units = []
 var barracks_units = []
 
-#var active_unit_weapons = []
-#var barracks_unit_weapons = []
-
 var storage_weapons = []
 var storage_items = []
 
@@ -182,6 +179,12 @@ func size_update():
 	im_stw.set_pos((Vector2(window_size.x - 40 - im_stw.get_size().x, 40)))
 	im_sti.set_size(Vector2(window_size.x/3, window_size.y/3))
 	im_sti.set_pos((Vector2(im_b.get_pos().x, im_b.get_pos().y + 220)))
+
+	get_node("RepairMenu/ActiveParty").set_size(Vector2(window_size.x/3, window_size.y/3))
+	get_node("RepairMenu/Barracks").set_size(Vector2(window_size.x/3, window_size.y/2))
+	get_node("RepairMenu/Barracks").set_pos(Vector2(40, get_node("RepairMenu/ActiveParty").get_size().y + 50))
+	get_node("RepairMenu/Weapons").set_size(Vector2(300, 73))
+	get_node("RepairMenu/Weapons").set_pos(Vector2(window_size.x - get_node("RepairMenu/Weapons").get_size().x - 40, 40))
 # #################################### #
 # ##### UNIT MANAGEMENT FUNCTIONS #### # 
 # #################################### #
@@ -301,8 +304,15 @@ func _on_Units_pressed():
 
 
 func _on_Repair_pressed():
+	current_screen = "RepairMenu"
+	get_node("Selection").hide()
+	get_node(current_screen).show()
+
+func _on_RepairWeapon_pressed():
 	pass # replace with function body
 
+func _on_RepairAll_pressed():
+	pass # replace with function body
 
 func _on_Shop_pressed():
 	pass # replace with function body
@@ -329,6 +339,9 @@ func _on_Return_pressed():
 		for item in im_b.get_selected_items():
 			im_b.unselect(item)
 		
+	elif (current_screen == "RepairMenu"):
+		get_node("Selection").show()
+
 
 
 func _on_ManageItems_pressed():
@@ -358,5 +371,3 @@ func instance_weapon(name, owner):
 	wpn_instance.name = name
 	wpn_instance.durability = wpn_database.get_durability(id)
 	owner.wpn_vector.append(wpn_instance)
-
-# Funções temporarias de teste

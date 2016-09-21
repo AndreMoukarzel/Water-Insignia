@@ -182,7 +182,6 @@ script/script = ExtResource( 1 )
 
 [node name="Selection" type="VBoxContainer" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 3
@@ -564,7 +563,18 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
 
-[node name="Repair" type="Button" parent="RepairMenu"]
+[node name="ActiveParty" type="ItemList" parent="RepairMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 40.0
+margin/right = 80.0
+margin/bottom = 80.0
+
+[node name="Barracks" type="ItemList" parent="RepairMenu"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -572,15 +582,78 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 105.0
+margin/right = 40.0
 margin/bottom = 40.0
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+
+[node name="Weapons" type="ItemList" parent="RepairMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="RepairWeapon" type="Button" parent="RepairMenu"]
+
+rect/min_size = Vector2( 210, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 740.0
+margin/top = 254.0
+margin/right = 950.0
+margin/bottom = 334.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+text = "Repair Weapon"
 flat = false
+
+[node name="RepairAll" type="Button" parent="RepairMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 740.0
+margin/top = 349.0
+margin/right = 950.0
+margin/bottom = 429.0
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = ExtResource( 5 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Repair All"
+flat = false
+
+[node name="Return" type="TextureButton" parent="RepairMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 800.0
+margin/top = 500.0
+margin/right = 944.0
+margin/bottom = 560.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 9 )
+textures/pressed = ExtResource( 10 )
+textures/hover = ExtResource( 11 )
+params/scale = Vector2( 0.3, 0.3 )
 
 [connection signal="pressed" from="Selection/Units" to="." method="_on_Units_pressed"]
 
@@ -601,5 +674,11 @@ flat = false
 [connection signal="pressed" from="ItemManagement/StorageBarracks" to="." method="_on_StorageBarracks_pressed"]
 
 [connection signal="pressed" from="ItemManagement/Return" to="." method="_on_Return_pressed"]
+
+[connection signal="pressed" from="RepairMenu/RepairWeapon" to="." method="_on_RepairWeapon_pressed"]
+
+[connection signal="pressed" from="RepairMenu/RepairAll" to="." method="_on_RepairAll_pressed"]
+
+[connection signal="pressed" from="RepairMenu/Return" to="." method="_on_Return_pressed"]
 
 
