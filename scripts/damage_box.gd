@@ -1,7 +1,7 @@
 
 extends Node2D
 
-var damage = 0
+var damage = "0"
 var color = Color(1, 1, 1)
 
 func _ready():

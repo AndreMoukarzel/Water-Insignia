@@ -12,6 +12,7 @@ class unit:
 	var mp_current # Unit's current MP
 	var bonus_attack = 0 # Unit's bonus attack
 	var bonus_defense = 0 # Unit's bonus defense
+	var speed
 	var bonus_speed = 0 # Unit's bonus speed
 	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
 	var skill_vector = [] # Array containing the unit's available skills
@@ -27,7 +28,10 @@ class weapon:
 class skill:
 	var id # Skill ID in the weapon database
 	var name # Skill's name
-	var cost # Skills's mana cost
+	var cost # Skill's mana cost
+	var effect # Skill's effect (how much it will heal/damage or amplify/reduce an attribute)
+	var status # Skill's status effect (poison, speed up, defense up, ...)
+	var type # Skill's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
 
 # Item class - for instancing an itenm
 class item:
@@ -52,6 +56,7 @@ class status:
 	var name # Status' name - it can come from an item or a skill, so it doesn't have its own database
 	var status # Status' status - Poison, paralysis, speed up, attack up, ...
 	var timer # Number of turns remaining the status will be afflicting the unit
+	var effect # Status' effect - how much it will increase or decrease a status
 
 # Arrays containing each unit in combat
 # Each element in each array is an unit class
@@ -74,6 +79,7 @@ var targeting = false
 # Variables to instance each database
 var char_database
 var wpn_database
+var skill_database
 var item_database
 
 # Variable to instance the game's screen size
@@ -105,6 +111,7 @@ func _ready():
 	# Acess databases (are global scripts) #
 	char_database = get_node("/root/character_database")
 	wpn_database = get_node("/root/weapon_database")
+	skill_database = get_node("/root/skill_database")
 	item_database = get_node("/root/item_database")
 	
 	# Get window size #
@@ -128,6 +135,7 @@ func _ready():
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
+			instance_skill("Heal", unit)
 			instance_item("Detox", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison bomb", unit)
@@ -186,6 +194,7 @@ func instance_unit(id, path):
 	unit_instance.name = char_database.get_char_name(id)
 	unit_instance.hp_current = char_database.get_hp_max(id)
 	unit_instance.mp_current = char_database.get_mp_max(id)
+	unit_instance.speed = char_database.get_speed(id)
 	
 	if path == "Allies":
 		allies_vector.append(unit_instance)
@@ -206,6 +215,22 @@ func instance_weapon(name, owner):
 	owner.wpn_vector.append(wpn_instance)
 
 
+func instance_skill(name, owner):
+	
+	var id = skill_database.get_skill_id(name)
+	
+	var skill_instance = skill.new()
+	
+	# Data instancing segment
+	skill_instance.id = id
+	skill_instance.name = name
+	skill_instance.cost = skill_database.get_skill_cost(id)
+	skill_instance.type = skill_database.get_skill_type(id)
+	skill_instance.effect = skill_database.get_skill_effect(id)
+	skill_instance.status = skill_database.get_skill_status(id)
+	owner.skill_vector.append(skill_instance)
+
+
 # owner is the reference in the correct vector (allies or enemies)
 func instance_item(name, owner):
 	
@@ -224,11 +249,12 @@ func instance_item(name, owner):
 
 
 # target is the unit who is going to be afflicted by the status
-func instance_status(name, stat, target):
+func instance_status(name, stat, target, effect):
 	var status_instance = status.new()
 	status_instance.name = name
 	status_instance.status = stat
 	status_instance.timer = 3 # <-- number is placeholder
+	status_instance.effect = effect
 	target.status_vector.append(status_instance)
 
 
@@ -282,7 +308,7 @@ func name_units():
 
 
 # Damage/Heal value that floats out of an attacked/healed unit
-# Red = general damage || Green = heal || Purple = poison damage
+# Red = general damage || Green = heal || Purple = poison damage || Blue = buff amount
 func damage_box(damage, color, pos):
 	var box_scn = load("res://scenes/DamageBox.xml")
 	var box = box_scn.instance()
@@ -454,7 +480,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 	# Reduces the defender's HP and shows it in the combat screen
 	defender[defender_vpos].hp_current -= damage
-	damage_box(damage, Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	
 	# Message for when the defender doesn't die
 	# Mostly for debugging purpose
@@ -501,6 +527,57 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 		target = allies_vector
 	
 	var skill = user[user_vpos].skill_vector[action_id]
+	var type = skill.type
+	var cost = skill.cost
+	
+	user[user_vpos].mp_current -= cost # Reduces the user's MP in the corresponding cost. MP isn't spend if the target dies before the skill is used
+	
+	if type == "HP":
+		var damage = item.effect # How much heal/damage the item will deal
+		
+		target[target_vpos].hp_current += damage
+		if damage < 0: # If it's a damage-type HP skill
+			damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+		else:
+			damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+		
+		# If the skill kills the target
+		if target[target_vpos].hp_current <= 0:
+			target[target_vpos] = null
+			get_node(str(target_side, "/", target_vpos)).queue_free()
+			
+			# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
+			if target_side == "Enemies":
+				enemies_pos[target_vpos] = Vector2(-100, -100)
+			elif target_side == "Allies":
+				allies_pos[target_vpos] = Vector2(-100, -100)
+			
+			# Victory/Defeat condition
+			if get_node(target_side).get_child_count() == 1:
+				if target_side == "Allies":
+					print("KILL YOURSELF")
+					end = -1
+				elif target_side == "Enemies":
+					print("GG IZI")
+					end = 1
+				get_parent().set_level("management")
+		
+		# If the skill tries to overheal an unit
+		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
+			target[target_vpos].hp_current = char_database.get_hp_max(target[target_vpos].id)
+	
+	elif type == "Status":
+		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
+	
+	# If the item is a Dispell-type item
+	elif type == "Dispell":
+		var effect = item.status
+		if effect == "Poison":
+			var i = 0
+			for stat in target[target_vpos].status_vector:
+				if stat.status == "Poison":
+					target[target_vpos].status_vector.remove(i)
+				i += 1
 
 
 # Executes an ITEM action
@@ -519,22 +596,24 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	var item = user[user_vpos].item_vector[action_id]
 	var type = item.type
 	
+	item.amount -= 1
+	
 	# If the item is an HP-type item (heal or damage)
 	if type == "HP":
 		var damage = item.effect # How much heal/damage the item will deal
-		item.amount -= 1         # Reduces its amount in one. Item isn't spent if the target dies before the item is used
 		
+		target[target_vpos].hp_current += damage
 		if damage < 0: # If it's a damage-type HP item
-			damage_box(-damage, Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-			target[target_vpos].hp_current += damage
+			damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 		else: # If it's a heal-type HP item
-			damage_box(damage, Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-			target[target_vpos].hp_current += damage
+			damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+		
 		
 		# If the item kills the target
 		if target[target_vpos].hp_current <= 0:
 			target[target_vpos] = null
 			get_node(str(target_side, "/", target_vpos)).queue_free()
+			
 			# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
 			if target_side == "Enemies":
 				enemies_pos[target_vpos] = Vector2(-100, -100)
@@ -558,13 +637,11 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	# If the item is an Status-type item
 	# WORK IN PROGRESS
 	elif type == "Status":
-		instance_status(item.name, item.status, target[target_vpos])  # Applies the status
-		item.amount -= 1                                   # Reduces its amount in one. Item isn't spent if the target dies before the item is used
+		instance_status(item.name, item.status, target[target_vpos], item.effect)  # Applies the status
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
 		var effect = item.status
-		item.amount -= 1
 		if effect == "Poison":
 			var i = 0
 			for stat in target[target_vpos].status_vector:
@@ -635,7 +712,7 @@ func status_apply(actor, target_side, target_vpos):
 			# Applies the effect of Poison
 			if effect.status == "Poison":
 				var damage = 2
-				damage_box(damage, Color(0.4, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage_box(str(damage), Color(0.4, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
 				actor.hp_current -= damage
 				effect.timer -= 1
 				
@@ -670,10 +747,12 @@ func status_apply(actor, target_side, target_vpos):
 			# Applies the effect of speed boost
 			elif effect.status == "Speed":
 				if effect.timer == 3:
-					actor.bonus_speed += 10
+					var bonus = effect.effect * actor.speed
+					actor.bonus_speed += bonus
+					damage_box(str("SPD +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
 				effect.timer -= 1
 				if effect.timer == 0:
-					actor.bonus_speed -= 10
+					actor.bonus_speed -= effect.effect * actor.speed
 			
 			elif effect.status == "Paralysis":
 				effect.timer -= 1
@@ -736,7 +815,6 @@ func _on_Attack_pressed():
 	
 	organize_slots("Weapon", actor)
 
-
 # When the ATTACK slot 1 is pressed
 func _on_AttackSlot1_pressed():
 	if (BUTTON != null):
@@ -745,7 +823,6 @@ func _on_AttackSlot1_pressed():
 	BUTTON = "Attack/AttackSlot1"
 	action = "attack"
 	action_id = 0
-
 
 # When the ATTACK slot 2 is pressed
 func _on_AttackSlot2_pressed():
@@ -756,7 +833,6 @@ func _on_AttackSlot2_pressed():
 	action = "attack"
 	action_id = 1
 
-
 # When the ATTACK slot 3 is pressed
 func _on_AttackSlot3_pressed():
 	if (BUTTON != null):
@@ -765,7 +841,6 @@ func _on_AttackSlot3_pressed():
 	BUTTON = "Attack/AttackSlot3"
 	action = "attack"
 	action_id = 2
-
 
 # When the ATTACK slot 4 is pressed
 func _on_AttackSlot4_pressed():
@@ -782,6 +857,42 @@ func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Skill").show()
+
+# When the SKILL slot 1 is pressed
+func _on_SkillSlot1_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Skill/SkillSlot1"
+	action = "skill"
+	action_id = 0
+
+# When the SKILL slot 2 is pressed
+func _on_SkillSlot2_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Skill/SkillSlot2"
+	action = "skill"
+	action_id = 0
+
+# When the SKILL slot 3 is pressed
+func _on_SkillSlot3_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Skill/SkillSlot3"
+	action = "skill"
+	action_id = 0
+
+# When the SKILL slot 4 is pressed
+func _on_SkillSlot4_pressed():
+	if (BUTTON != null):
+		action_memory.pop_back()
+		toggle_button(false, BUTTON)
+	BUTTON = "Skill/SkillSlot4"
+	action = "skill"
+	action_id = 0
 
 
 # When the ITEM button is pressed
@@ -801,7 +912,6 @@ func _on_ItemSlot1_pressed():
 	action = "item"
 	action_id = 0
 
-
 # When the ITEM slot 2 is pressed
 func _on_ItemSlot2_pressed():
 	if (BUTTON != null):
@@ -811,7 +921,6 @@ func _on_ItemSlot2_pressed():
 	action = "item"
 	action_id = 1
 
-
 # When the ITEM slot 3 is pressed
 func _on_ItemSlot3_pressed():
 	if (BUTTON != null):
@@ -820,7 +929,6 @@ func _on_ItemSlot3_pressed():
 	BUTTON = "Item/ItemSlot3"
 	action = "item"
 	action_id = 2
-
 
 # When the ITEM slot 4 is pressed
 func _on_ItemSlot4_pressed():
@@ -900,6 +1008,10 @@ func organize_slots(type, actor):
 		database = wpn_database
 		path = "ActionMenu/Attack/AttackSlot"
 		vector = unit.wpn_vector
+	elif type == "Skill":
+		database = skill_database
+		path = "ActionMenu/Skill/SkillSlot"
+		vector = unit.skill_vector
 	elif type == "Item":
 		database = item_database
 		path = "ActionMenu/Item/ItemSlot"
@@ -933,6 +1045,10 @@ func organize_slots(type, actor):
 			elif object.durability <= 0:
 				node.get_node("Label1").hide()
 				node.get_node("ProgressBar").hide()
+		
+		elif type == "Skill":
+			node.get_node("Label1").set_text(str(object.cost))
+			node.get_node("Label1").show()
 		
 		elif type == "Item":
 			node.get_node("Label1").set_text("Amount")

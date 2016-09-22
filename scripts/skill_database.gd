@@ -7,18 +7,6 @@ const EFFECT = 2
 const STATUS = 3
 const COST = 4
 
-###################################
-#
-# Há 3 tipos diferentes de item: HP, BD e Status
-# -HP são itens que afetam a vida, seja curando ou dando dano
-#   (potion cura e bomba dá dano por exemplo)
-# -BD (Buff/Debuff) são itens relacionados aos atributos
-#   do personagem (aumumento/redução do ataque, defesa, ...)
-# -Status são itens que influenciam os status do personagem, seja
-#   curando ou dando o status (dar/remover poison, burn, ...)
-#
-###################################
-
 var skill_database = [
 
 	{ # ID = 0
@@ -38,23 +26,23 @@ var skill_database = [
 	},
 
 	{ # ID = 2
-		SKILL_NAME : "Harden",
+		SKILL_NAME : "Guard",
 		TYPE : "Status",
-		EFFECT : 1.5,
+		EFFECT : 0.5,
 		STATUS : "Defense",
 		COST : 3
 	},
 
 	{ # ID = 3
-		SKILL_NAME : "Sanick",
+		SKILL_NAME : "Agility",
 		TYPE : "Status",
-		EFFECT : 1.5,
+		EFFECT : 0.5,
 		STATUS : "Speed",
 		COST : 4
 	},
 
 	{ # ID = 4
-		SKILL_NAME : "Detox",
+		SKILL_NAME : "Cure",
 		TYPE : "Dispell",
 		EFFECT : 1,
 		STATUS : "Poison",
@@ -62,7 +50,7 @@ var skill_database = [
 	},
 	
 	{ # ID = 5
-		SKILL_NAME : "Poisoned strike",
+		SKILL_NAME : "Venomous strike",
 		TYPE : "Status",
 		EFFECT : 1,
 		STATUS : "Poison",
@@ -83,10 +71,10 @@ var sk_map = { }
 
 func _ready():
 	for id in range (skill_database.size()):
-		it_map[skill_database[id][SKILL_NAME]] = id
+		sk_map[skill_database[id][SKILL_NAME]] = id
 
 func get_skill_id(name):
-	return skill_map[name]
+	return sk_map[name]
 
 func get_skill_name(id):
 	return skill_database[id][SKILL_NAME]
