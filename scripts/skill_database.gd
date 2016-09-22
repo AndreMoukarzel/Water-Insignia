@@ -63,6 +63,14 @@ var skill_database = [
 		EFFECT : 1,
 		STATUS : "Paralysis",
 		COST : 7
+	},
+	
+	{ # ID = 7
+		SKILL_NAME : "Shadow strike",
+		TYPE : "HP",
+		EFFECT : -15,
+		STATUS : null,
+		COST : 1
 	}
 ]
 

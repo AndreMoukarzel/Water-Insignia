@@ -139,12 +139,13 @@ func _ready():
 		if unit.get_name() == "bat":
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
+			instance_skill("Heal", unit)
 			instance_item("PAR bomb", unit)
 			instance_item("Bomb", unit)
 		if unit.get_name() == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
-			instance_skill("Heal", unit)
+			instance_skill("Shadow strike", unit)
 			instance_item("Detox", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison bomb", unit)
@@ -439,7 +440,7 @@ func filter_action(act):
 		if (act.action == "attack"):
 			process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 		elif (act.action == "skill"):
-			pass 
+			process_skill(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 		elif (act.action == "item"):
 			process_item(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 
@@ -537,7 +538,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	user[user_vpos].mp_current -= cost # Reduces the user's MP in the corresponding cost. MP isn't spend if the target dies before the skill is used
 	
 	if type == "HP":
-		var damage = item.effect # How much heal/damage the item will deal
+		var damage = skill.effect # How much heal/damage the item will deal
 		
 		target[target_vpos].hp_current += damage
 		if damage < 0: # If it's a damage-type HP skill
@@ -811,6 +812,12 @@ func _on_Return_pressed():
 	return_to_Selection()
 
 
+##################################################################
+# \    /\    / _____    /\   _____  _____  |\  | _____
+#  \  /  \  /  |____   /--\  |____| |   |  | \ | |____
+#   \/    \/   |____  /    \ |      |___|  |  \| ____|
+##################################################################
+
 # When the ATTACK button is pressed
 func _on_Attack_pressed():
 	get_node("ActionMenu/Selection").hide()
@@ -856,11 +863,19 @@ func _on_AttackSlot4_pressed():
 	action_id = 3
 
 
+#################################
+#  _____ |  / _____ |     |     _____
+#  |____ | <    |   |     |     |____
+#  ____| |  \ __|__ |____ |____ ____|
+#################################
+
 # When the SKILL button is pressed
 func _on_Skill_pressed():
 	get_node("ActionMenu/Selection").hide()
 	get_node("ActionMenu/Return").show()
 	get_node("ActionMenu/Skill").show()
+	
+	organize_slots("Skill", actor)
 
 # When the SKILL slot 1 is pressed
 func _on_SkillSlot1_pressed():
@@ -878,7 +893,7 @@ func _on_SkillSlot2_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Skill/SkillSlot2"
 	action = "skill"
-	action_id = 0
+	action_id = 1
 
 # When the SKILL slot 3 is pressed
 func _on_SkillSlot3_pressed():
@@ -887,7 +902,7 @@ func _on_SkillSlot3_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Skill/SkillSlot3"
 	action = "skill"
-	action_id = 0
+	action_id = 2
 
 # When the SKILL slot 4 is pressed
 func _on_SkillSlot4_pressed():
@@ -896,8 +911,14 @@ func _on_SkillSlot4_pressed():
 		toggle_button(false, BUTTON)
 	BUTTON = "Skill/SkillSlot4"
 	action = "skill"
-	action_id = 0
+	action_id = 3
 
+
+#############################
+#  _____ _____ _____ |\  /| _____                
+#    |     |   |____ | \/ | |____
+#  __|__   |   |____ |    | ____|
+#############################
 
 # When the ITEM button is pressed
 func _on_Item_pressed():
@@ -1051,8 +1072,9 @@ func organize_slots(type, actor):
 				node.get_node("ProgressBar").hide()
 		
 		elif type == "Skill":
-			node.get_node("Label1").set_text(str(object.cost))
+			node.get_node("Label1").set_text(str("Cost: ", object.cost))
 			node.get_node("Label1").show()
+			node.get_node("ProgressBar").hide()
 		
 		elif type == "Item":
 			node.get_node("Label1").set_text("Amount")
@@ -1109,6 +1131,8 @@ func _fixed_process(delta):
 			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 				if act.action == "defend":
 					action_memory.pop_front() # add defense behavior here
+				elif act.action == "skill":
+					STATE_NEXT = "ANIMATION"
 				elif act.action == "item":
 					STATE_NEXT = "ANIMATION"
 				else:

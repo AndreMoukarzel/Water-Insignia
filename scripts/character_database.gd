@@ -33,7 +33,6 @@ var char_database = [
 		DEF : 1,
 		SPD : 15,
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
-		SKILL_VECTOR : ["Agility"],
 		ITEM_VECTOR : []
 	},
 	{ # ID = 1
@@ -46,7 +45,6 @@ var char_database = [
 		DEF : 3,
 		SPD : 11,
 		WPN_VECTOR : ["Katana", "Bamboo Sword"],
-		SKILL_VECTOR : ["Heal"],
 		ITEM_VECTOR : []
 	}
 ]
