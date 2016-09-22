@@ -9,10 +9,12 @@ class unit:
 	var id # Unit ID in the character database
 	var name # Unit's name
 	var hp_current # Unit's current HP
+	var mp_current # Unit's current MP
 	var bonus_attack = 0 # Unit's bonus attack
 	var bonus_defense = 0 # Unit's bonus defense
 	var bonus_speed = 0 # Unit's bonus speed
 	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
+	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
 	var status_vector = [] # Array containing the Status class (see below)
 
@@ -21,6 +23,11 @@ class weapon:
 	var id # Weapon ID in the weapon database
 	var name # Weapon's name
 	var durability # Weapon's durability
+
+class skill:
+	var id # Skill ID in the weapon database
+	var name # Skill's name
+	var cost # Skills's mana cost
 
 # Item class - for instancing an itenm
 class item:
@@ -117,6 +124,7 @@ func _ready():
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
 			instance_item("PAR bomb", unit)
+			instance_item("Bomb", unit)
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
@@ -177,6 +185,7 @@ func instance_unit(id, path):
 	unit_instance.id = id
 	unit_instance.name = char_database.get_char_name(id)
 	unit_instance.hp_current = char_database.get_hp_max(id)
+	unit_instance.mp_current = char_database.get_mp_max(id)
 	
 	if path == "Allies":
 		allies_vector.append(unit_instance)
@@ -478,10 +487,30 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	return 0
 
 
+# Executes a SKILL action
+func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
+	var user
+	if user_side == "Allies":
+		user = allies_vector
+	elif user_side == "Enemies":
+		user = enemies_vector
+	var target
+	if target_side == "Enemies":
+		target = enemies_vector
+	elif target_side == "Allies":
+		target = allies_vector
+	
+	var skill = user[user_vpos].skill_vector[action_id]
+
+
 # Executes an ITEM action
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	# Receives the user, the target and the item type
-	var user = allies_vector
+	var user
+	if user_side == "Allies":
+		user = allies_vector
+	elif user_side == "Enemies":
+		user = enemies_vector
 	var target
 	if target_side == "Enemies":
 		target = enemies_vector
@@ -883,8 +912,10 @@ func organize_slots(type, actor):
 		# Receives the weapon's durability / item's initial amount
 		if type == "Weapon":
 			durability = database.get_durability(object.id)
+			node.get_node("sprite").set_texture(load(str("res://resources/sprites/weapons/", object.name, ".tex")))
 		elif type == "Item":
 			durability = object.durability
+			node.get_node("sprite").set_texture(load(str("res://resources/sprites/items/", object.name, ".tex")))
 		
 		# Creates the button visuals
 		node.get_node("Label").set_text(str(object.name))
@@ -899,7 +930,7 @@ func organize_slots(type, actor):
 			node.get_node("ProgressBar").set_value(object.durability)
 			if object.durability == 0:
 				get_node(str(path, num)).set_disabled(true)
-			elif object.durability == -1:
+			elif object.durability <= 0:
 				node.get_node("Label1").hide()
 				node.get_node("ProgressBar").hide()
 		
