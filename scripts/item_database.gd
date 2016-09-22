@@ -37,14 +37,14 @@ var item_database = [
 	{ # ID = 2
 		ITEM_NAME : "Def up",
 		TYPE : "Status",
-		EFFECT : 1.5,
+		EFFECT : 0.5,
 		STATUS : "Defense"
 	},
 
 	{ # ID = 3
 		ITEM_NAME : "Speed up",
 		TYPE : "Status",
-		EFFECT : 1.5,
+		EFFECT : 0.5,
 		STATUS : "Speed"
 	},
 
