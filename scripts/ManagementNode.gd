@@ -300,7 +300,11 @@ func _on_Swap_pressed():
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)
-		
+
+func _on_SwapWeapons_pressed():
+	pass # replace with function body
+
+
 func _on_SwapItems_pressed():
 	if (item_swap_mode == 0):
 		# Active and Barracks weapons selected
@@ -510,3 +514,9 @@ func instance_weapon(name, owner):
 	wpn_instance.name = name
 	wpn_instance.durability = wpn_database.get_durability(id)
 	owner.wpn_vector.append(wpn_instance)
+
+
+func _on_Back_pressed():
+	get_node("PartyMenu").hide()
+	get_node("Selection").show()
+

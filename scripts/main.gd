@@ -31,6 +31,12 @@ func set_level(mode):
 		scn = management_scn
 		units_vector = get_node("level").allies_vector
 
+	var i = 0
+	for unit in units_vector:
+		if unit == null:
+			units_vector.remove(i)
+		i += 1
+
 	var level = scn.instance()
 	get_node("level").set_name("old")
 	level.set_name("level")
