@@ -462,6 +462,7 @@ func _on_Return_pressed():
 		im_bi.clear()
 		last_selected_party = -1
 		last_selected_barracks = -1
+
 		#Neutralize start on ItemManagement screen
 		item_swap_mode = 1
 		populated_storage = 0
@@ -475,7 +476,7 @@ func _on_Return_pressed():
 		rm_w.clear()
 		last_selected_repair = -1
 		last_selected_type = -1
-		
+
 	elif (current_screen == "RepairMenu"):
 		#adicionar o resto depois
 		get_node("Selection").show()
