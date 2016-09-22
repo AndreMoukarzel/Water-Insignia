@@ -7,7 +7,7 @@ const scale = 5
 # Unit class - for instancing an enemy or ally
 class unit:
 	var id # Unit ID in the character database
-	var name # Unit's name
+	var db # Char Database
 	var hp_current # Unit's current HP
 	var mp_current # Unit's current MP
 	var bonus_attack = 0 # Unit's bonus attack
@@ -17,6 +17,15 @@ class unit:
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
 	var status_vector = [] # Array containing the Status class (see below)
+
+	func _init(name, database):
+		self.db = database
+		self.id = db.get_char_id(name)
+		self.hp_current = db.get_hp_max(id)
+		self.mp_current = db.get_mp_max(id)
+
+	func get_name():
+		return db.get_char_name(id)
 
 # Weapon class - for instancing an weapon
 class weapon:
@@ -120,12 +129,12 @@ func _ready():
 	# TESTING INSTANCING WEAPONS #
 	
 	for unit in allies_vector:
-		if unit.name == "bat":
+		if unit.get_name() == "bat":
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
 			instance_item("PAR bomb", unit)
 			instance_item("Bomb", unit)
-		if unit.name == "samurai":
+		if unit.get_name() == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
 			instance_item("Detox", unit)
@@ -134,10 +143,10 @@ func _ready():
 			instance_item("Speed up", unit)
 	
 	for unit in enemies_vector:
-		if unit.name == "bat":
+		if unit.get_name() == "bat":
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
-		if unit.name == "samurai":
+		if unit.get_name() == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
 	######################
@@ -175,17 +184,13 @@ func instance_unit(id, path):
 	# Adjust sprite details
 	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
 	anim_sprite.set_scale(Vector2(scale, scale))
-	
+
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
 	
 	# Data instancing segment
-	var unit_instance = unit.new()
-	unit_instance.id = id
-	unit_instance.name = char_database.get_char_name(id)
-	unit_instance.hp_current = char_database.get_hp_max(id)
-	unit_instance.mp_current = char_database.get_mp_max(id)
+	var unit_instance = unit.new(char_database.get_char_name(id), char_database)
 	
 	if path == "Allies":
 		allies_vector.append(unit_instance)
@@ -463,7 +468,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 	# If the attack kills the defender
 	if (defender[defender_vpos].hp_current <= 0):
-		print(str("O inimigo ", defender[defender_vpos].name, " foi derrotado!")) # Message for debugging purpose
+		print(str("O inimigo ", defender[defender_vpos].get_name(), " foi derrotado!")) # Message for debugging purpose
 		#efeito visual aqui#
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
