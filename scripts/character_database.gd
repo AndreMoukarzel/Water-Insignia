@@ -27,7 +27,9 @@ var char_database = [
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
 		HP_MAX : 10,
+		HP_GROWTH : [0, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], #20 leveis no maximo
 		MP_MAX : 7,
+		MP_GROWTH : [0, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 10],
 		ATK : 5,
 		DEF : 1,
 		SPD : 15,
