@@ -137,7 +137,7 @@ func _fixed_process(delta):
 				im_apw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
 				im_apw.set_item_tooltip(im_apw.get_item_count() - 1, weapon.name)
 				if (wpn_database.get_lock(weapon.id) == 1):
-						im_bw.set_item_selectable(im_bw.get_item_count() - 1, false)
+						im_apw.set_item_selectable(im_apw.get_item_count() - 1, false)
 			last_selected_party = im_ap.get_selected_items()[0]
 	# Checagens para o modo managem barracks items
 	if (item_swap_mode == 0):
