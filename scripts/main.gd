@@ -34,8 +34,10 @@ func set_level(mode):
 	var i = 0
 	for unit in units_vector:
 		if unit == null:
+			print("Removing units on index ",i)
 			units_vector.remove(i)
 		i += 1
+	units_vector.sort()
 
 	var level = scn.instance()
 	get_node("level").set_name("old")

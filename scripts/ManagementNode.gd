@@ -113,6 +113,11 @@ func _ready():
 	rm_w.set_max_columns(4)
 	
 	#populating character lists
+	print (active_units)
+	print (active_units.size())
+	if (active_units == null):
+		print ("Hey")
+	#tests above
 	for unit in active_units:
 		um_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)

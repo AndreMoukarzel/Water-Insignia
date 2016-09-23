@@ -65,7 +65,7 @@ func get_hp(id, level):
 	var i = 0
 
 	while(i < level):
-		hp += char_database[id][HP][i + 1]
+		hp += char_database[id][HP][i]
 		i += 1
 	return hp
 
@@ -74,7 +74,7 @@ func get_mp(id, level):
 	var i = 0
 
 	while(i < level):
-		mp += char_database[id][MP][i + 1]
+		mp += char_database[id][MP][i]
 		i += 1
 	return mp
 
@@ -83,7 +83,7 @@ func get_attack(id, level):
 	var i = 0
 
 	while(i < level):
-		atk += char_database[id][ATK][i + 1]
+		atk += char_database[id][ATK][i]
 		i += 1
 	return atk
 	
@@ -92,7 +92,7 @@ func get_defense(id, level):
 	var i = 0
 
 	while(i < level):
-		def += char_database[id][DEF][i + 1]
+		def += char_database[id][DEF][i]
 		i += 1
 	return def
 
@@ -101,6 +101,6 @@ func get_speed(id, level):
 	var i = 0
 
 	while(i < level):
-		spd += char_database[id][SPD][i + 1]
+		spd += char_database[id][SPD][i]
 		i += 1
 	return spd

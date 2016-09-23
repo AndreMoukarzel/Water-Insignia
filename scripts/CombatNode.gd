@@ -137,7 +137,7 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(0, 1, "Allies")
+	instance_unit(0, 15, "Allies")
 	instance_unit(1, 1, "Allies")
 	instance_unit(1, 1, "Allies")
 	generate_mob(0)
@@ -209,7 +209,7 @@ func instance_unit(id, level, path):
 	
 	# Data instancing segment
 	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
-	
+
 	if path == "Allies":
 		allies_vector.append(unit_instance)
 	elif path == "Enemies":
@@ -402,9 +402,9 @@ func turn_based_system():
 				
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
-					allies_vector[act.from[0]].bonus_defense = char_database.get_defense(allies_vector[act.from[0]].id) * 2
+					allies_vector[act.from[0]].bonus_defense = allies_vector[act.from[0]].defense * 2
 				elif act.from[1] == "Enemies":
-					enemies_vector[act.from[0]].bonus_defense = char_database.get_defense(enemies_vector[act.from[0]].id) * 2
+					enemies_vector[act.from[0]].bonus_defense = enemies_vector[act.from[0]].defense * 2
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("defend")
 				
@@ -581,8 +581,8 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				get_parent().set_level("management")
 		
 		# If the skill tries to overheal an unit
-		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
-			target[target_vpos].hp_current = char_database.get_hp_max(target[target_vpos].id)
+		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
+			target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
 	
 	elif type == "Status":
 		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
