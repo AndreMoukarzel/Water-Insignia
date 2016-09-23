@@ -106,7 +106,7 @@ onready var char_database = get_node("/root/character_database")
 onready var wpn_database = get_node("/root/weapon_database")
 onready var skill_database = get_node("/root/skill_database")
 onready var item_database = get_node("/root/item_database")
-onready var level_database = get_node("/root/level_database")
+onready var stage_database = get_node("/root/stage_database")
 
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
@@ -139,9 +139,8 @@ func _ready():
 	# TESTING INSTANCING UNITS#
 	instance_unit(0, 1, "Allies")
 	instance_unit(1, 1, "Allies")
-	instance_unit(1, 5, "Allies")
-	instance_unit(0, 5, "Enemies")
-	instance_unit(0, 5, "Enemies")
+	instance_unit(1, 1, "Allies")
+	generate_mob(0)
 	
 	# TESTING INSTANCING WEAPONS #
 	
@@ -215,6 +214,12 @@ func instance_unit(id, level, path):
 		allies_vector.append(unit_instance)
 	elif path == "Enemies":
 		enemies_vector.append(unit_instance)
+		
+func generate_mob(stage):
+	var stage_spawner = stage_database.get_stage_spawner(stage)
+	var selected_mob = stage_spawner.get_random_mob()
+	for monster in selected_mob.spawns:
+		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
 
 
 # owner is the reference in the correct vector (allies or enemies)
