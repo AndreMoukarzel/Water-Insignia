@@ -7,32 +7,48 @@ const scale = 5
 # Unit class - for instancing an enemy or ally
 class unit:
 	var id # Unit ID in the character database
+	var level
 	var db # Char Database
-	var hp_current # Unit's current HP
-	var mp_current # Unit's current MP
-	var bonus_attack = 0 # Unit's bonus attack
-	var bonus_defense = 0 # Unit's bonus defense
+	var hp_current
+	var mp_current
+	var attack
+	var bonus_attack = 0
+	var defense
+	var bonus_defense = 0
 	var speed
-	var bonus_speed = 0 # Unit's bonus speed
-	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
+	var bonus_speed = 0
+	var wpn_vector = [] # Array containing the unit's available weapons
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
 	var status_vector = [] # Array containing the Status class (see below)
 
-	func _init(name, database):
+	func _init(name, level, database):
 		self.db = database
+		self.level = level
 		self.id = db.get_char_id(name)
-		self.hp_current = db.get_hp_max(id)
-		self.mp_current = db.get_mp_max(id)
+		self.hp_current = db.get_hp(id, level)
+		self.mp_current = db.get_mp(id, level)
+		self.attack = db.get_attack(id, level)
+		self.defense = db.get_defense(id, level)
+		self.speed = db.get_speed(id, level)
 
 	func get_name():
 		return db.get_char_name(id)
 
+	func get_attack():
+		return attack + bonus_attack
+
+	func get_defense():
+		return defense + bonus_defense
+
+	func get_speed():
+		return speed + bonus_speed
+
 # Weapon class - for instancing an weapon
 class weapon:
 	var id # Weapon ID in the weapon database
-	var name # Weapon's name
-	var durability # Weapon's durability
+	var name
+	var durability
 
 class skill:
 	var id # Skill ID in the weapon database
@@ -85,11 +101,12 @@ var action_count = 0
 # (targeting == true) = time to choose an action and a target for said action
 var targeting = false
 
-# Variables to instance each database
-var char_database
-var wpn_database
-var skill_database
-var item_database
+# Acess databases (are global scripts) #
+onready var char_database = get_node("/root/character_database")
+onready var wpn_database = get_node("/root/weapon_database")
+onready var skill_database = get_node("/root/skill_database")
+onready var item_database = get_node("/root/item_database")
+onready var level_database = get_node("/root/level_database")
 
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
@@ -116,22 +133,15 @@ var STATE_NEXT = "SELECT TARGET"
 var turn_start = 0
 
 func _ready():
-	
-	# Acess databases (are global scripts) #
-	char_database = get_node("/root/character_database")
-	wpn_database = get_node("/root/weapon_database")
-	skill_database = get_node("/root/skill_database")
-	item_database = get_node("/root/item_database")
-	
 	# Get window size #
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(0, "Allies")
-	instance_unit(1, "Allies")
-	instance_unit(1, "Allies")
-	instance_unit(0, "Enemies")
-	instance_unit(0, "Enemies")
+	instance_unit(0, 1, "Allies")
+	instance_unit(1, 1, "Allies")
+	instance_unit(1, 5, "Allies")
+	instance_unit(0, 5, "Enemies")
+	instance_unit(0, 5, "Enemies")
 	
 	# TESTING INSTANCING WEAPONS #
 	
@@ -175,7 +185,7 @@ func _ready():
 # skills e etc. eles devem ter no momento inicial.
 
 # Instance an unit
-func instance_unit(id, path):
+func instance_unit(id, level, path):
 	
 	# Initialize visuals #
 	var anim_sprite = AnimatedSprite.new()
@@ -199,7 +209,7 @@ func instance_unit(id, path):
 	get_node(path).add_child(anim_sprite)
 	
 	# Data instancing segment
-	var unit_instance = unit.new(char_database.get_char_name(id), char_database)
+	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
 	
 	if path == "Allies":
 		allies_vector.append(unit_instance)
@@ -415,7 +425,7 @@ func process_action():
 		action_instance.from = [actor, "Allies"]
 		action_instance.action = action
 		action_instance.action_id = action_id
-		action_instance.speed = char_database.get_speed(allies_vector[actor].id) + allies_vector[actor].bonus_speed
+		action_instance.speed = allies_vector[actor].get_speed()
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -464,12 +474,10 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 	
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
-	var char_atk = char_database.get_attack(attacker[attacker_vpos].id)                     # attacker's base attack
-	var char_bonus_atk = attacker[attacker_vpos].bonus_attack                               # attacker's bonus attack due to buffs
+	var char_atk = attacker[attacker_vpos].get_attack() # attacker's base attack
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # attacker's weapon power
-	var char_def = char_database.get_defense(defender[defender_vpos].id)                    # defender's base defense
-	var char_bonus_def = defender[defender_vpos].bonus_defense                              # defender's bonus defense due to buffs and DEFEND command
-	var damage = (char_atk + char_bonus_atk + wpn_atk) -  (char_def + char_bonus_def)       # damage dealt
+	var char_def = defender[defender_vpos].get_defense() # defender's base defense   
+	var damage = (char_atk + wpn_atk) - char_def  # damage dealt
 	
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
@@ -681,7 +689,7 @@ func enemy_attack_beta():
 			print("O inimigo numero ", enemies, " vai tentar atacar o aliado numero ", int(random_target))
 			action_instance.action = "attack"
 			action_instance.action_id = 0
-			action_instance.speed = char_database.get_speed(enemies_vector[enemies].id)
+			action_instance.speed = enemies_vector[enemies].get_speed()
 			action_memory.append(action_instance)
 		enemies += 1
 

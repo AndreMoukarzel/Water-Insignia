@@ -2,10 +2,7 @@
 extends Node
 
 const FOLDER = 0
-const CHAR_NAME = 1
-const ANIM_ARRAY = 2
-const HP_MAX = 3
-const MP_MAX = 4
+
 
 class spawn:
 	var name
@@ -43,6 +40,12 @@ class level_spawner:
 			if wpn_db.get_wpn_type(wpn_db.get_wpn_id(name)) == type:
 				vector.append(wpn)
 		return vector
+
+	func get_random_item():
+		var random
+		randomize()
+		random = randi() % items.size()
+		return items[random]
 
 
 var level_database = [
