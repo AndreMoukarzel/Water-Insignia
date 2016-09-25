@@ -31,13 +31,15 @@ func set_level(mode):
 		scn = management_scn
 		units_vector = get_node("level").allies_vector
 
-	var i = 0
-	for unit in units_vector:
-		if unit == null:
-			print("Removing units on index ",i)
-			units_vector.remove(i)
-		i += 1
-	units_vector.sort()
+	var remove = 1
+	while remove:
+		remove = 0
+		var i = 0
+		for unit in units_vector:
+			if unit == null:
+				remove = 1
+				units_vector.remove(i)
+			i += 1
 
 	var level = scn.instance()
 	get_node("level").set_name("old")
