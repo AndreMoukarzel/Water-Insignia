@@ -3,6 +3,8 @@ extends Node
 
 const SLOT_SIZE = 64
 
+var last_selected_apunit = -1
+var last_selected_bunit = -1
 var last_selected_party = -1
 var last_selected_barracks = -1
 var populated_storage = 0
@@ -17,6 +19,8 @@ onready var um_ap = get_node("UnitManagement/ActiveParty")
 onready var um_b = get_node("UnitManagement/Barracks")
 onready var um_s = get_node("UnitManagement/Swap")
 onready var um_r = get_node("UnitManagement/Return")
+onready var um_aps = get_node("UnitManagement/ActivePartyStatus")
+onready var um_bs = get_node("UnitManagement/BarracksStatus")
 
 onready var im_ap = get_node("ItemManagement/ActiveParty")
 onready var im_apw = get_node("ItemManagement/ActivePartyWeapons")
@@ -113,8 +117,6 @@ func _ready():
 	rm_w.set_max_columns(4)
 	
 	#populating character lists
-	print (active_units)
-	print (active_units.size())
 	if (active_units == null):
 		print ("Hey")
 	#tests above
@@ -136,18 +138,55 @@ func _fixed_process(delta):
 	# Unit management
 	if (um_ap.get_selected_items().size() != 0 or um_b.get_selected_items().size() != 0):
 		if (um_ap.get_selected_items().size() == 0):
+			# Selecionado membro da barracks, exibe informações
+			if (last_selected_bunit != um_b.get_selected_items()[0]):
+				um_bs.neutralize_node("Unit Status")
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				last_selected_bunit = um_b.get_selected_items()[0]
+				um_bs.get_node("Name").set_text(barracks_units[um_b.get_selected_items()[0]].name)
+				
+				um_aps.neutralize_node("Unit Status")
+				last_selected_apunit = -1
+			
 			if (um_ap.get_item_count() != 4):
 				um_s.set_disabled(false)
 			else:
 				um_s.set_disabled(true)
 		else:
+			# Selecionado membro da active party, exibe informações
+			if (last_selected_apunit != um_ap.get_selected_items()[0]):
+				um_aps.neutralize_node("Unit Status")
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				last_selected_apunit = um_ap.get_selected_items()[0]
+				um_aps.get_node("Name").set_text(active_units[um_ap.get_selected_items()[0]].name)
+				
+				um_bs.neutralize_node("Unit Status")
+				last_selected_bunit = -1
+				
 			if (um_ap.get_item_count() != 1):
 				um_s.set_disabled(false)
 			else:
 				um_s.set_disabled(true)
 	else:
+		#Tira todas as informações
+		um_aps.neutralize_node("Unit Status")
+		last_selected_apunit = -1
+		um_bs.neutralize_node("Unit Status")
+		last_selected_bunit = -1
+		
 		um_s.set_disabled(true)
 	if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
+		# Ambos selecionados, exibe informações
+		if (last_selected_apunit != um_ap.get_selected_items()[0]):
+			um_aps.neutralize_node("Unit Status")
+			um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+			last_selected_apunit = um_ap.get_selected_items()[0]
+			um_aps.get_node("Name").set_text(active_units[um_ap.get_selected_items()[0]].name)
+		if (last_selected_bunit != um_b.get_selected_items()[0]):
+			um_bs.neutralize_node("Unit Status")
+			um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+			last_selected_bunit = um_b.get_selected_items()[0]
+			um_bs.get_node("Name").set_text(barracks_units[um_b.get_selected_items()[0]].name)
 		um_s.set_disabled(false)
 
 	# Item management
@@ -296,6 +335,8 @@ func size_update():
 	um_ap.set_size(Vector2(window_size.x/3, window_size.y/3))
 	um_b.set_size(Vector2(window_size.x/3, window_size.y/3))
 	um_b.set_pos((Vector2(window_size.x - 40 - um_b.get_size().x, 40)))
+	um_aps.adjust_size("Unit Status", window_size.x/3, window_size.y/3 - 40, um_aps.get_pos().x + 40, 270)
+	um_bs.adjust_size("Unit Status", window_size.x/3, window_size.y/3 - 40, window_size.x - 40 - um_b.get_size().x, 270)
 
 	im_ap.set_size(Vector2(window_size.x/3, window_size.y/3))
 	im_b.set_size(Vector2(window_size.x/3, window_size.y/3))
@@ -364,6 +405,12 @@ func _on_Swap_pressed():
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)
+	
+	#Clear information boxes
+	um_aps.neutralize_node("Unit Status")
+	um_bs.neutralize_node("Unit Status")
+	last_selected_apunit = -1
+	last_selected_bunit = -1
 
 func _on_SwapWeapons_pressed():
 	if (item_swap_mode == 0):
@@ -618,6 +665,13 @@ func _on_Return_pressed():
 		im_bi.clear()
 		last_selected_party = -1
 		last_selected_barracks = -1
+		
+		#Neutralize information boxes
+	
+		um_aps.neutralize_node("Unit Status")
+		um_bs.neutralize_node("Unit Status")
+		last_selected_apunit = -1
+		last_selected_bunit = -1
 
 		#Neutralize start on ItemManagement screen
 		item_swap_mode = 1
