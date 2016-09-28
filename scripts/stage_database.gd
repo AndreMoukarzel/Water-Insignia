@@ -24,7 +24,6 @@ class stage_spawner:
 	var mobs
 	var weapons
 	var items
-	onready var wpn_db = get_node("/root/weapon_database")
 
 	func _init(mobs, weapons, items):
 		self.mobs = mobs
@@ -37,15 +36,18 @@ class stage_spawner:
 		random = randi() % mobs.size()
 		return mobs[random]
 
-	func get_allowed_weapons(type):
-		var vector
+	func get_permited_weapons(type, wpn_db):
+		var vector = []
 		for wpn in weapons:
-			if wpn_db.get_wpn_type(wpn_db.get_wpn_id(wpn.name)) == type:
+			if wpn_db.get_wpn_type(wpn_db.get_wpn_id(wpn)) == type:
 				vector.append(wpn)
 		return vector
 
-	func get_random_item():
+	func get_random_item(): # 50% chance of returning no item
 		var random
+		randomize()
+		if (randi() % 100) < 50:
+			return null
 		randomize()
 		random = randi() % items.size()
 		return items[random]
@@ -54,12 +56,14 @@ class stage_spawner:
 var stage_database = [
 #	Stage 1
 	stage_spawner.new([ #Allowed Mobs
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 3)]),
 		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)])
 		],[ # Allowed Weapons
 		"Katana",
-		"Bamboo Sword"
+		"Bamboo Sword",
+		"Bamboo Sword",
+		"Bamboo Sword",
 		],[ # Allowed Items
 		"Potion",
 		"Poison Bomb",
@@ -70,8 +74,7 @@ var stage_database = [
 		],[ # Allowed Weapons
 		"Katana"
 		],[ # Allowed Items
-		"PAR Bomb"
-		])
+		"PAR Bomb"])
 ]
 
 

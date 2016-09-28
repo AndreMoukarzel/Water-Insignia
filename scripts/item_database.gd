@@ -33,38 +33,52 @@ var item_database = [
 		EFFECT : -70,
 		STATUS : null
 	},
-
+	
 	{ # ID = 2
-		ITEM_NAME : "Def up",
+		ITEM_NAME : "Atk Up",
+		TYPE : "Status",
+		EFFECT : 0.5,
+		STATUS : "Attack"
+	},
+	
+	{ # ID = 3
+		ITEM_NAME : "Def Up",
 		TYPE : "Status",
 		EFFECT : 0.5,
 		STATUS : "Defense"
 	},
 
-	{ # ID = 3
-		ITEM_NAME : "Speed up",
+	{ # ID = 4
+		ITEM_NAME : "Speed Up",
 		TYPE : "Status",
 		EFFECT : 0.5,
 		STATUS : "Speed"
 	},
 
-	{ # ID = 4
+	{ # ID = 5
 		ITEM_NAME : "Detox",
 		TYPE : "Dispell",
 		EFFECT : 1,
 		STATUS : "Poison"
 	},
 	
-	{ # ID = 5
-		ITEM_NAME : "Poison bomb",
+	{ # ID = 6
+		ITEM_NAME : "Poison Bomb",
 		TYPE : "Status",
-		EFFECT : 1,
+		EFFECT : 3,
 		STATUS : "Poison"
 	},
 	
-	{ # ID = 6
-		ITEM_NAME : "PAR bomb",
+	{ # ID = 7
+		ITEM_NAME : "PAR Bomb",
 		TYPE : "Status",
+		EFFECT : 1,
+		STATUS : "Paralysis"
+	},
+	
+	{ # ID = 8
+		ITEM_NAME : "Depar",
+		TYPE : "Dispell",
 		EFFECT : 1,
 		STATUS : "Paralysis"
 	}

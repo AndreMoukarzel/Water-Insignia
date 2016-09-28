@@ -11,7 +11,6 @@ const DEF = 6
 const SPD = 7
 const WPN_VECTOR = 8
 const SKILL_VECTOR = 9
-const ITEM_VECTOR = 10
 
 
 var char_database = [
@@ -25,7 +24,6 @@ var char_database = [
 		DEF : [1, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
-		ITEM_VECTOR : []
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
@@ -36,8 +34,7 @@ var char_database = [
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		WPN_VECTOR : ["Katana", "Bamboo Sword"],
-		ITEM_VECTOR : []
+		WPN_VECTOR : ["Katana", "Sword", "Sword"],
 	}
 ]
 
@@ -104,3 +101,9 @@ func get_speed(id, level):
 		spd += char_database[id][SPD][i]
 		i += 1
 	return spd
+
+func get_weapon_vector(id):
+	return char_database[id][WPN_VECTOR]
+
+func get_skill_vector(id):
+	return char_database[id][SKILL_VECTOR]

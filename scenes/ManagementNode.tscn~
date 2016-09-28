@@ -530,6 +530,7 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
+<<<<<<< HEAD
 margin/left = 480.0
 margin/top = 65.0
 margin/right = 550.0
@@ -538,6 +539,16 @@ custom_styles/hover = SubResource( 6 )
 custom_styles/pressed = SubResource( 7 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 8 )
+=======
+margin/left = 465.0
+margin/top = 100.0
+margin/right = 555.0
+margin/bottom = 190.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
+>>>>>>> 4ca46da2fd0db09efbc018888af5f1d454f3e5bb
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -549,6 +560,7 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
+<<<<<<< HEAD
 margin/left = 480.0
 margin/top = 145.0
 margin/right = 550.0
@@ -557,6 +569,16 @@ custom_styles/hover = SubResource( 6 )
 custom_styles/pressed = SubResource( 7 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 8 )
+=======
+margin/left = 465.0
+margin/top = 300.0
+margin/right = 555.0
+margin/bottom = 390.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
+>>>>>>> 4ca46da2fd0db09efbc018888af5f1d454f3e5bb
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null

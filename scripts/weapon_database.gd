@@ -7,17 +7,10 @@ const ATK = 2
 const DURABILITY = 3
 const LOCK = 4
 
-# Fazer um vetor com as animações. As animações serão:       #
-# Idle, Attack, Critical (para allies) e Death (o monstro    #
-# fica branco, e depois gradualmente some. Talvez Defend.    #
-# A ideia disso é não precisarmos mais de uma scene para     #
-# cada unit, assim chamando tudo pela database.              #
-
-
 var wpn_database = [
-	# ############################### #
-	# ############ SWORDS ########### # 
-	# ############################### #
+# ############################### #
+# ############ SWORDS ########### # 
+# ############################### #
 	
 	{ # ID = 0
 		WPN_NAME : "Katana",
