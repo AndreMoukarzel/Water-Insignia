@@ -104,3 +104,6 @@ func get_speed(id, level):
 
 func get_weapon_vector(id):
 	return char_database[id][WPN_VECTOR]
+
+func get_skill_vector(id):
+	return char_database[id][SKILL_VECTOR]

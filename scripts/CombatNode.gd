@@ -208,6 +208,7 @@ func instance_unit(id, level, path):
 		enemies_vector.append(unit_instance)
 
 
+# Instance a random mob from the specified stage
 func generate_mob(stage):
 	var stage_spawner = stage_database.get_stage_spawner(stage)
 	var selected_mob = stage_spawner.get_random_mob()
@@ -218,6 +219,7 @@ func generate_mob(stage):
 	for unit in enemies_vector:
 		var allowed_weapon = unit.get_allowed_weapons()
 
+		# Allocates the weapons for each unit of the mob
 		for type in allowed_weapon:
 			if type == "Sword" or type == "Axe" or type == "Spear":
 				var possible_wpns = stage_spawner.get_permited_weapons(type, wpn_database)
@@ -229,6 +231,7 @@ func generate_mob(stage):
 			else: # Weapon is certanly a beast or signature weapon
 				instance_weapon(type, unit)
 
+		# Allocates the items for each unit of the mob
 		for i in range(4):
 			item = stage_spawner.get_random_item()
 			if item != null: # 50% chance of recieving no item at each slot
@@ -293,10 +296,6 @@ func instance_status(name, stat, target, effect):
 
 # Reposition the units in the battle screen
 func reposition_units():
-	# This function might be altered later, so #
-	# enemy units will appear in different     #
-	# patterns, depending on their numbers.    #
-	
 	var num
 	
 	# Position the allies units
