@@ -70,7 +70,7 @@ var skill_database = [
 		TYPE : "HP",
 		EFFECT : -15,
 		STATUS : null,
-		COST : 1
+		COST : 50
 	}
 ]
 
