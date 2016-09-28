@@ -638,8 +638,8 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			win_lose_cond(target_side)
 		
 		# If the item tries to overheal an unit
-		elif target[target_vpos].hp_current > char_database.get_hp_max(target[target_vpos].id):
-			target[target_vpos].hp_current = char_database.get_hp_max(target[target_vpos].id)
+		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
+			target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
 	
 	# If the item is an Status-type item
 	# WORK IN PROGRESS
