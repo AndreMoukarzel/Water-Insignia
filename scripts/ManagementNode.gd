@@ -86,16 +86,16 @@ func _ready():
 		if unit.name == "bat":
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
-			instance_item("PAR bomb", unit)
-			instance_item("PAR bomb", unit)
+			instance_item("PAR Bomb", unit)
+			instance_item("PAR Bomb", unit)
 			instance_item("Potion", unit)
 		if unit.name == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
-			instance_item("PAR bomb", unit)
+			instance_item("PAR Bomb", unit)
 			instance_item("Potion", unit)
-			instance_item("PAR bomb", unit)
-			instance_item("PAR bomb", unit)
+			instance_item("PAR Bomb", unit)
+			instance_item("PAR Bomb", unit)
 	
 	#settings for itemlists
 	um_ap.set_max_columns(3)

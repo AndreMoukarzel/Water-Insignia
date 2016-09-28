@@ -50,7 +50,7 @@ var skill_database = [
 	},
 	
 	{ # ID = 5
-		SKILL_NAME : "Poison sting",
+		SKILL_NAME : "Poison Sting",
 		TYPE : "Status",
 		EFFECT : 3,
 		STATUS : "Poison",
@@ -66,7 +66,7 @@ var skill_database = [
 	},
 	
 	{ # ID = 7
-		SKILL_NAME : "Shadow strike",
+		SKILL_NAME : "Shadow Strike",
 		TYPE : "HP",
 		EFFECT : -15,
 		STATUS : null,

@@ -153,18 +153,18 @@ func _ready():
 			instance_weapon("Bat Fangs", unit)
 			instance_weapon("Bat Wings", unit)
 			instance_skill("Heal", unit)
-			instance_skill("Poison sting", unit)
-			instance_item("PAR bomb", unit)
+			instance_skill("Poison Sting", unit)
+			instance_item("PAR Bomb", unit)
 			instance_item("Bomb", unit)
 			instance_item("Depar", unit)
 		if unit.get_name() == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
-			instance_skill("Shadow strike", unit)
+			instance_skill("Shadow Strike", unit)
 			instance_item("Detox", unit)
 			instance_item("Potion", unit)
-			instance_item("Poison bomb", unit)
-			instance_item("Speed up", unit)
+			instance_item("Poison Bomb", unit)
+			instance_item("Speed Up", unit)
 
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
@@ -234,7 +234,7 @@ func generate_mob(stage):
 
 		# Allocates the items for each unit of the mob
 		for i in range(4):
-			item = stage_spawner.get_random_item()
+			var item = stage_spawner.get_random_item()
 			if item != null: # 50% chance of recieving no item at each slot
 				instance_item(item, unit)
 

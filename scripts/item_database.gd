@@ -35,14 +35,14 @@ var item_database = [
 	},
 
 	{ # ID = 2
-		ITEM_NAME : "Def up",
+		ITEM_NAME : "Def Up",
 		TYPE : "Status",
 		EFFECT : 0.5,
 		STATUS : "Defense"
 	},
 
 	{ # ID = 3
-		ITEM_NAME : "Speed up",
+		ITEM_NAME : "Speed Up",
 		TYPE : "Status",
 		EFFECT : 0.5,
 		STATUS : "Speed"
@@ -56,14 +56,14 @@ var item_database = [
 	},
 	
 	{ # ID = 5
-		ITEM_NAME : "Poison bomb",
+		ITEM_NAME : "Poison Bomb",
 		TYPE : "Status",
 		EFFECT : 5,
 		STATUS : "Poison"
 	},
 	
 	{ # ID = 6
-		ITEM_NAME : "PAR bomb",
+		ITEM_NAME : "PAR Bomb",
 		TYPE : "Status",
 		EFFECT : 1,
 		STATUS : "Paralysis"
