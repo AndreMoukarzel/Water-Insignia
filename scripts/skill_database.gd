@@ -50,9 +50,9 @@ var skill_database = [
 	},
 	
 	{ # ID = 5
-		SKILL_NAME : "Venomous strike",
+		SKILL_NAME : "Poison sting",
 		TYPE : "Status",
-		EFFECT : 1,
+		EFFECT : 3,
 		STATUS : "Poison",
 		COST : 6
 	},
