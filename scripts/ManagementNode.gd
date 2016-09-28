@@ -375,15 +375,19 @@ func _on_Swap_pressed():
 		active_units.append(b_unit)
 		um_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		barracks_units.append(a_unit)
 		um_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		im_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
+		rm_ap.remove_item(a_local_id)
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)
+		rm_b.remove_item(b_local_id)
 		
 	# Only Active unit selected // vai ter tamanho maximo de barracks?
 	if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() == 0):
@@ -392,9 +396,11 @@ func _on_Swap_pressed():
 		barracks_units.append(a_unit)
 		um_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		im_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
+		rm_ap.remove_item(a_local_id)
 	# Only Barracks unit selected
 	if (um_ap.get_selected_items().size() == 0 and um_b.get_selected_items().size() != 0):
 		var b_unit = barracks_units[um_b.get_selected_items()[0]]
@@ -402,9 +408,11 @@ func _on_Swap_pressed():
 		active_units.append(b_unit)
 		um_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)
+		rm_b.remove_item(b_local_id)
 	
 	#Clear information boxes
 	um_aps.neutralize_node("Unit Status")

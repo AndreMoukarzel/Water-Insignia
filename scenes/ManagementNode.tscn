@@ -14,7 +14,7 @@
 [ext_resource path="res://resources/sprites/gui/management/rednormal.png" type="Texture" id=12]
 [ext_resource path="res://resources/sprites/gui/management/redpressed.tex" type="Texture" id=13]
 
-[sub_resource type="StyleBoxTexture" id=5]
+[sub_resource type="StyleBoxTexture" id=1]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -31,7 +31,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=6]
+[sub_resource type="StyleBoxTexture" id=2]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -48,7 +48,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxTexture" id=3]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -65,7 +65,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="StyleBoxTexture" id=4]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -82,7 +82,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=4]
+[sub_resource type="StyleBoxTexture" id=5]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -99,7 +99,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=8]
+[sub_resource type="StyleBoxTexture" id=6]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -116,7 +116,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=9]
+[sub_resource type="StyleBoxTexture" id=7]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -133,7 +133,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=10]
+[sub_resource type="StyleBoxTexture" id=8]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -150,7 +150,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=11]
+[sub_resource type="StyleBoxTexture" id=9]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -204,9 +204,9 @@ margin/left = 407.0
 margin/top = 58.0
 margin/right = 617.0
 margin/bottom = 138.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -225,9 +225,9 @@ margin/left = 407.0
 margin/top = 259.0
 margin/right = 617.0
 margin/bottom = 339.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -246,9 +246,9 @@ margin/left = 407.0
 margin/top = 461.0
 margin/right = 617.0
 margin/bottom = 541.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -282,9 +282,9 @@ margin/left = 407.0
 margin/top = 58.0
 margin/right = 617.0
 margin/bottom = 138.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -303,9 +303,9 @@ margin/left = 407.0
 margin/top = 259.0
 margin/right = 617.0
 margin/bottom = 339.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -324,9 +324,9 @@ margin/left = 405.0
 margin/top = 459.0
 margin/right = 615.0
 margin/bottom = 539.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -385,10 +385,10 @@ margin/left = 465.0
 margin/top = 100.0
 margin/right = 555.0
 margin/bottom = 190.0
-custom_styles/hover = SubResource( 8 )
-custom_styles/pressed = SubResource( 9 )
-custom_styles/disabled = SubResource( 9 )
-custom_styles/normal = SubResource( 10 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -404,9 +404,9 @@ margin/left = 800.0
 margin/top = 500.0
 margin/right = 944.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -534,10 +534,10 @@ margin/left = 480.0
 margin/top = 65.0
 margin/right = 550.0
 margin/bottom = 135.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 8 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 6 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -553,10 +553,10 @@ margin/left = 480.0
 margin/top = 145.0
 margin/right = 550.0
 margin/bottom = 215.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 8 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 6 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -572,9 +572,9 @@ margin/left = 640.0
 margin/top = 500.0
 margin/right = 798.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -592,9 +592,9 @@ margin/left = 800.0
 margin/top = 500.0
 margin/right = 944.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -658,9 +658,9 @@ margin/left = 740.0
 margin/top = 254.0
 margin/right = 950.0
 margin/bottom = 334.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -678,9 +678,9 @@ margin/left = 740.0
 margin/top = 349.0
 margin/right = 950.0
 margin/bottom = 429.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -698,9 +698,9 @@ margin/left = 800.0
 margin/top = 500.0
 margin/right = 944.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2

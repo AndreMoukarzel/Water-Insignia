@@ -141,7 +141,7 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(0, 15, "Allies")
+	instance_unit(0, 1, "Allies")
 	instance_unit(1, 1, "Allies")
 	instance_unit(1, 1, "Allies")
 	generate_mob(0)
@@ -586,7 +586,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	elif type == "Status":
 		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
 		if target[target_vpos] != null:
-			if not item.status == "Poison":
+			if not (item.status == "Poison"):
 				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
