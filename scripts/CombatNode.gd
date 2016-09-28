@@ -586,7 +586,8 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	elif type == "Status":
 		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
 		if target[target_vpos] != null:
-			status_apply(target[target_vpos], target_side, target_vpos)
+			if not item.status == "Poison":
+				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
@@ -652,7 +653,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	elif type == "Status":
 		instance_status(item.name, item.status, target[target_vpos], item.effect)  # Applies the status
 		if target[target_vpos] != null:
-			if not ((item.status == "Poison") or (item.status == "Paralysis")):
+			if not item.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
