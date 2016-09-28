@@ -157,11 +157,12 @@ func _ready():
 			instance_item("PAR Bomb", unit)
 			instance_item("Bomb", unit)
 			instance_item("Depar", unit)
+			instance_item("Def Up", unit)
 		if unit.get_name() == "samurai":
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
 			instance_skill("Shadow Strike", unit)
-			instance_item("Detox", unit)
+			instance_item("Atk Up", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison Bomb", unit)
 			instance_item("Speed Up", unit)
@@ -293,6 +294,13 @@ func instance_status(name, stat, target, effect):
 	status_instance.status = stat
 	status_instance.timer = 3 # <-- number is placeholder
 	status_instance.effect = effect
+	
+	var i = 0
+	for status in target.status_vector:
+		if status.status == stat:
+			target.status_vector.remove(i)
+		i += 1
+	
 	target.status_vector.append(status_instance)
 
 
@@ -577,7 +585,9 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	
 	elif type == "Status":
 		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
-	
+		if target[target_vpos] != null:
+			if not item.status == "Poison":
+				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
@@ -642,6 +652,9 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 	# WORK IN PROGRESS
 	elif type == "Status":
 		instance_status(item.name, item.status, target[target_vpos], item.effect)  # Applies the status
+		if target[target_vpos] != null:
+			if not item.status == "Poison":
+				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
@@ -739,16 +752,6 @@ func status_apply(actor, target_side, target_vpos):
 							actor.status_vector.remove(i)
 						i += 1
 			
-			# Applies the effect of speed boost
-			elif effect.status == "Speed":
-				if effect.timer == 3:
-					var bonus = effect.effect * actor.speed
-					actor.bonus_speed += bonus
-					damage_box(str("SPD +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
-				effect.timer -= 1
-				if effect.timer == 0:
-					actor.bonus_speed -= effect.effect * actor.speed
-			
 			# Applies the effect os Paralysis: character can't perform an action
 			elif effect.status == "Paralysis":
 				effect.timer -= 1
@@ -759,6 +762,40 @@ func status_apply(actor, target_side, target_vpos):
 						if stat.status == "Paralysis":
 							actor.status_vector.remove(i)
 						i += 1
+				
+############################################################################################
+############################################################################################
+############################################################################################
+			
+			# Applies the effect of attack boost
+			elif effect.status == "Attack":
+				var bonus = effect.effect * actor.attack
+				if effect.timer == 3:
+					actor.bonus_attack += bonus
+					damage_box(str("ATK +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.timer -= 1
+				if effect.timer == 0:
+					actor.bonus_attack -= bonus
+			
+			# Applies the effect of defense boost
+			elif effect.status == "Defense":
+				var bonus = effect.effect * actor.defense
+				if effect.timer == 3:
+					actor.bonus_defense += bonus
+					damage_box(str("DEF +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.timer -= 1
+				if effect.timer == 0:
+					actor.bonus_defense -= bonus
+			
+			# Applies the effect of speed boost
+			elif effect.status == "Speed":
+				var bonus = effect.effect * actor.speed
+				if effect.timer == 3:
+					actor.bonus_speed += bonus
+					damage_box(str("SPD +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.timer -= 1
+				if effect.timer == 0:
+					actor.bonus_speed -= bonus
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -1084,11 +1121,9 @@ func organize_slots(type, actor):
 				node.get_node("Label1").set_text(str("Cost: ", object.cost))
 		
 		elif type == "Item":
-			node.get_node("Label1").set_text("Amount")
+			node.get_node("Label1").set_text(str("Amount:\n   ", object.amount, "/", durability))
 			node.get_node("Label1").show()
-			node.get_node("ProgressBar").show()
-			node.get_node("ProgressBar").set_max(durability)
-			node.get_node("ProgressBar").set_value(object.amount)
+			node.get_node("ProgressBar").hide()
 			if object.amount <= 0:
 				get_node(str(path, num)).set_disabled(true)
 		num += 1
