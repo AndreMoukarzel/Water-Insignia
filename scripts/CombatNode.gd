@@ -710,8 +710,6 @@ func compare_speed(act1, act2):
 # blinks an unit to indicate it's the one whose action is being chosen
 func blink(actor, counter):
 	if counter < 20:
-		print (allies_pos.size(),"tamanho é")
-		print (actor)
 		get_node(str("Allies/",actor)).set_opacity(1)
 	else:
 		get_node(str("Allies/",actor)).set_opacity(0.5)
@@ -1145,7 +1143,6 @@ func _fixed_process(delta):
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 			
 			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
-				print("Entrei aqui... O to é ",get_node(str(act.to[1],"/",act.to[0]))," (",act.to[0]," ",act.to[1],") ",", e o from é ",get_node(str(act.from[1],"/",act.from[0]))," (",act.from[0]," ",act.from[1],") ")
 				if act.action == "defend":
 					action_memory.pop_front() # add defense behavior here
 				elif act.action == "skill":
