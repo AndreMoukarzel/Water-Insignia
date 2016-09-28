@@ -51,3 +51,30 @@ func set_level(mode):
 		level.active_units = units_vector
 	add_child(level)
 	get_node("old").queue_free()
+
+
+func save():
+	var savedict = {
+		newgame = 0,
+		party = units_vector
+		}
+	return savedict
+
+
+func save_game():
+	var savegame = File.new()
+	var savedata = save()
+	savegame.open("user://savegame.save", File.WRITE)
+	savegame.store_line(savedata.to_json())
+	savegame.close()
+
+
+func load_game():
+	var savegame = File.new()
+	if !savegame.file_exists("user://savegame.save"):
+		return #Error!  We don't have a save to load
+
+	savegame.open("user://savegame.save", File.READ)
+	while (!savegame.eof_reached()):
+		pass
+	savegame.close()

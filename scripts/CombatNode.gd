@@ -325,7 +325,7 @@ func resize_menu():
 	get_node("ActionMenu/Attack").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Skill").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Item").set_size(Vector2(window_size.x, window_size.y - 500))
-	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - 104, -45))
+	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - (get_node("ActionMenu/Return").get_size().x + 10), -45))
 
 
 # Name the units
