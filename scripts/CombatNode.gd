@@ -35,6 +35,9 @@ class unit:
 	func get_name():
 		return db.get_char_name(id)
 
+	func get_allowed_weapons():
+		return db.get_weapon_vector(id)
+
 	func get_attack():
 		return attack + bonus_attack
 
@@ -159,16 +162,7 @@ func _ready():
 			instance_item("Potion", unit)
 			instance_item("Poison bomb", unit)
 			instance_item("Speed up", unit)
-	
-	for unit in enemies_vector:
-		if unit.get_name() == "bat":
-			instance_weapon("Bat Fangs", unit)
-			instance_weapon("Bat Wings", unit)
-		if unit.get_name() == "samurai":
-			instance_weapon("Katana", unit)
-			instance_weapon("Bamboo Sword", unit)
-	######################
-	
+
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Renomeia as unidades par 0, 1, 2, ..., para não ficar com a estranha da Godot
@@ -178,10 +172,6 @@ func _ready():
 # ############################### #
 # ##### INSTANCING FUNCTIONS #### # 
 # ############################### #
-
-# Vamos precisar de um script auxiliar, que tenhamos o estado inicial
-# de cada mob, para quando formos gera-los, termos noção de qual armas,
-# skills e etc. eles devem ter no momento inicial.
 
 # Instance an unit
 func instance_unit(id, level, path):
@@ -214,12 +204,29 @@ func instance_unit(id, level, path):
 		allies_vector.append(unit_instance)
 	elif path == "Enemies":
 		enemies_vector.append(unit_instance)
-		
+
+
 func generate_mob(stage):
 	var stage_spawner = stage_database.get_stage_spawner(stage)
 	var selected_mob = stage_spawner.get_random_mob()
+
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
+
+	for unit in enemies_vector:
+		var allowed = unit.get_allowed_weapons()
+		var amount = 0
+
+		for type in allowed:
+			if type == "Sword" or type == "Axe" or type == "Spear":
+				var possible_wpns = stage_spawner.get_permited_weapons(type, wpn_database)
+				randomize()
+				var random = randi() % (possible_wpns.size() + 1)
+
+				if random < possible_wpns.size():
+					instance_weapon(possible_wpns[random], unit)
+			else: # Weapon is certanly a beast or signature weapon
+				instance_weapon(type, unit)
 
 
 # owner is the reference in the correct vector (allies or enemies)

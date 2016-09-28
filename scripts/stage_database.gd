@@ -24,7 +24,6 @@ class stage_spawner:
 	var mobs
 	var weapons
 	var items
-	onready var wpn_db = get_node("/root/weapon_database")
 
 	func _init(mobs, weapons, items):
 		self.mobs = mobs
@@ -37,10 +36,10 @@ class stage_spawner:
 		random = randi() % mobs.size()
 		return mobs[random]
 
-	func get_allowed_weapons(type):
-		var vector
+	func get_permited_weapons(type, wpn_db):
+		var vector = []
 		for wpn in weapons:
-			if wpn_db.get_wpn_type(wpn_db.get_wpn_id(wpn.name)) == type:
+			if wpn_db.get_wpn_type(wpn_db.get_wpn_id(wpn)) == type:
 				vector.append(wpn)
 		return vector
 
@@ -70,8 +69,7 @@ var stage_database = [
 		],[ # Allowed Weapons
 		"Katana"
 		],[ # Allowed Items
-		"PAR Bomb"
-		])
+		"PAR Bomb"])
 ]
 
 

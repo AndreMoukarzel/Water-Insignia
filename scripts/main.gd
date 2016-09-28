@@ -10,7 +10,8 @@ var units_vector = []
 # Unit class - for instancing an enemy or ally
 class unit:
 	var id # Unit ID in the character database
-	var name # Unit's name
+	var name
+	var level 
 	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
 	var item_vector = [] # Array containing the unit's available items
 
