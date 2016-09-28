@@ -50,8 +50,9 @@ class unit:
 # Weapon class - for instancing an weapon
 class weapon:
 	var id # Weapon ID in the weapon database
-	var name
-	var durability
+	var name # Weapon name in the weapon database
+	var durability # Weapon durability
+	var type # Weapon type - sword, axe, spear
 
 class skill:
 	var id # Skill ID in the weapon database
@@ -248,6 +249,7 @@ func instance_weapon(name, owner):
 	wpn_instance.id = id
 	wpn_instance.name = name
 	wpn_instance.durability = wpn_database.get_durability(id)
+	wpn_instance.type = wpn_database.get_wpn_type(id)
 	owner.wpn_vector.append(wpn_instance)
 
 
@@ -370,13 +372,11 @@ func turn_based_system():
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
-				print ("allies status apply")
 				status_apply(char, "Allies", i)
 			i += 1
 		i = 0
 		for char in enemies_vector:
 			if (char != null):
-				print ("enemies status apply")
 				status_apply(char, "Enemies", i)
 			i += 1
 		turn_start = 1
@@ -415,9 +415,11 @@ func turn_based_system():
 				
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
-					allies_vector[act.from[0]].bonus_defense = allies_vector[act.from[0]].defense * 2
+					allies_vector[act.from[0]].bonus_defense += allies_vector[act.from[0]].defense * 2
 				elif act.from[1] == "Enemies":
-					enemies_vector[act.from[0]].bonus_defense = enemies_vector[act.from[0]].defense * 2
+					enemies_vector[act.from[0]].bonus_defense += enemies_vector[act.from[0]].defense * 2
+				
+				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("defend")
 				
@@ -498,7 +500,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 	# DEFEND command greatly increses the unit's defense for only one attack
 	# So, after the unit is attacked, the bonus defense should be reduced
-	defender[defender_vpos].bonus_defense = 0 # <-- FIX THIIIIIIIIIIS
+	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
 	
 	# damage can't be lower than zero
 	if (damage < 0):
@@ -508,14 +510,8 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	defender[defender_vpos].hp_current -= damage
 	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	
-	# Message for when the defender doesn't die
-	# Mostly for debugging purpose
-	if defender[defender_vpos].hp_current > 0:
-		print(str("Um ataque direto! O hp restante é: ", defender[defender_vpos].hp_current))
-	
 	# If the attack kills the defender
 	if (defender[defender_vpos].hp_current <= 0):
-		print(str("O inimigo ", defender[defender_vpos].get_name(), " foi derrotado!")) # Message for debugging purpose
 		#efeito visual aqui#
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
@@ -602,6 +598,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 		user = allies_vector
 	elif user_side == "Enemies":
 		user = enemies_vector
+	
 	if target_side == "Enemies":
 		target = enemies_vector
 	elif target_side == "Allies":
@@ -679,7 +676,6 @@ func enemy_attack_beta():
 			
 			# Instances the attack
 			action_instance.to = [int(random_target), "Allies"]
-			print("O inimigo numero ", enemies, " vai tentar atacar o aliado numero ", int(random_target))
 			action_instance.action = "attack"
 			action_instance.action_id = 0
 			action_instance.speed = enemies_vector[enemies].get_speed()
@@ -985,7 +981,6 @@ func target_select(target):
 	var team = null
 	var distance = 500 # A unit is being targeted if the mouse is up to 500 units away from its center
 	
-	
 	if target == "Allies":
 		for i in allies_pos:
 			if i != null:
@@ -1066,7 +1061,6 @@ func organize_slots(type, actor):
 		node.show()
 		node.get_parent().set_disabled(false)
 		
-		# If the unit has run out of that item or the weapon has broken for too much use
 		if type == "Weapon":
 			node.get_node("Label1").show()
 			node.get_node("ProgressBar").show()
@@ -1079,9 +1073,15 @@ func organize_slots(type, actor):
 				node.get_node("ProgressBar").hide()
 		
 		elif type == "Skill":
-			node.get_node("Label1").set_text(str("Cost: ", object.cost))
 			node.get_node("Label1").show()
 			node.get_node("ProgressBar").hide()
+			if unit.mp_current < object.cost: # Button is disabled and cost is red if there isn't enough mana to use the skill
+				get_node(str(path, num)).set_disabled(true)
+				node.get_node("Label1").add_color_override("font_color", Color(1, 0, 0))
+				node.get_node("Label1").set_text(str("Cost: ", object.cost))
+			else:
+				node.get_node("Label1").add_color_override("font_color", Color(1, 1, 1))
+				node.get_node("Label1").set_text(str("Cost: ", object.cost))
 		
 		elif type == "Item":
 			node.get_node("Label1").set_text("Amount")
@@ -1177,7 +1177,6 @@ func _fixed_process(delta):
 		time -= 1
 		if time <= 1:
 			player.play("idle")
-			print ("act.action = ", act.action)
 			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
 			filter_action(act)
 			action_memory.pop_front()
