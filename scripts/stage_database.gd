@@ -43,8 +43,11 @@ class stage_spawner:
 				vector.append(wpn)
 		return vector
 
-	func get_random_item():
+	func get_random_item(): # 50% chance of returning no item
 		var random
+		randomize()
+		if (randi() % 100) < 50:
+			return null
 		randomize()
 		random = randi() % items.size()
 		return items[random]
@@ -53,12 +56,14 @@ class stage_spawner:
 var stage_database = [
 #	Stage 1
 	stage_spawner.new([ #Allowed Mobs
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 3)]),
 		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)])
 		],[ # Allowed Weapons
 		"Katana",
-		"Bamboo Sword"
+		"Bamboo Sword",
+		"Bamboo Sword",
+		"Bamboo Sword",
 		],[ # Allowed Items
 		"Potion",
 		"Poison Bomb",

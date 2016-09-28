@@ -217,10 +217,9 @@ func generate_mob(stage):
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
 
 	for unit in enemies_vector:
-		var allowed = unit.get_allowed_weapons()
-		var amount = 0
+		var allowed_weapon = unit.get_allowed_weapons()
 
-		for type in allowed:
+		for type in allowed_weapon:
 			if type == "Sword" or type == "Axe" or type == "Spear":
 				var possible_wpns = stage_spawner.get_permited_weapons(type, wpn_database)
 				randomize()
@@ -230,6 +229,11 @@ func generate_mob(stage):
 					instance_weapon(possible_wpns[random], unit)
 			else: # Weapon is certanly a beast or signature weapon
 				instance_weapon(type, unit)
+
+		for i in range(4):
+			item = stage_spawner.get_random_item()
+			if item != null: # 50% chance of recieving no item at each slot
+				instance_item(item, unit)
 
 
 # owner is the reference in the correct vector (allies or enemies)
