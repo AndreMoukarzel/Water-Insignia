@@ -165,6 +165,9 @@ func _ready():
 			instance_item("Poison bomb", unit)
 			instance_item("Speed up", unit)
 
+	for weapon in enemies_vector[0].wpn_vector:
+		print(weapon.name)
+
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Renomeia as unidades par 0, 1, 2, ..., para não ficar com a estranha da Godot
