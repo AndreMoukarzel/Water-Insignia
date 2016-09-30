@@ -369,7 +369,6 @@ func damage_box(damage, color, pos):
 	box.color = color
 	box.set_pos(pos)
 	add_child(box)
-	
 
 # ############################### #
 # ####### COMBAT FUNCTIONS ###### # 
@@ -539,8 +538,8 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		elif defender_side == "Allies":
 			allies_pos[defender_vpos] = Vector2(-100, -100)
 		
-		# Victory/Defeat condition
-		win_lose_cond(defender_side)
+#		# Victory/Defeat condition
+#		win_lose_cond(defender_side)
 		
 		return 1 # defender death
 	return 0
@@ -586,7 +585,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				allies_pos[target_vpos] = Vector2(-100, -100)
 			
 			# Victory/Defeat condition
-			win_lose_cond(target_side)
+#			win_lose_cond(target_side)
 		
 		# If the skill tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
@@ -598,7 +597,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 		if target[target_vpos] != null:
 			if not skill.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
-				win_lose_cond(target_side)
+#				win_lose_cond(target_side)
 	
 	# If the skill is a Dispell-type skill
 	elif type == "Dispell":
@@ -631,7 +630,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				allies_pos[target_vpos] = Vector2(-100, -100)
 			
 			# Victory/Defeat condition
-			win_lose_cond(target_side)
+#			win_lose_cond(target_side)
 		
 		# If the skill tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
@@ -642,7 +641,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 		if target[target_vpos] != null:
 			if not skill.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
-				win_lose_cond(target_side)
+#				win_lose_cond(target_side)
 
 
 # Executes an ITEM action
@@ -688,7 +687,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 				allies_pos[target_vpos] = Vector2(-100, -100)
 			
 			# Victory/Defeat condition
-			win_lose_cond(target_side)
+#			win_lose_cond(target_side)
 		
 		# If the item tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
@@ -701,7 +700,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 		if target[target_vpos] != null:
 			if not item.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
-				win_lose_cond(target_side)
+#				win_lose_cond(target_side)
 	
 	# If the item is a Dispell-type item
 	elif type == "Dispell":
@@ -734,7 +733,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 				allies_pos[target_vpos] = Vector2(-100, -100)
 			
 			# Victory/Defeat condition
-			win_lose_cond(target_side)
+#			win_lose_cond(target_side)
 		
 		# If the item tries to overheal an unit
 		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
@@ -745,7 +744,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 		if target[target_vpos] != null:
 			if not item.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
-				win_lose_cond(target_side)
+#				win_lose_cond(target_side)
 
 
 # Process the enemies attacks
@@ -824,7 +823,7 @@ func status_apply(actor, target_side, target_vpos):
 						allies_pos[target_vpos] = Vector2(-100, -100)
 					
 					# Victory/Defeat condition
-					win_lose_cond(target_side)
+#					win_lose_cond(target_side)
 				
 				# Removes the status effect once its time is up
 				if effect.timer == 0:
@@ -883,7 +882,7 @@ func status_apply(actor, target_side, target_vpos):
 
 # Victory or Defeat condition. Either way, goes to the management screen
 func win_lose_cond(target_side):
-	if get_node(target_side).get_child_count() == 1:
+	if get_node(target_side).get_child_count() < 1:
 		if target_side == "Allies":
 			print("KILL YOURSELF")
 			end = -1
@@ -1272,8 +1271,10 @@ func _fixed_process(delta):
 					if act.action == "defend":
 						action_memory.pop_front() # add defense behavior here
 					elif act.action == "skill":
+						time = 2
 						STATE_NEXT = "ANIMATION"
 					elif act.action == "item":
+						time = 2
 						STATE_NEXT = "ANIMATION"
 					else:
 						var atk_pos
@@ -1312,7 +1313,13 @@ func _fixed_process(delta):
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
 	elif STATE == "ANIMATION":
 		time -= 1
-		if time <= 1:
+		print (time)
+		if time <= -30:
+			action_memory.pop_front()
+			STATE_NEXT = "EXECUTE ACTION"
+			win_lose_cond("Allies")
+			win_lose_cond("Enemies")
+		elif time <= 1 && time > 0:
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 			
@@ -1331,8 +1338,6 @@ func _fixed_process(delta):
 			player.play("idle")
 			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
 			filter_action(act)
-			action_memory.pop_front()
-			STATE_NEXT = "EXECUTE ACTION"
 	
 	# Mouse cooldown so multi clicks doesn't happen
 	if mouse_cooldown > 0:
