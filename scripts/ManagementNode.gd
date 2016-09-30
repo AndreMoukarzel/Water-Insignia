@@ -121,14 +121,14 @@ func _ready():
 		print ("Hey")
 	#tests above
 	for unit in active_units:
-		um_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 	
 	for unit in barracks_units:
-		um_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(unit.id), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		im_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 
 	size_update()
 	
@@ -137,16 +137,38 @@ func _ready():
 func _fixed_process(delta):
 	# Unit management
 	if (um_ap.get_selected_items().size() != 0 or um_b.get_selected_items().size() != 0):
-		if (um_ap.get_selected_items().size() == 0):
+		if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
+			# Ambos selecionados, exibe informações
+			if (last_selected_apunit != um_ap.get_selected_items()[0]):
+				um_aps.neutralize_node("Unit Status")
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				last_selected_apunit = um_ap.get_selected_items()[0]
+				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
+				um_aps.get_node("Class").set_text("Class PH")
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			if (last_selected_bunit != um_b.get_selected_items()[0]):
+				um_bs.neutralize_node("Unit Status")
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				last_selected_bunit = um_b.get_selected_items()[0]
+				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
+				um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			um_s.set_disabled(false)
+		elif (um_ap.get_selected_items().size() == 0):
 			# Selecionado membro da barracks, exibe informações
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
 				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
 				last_selected_bunit = um_b.get_selected_items()[0]
-				um_bs.get_node("Name").set_text(barracks_units[um_b.get_selected_items()[0]].name)
+				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
+				um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
 				
-				um_aps.neutralize_node("Unit Status")
-				last_selected_apunit = -1
+			um_aps.neutralize_node("Unit Status")
+			last_selected_apunit = -1
 			
 			if (um_ap.get_item_count() != 4):
 				um_s.set_disabled(false)
@@ -158,10 +180,13 @@ func _fixed_process(delta):
 				um_aps.neutralize_node("Unit Status")
 				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
 				last_selected_apunit = um_ap.get_selected_items()[0]
-				um_aps.get_node("Name").set_text(active_units[um_ap.get_selected_items()[0]].name)
+				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
+				um_aps.get_node("Class").set_text("Class PH")
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
 				
-				um_bs.neutralize_node("Unit Status")
-				last_selected_bunit = -1
+			um_bs.neutralize_node("Unit Status")
+			last_selected_bunit = -1
 				
 			if (um_ap.get_item_count() != 1):
 				um_s.set_disabled(false)
@@ -175,19 +200,6 @@ func _fixed_process(delta):
 		last_selected_bunit = -1
 		
 		um_s.set_disabled(true)
-	if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
-		# Ambos selecionados, exibe informações
-		if (last_selected_apunit != um_ap.get_selected_items()[0]):
-			um_aps.neutralize_node("Unit Status")
-			um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
-			last_selected_apunit = um_ap.get_selected_items()[0]
-			um_aps.get_node("Name").set_text(active_units[um_ap.get_selected_items()[0]].name)
-		if (last_selected_bunit != um_b.get_selected_items()[0]):
-			um_bs.neutralize_node("Unit Status")
-			um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
-			last_selected_bunit = um_b.get_selected_items()[0]
-			um_bs.get_node("Name").set_text(barracks_units[um_b.get_selected_items()[0]].name)
-		um_s.set_disabled(false)
 
 	# Item management
 	if (im_ap.get_selected_items().size() != 0):
@@ -373,13 +385,13 @@ func _on_Swap_pressed():
 		var b_unit = barracks_units[um_b.get_selected_items()[0]]
 		var b_local_id = um_b.get_selected_items()[0]
 		active_units.append(b_unit)
-		um_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		barracks_units.append(a_unit)
-		um_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
@@ -394,9 +406,9 @@ func _on_Swap_pressed():
 		var a_unit = active_units[um_ap.get_selected_items()[0]]
 		var a_local_id = um_ap.get_selected_items()[0]
 		barracks_units.append(a_unit)
-		um_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(a_unit.id), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
@@ -406,9 +418,9 @@ func _on_Swap_pressed():
 		var b_unit = barracks_units[um_b.get_selected_items()[0]]
 		var b_local_id = um_b.get_selected_items()[0]
 		active_units.append(b_unit)
-		um_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(b_unit.id), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)

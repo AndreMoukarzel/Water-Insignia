@@ -33,7 +33,9 @@ func neutralize_node(type):
 			child.queue_free()
 	if (type == "Unit Status"):
 		get_node("Name").set_text("")
-
+		get_node("Class").set_text("")
+		get_node("Attack").set_text("")
+		get_node("Defense").set_text("")
 
 func instance_animation(id):
 	
@@ -56,9 +58,6 @@ func instance_animation(id):
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	anim_sprite.set_name("Icon")
-	anim_sprite.set_scale(Vector2(0.9, 0.9))
-	anim_sprite.set_scale(Vector2(-1, 1))
-	anim_sprite.set_pos(Vector2(get_size().x, 0))
+	anim_sprite.set_scale(Vector2(-2.5, 2.5))
+	anim_sprite.set_pos(Vector2(get_size().x - 55, 70))
 	add_child(anim_sprite)
-
-	print(get_node("Icon").get_name())
