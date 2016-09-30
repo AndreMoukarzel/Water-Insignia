@@ -154,6 +154,8 @@ func _ready():
 			instance_weapon("Bat Wings", unit)
 			instance_skill("Heal", unit)
 			instance_skill("Poison Sting", unit)
+			instance_skill("Blast", unit)
+			instance_skill("Guard", unit)
 			instance_item("PAR Bomb", unit)
 			instance_item("Bomb", unit)
 			instance_item("Depar", unit)
@@ -162,11 +164,13 @@ func _ready():
 			instance_weapon("Katana", unit)
 			instance_weapon("Bamboo Sword", unit)
 			instance_skill("Shadow Strike", unit)
+			instance_skill("Cure", unit)
+			instance_skill("Agility", unit)
 			instance_item("Atk Up", unit)
 			instance_item("Potion", unit)
 			instance_item("Poison Bomb", unit)
 			instance_item("Speed Up", unit)
-
+	
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Renomeia as unidades par 0, 1, 2, ..., para não ficar com a estranha da Godot
@@ -214,25 +218,25 @@ func instance_unit(id, level, path):
 func generate_mob(stage):
 	var stage_spawner = stage_database.get_stage_spawner(stage)
 	var selected_mob = stage_spawner.get_random_mob()
-
+	
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
-
+	
 	for unit in enemies_vector:
 		var allowed_weapon = unit.get_allowed_weapons()
-
+	
 		# Allocates the weapons for each unit of the mob
 		for type in allowed_weapon:
 			if type == "Sword" or type == "Axe" or type == "Spear":
 				var possible_wpns = stage_spawner.get_permited_weapons(type, wpn_database)
 				randomize()
 				var random = randi() % (possible_wpns.size() + 1)
-
+			
 				if random < possible_wpns.size():
 					instance_weapon(possible_wpns[random], unit)
 			else: # Weapon is certanly a beast or signature weapon
 				instance_weapon(type, unit)
-
+			
 		# Allocates the items for each unit of the mob
 		for i in range(4):
 			var item = stage_spawner.get_random_item()
@@ -293,6 +297,8 @@ func instance_status(name, stat, target, effect):
 	status_instance.name = name
 	status_instance.status = stat
 	status_instance.timer = 3 # <-- number is placeholder
+	if stat != "Poison": # A status is applied right in the turn it's used (except for poison) and it counter is decreased by one when it does, so it needs an extra counter
+		status_instance.timer += 1
 	status_instance.effect = effect
 	
 	var i = 0
@@ -304,7 +310,7 @@ func instance_status(name, stat, target, effect):
 	target.status_vector.append(status_instance)
 
 
-# Reposition the units in the battle screen
+# Position the units in the battle screen
 func reposition_units():
 	var num
 	
@@ -359,7 +365,7 @@ func damage_box(damage, color, pos):
 	box.color = color
 	box.set_pos(pos)
 	add_child(box)
-
+	
 
 # ############################### #
 # ####### COMBAT FUNCTIONS ###### # 
@@ -388,8 +394,8 @@ func turn_based_system():
 				status_apply(char, "Enemies", i)
 			i += 1
 		turn_start = 1
-		
-		
+	
+	
 	# Choose an action and a target (if allowed)
 	if(targeting):
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
@@ -497,10 +503,10 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 	
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
-	var char_atk = attacker[attacker_vpos].get_attack() # attacker's base attack
-	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # attacker's weapon power
-	var char_def = defender[defender_vpos].get_defense() # defender's base defense   
-	var damage = (char_atk + wpn_atk) - char_def  # damage dealt
+	var char_atk = attacker[attacker_vpos].get_attack() # Attacker's base attack
+	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # Attacker's weapon power
+	var char_def = defender[defender_vpos].get_defense() # Defender's base defense   
+	var damage = (char_atk + wpn_atk) - char_def  # Damage dealt
 	
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
@@ -515,8 +521,8 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		damage = 0
 	
 	# Reduces the defender's HP and shows it in the combat screen
-	defender[defender_vpos].hp_current -= damage
 	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+	defender[defender_vpos].hp_current -= damage
 	
 	# If the attack kills the defender
 	if (defender[defender_vpos].hp_current <= 0):
@@ -586,7 +592,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	elif type == "Status":
 		instance_status(skill.name, skill.status, target[target_vpos], skill.effect) # Applies the status
 		if target[target_vpos] != null:
-			if not (item.status == "Poison"):
+			if not skill.status == "Poison":
 				status_apply(target[target_vpos], target_side, target_vpos)
 	
 	# If the item is a Dispell-type item
@@ -755,6 +761,7 @@ func status_apply(actor, target_side, target_vpos):
 			# Applies the effect os Paralysis: character can't perform an action
 			elif effect.status == "Paralysis":
 				effect.timer -= 1
+				print (effect.timer)
 				
 				if effect.timer == 0:
 					var i = 0
@@ -1193,6 +1200,28 @@ func _fixed_process(delta):
 					elif act.action == "item":
 						STATE_NEXT = "ANIMATION"
 					else:
+						var atk_pos
+						var def_pos
+						var unit
+						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
+						if act.from[1] == "Allies":
+							atk_pos = allies_pos[act.from[0]]
+							if act.to[1] == "Allies":
+								def_pos = allies_pos[act.to[0]]
+							elif act.to[1] == "Enemies":
+								def_pos = enemies_pos[act.to[0]]
+							unit = get_node(str("Allies/", act.from[0]))
+							unit.set_pos(Vector2(def_pos[0] - 130, def_pos[1]))
+							
+						elif act.from[1] == "Enemies":
+							atk_pos = enemies_pos[act.from[0]]
+							if act.to[1] == "Allies":
+								def_pos = allies_pos[act.to[0]]
+							elif act.to[1] == "Enemies":
+								def_pos = enemies_pos[act.to[0]]
+							unit = get_node(str("Enemies/", act.from[0]))
+							unit.set_pos(Vector2(def_pos[0] + 130, def_pos[1]))
+							
 						time = (player.get_animation(act.action).get_length()) * 60
 						player.play(act.action)
 						STATE_NEXT = "ANIMATION"
@@ -1211,6 +1240,18 @@ func _fixed_process(delta):
 		
 		time -= 1
 		if time <= 1:
+			var atk_pos
+			var unit
+			# Verifies who attacked and returns the unit to its original position
+			if act.from[1] == "Allies":
+				atk_pos = allies_pos[act.from[0]]
+				unit = get_node(str("Allies/", act.from[0]))
+				unit.set_pos(Vector2(atk_pos))
+				
+			elif act.from[1] == "Enemies":
+				atk_pos = enemies_pos[act.from[0]]
+				unit = get_node(str("Enemies/", act.from[0]))
+				unit.set_pos(Vector2(atk_pos))
 			player.play("idle")
 			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
 			filter_action(act)

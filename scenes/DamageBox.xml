@@ -73,11 +73,12 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="29">
+			<string_array  len="30">
 				<string> "DamageBox" </string>
 				<string> "script/script" </string>
 				<string> "Node2D" </string>
 				<string> "Label" </string>
+				<string> "visibility/opacity" </string>
 				<string> "rect/scale" </string>
 				<string> "focus/ignore_mouse" </string>
 				<string> "focus/stop_mouse" </string>
@@ -110,17 +111,18 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="71"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 3, 3, -1, 16, 4, 1, 5, 2, 6, 2, 7, 3, 8, 4, 9, 5, 10, 5, 11, 6, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 17, 12, 18, 4, 19, 13, 0, 1, 0, 20, 20, -1, 8, 21, 14, 22, 5, 23, 15, 24, 16, 25, 2, 26, 12, 27, 17, 28, 18, 0 </int_array>
+			<int_array  len="73"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 3, 3, -1, 17, 4, 1, 5, 2, 6, 3, 7, 3, 8, 4, 9, 5, 10, 1, 11, 6, 12, 7, 13, 8, 14, 9, 15, 10, 16, 11, 17, 12, 18, 13, 19, 5, 20, 14, 0, 1, 0, 21, 21, -1, 8, 22, 15, 23, 1, 24, 16, 25, 17, 26, 3, 27, 13, 28, 18, 29, 19, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="19" shared="false">
+			<array  len="20" shared="false">
 				<resource  external="0">  </resource>
+				<real> 0 </real>
 				<vector2> 3, 3 </vector2>
 				<bool> True </bool>
 				<int> 2 </int>
 				<int> 0 </int>
-				<real> 0 </real>
+				<real> -20 </real>
 				<real> 53 </real>
-				<real> 16 </real>
+				<real> -4 </real>
 				<resource  external="1">  </resource>
 				<color> 0.288096, 0.292969, 0.287247, 1 </color>
 				<color> 1, 1, 1, 1 </color>
