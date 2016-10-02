@@ -1,8 +1,10 @@
 
 extends Node
 
+# Constants
 const SLOT_SIZE = 64
 
+# Global Variables
 var last_selected_apunit = -1
 var last_selected_bunit = -1
 var last_selected_party = -1
@@ -13,8 +15,11 @@ var last_selected_type = -1 # 0 = ap, 1 = barracks
 
 
 var item_swap_mode = 0 # 0 = barracks, 1 = storage
+var item_info_mode = 0 # 0 = deactivated, 1 = activated
 
-# Nodes
+# Global Node References
+
+# Unit Management Nodes (um)
 onready var um_ap = get_node("UnitManagement/ActiveParty")
 onready var um_b = get_node("UnitManagement/Barracks")
 onready var um_s = get_node("UnitManagement/Swap")
@@ -22,6 +27,7 @@ onready var um_r = get_node("UnitManagement/Return")
 onready var um_aps = get_node("UnitManagement/ActivePartyStatus")
 onready var um_bs = get_node("UnitManagement/BarracksStatus")
 
+# Unit Management Nodes (im)
 onready var im_ap = get_node("ItemManagement/ActiveParty")
 onready var im_apw = get_node("ItemManagement/ActivePartyWeapons")
 onready var im_api = get_node("ItemManagement/ActivePartyItems")
@@ -34,14 +40,17 @@ onready var im_si = get_node("ItemManagement/SwapItems")
 onready var im_sw = get_node("ItemManagement/SwapWeapons")
 onready var im_r = get_node("ItemManagement/Return")
 
+# Repair Menu Nodes (rm)
 onready var rm_ap = get_node("RepairMenu/ActiveParty")
 onready var rm_b = get_node("RepairMenu/Barracks")
 onready var rm_w = get_node("RepairMenu/Weapons")
 
+# Databases
 var char_database
 var wpn_database
 var item_database
 
+# Other Variables / Transitioning data
 var screen_size
 var window_size
 
@@ -52,6 +61,8 @@ var storage_weapons = []
 var storage_items = []
 
 var current_screen 
+
+# Classes (possibly will not need those in final version, maybe weapon or item for shop, but probably not)
 
 class unit:
 	var id
@@ -75,6 +86,7 @@ class item:
 
 
 func _ready():
+	# Get screen and window sizes, and get databases
 	screen_size = OS.get_screen_size()
 	window_size = OS.get_window_size()
 
@@ -82,7 +94,7 @@ func _ready():
 	wpn_database = get_node("/root/weapon_database")
 	item_database = get_node("/root/item_database")
 
-	# instance testing, will be replaced
+	# instance testing, will be removed
 	instance_unit(1, "Barracks")
 	instance_unit(0, "Barracks")
 
@@ -101,7 +113,7 @@ func _ready():
 			instance_item("PAR Bomb", unit)
 			instance_item("PAR Bomb", unit)
 	
-	#settings for itemlists
+	# Settings for ItemLists
 	um_ap.set_max_columns(3)
 	um_b.set_max_columns(3)
 	im_ap.set_max_columns(3)
@@ -116,10 +128,10 @@ func _ready():
 	im_sti.set_max_columns(4)
 	rm_w.set_max_columns(4)
 	
-	#populating character lists
-	if (active_units == null):
-		print ("Hey")
-	#tests above
+	# Populating character lists for active units and barracks
+	# Those are instanced here, because for every action taken on
+	# the ItemLists, the same action is taken on the actual character
+	# arrays, for some operations are index-based
 	for unit in active_units:
 		um_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
@@ -130,77 +142,14 @@ func _ready():
 		im_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 		rm_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
 
+	# Fix sizes and positions of some nodes
 	size_update()
 	
+	# Begin fixed process
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
-	# Unit management
-	if (um_ap.get_selected_items().size() != 0 or um_b.get_selected_items().size() != 0):
-		if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
-			# Ambos selecionados, exibe informações
-			if (last_selected_apunit != um_ap.get_selected_items()[0]):
-				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
-				last_selected_apunit = um_ap.get_selected_items()[0]
-				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
-				um_aps.get_node("Class").set_text("Class PH")
-				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-			if (last_selected_bunit != um_b.get_selected_items()[0]):
-				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
-				last_selected_bunit = um_b.get_selected_items()[0]
-				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
-				um_bs.get_node("Class").set_text("Class PH")
-				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-			um_s.set_disabled(false)
-		elif (um_ap.get_selected_items().size() == 0):
-			# Selecionado membro da barracks, exibe informações
-			if (last_selected_bunit != um_b.get_selected_items()[0]):
-				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
-				last_selected_bunit = um_b.get_selected_items()[0]
-				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
-				um_bs.get_node("Class").set_text("Class PH")
-				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				
-			um_aps.neutralize_node("Unit Status")
-			last_selected_apunit = -1
-			
-			if (um_ap.get_item_count() != 4):
-				um_s.set_disabled(false)
-			else:
-				um_s.set_disabled(true)
-		else:
-			# Selecionado membro da active party, exibe informações
-			if (last_selected_apunit != um_ap.get_selected_items()[0]):
-				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
-				last_selected_apunit = um_ap.get_selected_items()[0]
-				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
-				um_aps.get_node("Class").set_text("Class PH")
-				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				
-			um_bs.neutralize_node("Unit Status")
-			last_selected_bunit = -1
-				
-			if (um_ap.get_item_count() != 1):
-				um_s.set_disabled(false)
-			else:
-				um_s.set_disabled(true)
-	else:
-		#Tira todas as informações
-		um_aps.neutralize_node("Unit Status")
-		last_selected_apunit = -1
-		um_bs.neutralize_node("Unit Status")
-		last_selected_bunit = -1
-		
-		um_s.set_disabled(true)
-
+	Update_UM()
 	# Item management
 	if (im_ap.get_selected_items().size() != 0):
 		#populate and show weapons and items list for active party member
@@ -337,7 +286,11 @@ func _fixed_process(delta):
 						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
 				last_selected_repair = rm_b.get_selected_items()[0]
 				last_selected_type = 1
-	
+
+# ######################################### #
+# ##### INTERFACE MANAGEMENT FUNCTIONS #### # 
+# ######################################### #
+
 func size_update():
 	OS.set_window_resizable(0)
 	set_size(window_size)
@@ -373,9 +326,82 @@ func size_update():
 	get_node("RepairMenu/Barracks").set_pos(Vector2(40, get_node("RepairMenu/ActiveParty").get_size().y + 50))
 	get_node("RepairMenu/Weapons").set_size(Vector2(300, 73))
 	get_node("RepairMenu/Weapons").set_pos(Vector2(window_size.x - get_node("RepairMenu/Weapons").get_size().x - 40, 40))
-# #################################### #
-# ##### UNIT MANAGEMENT FUNCTIONS #### # 
-# #################################### #
+
+# This function coordinates the state of the swap button,
+# as well as the status boxes in the Unit Management screen
+func Update_UM():
+	if (um_ap.get_selected_items().size() != 0 or um_b.get_selected_items().size() != 0):
+		if (um_ap.get_selected_items().size() != 0 and um_b.get_selected_items().size() != 0):
+			# Ambos selecionados, exibe informações nas status boxes
+			if (last_selected_apunit != um_ap.get_selected_items()[0]):
+				um_aps.neutralize_node("Unit Status")
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				last_selected_apunit = um_ap.get_selected_items()[0]
+				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
+				um_aps.get_node("Class").set_text("Class PH")
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			if (last_selected_bunit != um_b.get_selected_items()[0]):
+				um_bs.neutralize_node("Unit Status")
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				last_selected_bunit = um_b.get_selected_items()[0]
+				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
+				um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			# Coordena estado do botão de swap
+			um_s.set_disabled(false)
+		elif (um_ap.get_selected_items().size() == 0):
+			# Selecionado membro da barracks, exibe informações na status box
+			if (last_selected_bunit != um_b.get_selected_items()[0]):
+				um_bs.neutralize_node("Unit Status")
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				last_selected_bunit = um_b.get_selected_items()[0]
+				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
+				um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			# Neutralizando a status box das unidades ativas
+			um_aps.neutralize_node("Unit Status")
+			last_selected_apunit = -1
+			
+			# Coordena estado do botão de swap
+			if (um_ap.get_item_count() != 4):
+				um_s.set_disabled(false)
+			else:
+				um_s.set_disabled(true)
+		else:
+			# Selecionado membro da active party, exibe informações na status box
+			if (last_selected_apunit != um_ap.get_selected_items()[0]):
+				um_aps.neutralize_node("Unit Status")
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				last_selected_apunit = um_ap.get_selected_items()[0]
+				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
+				um_aps.get_node("Class").set_text("Class PH")
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, 1))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+			# Neutralizando a status box das unidades das barracks
+			um_bs.neutralize_node("Unit Status")
+			last_selected_bunit = -1
+			
+			# Coordena estado do botão de swap
+			if (um_ap.get_item_count() != 1):
+				um_s.set_disabled(false)
+			else:
+				um_s.set_disabled(true)
+	else:
+		#Tira todas as informações, pois nenhum está selecionado
+		um_aps.neutralize_node("Unit Status")
+		last_selected_apunit = -1
+		um_bs.neutralize_node("Unit Status")
+		last_selected_bunit = -1
+		
+		# Coordena estado do botão de swap
+		um_s.set_disabled(true)
+
+# ########################################### #
+# ##### UNIT MANAGEMENT BUTTON FUNCTIONS #### # 
+# ########################################### #
 
 func _on_Swap_pressed():
 	# Active and Barracks units selected
@@ -431,6 +457,10 @@ func _on_Swap_pressed():
 	um_bs.neutralize_node("Unit Status")
 	last_selected_apunit = -1
 	last_selected_bunit = -1
+
+# ########################################### #
+# ##### ITEM MANAGEMENT BUTTON FUNCTIONS #### # 
+# ########################################### #
 
 func _on_SwapWeapons_pressed():
 	if (item_swap_mode == 0):
@@ -634,6 +664,17 @@ func _on_StorageBarracks_pressed():
 			im_sti.unselect(item)
 		item_swap_mode = 0
 
+# ####################################### #
+# ##### REPAIR MENU BUTTON FUNCTIONS #### # 
+# ####################################### #
+
+func _on_RepairWeapon_pressed():
+	pass # replace with function body
+
+func _on_RepairAll_pressed():
+	pass # replace with function body
+
+
 # ################################ #
 # ###### MENU FUNCTIONALITY ###### # 
 # ################################ #
@@ -649,12 +690,6 @@ func _on_Repair_pressed():
 	get_node("Selection").hide()
 	get_node(current_screen).show()
 
-func _on_RepairWeapon_pressed():
-	pass # replace with function body
-
-func _on_RepairAll_pressed():
-	pass # replace with function body
-
 func _on_Shop_pressed():
 	pass # replace with function body
 
@@ -665,7 +700,19 @@ func _on_ManageUnits_pressed():
 
 	current_screen = "UnitManagement"
 
+func _on_ManageItems_pressed():
+	get_node("PartyMenu").hide()
+	get_node("ItemManagement").show()
 
+	current_screen = "ItemManagement"
+
+# Botão de retorno do submenu das unidades
+func _on_Back_pressed():
+	get_node("PartyMenu").hide()
+	get_node("Selection").show()
+
+
+# Return tanto da Unit Management, quando da Item Management
 func _on_Return_pressed():
 	get_node(current_screen).hide()
 	if (current_screen == "UnitManagement" or current_screen == "ItemManagement"):
@@ -715,13 +762,13 @@ func _on_Return_pressed():
 
 
 
-func _on_ManageItems_pressed():
-	get_node("PartyMenu").hide()
-	get_node("ItemManagement").show()
+func _on_Info_pressed():
+	print("BehaviourTest")
 
-	current_screen = "ItemManagement"
-	
+
+
 # Funções temporarias de teste
+#BEGIN TEMPORARY SECTION
 func instance_unit(id, path):
 	var unit_instance = unit.new()
 	unit_instance.id = id
@@ -760,7 +807,3 @@ func instance_item(name, owner):
 	owner.item_vector.append(item_instance)
 
 #END TEMPORARY SECTION
-
-func _on_Back_pressed():
-	get_node("PartyMenu").hide()
-	get_node("Selection").show()

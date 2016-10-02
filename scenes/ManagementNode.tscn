@@ -336,6 +336,7 @@ flat = false
 
 [node name="UnitManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -581,6 +582,26 @@ shortcut = null
 text = "Change"
 flat = false
 
+[node name="Info" type="Button" parent="ItemManagement"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 500.0
+margin/right = 198.0
+margin/bottom = 560.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 5 )
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+text = "Info"
+flat = false
+
 [node name="Return" type="Button" parent="ItemManagement"]
 
 focus/ignore_mouse = false
@@ -728,6 +749,8 @@ flat = false
 [connection signal="pressed" from="ItemManagement/SwapItems" to="." method="_on_SwapItems_pressed"]
 
 [connection signal="pressed" from="ItemManagement/StorageBarracks" to="." method="_on_StorageBarracks_pressed"]
+
+[connection signal="pressed" from="ItemManagement/Info" to="." method="_on_Info_pressed"]
 
 [connection signal="pressed" from="ItemManagement/Return" to="." method="_on_Return_pressed"]
 
