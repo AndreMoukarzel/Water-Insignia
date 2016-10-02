@@ -742,14 +742,24 @@ func _on_StorageBarracks_pressed():
 # ####################################### #
 
 # Note que falta implementar o uso de currency
-# nestas funções
+# nestas funções. Falta bug testing para conferir
+# se ele esta trabalhando corretamente com as condições limitantes.
 
 func _on_RepairWeapon_pressed():
-	pass # replace with function body
-
+	if (last_selected_type == 0):
+		# Condições de preço vem aqui
+		active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability = wpn_database.get_durability(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)
+	else:
+		# Condições de preço vem aqui
+		barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability = wpn_database.get_durability(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)
+		
 func _on_RepairAll_pressed():
-	pass # replace with function body
-
+	if (rm_ap.get_selected_items().size() != 0):
+		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+			weapon.durability = wpn_database.get_durability(weapon.id)
+	if (rm_b.get_selected_items().size() != 0):
+		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+			weapon.durability = wpn_database.get_durability(weapon.id)
 
 # ################################ #
 # ###### MENU FUNCTIONALITY ###### # 
