@@ -421,8 +421,14 @@ func Update_RM():
 		last_selected_repair = -1
 		last_selected_type = -1
 		rm_w.clear()
-				
-	# Condições dos botões de repair
+	
+	####################################################################
+	# Deve estar dando problema para armas com durabilidade menor que 0
+	# Certificar que ela sejam resetadas para -1 no fim de cada combate!
+	# No caso, o repair all da problema
+	####################################################################
+		
+	# Condições do botão repair weapon
 	if (rm_w.get_selected_items().size() != 0):
 		# A arma selecionada era de um membro da party ativa
 		if (last_selected_type == 0):
@@ -441,6 +447,30 @@ func Update_RM():
 				rm_rw.set_disabled(true)
 	else:
 		rm_rw.set_disabled(true)
+	
+	# Condições do botão repair all
+	if (rm_ap.get_selected_items().size() != 0 or rm_b.get_selected_items().size() != 0):
+		# Membro da party ativa selecionado, verificar para cada uma das armas
+		if (rm_ap.get_selected_items().size() != 0):
+			var min_cond = 0
+			for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+				if (weapon.durability < wpn_database.get_durability(weapon.id)):
+					rm_ra.set_disabled(false)
+					min_cond = 1
+			if (min_cond == 0):
+				rm_ra.set_disabled(true)
+		# Membro da barracks selecionado, verificar para cada uma das armas
+		else:
+			var min_cond = 0
+			for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+				if (weapon.durability < wpn_database.get_durability(weapon.id)):
+					rm_ra.set_disabled(false)
+					min_cond = 1
+			if (min_cond == 0):
+				rm_ra.set_disabled(true)
+	# Nenhum selecionado, desabilita o botão
+	else:
+		rm_ra.set_disabled(true)
 	
 # ########################################### #
 # ##### UNIT MANAGEMENT BUTTON FUNCTIONS #### # 
