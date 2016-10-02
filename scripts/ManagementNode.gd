@@ -44,6 +44,8 @@ onready var im_r = get_node("ItemManagement/Return")
 onready var rm_ap = get_node("RepairMenu/ActiveParty")
 onready var rm_b = get_node("RepairMenu/Barracks")
 onready var rm_w = get_node("RepairMenu/Weapons")
+onready var rm_rw = get_node("RepairMenu/RepairWeapon")
+onready var rm_ra = get_node("RepairMenu/RepairAll")
 
 # Databases
 var char_database
@@ -152,38 +154,11 @@ func _fixed_process(delta):
 	# Update Unit Management
 	Update_UM()
 	
-	# Item management
+	# Update Item management
+	Update_IM()
 	
-	# Repair menu
-	if (rm_ap.get_selected_items().size() != 0 or rm_b.get_selected_items().size() != 0):
-		#populate and show weapons for party member
-		if (rm_ap.get_selected_items().size() != 0):
-			#tem que clear a seleção do barracks
-			if (last_selected_type == 1 or last_selected_repair != rm_ap.get_selected_items()[0]):
-				for item in rm_b.get_selected_items():
-					rm_b.unselect(item)
-				rm_w.clear()
-				for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
-					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
-					rm_w.set_item_tooltip(rm_ap.get_item_count() - 1, weapon.name)
-					if (wpn_database.get_durability(weapon.id) < 0):
-						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
-				last_selected_repair = rm_ap.get_selected_items()[0]
-				last_selected_type = 0
-		#populate and show weapons for barracks member
-		if (rm_b.get_selected_items().size() != 0):
-			#tem que clear a seleção do party
-			if (last_selected_type == 0 or last_selected_repair != rm_b.get_selected_items()[0]):
-				for item in rm_ap.get_selected_items():
-					rm_ap.unselect(item)
-				rm_w.clear()
-				for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
-					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
-					rm_w.set_item_tooltip(rm_b.get_item_count() - 1, weapon.name)
-					if (wpn_database.get_durability(weapon.id) < 0):
-						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
-				last_selected_repair = rm_b.get_selected_items()[0]
-				last_selected_type = 1
+	# Update Repair menu
+	Update_RM()
 
 # ######################################### #
 # ##### INTERFACE MANAGEMENT FUNCTIONS #### # 
@@ -409,6 +384,64 @@ func Update_IM():
 		else:
 			im_si.set_disabled(true)
 
+func Update_RM():
+	if (rm_ap.get_selected_items().size() != 0 or rm_b.get_selected_items().size() != 0):
+		if (rm_ap.get_selected_items().size() != 0):
+			# Popula e mostra armas e items para party ativa,
+			# dando clear na seleção do barracks, primeiramente
+			if (last_selected_type == 1 or last_selected_repair != rm_ap.get_selected_items()[0]):
+				for item in rm_b.get_selected_items():
+					rm_b.unselect(item)
+				rm_w.clear()
+				for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					rm_w.set_item_tooltip(rm_ap.get_item_count() - 1, weapon.name)
+					if (wpn_database.get_durability(weapon.id) < 0):
+						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
+				last_selected_repair = rm_ap.get_selected_items()[0]
+				last_selected_type = 0
+
+		if (rm_b.get_selected_items().size() != 0):
+			# Popula e mostra armas e items para barracks,
+			# dando clear na seleção da party, primeiramente
+			if (last_selected_type == 0 or last_selected_repair != rm_b.get_selected_items()[0]):
+				for item in rm_ap.get_selected_items():
+					rm_ap.unselect(item)
+				rm_w.clear()
+				for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+					rm_w.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					rm_w.set_item_tooltip(rm_b.get_item_count() - 1, weapon.name)
+					if (wpn_database.get_durability(weapon.id) < 0):
+						rm_w.set_item_selectable(rm_w.get_item_count() - 1, false)
+				last_selected_repair = rm_b.get_selected_items()[0]
+				last_selected_type = 1
+		
+	else:
+		# Nenhum selecionado, limpa a lista de armas
+		last_selected_repair = -1
+		last_selected_type = -1
+		rm_w.clear()
+				
+	# Condições dos botões de repair
+	if (rm_w.get_selected_items().size() != 0):
+		# A arma selecionada era de um membro da party ativa
+		if (last_selected_type == 0):
+			# Checa se a durabilidade atual da arma selecionada
+			# é menor do que sua durabilidade original
+			if (active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
+				rm_rw.set_disabled(false)
+			else:
+				rm_rw.set_disabled(true)
+		else:
+			# Checa se a durabilidade atual da arma selecionada
+			# é menor do que sua durabilidade original
+			if (barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
+				rm_rw.set_disabled(false)
+			else:
+				rm_rw.set_disabled(true)
+	else:
+		rm_rw.set_disabled(true)
+	
 # ########################################### #
 # ##### UNIT MANAGEMENT BUTTON FUNCTIONS #### # 
 # ########################################### #
@@ -677,6 +710,9 @@ func _on_StorageBarracks_pressed():
 # ####################################### #
 # ##### REPAIR MENU BUTTON FUNCTIONS #### # 
 # ####################################### #
+
+# Note que falta implementar o uso de currency
+# nestas funções
 
 func _on_RepairWeapon_pressed():
 	pass # replace with function body
