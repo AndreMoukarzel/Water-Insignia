@@ -625,7 +625,6 @@ flat = false
 
 [node name="RepairMenu" type="Control" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -730,6 +729,8 @@ shortcut = null
 text = "Return"
 flat = false
 
+[node name="RepairStatus" parent="RepairMenu" instance=ExtResource( 11 )]
+
 [connection signal="pressed" from="Selection/Units" to="." method="_on_Units_pressed"]
 
 [connection signal="pressed" from="Selection/Repair" to="." method="_on_Repair_pressed"]
@@ -765,3 +766,4 @@ flat = false
 
 [editable path="UnitManagement/ActivePartyStatus"]
 [editable path="UnitManagement/BarracksStatus"]
+[editable path="RepairMenu/RepairStatus"]

@@ -25,18 +25,51 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Attack").set_pos(Vector2(20, 60))
 		get_node("Defense").set_pos(Vector2(20, 80))
 
+	if (type == "Repair Status"):
+		set_size(Vector2(x_size, y_size))
+		set_pos(Vector2(x_pos, y_pos))
+		var icon = TextureFrame.new()
+		icon.set_name("Icon")
+		add_child(icon)
+		get_node("Icon").set_scale(Vector2(0.8, 0.8))
+		get_node("Icon").set_pos(Vector2(get_size().x - 65, 10))
+		get_node("Name").set_pos(Vector2(20, 20))
+		get_node("Class").set_pos(Vector2(20, 40))
+		get_node("Durability").set_pos(Vector2(20, 65))
+		get_node("Attack").set_pos(Vector2(20, 80))
+		# Defesa não será necessária, acredito. Pode ser que uma arma forneça defesa bônus.
+		get_node("Defense").set_pos(Vector2(20, 100))
+
+# Não serve para Unit Status
+func update_statusbox(object, type, owner, database):
+	# For item status, and additional argument specifying which box it refers to may be needed (item or weapon, etc)
+	if (type == "Repair Status"):
+		get_node("Icon").set_texture(load(str("res://resources/sprites/weapons/",object.name,".tex")))
+		get_node("Name").set_text(object.name)
+		get_node("Class").set_text(str("Type: ",database.get_wpn_type(object.id)))
+		get_node("Durability").set_text(str(database.get_durability(object.id),"/",object.durability))
+		# Faltam o ataque, etc, precisamos ajustar o tamanho da font
 
 func neutralize_node(type):
-	for child in get_children():
-		if (child.get_name() == "Icon"):
-			child.set_name("old")
-			child.queue_free()
+	# acho que essa parte possívelmente irá ser apenas para Unit Status
 	if (type == "Unit Status"):
+		for child in get_children():
+			if (child.get_name() == "Icon"):
+				child.set_name("old")
+				child.queue_free()
 		get_node("Name").set_text("")
 		get_node("Class").set_text("")
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
+	if (type == "Repair Status"):
+		get_node("Icon").set_texture(null)
+		get_node("Name").set_text("")
+		get_node("Class").set_text("")
+		get_node("Durability").set_text("")
+		get_node("Attack").set_text("")
+		get_node("Defense").set_text("")
 
+# Exclusive for Unit Managemente
 func instance_animation(id):
 	
 	# Initialize visuals #

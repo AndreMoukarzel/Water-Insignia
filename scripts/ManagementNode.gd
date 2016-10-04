@@ -46,6 +46,7 @@ onready var rm_b = get_node("RepairMenu/Barracks")
 onready var rm_w = get_node("RepairMenu/Weapons")
 onready var rm_rw = get_node("RepairMenu/RepairWeapon")
 onready var rm_ra = get_node("RepairMenu/RepairAll")
+onready var rm_rs = get_node("RepairMenu/RepairStatus")
 
 # Databases
 var char_database
@@ -199,6 +200,7 @@ func size_update():
 	get_node("RepairMenu/Barracks").set_pos(Vector2(40, get_node("RepairMenu/ActiveParty").get_size().y + 50))
 	get_node("RepairMenu/Weapons").set_size(Vector2(300, 73))
 	get_node("RepairMenu/Weapons").set_pos(Vector2(window_size.x - get_node("RepairMenu/Weapons").get_size().x - 40, 40))
+	rm_rs.adjust_size("Repair Status", 300, 100, rm_w.get_pos().x, 130)
 
 # This function coordinates the state of the swap button,
 # as well as the status boxes in the Unit Management screen
@@ -432,6 +434,9 @@ func Update_RM():
 	if (rm_w.get_selected_items().size() != 0):
 		# A arma selecionada era de um membro da party ativa
 		if (last_selected_type == 0):
+			# Atualiza a RepairStatus
+			rm_rs.update_statusbox(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]], "Repair Status", null, wpn_database)
+			
 			# Checa se a durabilidade atual da arma selecionada
 			# é menor do que sua durabilidade original
 			if (active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
@@ -439,6 +444,9 @@ func Update_RM():
 			else:
 				rm_rw.set_disabled(true)
 		else:
+			# Atualiza a RepairStatus
+			rm_rs.update_statusbox(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]], "Repair Status", null, wpn_database)
+			
 			# Checa se a durabilidade atual da arma selecionada
 			# é menor do que sua durabilidade original
 			if (barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
@@ -446,6 +454,7 @@ func Update_RM():
 			else:
 				rm_rw.set_disabled(true)
 	else:
+		rm_rs.neutralize_node("Repair Status")
 		rm_rw.set_disabled(true)
 	
 	# Condições do botão repair all
@@ -798,7 +807,7 @@ func _on_Back_pressed():
 	get_node("Selection").show()
 
 
-# Return tanto da Unit Management, quando da Item Management
+# Return tanto da Unit Management, quando da Item Management e do Repair Menu
 func _on_Return_pressed():
 	get_node(current_screen).hide()
 	if (current_screen == "UnitManagement" or current_screen == "ItemManagement"):
@@ -841,11 +850,8 @@ func _on_Return_pressed():
 		rm_w.clear()
 		last_selected_repair = -1
 		last_selected_type = -1
-
-	elif (current_screen == "RepairMenu"):
-		#adicionar o resto depois
-		get_node("Selection").show()
-
+		
+		# Limpar a statusbox aqui
 
 
 func _on_Info_pressed():
