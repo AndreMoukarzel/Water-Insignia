@@ -6,6 +6,7 @@ const TYPE = 1
 const HP = 2
 const EFFECT = 3
 const STATUS = 4
+const DE_BUFF = 5
 
 ###################################
 #
@@ -26,7 +27,8 @@ var item_database = [
 		TYPE : "HP",
 		HP : 10,
 		EFFECT : null,
-		STATUS : null
+		STATUS : null,
+		DE_BUFF : null
 	},
 	
 	{ # ID = 1
@@ -34,7 +36,8 @@ var item_database = [
 		TYPE : "HP",
 		HP : -70,
 		EFFECT : null,
-		STATUS : null
+		STATUS : null,
+		DE_BUFF : null
 	},
 	
 	{ # ID = 2
@@ -42,7 +45,8 @@ var item_database = [
 		TYPE : "Status",
 		HP : null,
 		EFFECT : 0.5,
-		STATUS : "Attack"
+		STATUS : "Attack",
+		DE_BUFF : "Buff"
 	},
 	
 	{ # ID = 3
@@ -50,7 +54,8 @@ var item_database = [
 		TYPE : "Status",
 		HP : null,
 		EFFECT : 0.5,
-		STATUS : "Defense"
+		STATUS : "Defense",
+		DE_BUFF : "Buff"
 	},
 
 	{ # ID = 4
@@ -58,7 +63,8 @@ var item_database = [
 		TYPE : "Status",
 		HP : null,
 		EFFECT : 0.5,
-		STATUS : "Speed"
+		STATUS : "Speed",
+		DE_BUFF : "Buff"
 	},
 
 	{ # ID = 5
@@ -66,7 +72,8 @@ var item_database = [
 		TYPE : "Dispell",
 		HP : null,
 		EFFECT : 1,
-		STATUS : "Poison"
+		STATUS : "Poison",
+		DE_BUFF : null
 	},
 	
 	{ # ID = 6
@@ -74,7 +81,8 @@ var item_database = [
 		TYPE : "HP/Status",
 		HP : -2,
 		EFFECT : 3,
-		STATUS : "Poison"
+		STATUS : "Poison",
+		DE_BUFF : "Debuff"
 	},
 	
 	{ # ID = 7
@@ -82,7 +90,8 @@ var item_database = [
 		TYPE : "HP/Status",
 		HP : -2,
 		EFFECT : 1,
-		STATUS : "Paralysis"
+		STATUS : "Paralysis",
+		DE_BUFF : "Debuff"
 	},
 	
 	{ # ID = 8
@@ -90,7 +99,8 @@ var item_database = [
 		TYPE : "Dispell",
 		HP : null,
 		EFFECT : 1,
-		STATUS : "Paralysis"
+		STATUS : "Paralysis",
+		DE_BUFF : null
 	}
 ]
 
@@ -118,3 +128,6 @@ func get_item_effect(id):
 
 func get_item_status(id):
 	return item_database[id][STATUS]
+
+func get_item_de_buff(id):
+	return item_database[id][DE_BUFF]
