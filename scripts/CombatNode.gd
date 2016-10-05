@@ -177,8 +177,10 @@ func _ready():
 	
 	# TESTING INSTANCING UNITS#
 	instance_unit(1, 4, "Allies")
+	instance_unit(1, 4, "Allies")
+	instance_unit(1, 4, "Allies")
 	instance_unit(2, 4, "Allies")
-	instance_unit(3, 4, "Allies")
+#	instance_unit(3, 4, "Allies")
 	generate_mob(0)
 	
 	# TESTING INSTANCING WEAPONS #
@@ -444,7 +446,8 @@ func turn_based_system():
 				
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
-					allies_vector[act.from[0]].bonus_defense += allies_vector[act.from[0]].defense * 2
+					instance_status("Defend", "Defense", allies_vector[act.from[0]], 2, "Buff")
+#					allies_vector[act.from[0]].bonus_defense += allies_vector[act.from[0]].defense * 2
 				elif act.from[1] == "Enemies":
 					enemies_vector[act.from[0]].bonus_defense += enemies_vector[act.from[0]].defense * 2
 				
@@ -535,7 +538,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 	# DEFEND command greatly increses the unit's defense for only one attack
 	# So, after the unit is attacked, the bonus defense should be reduced
-	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
+#	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
 	
 	# damage can't be lower than zero
 	if (damage < 0):
