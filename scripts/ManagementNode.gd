@@ -27,7 +27,7 @@ onready var um_r = get_node("UnitManagement/Return")
 onready var um_aps = get_node("UnitManagement/ActivePartyStatus")
 onready var um_bs = get_node("UnitManagement/BarracksStatus")
 
-# Unit Management Nodes (im)
+# Item Management Nodes (im)
 onready var im_ap = get_node("ItemManagement/ActiveParty")
 onready var im_apw = get_node("ItemManagement/ActivePartyWeapons")
 onready var im_api = get_node("ItemManagement/ActivePartyItems")
@@ -39,6 +39,10 @@ onready var im_bi = get_node("ItemManagement/BarracksItems")
 onready var im_si = get_node("ItemManagement/SwapItems")
 onready var im_sw = get_node("ItemManagement/SwapWeapons")
 onready var im_r = get_node("ItemManagement/Return")
+onready var im_apws = get_node("ItemManagement/APWStatus")
+onready var im_apis = get_node("ItemManagement/APIStatus")
+onready var im_bws = get_node("ItemManagement/BWStatus")
+onready var im_bis = get_node("ItemManagement/BIStatus")
 
 # Repair Menu Nodes (rm)
 onready var rm_ap = get_node("RepairMenu/ActiveParty")
@@ -70,6 +74,7 @@ var current_screen
 class unit:
 	var id
 	var name
+	var level
 	var wpn_vector = []
 	var item_vector = []
 
@@ -194,7 +199,12 @@ func size_update():
 	im_stw.set_pos((Vector2(window_size.x - 40 - im_stw.get_size().x, 40)))
 	im_sti.set_size(Vector2(window_size.x/3, window_size.y/3))
 	im_sti.set_pos((Vector2(im_b.get_pos().x, im_b.get_pos().y + 220)))
-
+	
+	im_apws.adjust_size("Item Status", 120, 90, im_apw.get_pos().x + 325, im_apw.get_pos().y - 8)
+	im_apis.adjust_size("Item Status", 120, 90, im_api.get_pos().x + 325, im_api.get_pos().y - 8)
+	im_bws.adjust_size("Item Status", 120, 90, im_bw.get_pos().x - 145, im_apw.get_pos().y - 8)
+	im_bis.adjust_size("Item Status", 120, 90, im_bi.get_pos().x - 145, im_api.get_pos().y - 8)
+	
 	get_node("RepairMenu/ActiveParty").set_size(Vector2(window_size.x/3, window_size.y/3))
 	get_node("RepairMenu/Barracks").set_size(Vector2(window_size.x/3, window_size.y/2))
 	get_node("RepairMenu/Barracks").set_pos(Vector2(40, get_node("RepairMenu/ActiveParty").get_size().y + 50))
@@ -311,18 +321,34 @@ func Update_IM():
 		if (im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
 			if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
 				if (im_apw.get_selected_items().size() == 0):
+					# Mostra o status para a arma do barracks,
+					# some com a da party ativa
+					im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+					im_apws.neutralize_node("Item Status")
+					
 					if (im_apw.get_item_count() != 4):
 						im_sw.set_disabled(false)
 					else:
 						im_sw.set_disabled(true)
 				if (im_bw.get_selected_items().size() == 0):
+					# Mostra o status para a arma do barracks,
+					# some com a da party ativa
+					im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+					im_bws.neutralize_node("Item Status")
+					
 					if (im_bw.get_item_count() != 4):
 						im_sw.set_disabled(false)
 					else:
 						im_sw.set_disabled(true)
 			else:
+				im_apws.neutralize_node("Item Status")
+				im_bws.neutralize_node("Item Status")
+				
 				im_sw.set_disabled(true)
 			if (im_apw.get_selected_items().size() != 0 and im_bw.get_selected_items().size() != 0):
+				im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				
 				im_sw.set_disabled(false)
 				
 			# Condições do botão de swap para items
@@ -348,6 +374,50 @@ func Update_IM():
 			im_sw.set_disabled(true)
 			im_si.set_disabled(true)
 			
+		# Condições para a exibição de informações de armas
+		if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
+			if (im_apw.get_selected_items().size() == 0):
+				# Mostra o status para a arma do barracks,
+				# some com a da party ativa
+				im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				im_apws.neutralize_node("Item Status")
+
+			if (im_bw.get_selected_items().size() == 0):
+				# Mostra o status para a arma da party ativa,
+				# some com a do barracks
+				im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				im_bws.neutralize_node("Item Status")
+
+		else:
+			im_apws.neutralize_node("Item Status")
+			im_bws.neutralize_node("Item Status")
+
+		if (im_apw.get_selected_items().size() != 0 and im_bw.get_selected_items().size() != 0):
+			im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+			im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+		
+		# Condições para a exibição de informações de items
+		if (im_api.get_selected_items().size() != 0 or im_bi.get_selected_items().size() != 0):
+			if (im_api.get_selected_items().size() == 0):
+				# Mostra o status para o item do barracks,
+				# some com o da party ativa
+				im_bis.update_statusbox(barracks_units[im_b.get_selected_items()[0]].item_vector[im_bi.get_selected_items()[0]], "Item Status", "Item", item_database)
+				im_apis.neutralize_node("Item Status")
+
+			if (im_bi.get_selected_items().size() == 0):
+				# Mostra o status para o item da party ativa,
+				# some com o do barracks
+				im_apis.update_statusbox(active_units[im_ap.get_selected_items()[0]].item_vector[im_api.get_selected_items()[0]], "Item Status", "Item", item_database)
+				im_bis.neutralize_node("Item Status")
+
+		else:
+			im_apis.neutralize_node("Item Status")
+			im_bis.neutralize_node("Item Status")
+
+		if (im_api.get_selected_items().size() != 0 and im_bi.get_selected_items().size() != 0):
+			im_apis.update_statusbox(active_units[im_ap.get_selected_items()[0]].item_vector[im_api.get_selected_items()[0]], "Item Status", "Item", item_database)
+			im_bis.update_statusbox(barracks_units[im_b.get_selected_items()[0]].item_vector[im_bi.get_selected_items()[0]], "Item Status", "Item", item_database)
+	
 	# Checagens para o modo manage storage items
 	else:
 		if (populated_storage == 0):
@@ -385,6 +455,58 @@ func Update_IM():
 				im_si.set_disabled(true)
 		else:
 			im_si.set_disabled(true)
+		
+		# Caso alguma hora queiramos customizar a statusbox do storage,
+		# temos que fazer alterações aqui, e criar mais duas statusbox
+		# proprias para isso, e fazer as mudanças em outros lugares, como
+		# o botão de troca de modos, entre outras coisas
+		
+		# As partes que tem "b" aqui, referem-se ao fato de estarmos usando
+		# as statusboxes das barracks para a storage também
+
+		# Condições para a exibição de informações de armas
+		if (im_apw.get_selected_items().size() != 0 or im_stw.get_selected_items().size() != 0):
+			if (im_apw.get_selected_items().size() == 0):
+				# Mostra o status para a arma do barracks,
+				# some com a da party ativa
+				im_bws.update_statusbox(storage_weapons[im_stw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				im_apws.neutralize_node("Item Status")
+
+			if (im_stw.get_selected_items().size() == 0):
+				# Mostra o status para a arma da party ativa,
+				# some com a do storage
+				im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+				im_bws.neutralize_node("Item Status")
+
+		else:
+			im_apws.neutralize_node("Item Status")
+			im_bws.neutralize_node("Item Status")
+
+		if (im_apw.get_selected_items().size() != 0 and im_stw.get_selected_items().size() != 0):
+			im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+			im_bws.update_statusbox(storage_weapons[im_stw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
+		
+		# Condições para a exibição de informações de items
+		if (im_api.get_selected_items().size() != 0 or im_sti.get_selected_items().size() != 0):
+			if (im_api.get_selected_items().size() == 0):
+				# Mostra o status para o item do storage,
+				# some com o da party ativa
+				im_bis.update_statusbox(storage_items[im_sti.get_selected_items()[0]], "Item Status", "Item", item_database)
+				im_apis.neutralize_node("Item Status")
+
+			if (im_sti.get_selected_items().size() == 0):
+				# Mostra o status para o item da party ativa,
+				# some com o do barracks
+				im_apis.update_statusbox(active_units[im_ap.get_selected_items()[0]].item_vector[im_api.get_selected_items()[0]], "Item Status", "Item", item_database)
+				im_bis.neutralize_node("Item Status")
+
+		else:
+			im_apis.neutralize_node("Item Status")
+			im_bis.neutralize_node("Item Status")
+
+		if (im_api.get_selected_items().size() != 0 and im_sti.get_selected_items().size() != 0):
+			im_apis.update_statusbox(active_units[im_ap.get_selected_items()[0]].item_vector[im_api.get_selected_items()[0]], "Item Status", "Item", item_database)
+			im_bis.update_statusbox(storage_items[im_sti.get_selected_items()[0]], "Item Status", "Item", item_database)
 
 func Update_RM():
 	if (rm_ap.get_selected_items().size() != 0 or rm_b.get_selected_items().size() != 0):
@@ -733,6 +855,9 @@ func _on_StorageBarracks_pressed():
 		im_bi.clear()
 		last_selected_barracks = -1
 		item_swap_mode = 1
+		
+		im_bws.neutralize_node("Item Status")
+		im_bis.neutralize_node("Item Status")
 	else:
 		im_b.show()
 		im_bw.show()
@@ -745,6 +870,10 @@ func _on_StorageBarracks_pressed():
 		for item in im_sti.get_selected_items():
 			im_sti.unselect(item)
 		item_swap_mode = 0
+		
+		im_bws.neutralize_node("Item Status")
+		im_bis.neutralize_node("Item Status")
+
 
 # ####################################### #
 # ##### REPAIR MENU BUTTON FUNCTIONS #### # 
@@ -851,12 +980,8 @@ func _on_Return_pressed():
 		last_selected_repair = -1
 		last_selected_type = -1
 		
-		# Limpar a statusbox aqui
-
-
-func _on_Info_pressed():
-	print("BehaviourTest")
-
+		# Não precisa limpar a StatusBox, pois ela se limpa quando as
+		# armas são deselecionadas, na saída da tela
 
 
 # Funções temporarias de teste
