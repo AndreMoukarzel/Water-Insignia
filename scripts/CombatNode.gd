@@ -17,7 +17,7 @@ class unit:
 	var bonus_defense = 0
 	var speed
 	var bonus_speed = 0
-	var last_weapon = null
+	var last_weapon
 	var wpn_vector = [] # Array containing the unit's available weapons
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
@@ -176,7 +176,6 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(1, 4, "Allies")
 	instance_unit(1, 4, "Allies")
 	instance_unit(2, 4, "Allies")
 	instance_unit(3, 4, "Allies")
@@ -471,19 +470,19 @@ func turn_based_system():
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
 	if action != null:
-		var weapon = "Natural"
-		if action_id != 10:
+		if action == "attack":
 			weapon = allies_vector[actor].wpn_vector[action_id].type
+			if weapon != "Natural":
+				allies_vector[actor].last_weapon = weapon
+			else:
+				allies_vector[actor].last_weapon = null
 
 		var action_instance = action_class.new()
 		action_instance.from = [actor, "Allies"]
 		action_instance.action_id = action_id
 		action_instance.speed = allies_vector[actor].get_speed()
+		action_instance.action = action
 
-		if action == "attack" and weapon != "Natural":
-			action_instance.action = str(action, weapon)
-		else:
-			action_instance.action = action
 
 		action_memory.append(action_instance)
 		action = null
@@ -1307,7 +1306,6 @@ func _fixed_process(delta):
 						unit = vector[act.from[0]]
 						if unit.last_weapon != null:
 							act.action = str(act.action, unit.last_weapon)
-						print(act.action)
 						time = (player.get_animation(act.action).get_length()) * 60
 						player.play(act.action)
 						STATE_NEXT = "ANIMATION"
@@ -1334,14 +1332,15 @@ func _fixed_process(delta):
 				atk_pos = allies_pos[act.from[0]]
 				unit = get_node(str("Allies/", act.from[0]))
 				unit.set_pos(Vector2(atk_pos))
-				
+
 			elif act.from[1] == "Enemies":
 				vector = enemies_vector
 				atk_pos = enemies_pos[act.from[0]]
 				unit = get_node(str("Enemies/", act.from[0]))
 				unit.set_pos(Vector2(atk_pos))
-			
+
 			unit = vector[act.from[0]]
+			print(unit.last_weapon)
 			if unit.last_weapon != null:
 				player.play(str("idle", unit.last_weapon))
 			else:
@@ -1349,16 +1348,16 @@ func _fixed_process(delta):
 			filter_action(act)
 			action_memory.pop_front()
 			STATE_NEXT = "EFFECT"
-	
+
 	# 30 frames / 0.5 seconds to let the number from an attack, skill, item or status float from the afflicted one
 	elif STATE == "EFFECT":
 		time -= 1
 		if time < 1:
 			win_lose_cond()
 			STATE_NEXT = "EXECUTE ACTION"
-	
+
 	# Mouse cooldown so multi clicks doesn't happen
 	if mouse_cooldown > 0:
 		mouse_cooldown -= 1
-	
+
 	STATE = STATE_NEXT
