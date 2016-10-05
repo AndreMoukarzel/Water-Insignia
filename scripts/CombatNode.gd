@@ -217,6 +217,8 @@ func _ready():
 			instance_item("Poison Bomb", unit)
 			instance_item("Speed Up", unit)
 		if unit.get_name() == "soldier":
+			instance_weapon("Bamboo Sword", unit)
+			instance_weapon("Iron Axe", unit)
 			instance_skill("Eruption", unit)
 			instance_skill("Bubbles", unit)
 			instance_skill("Thunderwave", unit)
@@ -1338,7 +1340,7 @@ func _fixed_process(delta):
 				atk_pos = enemies_pos[act.from[0]]
 				unit = get_node(str("Enemies/", act.from[0]))
 				unit.set_pos(Vector2(atk_pos))
-
+			
 			unit = vector[act.from[0]]
 			if unit.last_weapon != null:
 				player.play(str("idle", unit.last_weapon))
