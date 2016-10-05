@@ -171,6 +171,10 @@ func _ready():
 	# Fix sizes and positions of some nodes
 	size_update()
 	
+	# Blocks "ready" button if game just begun, or if came
+	# back from a party wipe
+	get_node("Selection/Play").set_disabled(true)
+	
 	# Begin fixed process
 	set_fixed_process(true)
 	
@@ -950,6 +954,10 @@ func _on_ManageItems_pressed():
 
 # Botão de retorno do submenu das unidades
 func _on_Back_pressed():
+	if (active_units.size() > 0):
+		get_node("Selection/Play").set_disabled(false)
+	else:
+		get_node("Selection/Play").set_disabled(true)
 	get_node("PartyMenu").hide()
 	get_node("Selection").show()
 
