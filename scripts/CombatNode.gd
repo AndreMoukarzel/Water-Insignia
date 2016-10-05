@@ -821,7 +821,6 @@ func status_apply(actor, target_side, target_vpos):
 			elif effect.de_buff == "Buff":
 				# Applies the effect of attack boost
 				if effect.status == "Attack":
-					print (effect.timer)
 					var bonus = effect.effect * actor.attack
 					if effect.timer == 4:
 						actor.bonus_attack += bonus
@@ -832,7 +831,6 @@ func status_apply(actor, target_side, target_vpos):
 				
 				# Applies the effect of defense boost
 				elif effect.status == "Defense":
-					print (effect.timer)
 					var bonus = effect.effect * actor.defense
 					if effect.timer == 4:
 						actor.bonus_defense += bonus
@@ -843,7 +841,6 @@ func status_apply(actor, target_side, target_vpos):
 				
 				# Applies the effect of speed boost
 				elif effect.status == "Speed":
-					print (effect.timer)
 					var bonus = effect.effect * actor.speed
 					if effect.timer == 4:
 						actor.bonus_speed += bonus
