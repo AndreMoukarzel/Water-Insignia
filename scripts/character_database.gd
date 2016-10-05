@@ -18,45 +18,49 @@ var char_database = [
 		FOLDER : "res://characters/bat/",
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
-		HP : [10, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], #20 leveis no maximo
+		HP : [10, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP : [7, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [5, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [1, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
+		SKILL_VECTOR : ["Shadow Strike"]
 	},
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
 		ANIM_ARRAY : ["idle", "attack"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], #20 leveis no maximo
+		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword"],
+		SKILL_VECTOR : ["Heal"]
 	},
 	{ # ID = 2
 		FOLDER : "res://characters/soldier/",
 		CHAR_NAME : "soldier",
 		ANIM_ARRAY : ["idle", "idlesword", "idleaxe", "attacksword", "attackaxe", "skillmagic"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], #20 leveis no maximo
+		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword"],
+		SKILL_VECTOR : ["Eruption"]
 	},
 	{ # ID = 3
 		FOLDER : "res://characters/baby_dragon/",
 		CHAR_NAME : "baby_dragon",
 		ANIM_ARRAY : ["idle", "attack", "skillmagic"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], #20 leveis no maximo
+		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword"],
+		SKILL_VECTOR : ["Bubbles"]
 	}
 ]
 
