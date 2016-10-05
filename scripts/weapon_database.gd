@@ -27,11 +27,28 @@ var wpn_database = [
 		DURABILITY : 1,
 		LOCK : 0
 	},
-
+	
+	{ # ID = 2
+		WPN_NAME : "Iron Axe",
+		TYPE : "Axe",
+		ATK : 5,
+		DURABILITY : 20,
+		LOCK : 0
+	},
+	
+	{ # ID = 3
+		WPN_NAME : "Iron Spear",
+		TYPE : "Spear",
+		ATK : 9,
+		DURABILITY : 15,
+		LOCK : 0
+	},
+	
 	# ############################### #
 	# ####### NATURAL WEAPONS ####### # 
 	# ############################### #
-	{ # ID = 2
+	
+	{ # ID = 4
 		WPN_NAME : "Bat Fangs",
 		TYPE : "Natural",
 		ATK : 2,
@@ -40,7 +57,7 @@ var wpn_database = [
 		
 	},
 	
-	{ # ID = 3
+	{ # ID = 5
 		WPN_NAME : "Bat Wings",
 		TYPE : "Natural",
 		ATK : 3,
