@@ -5,6 +5,8 @@ var combat_scn = preload("res://scenes/CombatNode.tscn")
 var management_scn = preload("res://scenes/ManagementNode.tscn")
 var scn
 
+var first_play = 1
+
 var units_vector = []
 
 # Unit class - for instancing an enemy or ally
@@ -17,7 +19,7 @@ class unit:
 
 
 func _ready():
-	var level = combat_scn.instance()
+	var level = management_scn.instance()
 
 	level.set_name("level")
 	add_child(level)

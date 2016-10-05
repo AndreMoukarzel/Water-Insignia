@@ -2,9 +2,10 @@
 
 extends Node2D
 
+
 const scale = 5
 
-# Unit class - for instancing an enemy or ally
+
 class unit:
 	var id # Unit ID in the character database
 	var level
@@ -49,7 +50,6 @@ class unit:
 		return speed + bonus_speed
 
 
-# Weapon class - for instancing an weapon
 class weapon:
 	var id # Weapon ID in the weapon database
 	var name # Weapon name in the weapon database
@@ -85,12 +85,11 @@ class skill:
 		self.db = database.get_skill_de_buff(id)
 		self.elem = database.get_skill_element(id)
 
-# Item class - for instancing an itenm
 class item:
 	var id # Item's ID in the item database
 	var name # Item's name
 	var type # Item's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
-	var durability # Item's initial amount when the battle begins
+	var durability # Item's total amount
 	var amount # Item's current amount
 	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
 	var status # Item's status effect (poison, speed up, ...)
@@ -174,56 +173,17 @@ var turn_start = 0
 func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
-	
-	# TESTING INSTANCING UNITS#
-	instance_unit(1, 4, "Allies")
-	instance_unit(1, 4, "Allies")
-	instance_unit(1, 4, "Allies")
-	instance_unit(2, 4, "Allies")
-#	instance_unit(3, 4, "Allies")
+
+	var size = allies_vector.size()
+	for i in range(size): # Spawns allies
+		print(i)
+		var unit = allies_vector[i]
+		instance_unit(unit.id, unit.level, "Allies")
+		allies_vector[size].wpn_vector = unit.wpn_vector
+		allies_vector[size].item_vector = unit.item_vector
+		allies_vector.pop_front()
+
 	generate_mob(0)
-	
-	# TESTING INSTANCING WEAPONS #
-	
-	for unit in allies_vector:
-		if unit.get_name() == "bat":
-			instance_weapon("Bat Fangs", unit)
-			instance_weapon("Bat Wings", unit)
-			instance_skill("Heal", unit)
-			instance_skill("Poison Sting", unit)
-			instance_skill("Blast", unit)
-			instance_skill("Guard", unit)
-			instance_item("PAR Bomb", unit)
-			instance_item("Bomb", unit)
-			instance_item("Depar", unit)
-			instance_item("Def Up", unit)
-		if unit.get_name() == "samurai":
-			instance_weapon("Katana", unit)
-			instance_weapon("Bamboo Sword", unit)
-			instance_skill("Heal", unit)
-			instance_skill("Cure", unit)
-			instance_skill("Agility", unit)
-			instance_item("Atk Up", unit)
-			instance_item("Potion", unit)
-			instance_item("Poison Bomb", unit)
-			instance_item("Speed Up", unit)
-		if unit.get_name() == "baby_dragon":
-			instance_weapon("Bat Fangs", unit)
-			instance_weapon("Bat Wings", unit)
-			instance_skill("Shadow Strike", unit)
-			instance_skill("Cure", unit)
-			instance_skill("Agility", unit)
-			instance_item("Atk Up", unit)
-			instance_item("Potion", unit)
-			instance_item("Poison Bomb", unit)
-			instance_item("Speed Up", unit)
-		if unit.get_name() == "soldier":
-			instance_weapon("Bamboo Sword", unit)
-			instance_weapon("Iron Axe", unit)
-			instance_skill("Eruption", unit)
-			instance_skill("Bubbles", unit)
-			instance_skill("Thunderwave", unit)
-	
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
@@ -239,30 +199,30 @@ func instance_unit(id, level, path):
 	# Initialize visuals #
 	var anim_sprite = AnimatedSprite.new()
 	var anim_player = AnimationPlayer.new()
-	
+
 	# Get folder and animation names for the character #
 	var char_folder = char_database.get_char_folder(id)
 	var anim_names = char_database.get_animation_array(id)
-	
+
 	# Add animations to the player, play the idle animation #
 	for i in range(anim_names.size()):
 		anim_player.add_animation(anim_names[i], load(str(char_folder, anim_names[i], ".xml")))
 	anim_player.play("idle")
-	
+
 	# Add sprite sheet
 	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
 	anim_sprite.set_scale(Vector2(scale, scale))
-	
+
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
-	
+
 	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
-	
-	if path == "Allies":
-		allies_vector.append(unit_instance)
-	elif path == "Enemies":
+
+	if path == "Enemies":
 		enemies_vector.append(unit_instance)
+	elif path == "Allies":
+		allies_vector.append(unit_instance)
 
 
 # Instance a random mob from the specified stage

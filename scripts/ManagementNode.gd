@@ -78,20 +78,35 @@ class unit:
 	var wpn_vector = []
 	var item_vector = []
 
+
 class weapon:
-	var id
-	var name
-	var durability
+	var id # Weapon ID in the weapon database
+	var name # Weapon name in the weapon database
+	var durability # Weapon durability
+	var type # Weapon type - sword, axe, spear or natural
+
 
 class item:
 	var id # Item's ID in the item database
 	var name # Item's name
 	var type # Item's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
-	var durability # Item's initial amount when the battle begins
+	var durability # Item's total amount
 	var amount # Item's current amount
 	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
 	var status # Item's status effect (poison, speed up, ...)
+	var hp # How much the HP will be affected by the item - allows items that damage/heal and apply/remove status
+	var db # Determines whether it's a debuff or a buff type item
 
+	func _init(name, total, database):
+		self.id = database.get_item_id(name)
+		self.name = name
+		self.type = database.get_item_type(id)
+		self.durability = total
+		self.amount = self.durability
+		self.effect = database.get_item_effect(id)
+		self.status = database.get_item_status(id)
+		self.hp = database.get_item_hp(id)
+		self.db = database.get_item_de_buff(id)
 
 func _ready():
 	# Get screen and window sizes, and get databases
@@ -102,24 +117,26 @@ func _ready():
 	wpn_database = get_node("/root/weapon_database")
 	item_database = get_node("/root/item_database")
 
-	# instance testing, will be removed
-	instance_unit(1, "Barracks")
-	instance_unit(0, "Barracks")
-
-	for unit in barracks_units:
-		if unit.name == "bat":
-			instance_weapon("Bat Fangs", unit)
-			instance_weapon("Bat Wings", unit)
-			instance_item("PAR Bomb", unit)
-			instance_item("PAR Bomb", unit)
-			instance_item("Potion", unit)
-		if unit.name == "samurai":
-			instance_weapon("Katana", unit)
-			instance_weapon("Bamboo Sword", unit)
-			instance_item("PAR Bomb", unit)
-			instance_item("Potion", unit)
-			instance_item("PAR Bomb", unit)
-			instance_item("PAR Bomb", unit)
+	if get_parent().first_play:
+		get_parent().first_play = 0
+		# instance testing, will be removed
+		instance_unit(0, 2, "Barracks")
+		instance_unit(1, 2, "Barracks")
+	
+		for unit in barracks_units:
+			if unit.name == "bat":
+				instance_weapon("Bat Fangs", unit)
+				instance_weapon("Bat Wings", unit)
+				instance_item("PAR Bomb", unit)
+				instance_item("PAR Bomb", unit)
+				instance_item("Potion", unit)
+			if unit.name == "samurai":
+				instance_weapon("Katana", unit)
+				instance_weapon("Bamboo Sword", unit)
+				instance_item("PAR Bomb", unit)
+				instance_item("Potion", unit)
+				instance_item("PAR Bomb", unit)
+				instance_item("PAR Bomb", unit)
 	
 	# Settings for ItemLists
 	um_ap.set_max_columns(3)
@@ -990,10 +1007,11 @@ func _on_Play_pressed():
 
 # Funções temporarias de teste
 #BEGIN TEMPORARY SECTION
-func instance_unit(id, path):
+func instance_unit(id, level, path):
 	var unit_instance = unit.new()
 	unit_instance.id = id
 	unit_instance.name = char_database.get_char_name(id)
+	unit_instance.level = level
 
 	if path == "Party":
 		active_units.append(unit_instance)
@@ -1009,22 +1027,12 @@ func instance_weapon(name, owner):
 	wpn_instance.id = id
 	wpn_instance.name = name
 	wpn_instance.durability = wpn_database.get_durability(id)
+	wpn_instance.type = wpn_database.get_wpn_type(id)
 	owner.wpn_vector.append(wpn_instance)
 	
 # owner is the reference in the correct vector (allies or enemies)
 func instance_item(name, owner):
-	
-	var id = item_database.get_item_id(name)
-	
-	# Data instancing segment
-	var item_instance = item.new()
-	item_instance.id = id
-	item_instance.name = name
-	item_instance.type = item_database.get_item_type(id)
-	item_instance.durability = 3
-	item_instance.amount = item_instance.durability
-	item_instance.effect = item_database.get_item_effect(id)
-	item_instance.status = item_database.get_item_status(id)
+	var item_instance = item.new(name, 3, item_database) # <-- Total amount == 3 is only a placeholder
 	owner.item_vector.append(item_instance)
 
 #END TEMPORARY SECTION
