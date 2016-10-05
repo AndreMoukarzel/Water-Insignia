@@ -474,7 +474,7 @@ func turn_based_system():
 func process_action():
 	if action != null:
 		if action == "attack":
-			weapon = allies_vector[actor].wpn_vector[action_id].type
+			var weapon = allies_vector[actor].wpn_vector[action_id].type
 			if weapon != "Natural":
 				allies_vector[actor].last_weapon = weapon
 			else:

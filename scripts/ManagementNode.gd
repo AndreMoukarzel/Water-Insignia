@@ -616,13 +616,13 @@ func _on_Swap_pressed():
 		var b_unit = barracks_units[um_b.get_selected_items()[0]]
 		var b_local_id = um_b.get_selected_items()[0]
 		active_units.append(b_unit)
-		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
 		barracks_units.append(a_unit)
-		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
+		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
@@ -637,9 +637,9 @@ func _on_Swap_pressed():
 		var a_unit = active_units[um_ap.get_selected_items()[0]]
 		var a_local_id = um_ap.get_selected_items()[0]
 		barracks_units.append(a_unit)
-		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
+		im_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(a_unit.id).capitalize(), load(str(char_database.get_char_folder(a_unit.id),char_database.get_char_name(a_unit.id),"0001.tex")), 1)
 		active_units.remove(a_local_id)
 		um_ap.remove_item(a_local_id)
 		im_ap.remove_item(a_local_id)
@@ -649,9 +649,9 @@ func _on_Swap_pressed():
 		var b_unit = barracks_units[um_b.get_selected_items()[0]]
 		var b_local_id = um_b.get_selected_items()[0]
 		active_units.append(b_unit)
-		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(b_unit.id).capitalize(), load(str(char_database.get_char_folder(b_unit.id),char_database.get_char_name(b_unit.id),"0001.tex")), 1)
 		barracks_units.remove(b_local_id)
 		um_b.remove_item(b_local_id)
 		im_b.remove_item(b_local_id)
@@ -983,6 +983,9 @@ func _on_Return_pressed():
 		
 		# Não precisa limpar a StatusBox, pois ela se limpa quando as
 		# armas são deselecionadas, na saída da tela
+
+func _on_Play_pressed():
+	get_parent().set_level("combat")
 
 
 # Funções temporarias de teste
