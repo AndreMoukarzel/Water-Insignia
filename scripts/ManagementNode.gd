@@ -140,15 +140,16 @@ func _ready():
 	# Those are instanced here, because for every action taken on
 	# the ItemLists, the same action is taken on the actual character
 	# arrays, for some operations are index-based
+	
 	for unit in active_units:
-		um_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		im_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		rm_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		um_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
+		im_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
+		rm_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
 	
 	for unit in barracks_units:
-		um_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		im_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
-		rm_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0000.tex")), 1)
+		um_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
+		im_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
+		rm_b.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
 
 	# Fix sizes and positions of some nodes
 	size_update()
