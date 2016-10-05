@@ -168,7 +168,7 @@ func _ready():
 	window_size = OS.get_window_size()
 	
 	# TESTING INSTANCING UNITS#
-	instance_unit(0, 4, "Allies")
+	instance_unit(3, 4, "Allies")
 	instance_unit(1, 4, "Allies")
 	generate_mob(0)
 	
@@ -196,6 +196,16 @@ func _ready():
 			instance_item("Potion", unit)
 			instance_item("Poison Bomb", unit)
 			instance_item("Speed Up", unit)
+		if unit.get_name() == "baby_dragon":
+			instance_weapon("Katana", unit)
+			instance_weapon("Bamboo Sword", unit)
+			instance_skill("Shadow Strike", unit)
+			instance_skill("Cure", unit)
+			instance_skill("Agility", unit)
+			instance_item("Atk Up", unit)
+			instance_item("Potion", unit)
+			instance_item("Poison Bomb", unit)
+			instance_item("Speed Up", unit)
 	
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
@@ -209,29 +219,28 @@ func _ready():
 
 # Instance an unit
 func instance_unit(id, level, path):
-	
+
 	# Initialize visuals #
 	var anim_sprite = AnimatedSprite.new()
 	var anim_player = AnimationPlayer.new()
-	
+
 	# Get folder and animation names for the character #
 	var char_folder = char_database.get_char_folder(id)
 	var anim_names = char_database.get_animation_array(id)
-	
+
 	# Add animations to the player, play the idle animation #
 	for i in range(anim_names.size()):
 		anim_player.add_animation(anim_names[i], load(str(char_folder, anim_names[i], ".xml")))
 	anim_player.play("idle")
-	
-	# Adjust sprite details
+
+	# Add sprite sheet
 	anim_sprite.set_sprite_frames(load(str(char_folder, char_database.get_char_name(id), ".tres")))
 	anim_sprite.set_scale(Vector2(scale, scale))
 
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
-	
-	# Data instancing segment
+
 	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
 
 	if path == "Allies":

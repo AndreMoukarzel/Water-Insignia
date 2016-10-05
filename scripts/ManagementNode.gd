@@ -70,6 +70,7 @@ var current_screen
 class unit:
 	var id
 	var name
+	var level
 	var wpn_vector = []
 	var item_vector = []
 
