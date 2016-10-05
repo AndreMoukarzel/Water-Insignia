@@ -17,6 +17,7 @@ class unit:
 	var bonus_defense = 0
 	var speed
 	var bonus_speed = 0
+	var last_weapon = null
 	var wpn_vector = [] # Array containing the unit's available weapons
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
@@ -53,7 +54,7 @@ class weapon:
 	var id # Weapon ID in the weapon database
 	var name # Weapon name in the weapon database
 	var durability # Weapon durability
-	var type # Weapon type - sword, axe, spear
+	var type # Weapon type - sword, axe, spear or natural
 
 	func _init(name, database):
 		self.id = database.get_wpn_id(name)
@@ -203,8 +204,8 @@ func _ready():
 			instance_item("Poison Bomb", unit)
 			instance_item("Speed Up", unit)
 		if unit.get_name() == "baby_dragon":
-			instance_weapon("Katana", unit)
-			instance_weapon("Bamboo Sword", unit)
+			instance_weapon("Bat Fangs", unit)
+			instance_weapon("Bat Wings", unit)
 			instance_skill("Shadow Strike", unit)
 			instance_skill("Cure", unit)
 			instance_skill("Agility", unit)
@@ -465,11 +466,20 @@ func turn_based_system():
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
 	if action != null:
+		var weapon = "Natural"
+		if action_id != 10:
+			weapon = allies_vector[actor].wpn_vector[action_id].type
+
 		var action_instance = action_class.new()
 		action_instance.from = [actor, "Allies"]
-		action_instance.action = action
 		action_instance.action_id = action_id
 		action_instance.speed = allies_vector[actor].get_speed()
+
+		if action == "attack" and weapon != "Natural":
+			action_instance.action = str(action, weapon)
+		else:
+			action_instance.action = action
+
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -486,7 +496,7 @@ func filter_action(act):
 		attacker = enemies_vector
 
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
-	if (act.action == "attack"):
+	if (act.action == "attack" or act.action == "attackSword" or act.action == "attackAxe" or act.action == "attackSpear"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
 	elif (act.action == "skill"):
 		process_skill(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
@@ -752,6 +762,12 @@ func enemy_attack_beta():
 				random_target = (random_target + 1) % allies_vector.size()
 			
 			# Instances the attack
+			var wpn_type = enemies_vector[enemies].wpn_vector[0].type
+
+			if wpn_type == "Natural":
+				enemies_vector[enemies].last_weapon = null
+			else:
+				enemies_vector[enemies].last_weapon = wpn_type
 			action_instance.to = [int(random_target), "Allies"]
 			action_instance.action = "attack"
 			action_instance.action_id = 0
@@ -1242,7 +1258,7 @@ func _fixed_process(delta):
 					for stat in actor[act.from[0]].status_vector:
 						if stat.status == "Paralysis":
 							par = true
-			
+
 			if (not par):
 				if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 					if act.action == "defend":
@@ -1253,12 +1269,15 @@ func _fixed_process(delta):
 					elif act.action == "item":
 						time = 2
 						STATE_NEXT = "ANIMATION"
-					else:
+					else: #action is an attack
 						var atk_pos
 						var def_pos
 						var unit
+						var vector
+
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
 						if act.from[1] == "Allies":
+							vector = allies_vector
 							atk_pos = allies_pos[act.from[0]]
 							if act.to[1] == "Allies":
 								def_pos = allies_pos[act.to[0]]
@@ -1268,6 +1287,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(def_pos[0] - 130, def_pos[1]))
 							
 						elif act.from[1] == "Enemies":
+							vector = enemies_vector
 							atk_pos = enemies_pos[act.from[0]]
 							if act.to[1] == "Allies":
 								def_pos = allies_pos[act.to[0]]
@@ -1275,39 +1295,49 @@ func _fixed_process(delta):
 								def_pos = enemies_pos[act.to[0]]
 							unit = get_node(str("Enemies/", act.from[0]))
 							unit.set_pos(Vector2(def_pos[0] + 130, def_pos[1]))
-							
+
+						unit = vector[act.from[0]]
+						if unit.last_weapon != null:
+							act.action = str(act.action, unit.last_weapon)
+						print(act.action)
 						time = (player.get_animation(act.action).get_length()) * 60
 						player.play(act.action)
 						STATE_NEXT = "ANIMATION"
 				else:
 					# Alvo invalido #
 					action_memory.pop_front()
-			
 			# Action isn't executed if the actor is paralyzed
 			else:
 				action_memory.pop_front()
-	
+
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
 	elif STATE == "ANIMATION":
 		time -= 1
 		if time < 1:
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
-			
+
 			var atk_pos
 			var unit
+			var vector
 			# Verifies who attacked and returns the unit to its original position
 			if act.from[1] == "Allies":
+				vector = allies_vector
 				atk_pos = allies_pos[act.from[0]]
 				unit = get_node(str("Allies/", act.from[0]))
 				unit.set_pos(Vector2(atk_pos))
 				
 			elif act.from[1] == "Enemies":
+				vector = enemies_vector
 				atk_pos = enemies_pos[act.from[0]]
 				unit = get_node(str("Enemies/", act.from[0]))
 				unit.set_pos(Vector2(atk_pos))
-			player.play("idle")
-			# Aqui deve ficar o filter_action, la em cima ele pega a animação correta ja #
+
+			unit = vector[act.from[0]]
+			if unit.last_weapon != null:
+				player.play(str("idle", unit.last_weapon))
+			else:
+				player.play("idle")
 			filter_action(act)
 			action_memory.pop_front()
 			STATE_NEXT = "EFFECT"
