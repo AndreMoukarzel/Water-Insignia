@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="Animation" subresource_count="1" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<main_resource>
-		<string name="resource/name"> "attacksword" </string>
-		<real name="length"> 0.4 </real>
+		<string name="resource/name"> "attackAxe" </string>
+		<real name="length"> 0.5 </real>
 		<bool name="loop"> False </bool>
 		<real name="step"> 0.1 </real>
 		<string name="tracks/0/type"> "value" </string>
@@ -11,16 +11,17 @@
 		<bool name="tracks/0/imported"> False </bool>
 		<dictionary name="tracks/0/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="3"> 				0, 0.2, 0.4 </real_array>
+			<real_array  len="4"> 				0, 0.2, 0.3, 0.5 </real_array>
 			<string> "transitions" </string>
-			<real_array  len="3"> 				1, 1, 1 </real_array>
+			<real_array  len="4"> 				1, 1, 1, 1 </real_array>
 			<string> "update" </string>
 			<int> 1 </int>
 			<string> "values" </string>
-			<array  len="3" shared="false">
-				<int> 2 </int>
-				<int> 3 </int>
-				<int> 4 </int>
+			<array  len="4" shared="false">
+				<int> 6 </int>
+				<int> 7 </int>
+				<int> 8 </int>
+				<int> 9 </int>
 			</array>
 		</dictionary>
 
