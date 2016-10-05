@@ -7,6 +7,8 @@ const HP = 2
 const EFFECT = 3
 const STATUS = 4
 const COST = 5
+const DE_BUFF = 6
+const ELEM = 7
 
 var skill_database = [
 
@@ -16,7 +18,9 @@ var skill_database = [
 		HP : 10,
 		EFFECT : null,
 		STATUS : null,
-		COST : 1
+		COST : 1,
+		DE_BUFF : null,
+		ELEM : null
 	},
 	
 	{ # ID = 1
@@ -25,7 +29,9 @@ var skill_database = [
 		HP : -70,
 		EFFECT : null,
 		STATUS : null,
-		COST : 2
+		COST : 2,
+		DE_BUFF : null,
+		ELEM : null
 	},
 
 	{ # ID = 2
@@ -34,7 +40,9 @@ var skill_database = [
 		HP : null,
 		EFFECT : 0.5,
 		STATUS : "Defense",
-		COST : 3
+		COST : 3,
+		DE_BUFF : "Buff",
+		ELEM : null
 	},
 
 	{ # ID = 3
@@ -43,7 +51,9 @@ var skill_database = [
 		HP : null,
 		EFFECT : 0.5,
 		STATUS : "Speed",
-		COST : 4
+		COST : 4,
+		DE_BUFF : "Buff",
+		ELEM : null
 	},
 
 	{ # ID = 4
@@ -52,16 +62,20 @@ var skill_database = [
 		HP : 5,
 		EFFECT : null,
 		STATUS : "Poison",
-		COST : 5
+		COST : 5,
+		DE_BUFF : null,
+		ELEM : null
 	},
 	
 	{ # ID = 5
 		SKILL_NAME : "Poison Sting",
 		TYPE : "HP/Status",
 		HP : -5,
-		EFFECT : 20,
+		EFFECT : 2,
 		STATUS : "Poison",
-		COST : 6
+		COST : 6,
+		DE_BUFF : "Debuff",
+		ELEM : null
 	},
 	
 	{ # ID = 6
@@ -70,7 +84,9 @@ var skill_database = [
 		HP : null,
 		EFFECT : null,
 		STATUS : "Paralysis",
-		COST : 7
+		COST : 7,
+		DE_BUFF : "Debuff",
+		ELEM : "Wind"
 	},
 	
 	{ # ID = 7
@@ -79,8 +95,32 @@ var skill_database = [
 		HP : -45,
 		EFFECT : null,
 		STATUS : null,
-		COST : 5
+		COST : 5,
+		DE_BUFF : null,
+		ELEM : null
 	},
+	
+	{ # ID = 8
+		SKILL_NAME : "Eruption",
+		TYPE : "HP",
+		HP : -10,
+		EFFECT : null,
+		STATUS : null,
+		COST : 3,
+		DE_BUFF : null,
+		ELEM : "Fire"
+	},
+	
+	{ # ID = 9
+		SKILL_NAME : "Bubbles",
+		TYPE : "HP",
+		HP : -8,
+		EFFECT : null,
+		STATUS : null,
+		COST : 3,
+		DE_BUFF : null,
+		ELEM : "Water"
+	}
 ]
 
 
@@ -110,3 +150,9 @@ func get_skill_status(id):
 
 func get_skill_cost(id):
 	return skill_database[id][COST]
+
+func get_skill_de_buff(id):
+	return skill_database[id][DE_BUFF]
+
+func get_skill_element(id):
+	return skill_database[id][ELEM]

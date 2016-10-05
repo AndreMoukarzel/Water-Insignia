@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="4" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://characters/monsters/bat/attack.xml" type="Animation" index="1"></ext_resource>
-	<ext_resource path="res://characters/monsters/bat/bat.tres" type="SpriteFrames" index="0"></ext_resource>
+	<ext_resource path="res://characters/bat/bat.tres" type="SpriteFrames" index="0"></ext_resource>
+	<ext_resource path="res://characters/bat/attack.xml" type="Animation" index="1"></ext_resource>
 	<resource type="Animation" path="local://1">
 		<string name="resource/name"> "idle" </string>
 		<real name="length"> 0.8 </real>
@@ -38,12 +38,13 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="15">
+			<string_array  len="16">
 				<string> "AnimatedSprite" </string>
 				<string> "transform/pos" </string>
 				<string> "transform/scale" </string>
 				<string> "frames" </string>
 				<string> "animation" </string>
+				<string> "frame" </string>
 				<string> "AnimationPlayer" </string>
 				<string> "playback/process_mode" </string>
 				<string> "playback/default_blend_time" </string>
@@ -61,7 +62,7 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="40"> 				-1, -1, 0, 0, -1, 4, 1, 0, 2, 1, 3, 2, 4, 3, 0, 0, 0, 5, 5, -1, 9, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 14, 12, 0 </int_array>
+			<int_array  len="42"> 				-1, -1, 0, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0, 0, 0, 6, 6, -1, 9, 7, 4, 8, 5, 9, 6, 10, 7, 11, 8, 12, 9, 13, 10, 14, 11, 15, 12, 0 </int_array>
 			<string> "variants" </string>
 			<array  len="13" shared="false">
 				<vector2> 497.982, 108.277 </vector2>
