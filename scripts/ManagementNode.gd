@@ -55,6 +55,8 @@ onready var rm_rs = get_node("RepairMenu/RepairStatus")
 # Shop Menu Nodes (sm)
 onready var sm_sw = get_node("ShopManagement/ShopWeapons")
 onready var sm_si = get_node("ShopManagement/ShopItems")
+onready var sm_sws = get_node("ShopManagement/SWStatus")
+onready var sm_sis = get_node("ShopManagement/SIStatus")
 # Colocar os nodes que representam a ItemList das armas e itens da storage para o sell
 
 # Databases
@@ -160,9 +162,6 @@ func _ready():
 	rm_w.set_max_columns(4)
 	sm_sw.set_max_columns(5)
 	sm_si.set_max_columns(5)
-	sm_sw.set_select_mode(1)
-	sm_si.set_select_mode(1)
-	
 	
 	# Populating character lists for active units and barracks
 	# Those are instanced here, because for every action taken on
@@ -212,12 +211,15 @@ func _fixed_process(delta):
 	# Update Unit Management
 	Update_UM()
 	
-	# Update Item management
+	# Update Item Management
 	Update_IM()
 	
-	# Update Repair menu
+	# Update Repair Menu
 	Update_RM()
-
+	
+	# Update Shop Menu
+	Update_SM()
+	
 # ######################################### #
 # ##### INTERFACE MANAGEMENT FUNCTIONS #### # 
 # ######################################### #
@@ -602,7 +604,17 @@ func Update_RM():
 		last_selected_repair = -1
 		last_selected_type = -1
 		rm_w.clear()
-	
+
+func Update_SM():
+	if (sm_sw.get_selected_items().size() != 0):
+		sm_sws.update_statusbox(sm_sw.get_selected_items()[0], "Shop Status", "Weapon", wpn_database)
+	else:
+		sm_sws.neutralize_node("Shop Status")
+	if (sm_si.get_selected_items().size() != 0):
+		sm_sis.update_statusbox(sm_si.get_selected_items()[0], "Shop Status", "Item", item_database)
+	else:
+		sm_sis.neutralize_node("Shop Status")
+		
 	####################################################################
 	# Deve estar dando problema para armas com durabilidade menor que 0
 	# Certificar que ela sejam resetadas para -1 no fim de cada combate!

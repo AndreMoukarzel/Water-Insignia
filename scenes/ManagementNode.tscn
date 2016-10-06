@@ -1045,7 +1045,35 @@ flat = false
 
 [node name="SWStatus" parent="ShopManagement" instance=ExtResource( 12 )]
 
+visibility/visible = false
+
+[node name="Icon" type="TextureFrame" parent="ShopManagement/SWStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+stretch_mode = 0
+
 [node name="SIStatus" parent="ShopManagement" instance=ExtResource( 12 )]
+
+visibility/visible = false
+
+[node name="Icon" type="TextureFrame" parent="ShopManagement/SIStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+stretch_mode = 0
 
 [connection signal="pressed" from="Selection/Units" to="." method="_on_Units_pressed"]
 
@@ -1095,3 +1123,5 @@ flat = false
 [editable path="ItemManagement/BWStatus"]
 [editable path="ItemManagement/BIStatus"]
 [editable path="RepairMenu/RepairStatus"]
+[editable path="ShopManagement/SWStatus"]
+[editable path="ShopManagement/SIStatus"]
