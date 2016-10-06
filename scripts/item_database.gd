@@ -6,7 +6,8 @@ const TYPE = 1
 const HP = 2
 const EFFECT = 3
 const STATUS = 4
-const DE_BUFF = 5
+const ALTERED = 5
+const TIMER = 6
 
 ###################################
 #
@@ -24,83 +25,92 @@ var item_database = [
 
 	{ # ID = 0
 		ITEM_NAME : "Potion",
-		TYPE : "HP",
+		TYPE : ["HP"],
 		HP : 10,
 		EFFECT : null,
 		STATUS : null,
-		DE_BUFF : null
+		ALTERED : null,
+		TIMER : 0
 	},
 	
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
-		TYPE : "HP",
+		TYPE : ["HP"],
 		HP : -70,
 		EFFECT : null,
 		STATUS : null,
-		DE_BUFF : null
+		ALTERED : null,
+		TIMER : 0
 	},
 	
 	{ # ID = 2
 		ITEM_NAME : "Atk Up",
-		TYPE : "Status",
+		TYPE : ["Status"],
 		HP : null,
 		EFFECT : 0.5,
 		STATUS : "Attack",
-		DE_BUFF : "Buff"
+		ALTERED : "ATK",
+		TIMER : 2
 	},
 	
 	{ # ID = 3
 		ITEM_NAME : "Def Up",
-		TYPE : "Status",
+		TYPE : ["Status"],
 		HP : null,
 		EFFECT : 0.5,
 		STATUS : "Defense",
-		DE_BUFF : "Buff"
+		ALTERED : "DEF",
+		TIMER : 2
 	},
 
 	{ # ID = 4
 		ITEM_NAME : "Speed Up",
-		TYPE : "Status",
+		TYPE : ["Status"],
 		HP : null,
 		EFFECT : 0.5,
 		STATUS : "Speed",
-		DE_BUFF : "Buff"
+		ALTERED : "SPD",
+		TIMER : 2
 	},
 
 	{ # ID = 5
 		ITEM_NAME : "Detox",
-		TYPE : "Dispell",
+		TYPE : ["Dispell"],
 		HP : null,
 		EFFECT : 1,
 		STATUS : "Poison",
-		DE_BUFF : null
+		ALTERED : null,
+		TIMER : 0
 	},
 	
 	{ # ID = 6
 		ITEM_NAME : "Poison Bomb",
-		TYPE : "HP/Status",
+		TYPE : ["HP", "Status"],
 		HP : -2,
 		EFFECT : 3,
 		STATUS : "Poison",
-		DE_BUFF : "Debuff"
+		ALTERED : null,
+		TIMER : 3
 	},
 	
 	{ # ID = 7
 		ITEM_NAME : "PAR Bomb",
-		TYPE : "HP/Status",
+		TYPE : ["HP", "Status"],
 		HP : -2,
-		EFFECT : 1,
+		EFFECT : null,
 		STATUS : "Paralysis",
-		DE_BUFF : "Debuff"
+		ALTERED : null,
+		TIMER : 3
 	},
 	
 	{ # ID = 8
 		ITEM_NAME : "Depar",
-		TYPE : "Dispell",
+		TYPE : ["Dispell"],
 		HP : null,
 		EFFECT : 1,
 		STATUS : "Paralysis",
-		DE_BUFF : null
+		ALTERED : null,
+		TIMER : 0
 	}
 ]
 
@@ -129,5 +139,8 @@ func get_item_effect(id):
 func get_item_status(id):
 	return item_database[id][STATUS]
 
-func get_item_de_buff(id):
-	return item_database[id][DE_BUFF]
+func get_item_altered(id):
+	return item_database[id][ALTERED]
+
+func get_item_timer(id):
+	return item_database[id][TIMER]
