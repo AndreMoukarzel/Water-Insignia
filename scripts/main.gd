@@ -57,8 +57,11 @@ func set_level(mode):
 	level.set_name("level")
 	if mode == "combat":
 		level.allies_vector = units_vector
-	else:
+	elif mode == "management":
 		level.active_units = units_vector
+		level.barracks_units = barracks
+		level.storage_weapons = storage_wpn
+		level.storage_items = storage_itm
 	add_child(level)
 	get_node("old").queue_free()
 

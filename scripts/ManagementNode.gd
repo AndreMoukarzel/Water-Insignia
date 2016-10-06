@@ -95,6 +95,7 @@ class item:
 	var id # Item's ID in the item database
 	var name # Item's name
 	var type # Item's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
+	var timer
 	var durability # Item's total amount
 	var amount # Item's current amount
 	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
@@ -106,12 +107,13 @@ class item:
 		self.id = database.get_item_id(name)
 		self.name = name
 		self.type = database.get_item_type(id)
+		self.timer = database.get_item_timer(id)
 		self.durability = total
 		self.amount = self.durability
 		self.effect = database.get_item_effect(id)
 		self.status = database.get_item_status(id)
 		self.hp = database.get_item_hp(id)
-		self.db = database.get_item_de_buff(id)
+		self.db = database.get_item_altered(id)
 
 func _ready():
 	# Get screen and window sizes, and get databases
@@ -132,13 +134,12 @@ func _ready():
 			if unit.name == "bat":
 				instance_weapon("Bat Fangs", unit)
 				instance_weapon("Bat Wings", unit)
-				instance_item("PAR Bomb", unit)
-				instance_item("PAR Bomb", unit)
+				instance_item("Def Up", unit)
 				instance_item("Potion", unit)
 			if unit.name == "samurai":
 				instance_weapon("Katana", unit)
 				instance_weapon("Bamboo Sword", unit)
-				instance_item("PAR Bomb", unit)
+				instance_item("Def Up", unit)
 				instance_item("Potion", unit)
 				instance_item("PAR Bomb", unit)
 				instance_item("PAR Bomb", unit)
