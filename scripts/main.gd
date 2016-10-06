@@ -7,7 +7,12 @@ var scn
 
 var first_play = 1
 
+var quesha = 1000
+
 var units_vector = []
+var barracks = []
+var storage_wpn = []
+var storage_itm = []
 
 # Unit class - for instancing an enemy or ally
 class unit:
@@ -30,6 +35,9 @@ func set_level(mode):
 	if mode == "combat":
 		scn = combat_scn
 		units_vector = get_node("level").active_units
+		barracks = get_node("level").barracks_units
+		storage_wpn = get_node("level").storage_weapons
+		storage_itm = get_node("level").storage_items
 	elif mode == "management":
 		scn = management_scn
 		units_vector = get_node("level").allies_vector
