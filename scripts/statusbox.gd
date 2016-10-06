@@ -63,7 +63,8 @@ func update_statusbox(object, type, nature, database):
 				get_node("Durability").set_pos(Vector2(65, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(85, 65))
-			get_node("Durability").set_text(str(object.durability,"/",database.get_durability(object.id)))
+			if (database.get_durability(object.id) > 0):
+				get_node("Durability").set_text(str(object.durability,"/",database.get_durability(object.id)))
 			get_node("Attack").set_text(str("ATK: ", database.get_attack(object.id)))
 		if (nature == "Item"):
 			get_node("Class").set_text(str("Type: ",database.get_item_type(object.id)))
