@@ -7,7 +7,7 @@ const HP = 2
 const EFFECT = 3
 const STATUS = 4
 const COST = 5
-const DE_BUFF = 6
+const ALTERED = 6
 const ELEM = 7
 
 var skill_database = [
@@ -19,7 +19,7 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : null,
 		COST : 1,
-		DE_BUFF : null,
+		ALTERED : null,
 		ELEM : null
 	},
 	
@@ -30,7 +30,7 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : null,
 		COST : 2,
-		DE_BUFF : null,
+		ALTERED : null,
 		ELEM : null
 	},
 
@@ -41,7 +41,7 @@ var skill_database = [
 		EFFECT : 0.5,
 		STATUS : "Defense",
 		COST : 3,
-		DE_BUFF : "Buff",
+		ALTERED : "Buff",
 		ELEM : null
 	},
 
@@ -52,7 +52,7 @@ var skill_database = [
 		EFFECT : 0.5,
 		STATUS : "Speed",
 		COST : 4,
-		DE_BUFF : "Buff",
+		ALTERED : "Buff",
 		ELEM : null
 	},
 
@@ -63,7 +63,7 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : "Poison",
 		COST : 5,
-		DE_BUFF : null,
+		ALTERED : null,
 		ELEM : null
 	},
 	
@@ -74,7 +74,7 @@ var skill_database = [
 		EFFECT : 2,
 		STATUS : "Poison",
 		COST : 6,
-		DE_BUFF : "Debuff",
+		ALTERED : "Debuff",
 		ELEM : null
 	},
 	
@@ -85,18 +85,18 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : "Paralysis",
 		COST : 7,
-		DE_BUFF : "Debuff",
+		ALTERED : "Debuff",
 		ELEM : "Wind"
 	},
 	
 	{ # ID = 7
 		SKILL_NAME : "Shadow Strike",
 		TYPE : "HP",
-		HP : -45,
+		HP : -15,
 		EFFECT : null,
 		STATUS : null,
-		COST : 5,
-		DE_BUFF : null,
+		COST : 6,
+		ALTERED : null,
 		ELEM : null
 	},
 	
@@ -107,7 +107,7 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : null,
 		COST : 3,
-		DE_BUFF : null,
+		ALTERED : null,
 		ELEM : "Fire"
 	},
 	
@@ -118,7 +118,7 @@ var skill_database = [
 		EFFECT : null,
 		STATUS : null,
 		COST : 3,
-		DE_BUFF : null,
+		ALTERED : null,
 		ELEM : "Water"
 	}
 ]
@@ -151,8 +151,8 @@ func get_skill_status(id):
 func get_skill_cost(id):
 	return skill_database[id][COST]
 
-func get_skill_de_buff(id):
-	return skill_database[id][DE_BUFF]
+func get_skill_altered(id):
+	return skill_database[id][ALTERED]
 
 func get_skill_element(id):
 	return skill_database[id][ELEM]

@@ -82,7 +82,7 @@ class skill:
 		self.hp = database.get_skill_hp(id)
 		self.effect = database.get_skill_effect(id)
 		self.status = database.get_skill_status(id)
-		self.db = database.get_skill_de_buff(id)
+		self.db = database.get_skill_altered(id)
 		self.elem = database.get_skill_element(id)
 
 class item:
@@ -198,7 +198,19 @@ func _ready():
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
-	
+	instance_skills()
+
+	var i = 0
+	for unit in allies_vector:
+		var info_scn = load("res://scenes/SelectedInfo.tscn")
+		var info = info_scn.instance()
+
+		info.master = unit
+#		info.set_pos(Vector2(allies_pos[i].x + 80, allies_pos[i].y))
+		add_child(info)
+
+		i += 1
+
 	set_fixed_process(true)
 
 # ############################### #
@@ -272,9 +284,16 @@ func instance_weapon(name, owner):
 	owner.wpn_vector.append(wpn_instance)
 
 
-func instance_skill(name, owner):
-	var skill_instance = skill.new(name, skill_database)
-	owner.skill_vector.append(skill_instance)
+func instance_skills():
+	for unit in allies_vector:
+		for skill_name in char_database.get_skill_vector(unit.id):
+			var skill_instance = skill.new(skill_name, skill_database)
+			unit.skill_vector.append(skill_instance)
+
+	for unit in enemies_vector:
+		for skill_name in char_database.get_skill_vector(unit.id):
+			var skill_instance = skill.new(skill_name, skill_database)
+			unit.skill_vector.append(skill_instance)
 
 
 # owner is the reference in the correct vector (allies or enemies)
@@ -493,8 +512,17 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = attacker[attacker_vpos].get_attack() # Attacker's base attack
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # Attacker's weapon power
-	var char_def = defender[defender_vpos].get_defense() # Defender's base defense   
-	var damage = (char_atk + wpn_atk) - char_def  # Damage dealt
+	var char_def = defender[defender_vpos].get_defense() # Defender's base defense
+
+	# Checks for the weapon triangle
+	var tri = 1
+	var atk_wpn = attacker[attacker_vpos].last_weapon
+	var def_wpn = defender[defender_vpos].last_weapon
+	if (atk_wpn == "Sword" and def_wpn == "Axe") or (atk_wpn == "Axe" and def_wpn == "Spear") or (atk_wpn == "Spear" and def_wpn == "Sword"):
+		tri = 1.25
+	elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
+		tri = 0.75
+	var damage = ((char_atk + wpn_atk) - char_def) * tri  # Damage dealt
 	
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
@@ -504,9 +532,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	# So, after the unit is attacked, the bonus defense should be reduced
 #	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
 	
-	# damage can't be lower than zero
-	if (damage < 0):
-		damage = 0
+	# damage can't be lower than ONE
+	if (damage < 1):
+		damage = 1
 	
 	# Reduces the defender's HP and shows it in the combat screen
 	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
