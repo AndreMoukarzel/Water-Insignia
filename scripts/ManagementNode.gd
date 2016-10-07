@@ -17,6 +17,9 @@ var last_selected_type = -1 # 0 = ap, 1 = barracks
 var item_swap_mode = 0 # 0 = barracks, 1 = storage
 var item_info_mode = 0 # 0 = deactivated, 1 = activated
 
+var wpn_amount = 0
+var item_amount = 0
+
 # Global Node References
 
 # Unit Management Nodes (um)
@@ -57,7 +60,11 @@ onready var sm_sw = get_node("ShopManagement/ShopWeapons")
 onready var sm_si = get_node("ShopManagement/ShopItems")
 onready var sm_sws = get_node("ShopManagement/SWStatus")
 onready var sm_sis = get_node("ShopManagement/SIStatus")
-# Colocar os nodes que representam a ItemList das armas e itens da storage para o sell
+
+onready var sm_stw = get_node("SellManagement/StorageWeapons")
+onready var sm_sti = get_node("SellManagement/StorageItems")
+onready var sm_stws = get_node("SellManagement/STWStatus")
+onready var sm_stis = get_node("SellManagement/STIStatus")
 
 # Databases
 var char_database
@@ -156,6 +163,8 @@ func _ready():
 	rm_w.set_max_columns(4)
 	sm_sw.set_max_columns(5)
 	sm_si.set_max_columns(5)
+	sm_stw.set_max_columns(5)
+	sm_sti.set_max_columns(5)
 	
 	# Populating character lists for active units and barracks
 	# Those are instanced here, because for every action taken on
@@ -175,6 +184,9 @@ func _ready():
 	# Populating the shop. Once we have the stage system
 	# going on, we can think about changing what the shop
 	# sells depending on the stage.
+	# Se for para fazer dependendo da fase, vamos precisar de
+	# uma database, um vetor para instanciar as armas a serem compradas,
+	# e mudar como populamos as statusboxes no script dos statusbox
 	
 	var w_db_size = 5
 	var iter = 0
@@ -264,7 +276,21 @@ func size_update():
 	sm_sw.set_pos((Vector2(sm_sw.get_pos().x + 15, sm_sw.get_pos().y + 10)))
 	sm_si.set_size(Vector2(window_size.x/2, window_size.y/2.5))
 	sm_si.set_pos((Vector2(sm_si.get_pos().x + 15, sm_si.get_pos().y + 260)))
-
+	
+	sm_sws.adjust_size("Shop Status", 300, 100, sm_sw.get_pos().x + 525, sm_sw.get_pos().y)
+	sm_sis.adjust_size("Shop Status", 300, 100, sm_si.get_pos().x + 525, sm_si.get_pos().y)
+	get_node("ShopManagement/Plus1").set_pos(Vector2(sm_sws.get_pos().x + 10, sm_sws.get_pos().y + 120))
+	get_node("ShopManagement/Amount1").set_pos(Vector2(sm_sws.get_pos().x + 100, sm_sws.get_pos().y + 110))
+	get_node("ShopManagement/Minus1").set_pos(Vector2(sm_sws.get_pos().x + 210, sm_sws.get_pos().y + 120))
+	get_node("ShopManagement/Plus2").set_pos(Vector2(sm_sis.get_pos().x + 10, sm_sis.get_pos().y + 120))
+	get_node("ShopManagement/Amount2").set_pos(Vector2(sm_sis.get_pos().x + 100, sm_sis.get_pos().y + 110))
+	get_node("ShopManagement/Minus2").set_pos(Vector2(sm_sis.get_pos().x + 210, sm_sis.get_pos().y + 120))
+	
+	sm_stw.set_size(Vector2(window_size.x/2, window_size.y/2.5))
+	sm_stw.set_pos((Vector2(sm_stw.get_pos().x + 15, sm_stw.get_pos().y + 10)))
+	sm_sti.set_size(Vector2(window_size.x/2, window_size.y/2.5))
+	sm_sti.set_pos((Vector2(sm_sti.get_pos().x + 15, sm_sti.get_pos().y + 260)))
+	
 # This function coordinates the state of the swap button,
 # as well as the status boxes in the Unit Management screen
 func Update_UM():
@@ -598,17 +624,7 @@ func Update_RM():
 		last_selected_repair = -1
 		last_selected_type = -1
 		rm_w.clear()
-
-func Update_SM():
-	if (sm_sw.get_selected_items().size() != 0):
-		sm_sws.update_statusbox(sm_sw.get_selected_items()[0], "Shop Status", "Weapon", wpn_database)
-	else:
-		sm_sws.neutralize_node("Shop Status")
-	if (sm_si.get_selected_items().size() != 0):
-		sm_sis.update_statusbox(sm_si.get_selected_items()[0], "Shop Status", "Item", item_database)
-	else:
-		sm_sis.neutralize_node("Shop Status")
-		
+	
 	####################################################################
 	# Deve estar dando problema para armas com durabilidade menor que 0
 	# Certificar que ela sejam resetadas para -1 no fim de cada combate!
@@ -665,6 +681,59 @@ func Update_SM():
 	# Nenhum selecionado, desabilita o botão
 	else:
 		rm_ra.set_disabled(true)
+
+func Update_SM():
+	# ver se precisa resetar o amount toda vez que troca de arma/item
+	# se precisar, vai precisar de mais uma last_selected para cada
+	if (sm_sw.get_selected_items().size() != 0):
+		sm_sws.update_statusbox(sm_sw.get_selected_items()[0], "Shop Status", "Weapon", wpn_database)
+		get_node("ShopManagement/Plus1").show()
+		get_node("ShopManagement/Amount1").set_text(str(wpn_amount))
+		get_node("ShopManagement/Amount1").show()
+		if (wpn_amount <= 0):
+			get_node("ShopManagement/Minus1").set_disabled(true)
+		else:
+			get_node("ShopManagement/Minus1").set_disabled(false)
+		get_node("ShopManagement/Minus1").show()
+	else:
+		sm_sws.neutralize_node("Shop Status")
+		get_node("ShopManagement/Plus1").hide()
+		wpn_amount = 0
+		get_node("ShopManagement/Amount1").hide()
+		get_node("ShopManagement/Minus1").hide()
+	if (sm_si.get_selected_items().size() != 0):
+		sm_sis.update_statusbox(sm_si.get_selected_items()[0], "Shop Status", "Item", item_database)
+		get_node("ShopManagement/Plus2").show()
+		get_node("ShopManagement/Amount2").set_text(str(item_amount))
+		get_node("ShopManagement/Amount2").show()
+		if (item_amount <= 0):
+			get_node("ShopManagement/Minus2").set_disabled(true)
+		else:
+			get_node("ShopManagement/Minus2").set_disabled(false)
+		get_node("ShopManagement/Minus2").show()
+	else:
+		sm_sis.neutralize_node("Shop Status")
+		get_node("ShopManagement/Plus2").hide()
+		item_amount = 0
+		get_node("ShopManagement/Amount2").hide()
+		get_node("ShopManagement/Minus2").hide()
+	
+	if (wpn_amount == 0 and item_amount == 0):
+		get_node("ShopManagement/Buy").set_disabled(true)
+	else:
+		get_node("ShopManagement/Buy").set_disabled(false)
+	
+	# Certificando a corretude da exibição da storage,
+	# e populando as suas listas
+	if (populated_storage == 0):
+			# Popula e mostra armas e items para storage
+			for weapon in storage_weapons:
+				sm_stw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+				sm_stw.set_item_tooltip(sm_stw.get_item_count() - 1, weapon.name)
+			for item in storage_items:
+				sm_sti.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
+				sm_sti.set_item_tooltip(sm_sti.get_item_count() - 1, item.name)
+			populated_storage = 1
 	
 # ########################################### #
 # ##### UNIT MANAGEMENT BUTTON FUNCTIONS #### # 
@@ -971,22 +1040,74 @@ func _on_BuyMenu_pressed():
 	get_node("ShopMenu").hide()
 	get_node(current_screen).show()
 
+func _on_SellMenu_pressed():
+	current_screen = "SellManagement"
+	get_node("ShopMenu").hide()
+	get_node(current_screen).show()
+
 func _on_Buy_pressed():
 	# Teremos o id de todas as armas selecionadas, aqui
-	for id in sm_sw.get_selected_items():
-		# Checa a soma dos preços DAS ARMAS aqui, que estarão na database,
-		# e possívelmente gera uma mensagem de confirmação.
-		# (Se a pessoa disser sim, e não tiver dinheiro, nega ela
-		#  mesmo apertando o botão)
-		var wpn_instance = weapon.new()
-		wpn_instance.id = id
-		wpn_instance.name = wpn_database.get_wpn_name(id)
-		wpn_instance.durability = wpn_database.get_durability(id)
-		wpn_instance.type = wpn_database.get_wpn_type(id)
-		storage_weapons.append(wpn_instance)
-	for id in sm_si.get_selected_items():
-		var item_instance = item.new(item_database.get_item_name(id), 3, item_database) # <-- Total amount == 3 is only a placeholder
-		storage_items.append(item_instance)
+		
+	# Checa a soma dos preços DAS ARMAS aqui, que estarão na database,
+	# e possívelmente gera uma mensagem de confirmação.
+	# (Se a pessoa disser sim, e não tiver dinheiro, nega ela
+	#  mesmo apertando o botão)
+	var id
+	var iter
+	var sw_selected = null
+	var si_selected = null
+	
+	if (sm_sw.get_selected_items().size() != 0):
+		iter = 0
+		id = sm_sw.get_selected_items()[0]
+		sw_selected = id
+		while (iter < wpn_amount):
+			var wpn_instance = weapon.new()
+			wpn_instance.id = id
+			wpn_instance.name = wpn_database.get_wpn_name(id)
+			wpn_instance.durability = wpn_database.get_durability(id)
+			wpn_instance.type = wpn_database.get_wpn_type(id)
+			storage_weapons.append(wpn_instance)
+			iter += 1
+	
+	if (sm_si.get_selected_items().size() != 0):
+		iter = 0
+		id = sm_si.get_selected_items()[0]
+		si_selected = id
+		while (iter < item_amount):
+			var item_instance = item.new(item_database.get_item_name(id), 3, item_database) # <-- Total amount == 3 is only a placeholder
+			storage_items.append(item_instance)
+			iter += 1
+	
+	# Faremos uma checagem antes de concretizar a compra,
+	# por isso estar neutralizações ficarem separadas é importante
+	wpn_amount = 0
+	item_amount = 0
+	if (sw_selected != null):
+		sm_sw.unselect(sw_selected)
+	if (si_selected != null):
+		sm_si.unselect(si_selected)
+
+func _on_Sell_pressed():
+	pass # replace with function body
+
+func _on_Plus1_pressed():
+	wpn_amount += 1
+
+
+func _on_Minus1_pressed():
+	if (wpn_amount > 0):
+		wpn_amount -= 1
+
+
+func _on_Plus2_pressed():
+	item_amount += 1
+
+
+func _on_Minus2_pressed():
+	if (item_amount > 0):
+		item_amount -= 1
+
 
 # ################################ #
 # ###### MENU FUNCTIONALITY ###### # 
@@ -1081,7 +1202,14 @@ func _on_Return_pressed():
 		# Não precisa limpar a StatusBox, pois ela se limpa quando as
 		# armas são deselecionadas, na saída da tela
 	
-	if (current_screen == "ShopManagement"):
+	if (current_screen == "ShopManagement" or current_screen == "SellManagement"):
+		for selection in sm_sw.get_selected_items():
+			sm_sw.unselect(selection)
+		for selection in sm_si.get_selected_items():
+			sm_si.unselect(selection)
+		
+		populated_storage = 0
+		
 		get_node("ShopMenu").show()
 		
 		# Tratar depois de repopular, por conta do Sell, etc (vai precisar
@@ -1122,5 +1250,4 @@ func instance_item(name, owner):
 	owner.item_vector.append(item_instance)
 
 #END TEMPORARY SECTION
-
 
