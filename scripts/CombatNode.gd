@@ -64,76 +64,70 @@ class weapon:
 
 
 class skill:
-	var id # Skill ID in the weapon database
-	var name # Skill's name
-	var cost # Skill's mana cost
-	var effect # Skill's effect (how much it will amplify/reduce an attribute)
-	var status # Skill's status effect (poison, speed up, defense up, ...)
-	var type # Skill's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
-	var hp # How much the HP will be affected by the skill - allows skills to damage/heal and apply/remove status
-	var db # Determines whether it's a debuff or a buff type skill
+	var id
+	var name
+	var type # HP and/or Effect
+	var cost 
+	var hp # How much the HP will be affected by the skill
+	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
 		self.name = name
-		self.cost = database.get_skill_cost(id)
 		self.type = database.get_skill_type(id)
+		self.cost = database.get_skill_cost(id)
 		self.hp = database.get_skill_hp(id)
-		self.effect = database.get_skill_effect(id)
 		self.status = database.get_skill_status(id)
-		self.db = database.get_skill_altered(id)
 		self.elem = database.get_skill_element(id)
 
-class item:
-	var id # Item's ID in the item database
-	var name # Item's name
-	var type # Item's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
-	var timer
-	var durability # Item's total amount
-	var amount # Item's current amount
-	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
-	var status # Item's status effect (poison, speed up, ...)
-	var hp # How much the HP will be affected by the item - allows items that damage/heal and apply/remove status
-	var db # Determines whether it's a debuff or a buff type item
 
-	func _init(name, total, database):
+class item:
+	var id
+	var name 
+	var type # HP and/or Effect
+	var hp # How much the HP will be affected by the item
+	var status # Item's status effect (poison, speed up, ...)
+	var durability # Item's total amount
+	var amount
+
+	func _init(name, database):
 		self.id = database.get_item_id(name)
 		self.name = name
 		self.type = database.get_item_type(id)
-		self.timer = database.get_item_timer(id)
-		self.durability = total
-		self.amount = self.durability
-		self.effect = database.get_item_effect(id)
-		self.status = database.get_item_status(id)
 		self.hp = database.get_item_hp(id)
-		self.db = database.get_item_altered(id)
+		self.status = database.get_item_status(id)
+		self.durability = database.get_item_stack(id)
+		self.amount = self.durability
 
 
-# Action class - for storing the action of each unit
 class action_class:
 	var from # Who is acting
 	var to # Who is the target of the action
-	var action # Which action is being performed (ATTACK, SKILL, ITEM, DEFEND)
-	var action_id # Which slot of the action (ATTACK, SKILL, ITEM) was pressed
-	var speed # Speed of the unit performing the action - used to order the actions
+	var action # Which action is being performed
+	var action_id # Which slot of the action button (ATTACK, SKILL, ITEM) was pressed
+	var speed # Speed of the action
 
-# Status class - for knowing which status is afflicting an unit
+
 class status:
-	var name # Status' name - it can come from an item or a skill, so it doesn't have its own database
-	var status # Status' status - Poison, paralysis, speed up, attack up, ...
-	var timer # Number of turns remaining the status will be afflicting the unit
-	var max_timer
+	var id
+	var name
+	var type # See status_database
+	var hp # How much will affect target HP per turn
 	var effect # Status' effect - how much it will increase or decrease a status
-	var de_buff # Determines whether the status is a buff or a debuff
+	var stat # Stats (ATK, DEF, SPD) it affects
+	var duration
+	var max_duration
 
-	func _init(name, stat, timer, target, effect, db):
+	func _init(name, database):
+		self.id = database.get_status_id(name)
 		self.name = name
-		self.status = stat
-		self.timer = timer
-		self.max_timer = timer
-		self.effect = effect
-		self.de_buff = db # db = debuff / buff
+		self.type = database.get_status_type(id)
+		self.hp = database.get_status_hp(id)
+		self.effect = database.get_status_effect(id)
+		self.stat = database.get_status_stat(id)
+		self.max_duration = database.get_status_duration(id)
+		self.duration = self.max_duration
 
 
 # Arrays containing each unit in combat
@@ -160,6 +154,7 @@ onready var wpn_database = get_node("/root/weapon_database")
 onready var skill_database = get_node("/root/skill_database")
 onready var item_database = get_node("/root/item_database")
 onready var stage_database = get_node("/root/stage_database")
+onready var status_database = get_node("/root/status_database")
 
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
@@ -206,7 +201,7 @@ func _ready():
 		var info = info_scn.instance()
 
 		info.master = unit
-#		info.set_pos(Vector2(allies_pos[i].x + 80, allies_pos[i].y))
+		info.set_pos(Vector2(allies_pos[i].x + 80, allies_pos[i].y))
 		add_child(info)
 
 		i += 1
@@ -278,12 +273,13 @@ func generate_mob(stage):
 				instance_item(item, unit)
 
 
-# owner is the reference in the correct vector (allies or enemies)
+# Owner must be the reference in the correct vector (allies or enemies)
 func instance_weapon(name, owner):
 	var wpn_instance = weapon.new(name, wpn_database)
 	owner.wpn_vector.append(wpn_instance)
 
 
+# Instances skills of all units
 func instance_skills():
 	for unit in allies_vector:
 		for skill_name in char_database.get_skill_vector(unit.id):
@@ -298,17 +294,17 @@ func instance_skills():
 
 # owner is the reference in the correct vector (allies or enemies)
 func instance_item(name, owner):
-	var item_instance = item.new(name, 3, item_database) # <-- Total amount == 3 is only a placeholder
+	var item_instance = item.new(name, item_database) # <-- Total amount == 3 is only a placeholder
 	owner.item_vector.append(item_instance)
 
 
 # target is the unit who is going to be afflicted by the status
-func instance_status(name, stat, timer, target, effect, db):
-	var status_instance = status.new(name, stat, timer, target, effect, db)
+func instance_status(name, target):
+	var status_instance = status.new(name, status_database)
 
 	var i = 0
-	for status in target.status_vector:
-		if status.status == stat:
+	for status in target.status_vector: # Removes old status if same is re-inflicted
+		if status.name == name:
 			target.status_vector.remove(i)
 		i += 1
 
@@ -318,7 +314,7 @@ func instance_status(name, stat, timer, target, effect, db):
 # Position the units in the battle screen
 func reposition_units():
 	var num
-	
+
 	# Position the allies units
 	var temp = 1
 	num = get_node("Allies").get_child_count()
@@ -326,7 +322,7 @@ func reposition_units():
 		child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
 		allies_pos.append(child.get_pos())
 		temp += 1 
-	
+
 	# Position the enemies units
 	temp = 1
 	num = get_node("Enemies").get_child_count()
@@ -350,7 +346,7 @@ func resize_menu():
 # Name the units
 func name_units():
 	var i = 0;
-	
+
 	for child in get_node("Allies").get_children():
 		child.set_name(str(i))
 		i += 1
@@ -365,12 +361,12 @@ func name_units():
 func damage_box(damage, color, pos):
 	var box_scn = load("res://scenes/DamageBox.xml")
 	var box = box_scn.instance()
-	
+
 	box.damage = damage
 	box.color = color
 	box.set_pos(pos)
 	add_child(box)
-	
+
 	time += 30
 	STATE_NEXT = "EFFECT"
 
@@ -380,7 +376,7 @@ func damage_box(damage, color, pos):
 
 func turn_based_system():
 	var closest = [-1, -1]
-	
+
 	# Apply the afflicted status on each unit if they are afflicted by anything at all
 	# WORK IN PROGRESS
 	if (turn_start == 0):
@@ -395,7 +391,7 @@ func turn_based_system():
 				status_apply(char, "Enemies", i)
 			i += 1
 		turn_start = 1
-	
+
 	# Choose an action and a target (if allowed)
 	if(targeting):
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
@@ -404,7 +400,7 @@ func turn_based_system():
 		if closest[0] != -1:
 			get_node("Target").show()
 			get_node("Target").set_pos(get_node(str(closest[1], "/", closest[0])).get_pos())
-			
+
 			# Receives the action's target when the left button mouse is clicked
 			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
 				toggle_button(false, BUTTON)
@@ -426,24 +422,24 @@ func turn_based_system():
 			else: # Execute DEFEND command
 				var act = action_memory[action_count]
 				var effect = get_node("Effects")
-				
+
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
 					instance_status("Defend", "Defense", 1, allies_vector[act.from[0]], 2, "Buff")
 #					allies_vector[act.from[0]].bonus_defense += allies_vector[act.from[0]].defense * 2
 				elif act.from[1] == "Enemies":
 					enemies_vector[act.from[0]].bonus_defense += enemies_vector[act.from[0]].defense * 2
-				
+
 				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("defend")
-				
+
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
 				return_to_Selection()
-	
+
 	# After all the allies' actions were chosen, begins the combat phase
 	if(action_memory.size() == get_node("Allies").get_child_count()) and (!targeting):
 		toggle_menu(true)
@@ -502,13 +498,13 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		attacker = enemies_vector
 	elif attacker_side == "Allies":
 		attacker = allies_vector
-	
+
 	var defender
 	if defender_side == "Enemies":
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
-	
+
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = attacker[attacker_vpos].get_attack() # Attacker's base attack
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # Attacker's weapon power
@@ -523,23 +519,23 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
 		tri = 0.75
 	var damage = ((char_atk + wpn_atk) - char_def) * tri  # Damage dealt
-	
+
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
 	attacker[attacker_vpos].wpn_vector[action_id].durability -= 1
-	
+
 	# DEFEND command greatly increses the unit's defense for only one attack
 	# So, after the unit is attacked, the bonus defense should be reduced
 #	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
-	
+
 	# damage can't be lower than ONE
 	if (damage < 1):
 		damage = 1
-	
+
 	# Reduces the defender's HP and shows it in the combat screen
 	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	defender[defender_vpos].hp_current -= damage
-	
+
 	# If the attack kills the defender
 	if (defender[defender_vpos].hp_current <= 0):
 		#efeito visual aqui#
@@ -550,7 +546,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			enemies_pos[defender_vpos] = Vector2(-100, -100)
 		elif defender_side == "Allies":
 			allies_pos[defender_vpos] = Vector2(-100, -100)
-		
+
 		return 1 # defender death
 	return 0
 
@@ -567,108 +563,67 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 		target = enemies_vector
 	elif target_side == "Allies":
 		target = allies_vector
-	
+
 	var skill = user[user_vpos].skill_vector[action_id]
-	var type = skill.type
 	var cost = skill.cost
-	
-	user[user_vpos].mp_current -= cost # Reduces the user's MP in the corresponding cost. MP isn't spend if the target dies before the skill is used
-	
-	if type == "HP":
-		var damage = skill.hp # How much heal/damage the item will deal
-		
-		target[target_vpos].hp_current += damage
-		if damage < 0: # If it's a damage-type HP skill
-			damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-		else:
-			damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-		
-		# If the skill kills the target
-		if target[target_vpos].hp_current <= 0:
-			target[target_vpos] = null
-			get_node(str(target_side, "/", target_vpos)).queue_free()
+
+# Reduces the user's MP in the corresponding cost.
+# MP isn't spend if the target dies before the skill is used
+	user[user_vpos].mp_current -= cost
+
+	for type in skill.type:
+		if type == "HP":
+			var damage = skill.hp
 			
-			# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
-			if target_side == "Enemies":
-				enemies_pos[target_vpos] = Vector2(-100, -100)
-			elif target_side == "Allies":
-				allies_pos[target_vpos] = Vector2(-100, -100)
-		
-		# If the skill tries to overheal an unit
-		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
-			target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
+			target[target_vpos].hp_current += damage
+			if damage < 0: # If it's a damage-type HP skill
+				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+			else:
+				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 	
-	elif type == "Status":
-		instance_status(skill.name, skill.status, 3, target[target_vpos], skill.effect, skill.db) # Applies the status
-		if target[target_vpos] != null:
-			if not skill.status == "Poison":
-				status_apply(target[target_vpos], target_side, target_vpos)
+			# If the skill kills the target
+			if target[target_vpos].hp_current <= 0:
+				target[target_vpos] = null
+				get_node(str(target_side, "/", target_vpos)).queue_free()
 	
-	# If the skill is a Dispell-type skill
-	elif type == "Dispell":
-		var effect = skill.status
-		var i = 0
-		for stat in target[target_vpos].status_vector:
-			if stat.status == effect:
-				target[target_vpos].status_vector.remove(i)
-			i += 1
+				# Pushes the defender's position outside the screen so it can't be targeted
+				if target_side == "Enemies":
+					enemies_pos[target_vpos] = Vector2(-100, -100)
+				elif target_side == "Allies":
+					allies_pos[target_vpos] = Vector2(-100, -100)
 	
-	elif type == "HP/Status":
-		# Applies the HP-related part of the skill
-		var damage = skill.hp # How much heal/damage the skill will deal
-		
-		target[target_vpos].hp_current += damage
-		if damage < 0: # If it's a damage-type HP skill
-			damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-		else:
-			damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-		
-		# If the skill kills the target
-		if target[target_vpos].hp_current <= 0:
-			target[target_vpos] = null
-			get_node(str(target_side, "/", target_vpos)).queue_free()
-			
-			# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
-			if target_side == "Enemies":
-				enemies_pos[target_vpos] = Vector2(-100, -100)
-			elif target_side == "Allies":
-				allies_pos[target_vpos] = Vector2(-100, -100)
-		
-		# If the skill tries to overheal an unit
-		elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
-			target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
-		
-		# Applies the Status-related part of the skill
-		instance_status(skill.name, skill.status, 3, target[target_vpos], skill.effect, skill.db) # Applies the status
-		if target[target_vpos] != null:
-			if not skill.status == "Poison":
-				status_apply(target[target_vpos], target_side, target_vpos)
+			# If the skill tries to overheal an unit
+			elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
+				target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
+	
+		elif type == "Effect":
+			for stat in skill.status:
+				instance_status(stat, target[target_vpos])
 
 
 # Executes an ITEM action
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
-	# Receives the user, the target, the item and the item type
+#   Receives the user, the target, the item and the item type
 	var user
 	var target
 	if user_side == "Allies":
 		user = allies_vector
 	elif user_side == "Enemies":
 		user = enemies_vector
-	
+
 	if target_side == "Enemies":
 		target = enemies_vector
 	elif target_side == "Allies":
 		target = allies_vector
-	
+
 	var item = user[user_vpos].item_vector[action_id]
-	
+
 	item.amount -= 1
 
 	for type in item.type:
-		# If the item is an HP-type item (heal or damage)
 		if type == "HP":
-			var damage = item.hp # How much heal/damage the item will deal
-			
+			var damage = item.hp
+
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP item
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -680,7 +635,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 				target[target_vpos] = null
 				get_node(str(target_side, "/", target_vpos)).queue_free()
 
-				# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
+				# Pushes the defender's position outside the screen so it can't be targeted
 				if target_side == "Enemies":
 					enemies_pos[target_vpos] = Vector2(-100, -100)
 				elif target_side == "Allies":
@@ -690,22 +645,10 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			elif target[target_vpos].hp_current > char_database.get_hp(target[target_vpos].id, target[target_vpos].level):
 				target[target_vpos].hp_current = char_database.get_hp(target[target_vpos].id, target[target_vpos].level)
 
-		# If the item is an Status-type item
 		# WORK IN PROGRESS
-		if type == "Status":
-			instance_status(item.name, item.status, item.timer, target[target_vpos], item.effect, item.db)  # Applies the status
-			if target[target_vpos] != null:
-				if not item.status == "Poison":
-					status_apply(target[target_vpos], target_side, target_vpos)
-
-		# If the item is a Dispell-type item
-		elif type == "Dispell":
-			var effect = item.status
-			var i = 0
-			for stat in target[target_vpos].status_vector:
-				if stat.status == effect:
-					target[target_vpos].status_vector.remove(i)
-				i += 1
+		if type == "Effect":
+			for stat in item.status:
+				instance_status(stat, target[target_vpos])
 
 
 # Process the enemies attacks
@@ -760,84 +703,81 @@ func blink(actor, counter):
 		get_node(str("Allies/",actor)).set_opacity(0.5)
 
 
-# Applies the status in a unit (actor)
+# Applies the status in affected unit
 # WORK IN PROGRESS
-func status_apply(actor, target_side, target_vpos):
+func status_apply(affected, target_side, target_vpos):
 	var target
 	if target_side == "Enemies":
-		target = enemies_vector
+		target = enemies_vector[target_vpos]
 	elif target_side == "Allies":
-		target = allies_vector
+		target = allies_vector[target_vpos]
 	
-	if (actor.status_vector.size() != 0):
-		for effect in actor.status_vector:
-			# Applies the effect of Poison
-			if effect.status == "Poison":
-				var damage = effect.effect
-				damage_box(str(damage), Color(0.4, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
-				actor.hp_current -= damage
-				effect.timer -= 1
+	if affected.status_vector.size() != 0:
+		var i = 0
 
-				# If the item kills the target
-				if target[target_vpos].hp_current <= 0:
-					target[target_vpos] = null
-					get_node(str(target_side, "/", target_vpos)).queue_free()
-					# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
-					if target_side == "Enemies":
-						enemies_pos[target_vpos] = Vector2(-100, -100)
-					elif target_side == "Allies":
-						allies_pos[target_vpos] = Vector2(-100, -100)
+		for status in affected.status_vector:
+			for type in status.type:
+				if type == "HP":
+					var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
+					var damage = status.hp
+					var color
 
-				# Removes the status effect once its time is up
-				if effect.timer == 0:
-					var i = 0
-					for stat in actor.status_vector:
-						if stat.status == "Poison":
-							actor.status_vector.remove(i)
-						i += 1
+					if damage > 0:
+						color = Color(0, 1, 0)
+						damage_box(str(damage), color, pos)
+					else:
+						color = Color(1, 0, 0)
+						damage_box(str(-damage), color, pos)
 
-			# Applies the effect os Paralysis: character can't perform an action
-			elif effect.status == "Paralysis":
-				effect.timer -= 1
-				# DISGUSTING
-				damage_box("PARALYSEDZI", Color(1, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-				if effect.timer == 0:
-					var i = 0
-					for stat in actor.status_vector:
-						if stat.status == "Paralysis":
-							actor.status_vector.remove(i)
-						i += 1
+					affected.hp_current -= damage
 
-############################################################################################
-			# Applies the effect of attack boost
-			elif effect.status == "Attack":
-				var bonus = effect.effect * actor.attack
-				if effect.timer == effect.max_timer:
-					actor.bonus_attack += bonus
-					damage_box(str("ATK +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
-				effect.timer -= 1
-				if effect.timer == 0:
-					actor.bonus_attack -= bonus
+					if target.hp_current <= 0: # If the item kills the target
+						target = null
+						get_node(str(target_side, "/", target_vpos)).queue_free()
+						# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
+						if target_side == "Enemies":
+							enemies_pos[target_vpos] = Vector2(-100, -100)
+						elif target_side == "Allies":
+							allies_pos[target_vpos] = Vector2(-100, -100)
 
-			# Applies the effect of defense boost
-			elif effect.status == "Defense":
-				var bonus = effect.effect * actor.defense
-				if effect.timer == effect.max_timer:
-					actor.bonus_defense += bonus
-					damage_box(str("DEF +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
-				effect.timer -= 1
-				if effect.timer == 0:
-					actor.bonus_defense -= bonus
+				elif type == "Buff":
+					if status.duration == status.max_duration or status.duration == 1:
+						var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
+						var atribute
+						var bonus_atribute
+						var bonus
 
-			# Applies the effect of speed boost
-			elif effect.status == "Speed":
-				var bonus = effect.effect * actor.speed
-				if effect.timer == effect.max_timer:
-					actor.bonus_speed += bonus
-					damage_box(str("SPD +", bonus), Color(0, 0, 1), get_node(str(target_side, "/", target_vpos)).get_pos())
-				effect.timer -= 1
-				if effect.timer == 0:
-					actor.bonus_speed -= bonus
+						if status.stat == "ATK":
+							atribute = affected.attack
+							bonus_atribute = affected.bonus_attack
+						elif status.stat == "DEF":
+							atribute = affected.defense
+							bonus_atribute = affected.bonus_defense
+						elif status.stat == "SPD":
+							atribute = affected.speed
+							bonus_atribute = affected.bonus_speed
+
+						bonus = status.effect * atribute
+						if status.duration == status.max_duration:
+							if bonus != 0:
+								bonus_atribute += bonus
+								damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
+							else:
+								bonus_atribute = -atribute
+								damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
+
+						if status.duration == 1:
+							if bonus != 0:
+								bonus_atribute -= bonus
+							else:
+								bonus_atribute += atribute
+
+			status.duration -= 1
+
+			if status.duration == 0:
+				affected.status_vector.remove(i)
+
+			i += 1
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -1211,20 +1151,15 @@ func _fixed_process(delta):
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 			var actor
-			var par = false
-			
-			if act.from[1] == "Allies":
-				actor = allies_vector
-			elif act.from[1] == "Enemies":
-				actor = enemies_vector
-			
-			if actor[act.from[0]] != null:
-				if actor[act.from[0]].status_vector.size() > 0:
-					for stat in actor[act.from[0]].status_vector:
-						if stat.status == "Paralysis":
-							par = true
 
-			if (not par):
+			if act.speed == 0:
+				action_memory.pop_front()
+			else:
+				if act.from[1] == "Allies":
+					actor = allies_vector
+				elif act.from[1] == "Enemies":
+					actor = enemies_vector
+
 				if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 					var flag = 1 # If the unit decides to attack itself, it doesn't move from its place (flag == 0)
 					if act.action == "defend":
@@ -1273,9 +1208,7 @@ func _fixed_process(delta):
 				else:
 					# Alvo invalido #
 					action_memory.pop_front()
-			# Action isn't executed if the actor is paralyzed
-			else:
-				action_memory.pop_front()
+
 
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
 	elif STATE == "ANIMATION":

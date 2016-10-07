@@ -3,123 +3,92 @@ extends Node
 
 const SKILL_NAME = 0
 const TYPE = 1
-const HP = 2
-const EFFECT = 3
+const COST = 2
+const HP = 3
 const STATUS = 4
-const COST = 5
-const ALTERED = 6
-const ELEM = 7
+const ELEM = 5
 
 var skill_database = [
 
 	{ # ID = 0
 		SKILL_NAME : "Heal",
-		TYPE : "HP",
-		HP : 10,
-		EFFECT : null,
-		STATUS : null,
+		TYPE : ["HP"],
 		COST : 1,
-		ALTERED : null,
+		HP : 10,
+		STATUS : [],
 		ELEM : null
 	},
 	
 	{ # ID = 1
 		SKILL_NAME : "Blast",
-		TYPE : "HP",
-		HP : -70,
-		EFFECT : null,
-		STATUS : null,
+		TYPE : ["HP"],
 		COST : 2,
-		ALTERED : null,
+		HP : -70,
+		STATUS : [],
 		ELEM : null
 	},
 
 	{ # ID = 2
 		SKILL_NAME : "Guard",
-		TYPE : "Status",
-		HP : null,
-		EFFECT : 0.5,
-		STATUS : "Defense",
+		TYPE : ["Effect"],
 		COST : 3,
-		ALTERED : "Buff",
+		HP : null,
+		STATUS : ["Def Up"],
 		ELEM : null
 	},
 
 	{ # ID = 3
 		SKILL_NAME : "Agility",
-		TYPE : "Status",
-		HP : null,
-		EFFECT : 0.5,
-		STATUS : "Speed",
+		TYPE : ["Effect"],
 		COST : 4,
-		ALTERED : "Buff",
+		HP : null,
+		STATUS : ["Spd Up"],
 		ELEM : null
 	},
 
 	{ # ID = 4
 		SKILL_NAME : "Cure",
-		TYPE : "Dispell",
-		HP : 5,
-		EFFECT : null,
-		STATUS : "Poison",
+		TYPE : ["HP", "Effect"],
 		COST : 5,
-		ALTERED : null,
+		HP : 5,
+		STATUS : ["Detox"],
 		ELEM : null
 	},
 	
 	{ # ID = 5
 		SKILL_NAME : "Poison Sting",
-		TYPE : "HP/Status",
-		HP : -5,
-		EFFECT : 2,
-		STATUS : "Poison",
+		TYPE : ["HP", "Effect"],
 		COST : 6,
-		ALTERED : "Debuff",
+		HP : -5,
+		STATUS : ["Poison"],
 		ELEM : null
 	},
 	
 	{ # ID = 6
 		SKILL_NAME : "Thunderwave",
-		TYPE : "Status",
-		HP : null,
-		EFFECT : null,
-		STATUS : "Paralysis",
+		TYPE : ["Effect"],
 		COST : 7,
-		ALTERED : "Debuff",
+		HP : null,
+		STATUS : ["Paralysis"],
 		ELEM : "Wind"
 	},
 	
 	{ # ID = 7
 		SKILL_NAME : "Shadow Strike",
-		TYPE : "HP",
-		HP : -15,
-		EFFECT : null,
-		STATUS : null,
+		TYPE : ["HP"],
 		COST : 6,
-		ALTERED : null,
-		ELEM : null
+		HP : -15,
+		STATUS : [],
+		ELEM : "Water"
 	},
 	
 	{ # ID = 8
 		SKILL_NAME : "Eruption",
-		TYPE : "HP",
+		TYPE : ["HP"],
+		COST : 3,
 		HP : -10,
-		EFFECT : null,
-		STATUS : null,
-		COST : 3,
-		ALTERED : null,
+		STATUS : [],
 		ELEM : "Fire"
-	},
-	
-	{ # ID = 9
-		SKILL_NAME : "Bubbles",
-		TYPE : "HP",
-		HP : -8,
-		EFFECT : null,
-		STATUS : null,
-		COST : 3,
-		ALTERED : null,
-		ELEM : "Water"
 	}
 ]
 
@@ -139,20 +108,14 @@ func get_skill_name(id):
 func get_skill_type(id):
 	return skill_database[id][TYPE]
 
-func get_skill_hp(id):
-	return skill_database[id][HP]
-
-func get_skill_effect(id):
-	return skill_database[id][EFFECT]
-
-func get_skill_status(id):
-	return skill_database[id][STATUS]
-
 func get_skill_cost(id):
 	return skill_database[id][COST]
 
-func get_skill_altered(id):
-	return skill_database[id][ALTERED]
+func get_skill_hp(id):
+	return skill_database[id][HP]
+
+func get_skill_status(id):
+	return skill_database[id][STATUS]
 
 func get_skill_element(id):
 	return skill_database[id][ELEM]

@@ -4,22 +4,9 @@ extends Node
 const ITEM_NAME = 0
 const TYPE = 1
 const HP = 2
-const EFFECT = 3
-const STATUS = 4
-const ALTERED = 5
-const TIMER = 6
+const STATUS = 3
+const STACK = 4
 
-###################################
-#
-# Há 3 tipos diferentes de item: HP, BD e Status
-# -HP são itens que afetam a vida, seja curando ou dando dano
-#   (potion cura e bomba dá dano por exemplo)
-# -BD (Buff/Debuff) são itens relacionados aos atributos
-#   do personagem (aumumento/redução do ataque, defesa, ...)
-# -Status são itens que influenciam os status do personagem, seja
-#   curando ou dando o status (dar/remover poison, burn, ...)
-#
-###################################
 
 var item_database = [
 
@@ -27,90 +14,72 @@ var item_database = [
 		ITEM_NAME : "Potion",
 		TYPE : ["HP"],
 		HP : 10,
-		EFFECT : null,
-		STATUS : null,
-		ALTERED : null,
-		TIMER : 0
+		STATUS : [],
+		STACK : 10
 	},
-	
+
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : ["HP"],
 		HP : -70,
-		EFFECT : null,
-		STATUS : null,
-		ALTERED : null,
-		TIMER : 0
+		STATUS : [],
+		STACK : 5
 	},
-	
+
 	{ # ID = 2
-		ITEM_NAME : "Atk Up",
-		TYPE : ["Status"],
+		ITEM_NAME : "Enrager",
+		TYPE : ["Effect"],
 		HP : null,
-		EFFECT : 0.5,
-		STATUS : "Attack",
-		ALTERED : "ATK",
-		TIMER : 2
+		STATUS : ["Atk Up"],
+		STACK : 5
 	},
-	
+
 	{ # ID = 3
-		ITEM_NAME : "Def Up",
-		TYPE : ["Status"],
+		ITEM_NAME : "Hardener",
+		TYPE : ["Effect"],
 		HP : null,
-		EFFECT : 0.5,
-		STATUS : "Defense",
-		ALTERED : "DEF",
-		TIMER : 2
+		STATUS : ["Def Up"],
+		STACK : 5
 	},
 
 	{ # ID = 4
-		ITEM_NAME : "Speed Up",
-		TYPE : ["Status"],
+		ITEM_NAME : "Swiftul",
+		TYPE : ["Effect"],
 		HP : null,
-		EFFECT : 0.5,
-		STATUS : "Speed",
-		ALTERED : "SPD",
-		TIMER : 2
+		STATUS : ["Spd Up"],
+		STACK : 5
 	},
 
 	{ # ID = 5
 		ITEM_NAME : "Detox",
-		TYPE : ["Dispell"],
+		TYPE : ["Effect"],
 		HP : null,
-		EFFECT : 1,
-		STATUS : "Poison",
-		ALTERED : null,
-		TIMER : 0
+		STATUS : ["Detox"],
+		STACK : 10
 	},
-	
+
 	{ # ID = 6
 		ITEM_NAME : "Poison Bomb",
-		TYPE : ["HP", "Status"],
+		TYPE : ["HP", "Effect"],
 		HP : -2,
-		EFFECT : 3,
-		STATUS : "Poison",
-		ALTERED : null,
-		TIMER : 3
+		STATUS : ["Poison"],
+		STACK : 2
 	},
-	
+
 	{ # ID = 7
-		ITEM_NAME : "PAR Bomb",
-		TYPE : ["HP", "Status"],
+		ITEM_NAME : "Static Bomb",
+		TYPE : ["HP", "Effect"],
 		HP : -2,
-		EFFECT : null,
-		STATUS : "Paralysis",
-		ALTERED : null,
-		TIMER : 3
+		STATUS : ["Paralize"],
+		STACK : 2
 	},
-	
+
 	{ # ID = 8
 		ITEM_NAME : "Depar",
-		TYPE : ["Dispell"],
+		TYPE : ["Effect"],
 		HP : null,
-		EFFECT : 1,
-		STATUS : "Paralysis",
-		ALTERED : null,
-		TIMER : 0
+		STATUS : ["Depar"],
+		STACK : 1
 	}
 ]
 
@@ -133,14 +102,8 @@ func get_item_type(id):
 func get_item_hp(id):
 	return item_database[id][HP]
 
-func get_item_effect(id):
-	return item_database[id][EFFECT]
-
 func get_item_status(id):
 	return item_database[id][STATUS]
 
-func get_item_altered(id):
-	return item_database[id][ALTERED]
-
-func get_item_timer(id):
-	return item_database[id][TIMER]
+func get_item_stack(id):
+	return item_database[id][STACK]

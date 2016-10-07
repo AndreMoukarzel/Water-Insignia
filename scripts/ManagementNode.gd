@@ -94,35 +94,29 @@ class unit:
 
 
 class weapon:
-	var id # Weapon ID in the weapon database
-	var name # Weapon name in the weapon database
-	var durability # Weapon durability
+	var id
+	var name
+	var durability
 	var type # Weapon type - sword, axe, spear or natural
 
 
 class item:
-	var id # Item's ID in the item database
-	var name # Item's name
-	var type # Item's type - HP (damage or heal), status (buff or debuff) and dispell (removes buff and/or debuff)
-	var timer
-	var durability # Item's total amount
-	var amount # Item's current amount
-	var effect # Item's effect (how much it will heal/damage or amplify/reduce an attribute)
+	var id
+	var name 
+	var type # Item's type - HP and/or Effect
+	var hp # How much the HP will be affected by the item
 	var status # Item's status effect (poison, speed up, ...)
-	var hp # How much the HP will be affected by the item - allows items that damage/heal and apply/remove status
-	var db # Determines whether it's a debuff or a buff type item
+	var durability # Item's total amount
+	var amount
 
 	func _init(name, total, database):
 		self.id = database.get_item_id(name)
 		self.name = name
 		self.type = database.get_item_type(id)
-		self.timer = database.get_item_timer(id)
-		self.durability = total
-		self.amount = self.durability
-		self.effect = database.get_item_effect(id)
-		self.status = database.get_item_status(id)
 		self.hp = database.get_item_hp(id)
-		self.db = database.get_item_altered(id)
+		self.status = database.get_item_status(id)
+		self.durability = database.get_item_stack(id)
+		self.amount = self.durability
 
 func _ready():
 	# Get screen and window sizes, and get databases
@@ -143,15 +137,15 @@ func _ready():
 			if unit.name == "bat":
 				instance_weapon("Bat Fangs", unit)
 				instance_weapon("Bat Wings", unit)
-				instance_item("Def Up", unit)
+				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
 			if unit.name == "samurai":
 				instance_weapon("Katana", unit)
 				instance_weapon("Bamboo Sword", unit)
-				instance_item("Def Up", unit)
+				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
-				instance_item("PAR Bomb", unit)
-				instance_item("PAR Bomb", unit)
+				instance_item("Static Bomb", unit)
+				instance_item("Static Bomb", unit)
 	
 	# Settings for ItemLists
 	um_ap.set_max_columns(3)
