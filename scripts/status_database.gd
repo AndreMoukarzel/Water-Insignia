@@ -5,9 +5,17 @@ const NAME = 0
 const TYPE = 1
 const HP = 2
 const EFFECT = 3
-const STATUS = 4
+const STAT = 4
 const DURATION = 6
 
+# (1) Status with type "HP" affect the afflicted target by the 
+#     amount specified in HP every turn of the duration
+
+# (2) Status with type "Buff" affect the specified STATUS of 
+#     the target, multiplying it by EFFECT on the first turn,
+#     lasting until the end of DURATION
+
+# (3) Status with type "Dispell" remove any buff mentioned in EFFECT
 
 var status_database = [
 	{ # ID = 0
@@ -15,7 +23,7 @@ var status_database = [
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
-		STATUS : "ATK",
+		STAT : "ATK",
 		DURATION : 2
 	},
 	
@@ -24,16 +32,16 @@ var status_database = [
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
-		STATUS : "DEF",
+		STAT : "DEF",
 		DURATION : 2
 	},
 
 	{ # ID = 2
-		NAME : "Speed Up",
+		NAME : "Spd Up",
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
-		STATUS : "SPD",
+		STAT : "SPD",
 		DURATION : 2
 	},
 
@@ -41,8 +49,8 @@ var status_database = [
 		NAME : "Poison",
 		TYPE : ["HP"],
 		HP : -3,
-		EFFECT : "Poison",
-		STATUS : null,
+		EFFECT : null,
+		STAT : null,
 		DURATION : 3
 	},
 
@@ -50,16 +58,16 @@ var status_database = [
 		NAME : "Detox",
 		TYPE : ["Dispell"],
 		HP : null,
-		EFFECT : "Poison",
-		STATUS : null,
+		EFFECT : ["Poison"],
+		STAT : null,
 		DURATION : 0
 	},
 	{ # ID = 5
 		NAME : "Paralize",
-		TYPE : ["HP", "Status"],
+		TYPE : ["HP", "Buff"],
 		HP : -1,
-		EFFECT : "Paralysis",
-		STATUS : null,
+		EFFECT : 0,
+		STAT : "SPD",
 		DURATION : 3
 	},
 	
@@ -67,36 +75,36 @@ var status_database = [
 		NAME : "Depar",
 		TYPE : ["Dispell"],
 		HP : null,
-		EFFECT : "Paralysis",
-		STATUS : null,
+		EFFECT : ["Paralize"],
+		STAT : null,
 		DURATION : 0
 	}
 ]
 
 
-var it_map = { }
+var st_map = { }
 
 func _ready():
-	for id in range (item_database.size()):
-		it_map[item_database[id][ITEM_NAME]] = id
+	for id in range (status_database.size()):
+		st_map[status_database[id][NAME]] = id
 
 func get_status_id(name):
-	return it_map[name]
+	return st_map[name]
 
 func get_status_name(id):
-	return item_database[id][ITEM_NAME]
+	return status_database[id][NAME]
 
 func get_status_type(id):
-	return item_database[id][TYPE]
+	return status_database[id][TYPE]
 
 func get_status_hp(id):
-	return item_database[id][HP]
+	return status_database[id][HP]
 
 func get_status_effect(id):
-	return item_database[id][EFFECT]
+	return status_database[id][EFFECT]
 
-func get_status_status(id):
-	return item_database[id][STATUS]
+func get_status_stat(id):
+	return status_database[id][STAT]
 
 func get_status_duration(id):
-	return item_database[id][DURATION]
+	return status_database[id][DURATION]
