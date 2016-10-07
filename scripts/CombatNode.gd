@@ -772,9 +772,17 @@ func status_apply(affected, target_side, target_vpos):
 							else:
 								bonus_atribute += atribute
 
+				elif type == "Dispell":
+					for removable in status.effect:
+						var i = 0
+						for status in affected.status_vector:
+							if status.name == removable:
+								affected.status_vector.remove(i)
+							i += 1
+
 			status.duration -= 1
 
-			if status.duration == 0:
+			if status.duration <= 0:
 				affected.status_vector.remove(i)
 
 			i += 1
