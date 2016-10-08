@@ -161,10 +161,10 @@ func _ready():
 	im_stw.set_max_columns(4)
 	im_sti.set_max_columns(4)
 	rm_w.set_max_columns(4)
-	sm_sw.set_max_columns(5)
-	sm_si.set_max_columns(5)
-	sm_stw.set_max_columns(5)
-	sm_sti.set_max_columns(5)
+	sm_sw.set_max_columns(7)
+	sm_si.set_max_columns(7)
+	sm_stw.set_max_columns(7)
+	sm_sti.set_max_columns(7)
 	
 	# Populating character lists for active units and barracks
 	# Those are instanced here, because for every action taken on
@@ -214,6 +214,7 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
+	
 	# Update Unit Management
 	Update_UM()
 	
@@ -290,6 +291,9 @@ func size_update():
 	sm_stw.set_pos((Vector2(sm_stw.get_pos().x + 15, sm_stw.get_pos().y + 10)))
 	sm_sti.set_size(Vector2(window_size.x/2, window_size.y/2.5))
 	sm_sti.set_pos((Vector2(sm_sti.get_pos().x + 15, sm_sti.get_pos().y + 260)))
+	
+	sm_stws.adjust_size("Shop Status", 300, 100, sm_stw.get_pos().x + 525, sm_stw.get_pos().y)
+	sm_stis.adjust_size("Shop Status", 300, 100, sm_sti.get_pos().x + 525, sm_sti.get_pos().y)
 	
 # This function coordinates the state of the swap button,
 # as well as the status boxes in the Unit Management screen
@@ -725,16 +729,31 @@ func Update_SM():
 	
 	# Certificando a corretude da exibição da storage,
 	# e populando as suas listas
-	if (populated_storage == 0):
-			# Popula e mostra armas e items para storage
-			for weapon in storage_weapons:
-				sm_stw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
-				sm_stw.set_item_tooltip(sm_stw.get_item_count() - 1, weapon.name)
-			for item in storage_items:
-				sm_sti.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
-				sm_sti.set_item_tooltip(sm_sti.get_item_count() - 1, item.name)
-			populated_storage = 1
+	if (current_screen == "SellManagement"):
+		if (populated_storage == 0):
+				# Popula e mostra armas e items para storage
+				for weapon in storage_weapons:
+					sm_stw.add_item("", load(str("res://resources/sprites/weapons/",weapon.name,".tex")), 1)
+					sm_stw.set_item_tooltip(sm_stw.get_item_count() - 1, weapon.name)
+				for item in storage_items:
+					sm_sti.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
+					sm_sti.set_item_tooltip(sm_sti.get_item_count() - 1, item.name)
+				populated_storage = 1
 	
+	 # Condições para a statusbox da storage no menu de vendas
+	if (sm_stw.get_selected_items().size() != 0):
+		sm_stws.update_statusbox(storage_weapons[sm_stw.get_selected_items()[0]].id, "Shop Status", "Weapon", wpn_database)
+	else:
+		sm_stws.neutralize_node("Shop Status")
+	if (sm_sti.get_selected_items().size() != 0):
+		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]].id, "Shop Status", "Item", item_database)
+	else:
+		sm_stis.neutralize_node("Shop Status")
+	if (sm_stw.get_selected_items().size() != 0 or sm_sti.get_selected_items().size() != 0):
+		get_node("SellManagement/Sell").set_disabled(false)
+	else:
+		get_node("SellManagement/Sell").set_disabled(true)
+		
 # ########################################### #
 # ##### UNIT MANAGEMENT BUTTON FUNCTIONS #### # 
 # ########################################### #
@@ -1089,7 +1108,18 @@ func _on_Buy_pressed():
 		sm_si.unselect(si_selected)
 
 func _on_Sell_pressed():
-	pass # replace with function body
+	# Precisa juntar o preço de venda dos dois selecionados
+	var total_value = 0
+	
+	if (sm_stw.get_selected_items().size() != 0):
+		# acumula o preço de venda aqui, remove
+		storage_weapons.remove(sm_stw.get_selected_items()[0])
+		sm_stw.remove_item(sm_stw.get_selected_items()[0])
+		
+	if (sm_sti.get_selected_items().size() != 0):
+		# acumula o preço de venda aqui, remove
+		storage_items.remove(sm_sti.get_selected_items()[0])
+		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 
 func _on_Plus1_pressed():
 	wpn_amount += 1
@@ -1208,8 +1238,11 @@ func _on_Return_pressed():
 		for selection in sm_si.get_selected_items():
 			sm_si.unselect(selection)
 		
+		sm_stw.clear()
+		sm_sti.clear()
 		populated_storage = 0
 		
+		current_screen = "ShopMenu"
 		get_node("ShopMenu").show()
 		
 		# Tratar depois de repopular, por conta do Sell, etc (vai precisar
