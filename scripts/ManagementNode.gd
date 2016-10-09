@@ -130,18 +130,18 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		# instance testing, will be removed
-		instance_unit(0, 2, "Barracks")
-		instance_unit(1, 2, "Barracks")
+		instance_unit(2, 2, "Barracks")
+		instance_unit(3, 5, "Barracks")
 	
 		for unit in barracks_units:
-			if unit.name == "bat":
+			if unit.name == "baby_dragon":
 				instance_weapon("Bat Fangs", unit)
 				instance_weapon("Bat Wings", unit)
 				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
-			if unit.name == "samurai":
+			if unit.name == "soldier":
 				instance_weapon("Katana", unit)
-				instance_weapon("Bamboo Sword", unit)
+				instance_weapon("Iron Axe", unit)
 				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
 				instance_item("Static Bomb", unit)

@@ -60,7 +60,7 @@ var char_database = [
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
-		SKILL_VECTOR : ["Bubbles"]
+		SKILL_VECTOR : ["Blast"]
 	}
 ]
 
