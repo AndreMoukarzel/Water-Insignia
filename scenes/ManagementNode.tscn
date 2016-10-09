@@ -893,6 +893,7 @@ editor/display_folded = true
 
 [node name="ShopMenu" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
