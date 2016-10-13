@@ -66,6 +66,9 @@ onready var sm_sti = get_node("SellManagement/StorageItems")
 onready var sm_stws = get_node("SellManagement/STWStatus")
 onready var sm_stis = get_node("SellManagement/STIStatus")
 
+onready var sm_cqb = get_node("ShopManagement/CurrentQuesha")
+onready var sm_cqs = get_node("SellManagement/CurrentQuesha")
+
 # Databases
 var char_database
 var wpn_database
@@ -225,8 +228,6 @@ func _ready():
 	
 func _fixed_process(delta):
 	
-	print (get_parent().quesha)
-	
 	# Update Unit Management
 	Update_UM()
 	
@@ -318,17 +319,19 @@ func Update_UM():
 				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
-				um_aps.get_node("Class").set_text("Class PH")
-				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				#um_aps.get_node("Class").set_text("Class PH")
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
 				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
-				um_bs.get_node("Class").set_text("Class PH")
-				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				#um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 			# Coordena estado do botão de swap
 			um_s.set_disabled(false)
 		elif (um_ap.get_selected_items().size() == 0):
@@ -338,9 +341,10 @@ func Update_UM():
 				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
-				um_bs.get_node("Class").set_text("Class PH")
-				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				#um_bs.get_node("Class").set_text("Class PH")
+				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 			# Neutralizando a status box das unidades ativas
 			um_aps.neutralize_node("Unit Status")
 			last_selected_apunit = -1
@@ -357,9 +361,10 @@ func Update_UM():
 				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
-				um_aps.get_node("Class").set_text("Class PH")
+				#um_aps.get_node("Class").set_text("Class PH")
 				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
 				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			# Neutralizando a status box das unidades das barracks
 			um_bs.neutralize_node("Unit Status")
 			last_selected_bunit = -1
@@ -1090,11 +1095,13 @@ func _on_RepairAll_pressed():
 func _on_BuyMenu_pressed():
 	current_screen = "ShopManagement"
 	get_node("ShopMenu").hide()
+	sm_cqb.set_text(str("Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_SellMenu_pressed():
 	current_screen = "SellManagement"
 	get_node("ShopMenu").hide()
+	sm_cqs.set_text(str("Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_Buy_pressed():
@@ -1136,6 +1143,8 @@ func _on_Buy_pressed():
 			var item_instance = item.new(item_database.get_item_name(id), 3, item_database) # <-- Total amount == 3 is only a placeholder
 			storage_items.append(item_instance)
 			iter += 1
+			
+	sm_cqb.set_text(str("Current: ", get_parent().quesha))
 	
 	# Faremos uma checagem antes de concretizar a compra,
 	# por isso estar neutralizações ficarem separadas é importante
@@ -1161,6 +1170,8 @@ func _on_Sell_pressed():
 		get_parent().quesha += item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2
 		storage_items.remove(sm_sti.get_selected_items()[0])
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
+		
+	sm_cqs.set_text(str("Current: ", get_parent().quesha))
 
 func _on_Plus1_pressed():
 	wpn_amount += 1
