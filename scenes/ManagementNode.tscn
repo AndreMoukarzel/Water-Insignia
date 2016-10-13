@@ -1249,7 +1249,7 @@ flat = false
 
 visibility/visible = false
 rect/min_size = Vector2( 100, 100 )
-focus/ignore_mouse = false
+focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
