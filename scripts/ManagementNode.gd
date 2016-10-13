@@ -139,6 +139,7 @@ func _ready():
 		# instance testing, will be removed
 		instance_unit(2, 2, "Barracks")
 		instance_unit(3, 5, "Barracks")
+		instance_unit(3, 4, "Barracks")
 	
 		for unit in barracks_units:
 			if unit.name == "baby_dragon":
@@ -146,6 +147,7 @@ func _ready():
 				instance_weapon("Bat Wings", unit)
 				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
+				instance_item("Depar", unit)
 			if unit.name == "soldier":
 				instance_weapon("Katana", unit)
 				instance_weapon("Iron Axe", unit)
@@ -224,6 +226,8 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
+	
+	print (get_parent().quesha)
 	
 	# Update Unit Management
 	Update_UM()
@@ -1111,6 +1115,9 @@ func _on_Buy_pressed():
 		iter = 0
 		id = sm_sw.get_selected_items()[0]
 		sw_selected = id
+		# Decrementa dinheiro
+		get_parent().quesha -= wpn_database.get_price(id) * wpn_amount
+		# Fornece armas
 		while (iter < wpn_amount):
 			var wpn_instance = weapon.new()
 			wpn_instance.id = id
@@ -1124,6 +1131,9 @@ func _on_Buy_pressed():
 		iter = 0
 		id = sm_si.get_selected_items()[0]
 		si_selected = id
+		# Decrementa dinheiro
+		get_parent().quesha -= item_database.get_price(id) * item_amount
+		# Fornece items
 		while (iter < item_amount):
 			var item_instance = item.new(item_database.get_item_name(id), 3, item_database) # <-- Total amount == 3 is only a placeholder
 			storage_items.append(item_instance)
@@ -1144,11 +1154,13 @@ func _on_Sell_pressed():
 	
 	if (sm_stw.get_selected_items().size() != 0):
 		# acumula o preço de venda aqui, remove
+		get_parent().quesha += wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2
 		storage_weapons.remove(sm_stw.get_selected_items()[0])
 		sm_stw.remove_item(sm_stw.get_selected_items()[0])
 		
 	if (sm_sti.get_selected_items().size() != 0):
 		# acumula o preço de venda aqui, remove
+		get_parent().quesha += item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2
 		storage_items.remove(sm_sti.get_selected_items()[0])
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 

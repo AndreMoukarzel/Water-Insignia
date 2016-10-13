@@ -391,12 +391,12 @@ func turn_based_system():
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
-				status_apply(char, "Allies", i)
+				status_apply("Allies", i)
 			i += 1
 		i = 0
 		for char in enemies_vector:
 			if (char != null):
-				status_apply(char, "Enemies", i)
+				status_apply("Enemies", i)
 			i += 1
 		turn_start = 1
 
@@ -436,10 +436,11 @@ func turn_based_system():
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.from[0]])
-					status_apply(allies_vector[act.from[0]], "Allies", act.from[0])
+					allies_vector[act.from[0]].bonus_defense += 3*allies_vector[act.from[0]].defense
+
 				elif act.from[1] == "Enemies":
 					instance_status("DEFEND", enemies_vector[act.from[0]])
-					status_apply(enemies_vector[act.from[0]], "Enemies", act.from[0])
+					enemies_vector[act.from[0]].bonus_defense += 3*enemies_vector[act.from[0]].defense
 
 				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
@@ -539,8 +540,13 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# DEFEND command greatly increses the unit's defense for only one attack or one turn
 	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
-
-#	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
+	
+	var i = 0
+	for stat in defender[defender_vpos].status_vector:
+		if stat.name == "DEFEND":
+			defender[defender_vpos].status_vector.remove(i)
+			defender[defender_vpos].bonus_defense -= 3*defender[defender_vpos].defense
+		i += 1
 
 	# damage can't be lower than zero
 	if (damage < 0):
@@ -614,9 +620,9 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			for stat in skill.status:
 				instance_status(stat, target[target_vpos])
 				if target_side == "Allies":
-					status_apply(allies_vector[target_vpos], "Allies", target_vpos)
+					status_apply("Allies", target_vpos)
 				elif target_side == "Enemies":
-					status_apply(enemies_vector[target_vpos], "Enemies", target_vpos)
+					status_apply("Enemies", target_vpos)
 
 
 # Executes an ITEM action
@@ -668,9 +674,9 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			for stat in item.status:
 				instance_status(stat, target[target_vpos])
 				if target_side == "Allies":
-					status_apply(allies_vector[target_vpos], "Allies", target_vpos)
+					status_apply("Allies", target_vpos)
 				elif target_side == "Enemies":
-					status_apply(enemies_vector[target_vpos], "Enemies", target_vpos)
+					status_apply("Enemies", target_vpos)
 
 
 # Process the enemies attacks
@@ -725,19 +731,19 @@ func blink(actor, counter):
 		get_node(str("Allies/",actor)).set_opacity(0.5)
 
 
-# Applies the status in affected unit
+# Applies the status in target unit
 # WORK IN PROGRESS
-func status_apply(affected, target_side, target_vpos):
+func status_apply(target_side, target_vpos):
 	var target
 	if target_side == "Enemies":
 		target = enemies_vector[target_vpos]
 	elif target_side == "Allies":
 		target = allies_vector[target_vpos]
 	
-	if affected.status_vector.size() != 0:
+	if target.status_vector.size() != 0:
 		var i = 0
 
-		for status in affected.status_vector:
+		for status in target.status_vector:
 			for type in status.type:
 				if (type == "HP") and (turn_start == 0):
 					var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
@@ -751,7 +757,7 @@ func status_apply(affected, target_side, target_vpos):
 						color = Color(1, 0, 0)
 						damage_box(str(-damage), color, pos)
 
-					affected.hp_current -= damage
+					target.hp_current -= damage
 
 					if target.hp_current <= 0: # If the item kills the target
 						target = null
@@ -762,8 +768,6 @@ func status_apply(affected, target_side, target_vpos):
 						elif target_side == "Allies":
 							allies_pos[target_vpos] = Vector2(-100, -100)
 
-					status.flag = 0
-
 				elif type == "Buff":
 					if status.duration == status.max_duration or status.duration == 1:
 						var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
@@ -772,23 +776,16 @@ func status_apply(affected, target_side, target_vpos):
 						var bonus
 
 						if status.stat == "ATK":
-							base_atribute = affected.attack
-							bonus_atribute = affected.bonus_attack
+							base_atribute = target.attack
+							bonus_atribute = target.bonus_attack
 						elif status.stat == "DEF":
-							base_atribute = affected.defense
-							bonus_atribute = affected.bonus_defense
+							base_atribute = target.defense
+							bonus_atribute = target.bonus_defense
 						elif status.stat == "SPD":
-							base_atribute = affected.speed
-							bonus_atribute = affected.bonus_speed
+							base_atribute = target.speed
+							bonus_atribute = target.bonus_speed
 
 						bonus = status.effect * base_atribute
-						if status.duration == status.max_duration:
-							if bonus != 0:
-								bonus_atribute += bonus
-								damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
-							else:
-								bonus_atribute = -base_atribute
-								damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
 
 						if status.duration == 1:
 							if bonus != 0:
@@ -796,9 +793,18 @@ func status_apply(affected, target_side, target_vpos):
 							else:
 								bonus_atribute += bonus_atribute
 
+						else:
+							if status.duration == status.max_duration:
+								if bonus != 0:
+									bonus_atribute += bonus
+									damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
+								else:
+									bonus_atribute = -base_atribute
+									damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
+
 				elif type == "Dispell":
 					for removable in status.effect:
-						for status in affected.status_vector:
+						for status in target.status_vector:
 							if status.name == removable:
 								# Sets the status duration to 1 so it can be removed in the end of status_apply()
 								status.duration = 1
@@ -808,14 +814,14 @@ func status_apply(affected, target_side, target_vpos):
 								var bonus
 		
 								if status.stat == "ATK":
-									base_atribute = affected.attack
-									bonus_atribute = affected.bonus_attack
+									base_atribute = target.attack
+									bonus_atribute = target.bonus_attack
 								elif status.stat == "DEF":
-									base_atribute = affected.defense
-									bonus_atribute = affected.bonus_defense
+									base_atribute = target.defense
+									bonus_atribute = target.bonus_defense
 								elif status.stat == "SPD":
-									base_atribute = affected.speed
-									bonus_atribute = affected.bonus_speed
+									base_atribute = target.speed
+									bonus_atribute = target.bonus_speed
 		
 								bonus = status.effect * base_atribute
 
@@ -828,7 +834,7 @@ func status_apply(affected, target_side, target_vpos):
 				status.duration -= 1
 
 			if status.duration <= 0:
-				affected.status_vector.remove(i)
+				target.status_vector.remove(i)
 
 			i += 1
 
