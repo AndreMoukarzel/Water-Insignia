@@ -24,6 +24,7 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Class").set_pos(Vector2(20, 40))
 		get_node("Attack").set_pos(Vector2(20, 60))
 		get_node("Defense").set_pos(Vector2(20, 80))
+		get_node("Speed").set_pos(Vector2(20, 100))
 		
 	if (type == "Item Status"):
 		set_size(Vector2(x_size, y_size))
@@ -135,6 +136,7 @@ func neutralize_node(type):
 		get_node("Class").set_text("")
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
+		get_node("Speed").set_text("")
 	
 	if (type == "Item Status"):
 		hide()
