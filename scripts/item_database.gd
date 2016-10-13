@@ -6,6 +6,7 @@ const TYPE = 1
 const HP = 2
 const STATUS = 3
 const STACK = 4
+const PRICE = 5
 
 
 var item_database = [
@@ -15,7 +16,8 @@ var item_database = [
 		TYPE : ["HP"],
 		HP : 10,
 		STATUS : [],
-		STACK : 10
+		STACK : 10,
+		PRICE : 50
 	},
 
 	{ # ID = 1
@@ -23,7 +25,8 @@ var item_database = [
 		TYPE : ["HP"],
 		HP : -70,
 		STATUS : [],
-		STACK : 5
+		STACK : 5,
+		PRICE : 100
 	},
 
 	{ # ID = 2
@@ -31,7 +34,8 @@ var item_database = [
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Atk Up"],
-		STACK : 5
+		STACK : 5,
+		PRICE : 75
 	},
 
 	{ # ID = 3
@@ -39,7 +43,8 @@ var item_database = [
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Def Up"],
-		STACK : 5
+		STACK : 5,
+		PRICE : 75
 	},
 
 	{ # ID = 4
@@ -47,7 +52,8 @@ var item_database = [
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Spd Up"],
-		STACK : 5
+		STACK : 5,
+		PRICE : 75
 	},
 
 	{ # ID = 5
@@ -55,7 +61,8 @@ var item_database = [
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Detox"],
-		STACK : 10
+		STACK : 10,
+		PRICE : 65
 	},
 
 	{ # ID = 6
@@ -63,7 +70,8 @@ var item_database = [
 		TYPE : ["HP", "Effect"],
 		HP : -2,
 		STATUS : ["Poison"],
-		STACK : 2
+		STACK : 2,
+		PRICE : 100
 	},
 
 	{ # ID = 7
@@ -71,7 +79,8 @@ var item_database = [
 		TYPE : ["HP", "Effect"],
 		HP : -2,
 		STATUS : ["Paralize"],
-		STACK : 2
+		STACK : 2,
+		PRICE : 100
 	},
 
 	{ # ID = 8
@@ -79,7 +88,8 @@ var item_database = [
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Depar"],
-		STACK : 1
+		STACK : 1,
+		PRICE : 100
 	}
 ]
 
@@ -107,3 +117,6 @@ func get_item_status(id):
 
 func get_item_stack(id):
 	return item_database[id][STACK]
+
+func get_price(id):
+	return item_database[id][PRICE]

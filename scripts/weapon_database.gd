@@ -6,6 +6,7 @@ const TYPE = 1
 const ATK = 2
 const DURABILITY = 3
 const LOCK = 4
+const PRICE = 5
 
 var wpn_database = [
 # ############################### #
@@ -17,7 +18,8 @@ var wpn_database = [
 		TYPE : "Sword",
 		ATK : 10,
 		DURABILITY : 45,
-		LOCK : 0
+		LOCK : 0,
+		PRICE : 500
 	},
 	
 	{ # ID = 1
@@ -25,7 +27,8 @@ var wpn_database = [
 		TYPE : "Sword",
 		ATK : 1,
 		DURABILITY : 1,
-		LOCK : 0
+		LOCK : 0,
+		PRICE : 20
 	},
 	
 	{ # ID = 2
@@ -33,7 +36,8 @@ var wpn_database = [
 		TYPE : "Axe",
 		ATK : 5,
 		DURABILITY : 20,
-		LOCK : 0
+		LOCK : 0,
+		PRICE : 300
 	},
 	
 	{ # ID = 3
@@ -41,7 +45,8 @@ var wpn_database = [
 		TYPE : "Spear",
 		ATK : 9,
 		DURABILITY : 15,
-		LOCK : 0
+		LOCK : 0,
+		PRICE : 250
 	},
 	
 	# ############################### #
@@ -53,7 +58,8 @@ var wpn_database = [
 		TYPE : "Natural",
 		ATK : 2,
 		DURABILITY : -1, #infinite
-		LOCK : 1
+		LOCK : 1,
+		PRICE : 0
 		
 	},
 	
@@ -62,7 +68,8 @@ var wpn_database = [
 		TYPE : "Natural",
 		ATK : 3,
 		DURABILITY : -1, #infinite
-		LOCK : 1
+		LOCK : 1,
+		PRICE : 0
 	}
 ]
 
@@ -90,3 +97,6 @@ func get_durability(id):
 
 func get_lock(id):
 	return wpn_database[id][LOCK]
+
+func get_price(id):
+	return wpn_database[id][PRICE]

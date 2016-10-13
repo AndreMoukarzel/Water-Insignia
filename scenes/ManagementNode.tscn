@@ -1094,7 +1094,6 @@ flat = false
 
 [node name="SWStatus" parent="ShopManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
 
 [node name="Attack" parent="ShopManagement/SWStatus"]
@@ -1112,6 +1111,21 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
 stretch_mode = 0
+
+[node name="Price" type="Label" parent="ShopManagement/SWStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 16 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Plus1" type="Button" parent="ShopManagement"]
 
@@ -1177,7 +1191,6 @@ flat = false
 
 [node name="SIStatus" parent="ShopManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
 
 [node name="Attack" parent="ShopManagement/SIStatus"]
@@ -1195,6 +1208,21 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
 stretch_mode = 0
+
+[node name="Price" type="Label" parent="ShopManagement/SIStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 16 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Plus2" type="Button" parent="ShopManagement"]
 
@@ -1337,7 +1365,6 @@ flat = false
 
 [node name="STWStatus" parent="SellManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
 
 [node name="Icon" type="TextureFrame" parent="SellManagement/STWStatus"]
@@ -1352,9 +1379,23 @@ margin/right = 40.0
 margin/bottom = 40.0
 stretch_mode = 0
 
+[node name="Price" type="Label" parent="SellManagement/STWStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 16 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="STIStatus" parent="SellManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
 
 [node name="Icon" type="TextureFrame" parent="SellManagement/STIStatus"]
@@ -1368,6 +1409,21 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
 stretch_mode = 0
+
+[node name="Price" type="Label" parent="SellManagement/STIStatus"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 16 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="pressed" from="Selection/Units" to="." method="_on_Units_pressed"]
 
@@ -1433,3 +1489,5 @@ stretch_mode = 0
 [editable path="RepairMenu/RepairStatus"]
 [editable path="ShopManagement/SWStatus"]
 [editable path="ShopManagement/SIStatus"]
+[editable path="SellManagement/STWStatus"]
+[editable path="SellManagement/STIStatus"]

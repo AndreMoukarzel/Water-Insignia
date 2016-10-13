@@ -7,6 +7,8 @@ var scn
 
 var first_play = 1
 
+var victory = 0
+var stage = 0
 var quesha = 1000
 
 var units_vector = []
