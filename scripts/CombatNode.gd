@@ -195,16 +195,7 @@ func _ready():
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
 	instance_skills()
 
-	var i = 0
-	for unit in allies_vector:
-		var info_scn = load("res://scenes/SelectedInfo.tscn")
-		var info = info_scn.instance()
-
-		info.master = unit
-		info.set_pos(Vector2(allies_pos[i].x + 80, allies_pos[i].y))
-		add_child(info)
-
-		i += 1
+	unit_info(0)
 
 	set_fixed_process(true)
 
@@ -370,6 +361,17 @@ func damage_box(damage, color, pos):
 	time += 30
 	STATE_NEXT = "EFFECT"
 
+
+func unit_info(unit_num):
+		var info_scn = load("res://scenes/SelectedInfo.tscn")
+		var info = info_scn.instance()
+		var pos = allies_pos[unit_num]
+
+		info.master = allies_vector[unit_num]
+		info.set_name("Info")
+		info.set_pos(Vector2(pos.x + 100, pos.y - 50))
+		add_child(info)
+
 # ############################### #
 # ####### COMBAT FUNCTIONS ###### # 
 # ############################### #
@@ -407,11 +409,15 @@ func turn_based_system():
 				BUTTON = null
 				mouse_cooldown = 30
 				action_memory[action_count].to = closest
+				get_node("Info").set_name("Info_old")
+				get_node("Info_old").queue_free()
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
+#				Criar a selectedinfo aqui, e destruir a anterior logo antes de somar ao actor e action_count
+				unit_info(action_count)
 				targeting = false
-				
+
 				return_to_Selection()
 
 	# Executes the chosen actions

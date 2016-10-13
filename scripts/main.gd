@@ -88,6 +88,6 @@ func load_game():
 		return #Error!  We don't have a save to load
 
 	savegame.open("user://savegame.save", File.READ)
-	while (!savegame.eof_reached()):
-		pass
+	var savedata = {}
+	savedata.parse_json(savegame.get_as_text())
 	savegame.close()
