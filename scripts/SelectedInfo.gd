@@ -29,23 +29,23 @@ func update():
 func update_status():
 	var color = Color(1, 1, 1)
 
-	if master.get_attack() > master.attack:
+	if master.bonus_attack > 0:
 		color = Color(0.2, 1, 0.2)
-	if master.get_attack() < master.attack:
+	elif master.bonus_attack < 0:
 		color = Color(1, 0.2, 0.2)
 	get_node("Atk/Num").set_text(str(master.get_attack()))
 	get_node("Atk/Num").add_color_override("font_color", color)
 
-	if master.get_defense() > master.defense:
+	if master.bonus_defense > 0:
 		color = Color(0.2, 1, 0.2)
-	if master.get_defense() < master.defense:
+	elif master.bonus_defense < 0:
 		color = Color(1, 0.2, 0.2)
 	get_node("Def/Num").set_text(str(master.get_defense()))
 	get_node("Def/Num").add_color_override("font_color", color)
 
-	if master.get_speed() > master.speed:
+	if master.bonus_speed > 0:
 		color = Color(0.2, 1, 0.2)
-	if master.get_speed() < master.speed:
+	elif master.bonus_speed < 0:
 		color = Color(1, 0.2, 0.2)
 	get_node("Spd/Num").set_text(str(master.get_speed()))
 	get_node("Spd/Num").add_color_override("font_color", color)

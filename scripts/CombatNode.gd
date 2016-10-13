@@ -369,6 +369,10 @@ func unit_info(unit_num):
 		var info = info_scn.instance()
 		var pos = allies_pos[unit_num]
 
+		if get_node("Info") != null:
+			get_node("Info").set_name("Info_old")
+			get_node("Info_old").queue_free()
+
 		info.master = allies_vector[unit_num]
 		info.set_name("Info")
 		info.set_pos(Vector2(pos.x + 100, pos.y - 50))
@@ -411,14 +415,11 @@ func turn_based_system():
 				BUTTON = null
 				mouse_cooldown = 30
 				action_memory[action_count].to = closest
-				get_node("Info").set_name("Info_old")
-				get_node("Info_old").queue_free()
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-#				Criar a selectedinfo aqui, e destruir a anterior logo antes de somar ao actor e action_count
 				unit_info(action_count)
-				print(allies_vector[action_count].get_defense())
+
 				targeting = false
 
 				return_to_Selection()
@@ -448,6 +449,8 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
+				unit_info(action_count)
+
 				return_to_Selection()
 
 	# After all the allies' actions were chosen, begins the combat phase
@@ -1183,6 +1186,7 @@ func _fixed_process(delta):
 	
 	# If it's choosing an action and its target
 	if STATE == "SELECT TARGET":
+		print("BENGA")
 		# The unit keeps blinking while not chosen yet
 		if blink_counter == 0:
 			blink_counter = 40
@@ -1190,13 +1194,14 @@ func _fixed_process(delta):
 		
 		# If an ally has died, skips its turn to choose an action
 		while get_node(str("Allies/", actor)) == null:
-			actor += 1 % allies_pos.size(); #O problema é provavelmente que ele esta blinking eternamente aqui
+			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 		
 		turn_based_system()
 	
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
+		print("JIROMBA")
 		if action_memory.empty(): # If all the actions have been executed
 			actor = 0
 			action_count = 0
