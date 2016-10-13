@@ -19,42 +19,51 @@ const DURATION = 6
 
 var status_database = [
 	{ # ID = 0
+		NAME : "DEFEND",
+		TYPE : ["Buff"],
+		HP : null,
+		EFFECT : 3,
+		STAT : "DEF",
+		DURATION : 2
+	},
+	
+	{ # ID = 1
 		NAME : "Atk Up",
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "ATK",
-		DURATION : 2
+		DURATION : 3
 	},
 	
-	{ # ID = 1
+	{ # ID = 2
 		NAME : "Def Up",
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "DEF",
-		DURATION : 2
+		DURATION : 3
 	},
 
-	{ # ID = 2
+	{ # ID = 3
 		NAME : "Spd Up",
 		TYPE : ["Buff"],
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "SPD",
-		DURATION : 2
+		DURATION : 3
 	},
 
-	{ # ID = 3
+	{ # ID = 4
 		NAME : "Poison",
 		TYPE : ["HP"],
 		HP : -3,
 		EFFECT : null,
 		STAT : null,
-		DURATION : 3
+		DURATION : 4
 	},
 
-	{ # ID = 4
+	{ # ID = 5
 		NAME : "Detox",
 		TYPE : ["Dispell"],
 		HP : null,
@@ -62,16 +71,16 @@ var status_database = [
 		STAT : null,
 		DURATION : 0
 	},
-	{ # ID = 5
+	{ # ID = 6
 		NAME : "Paralize",
 		TYPE : ["HP", "Buff"],
 		HP : -1,
 		EFFECT : 0,
 		STAT : "SPD",
-		DURATION : 3
+		DURATION : 4
 	},
 	
-	{ # ID = 6
+	{ # ID = 7
 		NAME : "Depar",
 		TYPE : ["Dispell"],
 		HP : null,
