@@ -288,6 +288,7 @@ script/script = ExtResource( 1 )
 
 [node name="Selection" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 3
@@ -386,6 +387,7 @@ flat = false
 
 [node name="PartyMenu" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -463,6 +465,7 @@ flat = false
 
 [node name="UnitManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
