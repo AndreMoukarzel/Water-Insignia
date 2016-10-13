@@ -36,6 +36,7 @@ func update_status():
 	get_node("Atk/Num").set_text(str(master.get_attack()))
 	get_node("Atk/Num").add_color_override("font_color", color)
 
+	color = Color(1, 1, 1)
 	if master.bonus_defense > 0:
 		color = Color(0.2, 1, 0.2)
 	elif master.bonus_defense < 0:
@@ -43,6 +44,7 @@ func update_status():
 	get_node("Def/Num").set_text(str(master.get_defense()))
 	get_node("Def/Num").add_color_override("font_color", color)
 
+	color = Color(1, 1, 1)
 	if master.bonus_speed > 0:
 		color = Color(0.2, 1, 0.2)
 	elif master.bonus_speed < 0:

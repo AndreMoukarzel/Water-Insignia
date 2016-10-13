@@ -70,7 +70,8 @@ var stage_database = [
 		"Bomb"]),
 #	Stage 2
 	stage_spawner.new([ #Allowed Mobs
-		spawn.new("samurai", 8)
+		mob.new([spawn.new("samurai", 3)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)])
 		],[ # Allowed Weapons
 		"Katana"
 		],[ # Allowed Items

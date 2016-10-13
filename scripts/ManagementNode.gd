@@ -69,6 +69,11 @@ onready var sm_stis = get_node("SellManagement/STIStatus")
 onready var sm_cqb = get_node("ShopManagement/CurrentQuesha")
 onready var sm_cqs = get_node("SellManagement/CurrentQuesha")
 
+# Stage Selection Nodes
+onready var ss_ps = get_node("SelectStage/PreviousStage")
+onready var ss_ns = get_node("SelectStage/NextStage")
+
+
 # Databases
 var char_database
 var wpn_database
@@ -140,7 +145,7 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		# instance testing, will be removed
-		instance_unit(2, 2, "Barracks")
+		instance_unit(2, 7, "Barracks")
 		instance_unit(3, 5, "Barracks")
 		instance_unit(3, 4, "Barracks")
 	
@@ -1238,6 +1243,15 @@ func _on_Back_pressed():
 func _on_Back2_pressed():
 	get_node("ShopMenu").hide()
 	get_node("Selection").show()
+	
+func _on_Back3_pressed():
+	get_node("SelectStage").hide()
+	get_node("Selection").show()
+	ss_ps.set_pressed(false)
+	ss_ns.set_pressed(false)
+	ss_ps.set_ignore_mouse(false)
+	ss_ns.set_ignore_mouse(false)
+	get_node("SelectStage/Flavour").set_text("")
 
 # Return tanto da Unit Management, quando da Item Management e do Repair Menu
 func _on_Return_pressed():
@@ -1303,6 +1317,32 @@ func _on_Return_pressed():
 		# colocar para atualizar nas funções de troca de unidades também)
 
 func _on_Play_pressed():
+	get_node("Selection").hide()
+	get_node("SelectStage").show()
+	if (get_parent().stage == 0):
+		ss_ps.set_disabled(true)
+		ss_ns.set_disabled(true)
+		get_node("SelectStage/Flavour").set_text("Go to stage:\n         0")
+
+func _on_PreviousStage_pressed():
+	# Tem que estar desabilitado se o level for 0
+	ss_ps.set_ignore_mouse(true)
+	ss_ns.set_ignore_mouse(false)
+	ss_ns.set_pressed(false)
+	get_node("SelectStage/Flavour").set_text(str("Go to stage:\n         ", get_parent().stage - 1))
+
+
+func _on_NextStage_pressed():
+	ss_ns.set_ignore_mouse(true)
+	ss_ps.set_ignore_mouse(false)
+	ss_ps.set_pressed(false)
+	get_node("SelectStage/Flavour").set_text(str("Go to stage:\n         ", get_parent().stage))
+
+
+func _on_Begin_pressed():
+	# Este codigo leva em consideração o aumento do stage na tranição do CombatNode
+	if (ss_ps.is_pressed()):
+		get_parent().stage -= 1
 	get_parent().set_level("combat")
 
 
@@ -1337,4 +1377,3 @@ func instance_item(name, owner):
 	owner.item_vector.append(item_instance)
 
 #END TEMPORARY SECTION
-
