@@ -416,6 +416,7 @@ func turn_based_system():
 				action_count = (action_count + 1) % allies_pos.size()
 #				Criar a selectedinfo aqui, e destruir a anterior logo antes de somar ao actor e action_count
 				unit_info(action_count)
+				print(allies_vector[action_count].get_defense())
 				targeting = false
 
 				return_to_Selection()

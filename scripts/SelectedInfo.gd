@@ -40,12 +40,12 @@ func update_status():
 		color = Color(0.2, 1, 0.2)
 	if master.get_defense() < master.defense:
 		color = Color(1, 0.2, 0.2)
-	get_node("Def/Num").set_text(str(master.get_attack()))
+	get_node("Def/Num").set_text(str(master.get_defense()))
 	get_node("Def/Num").add_color_override("font_color", color)
 
 	if master.get_speed() > master.speed:
 		color = Color(0.2, 1, 0.2)
 	if master.get_speed() < master.speed:
 		color = Color(1, 0.2, 0.2)
-	get_node("Spd/Num").set_text(str(master.get_attack()))
+	get_node("Spd/Num").set_text(str(master.get_speed()))
 	get_node("Spd/Num").add_color_override("font_color", color)
