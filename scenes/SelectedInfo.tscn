@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=6 format=1]
 
-[ext_resource path="res://scripts/SelectedInfo.gd" type="Script" id=1]
+[ext_resource path="res://resources/sprites/gui/management/button0009.tex" type="Texture" id=1]
+[ext_resource path="res://scripts/SelectedInfo.gd" type="Script" id=2]
+[ext_resource path="res://resources/pkm15.fnt" type="BitmapFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -28,10 +30,20 @@ border_size = 0
 border_blend = true
 draw_bg = true
 
-[node name="SelectedInfo" type="Node2D"]
+[node name="SelectedInfo" type="TextureFrame"]
 
-transform/pos = Vector2( 64, 0 )
-script/script = ExtResource( 1 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 150.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 0
+script/script = ExtResource( 2 )
 
 [node name="LifeBar" type="ProgressBar" parent="."]
 
@@ -40,10 +52,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 64.0
-margin/bottom = 16.0
+margin/left = 5.0
+margin/top = 130.0
+margin/right = 105.0
+margin/bottom = 146.0
 custom_styles/fg = SubResource( 1 )
 range/min = 0.0
 range/max = 100.0
@@ -61,10 +73,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 20.0
-margin/top = 0.0
-margin/right = 50.0
-margin/bottom = 16.0
+margin/left = 22.0
+margin/top = 130.0
+margin/right = 122.0
+margin/bottom = 146.0
 custom_styles/fg = SubResource( 2 )
 range/min = 0.0
 range/max = 100.0
@@ -74,5 +86,104 @@ range/value = 70.0
 range/exp_edit = false
 range/rounded = false
 percent/visible = false
+
+[node name="Atk" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 10.0
+margin/right = 90.0
+margin/bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+text = "Atk:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Num" type="Label" parent="Atk"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 30.0
+margin/top = 0.0
+margin/right = 74.0
+margin/bottom = 15.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Joelho"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Def" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 25.0
+margin/right = 90.0
+margin/bottom = 40.0
+custom_fonts/font = ExtResource( 3 )
+text = "Def:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Num" type="Label" parent="Def"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 30.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Canela"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Spd" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 40.0
+margin/right = 90.0
+margin/bottom = 55.0
+custom_fonts/font = ExtResource( 3 )
+text = "Spd:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Num" type="Label" parent="Spd"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 30.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Tibia"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 
