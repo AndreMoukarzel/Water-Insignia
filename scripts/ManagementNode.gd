@@ -71,6 +71,13 @@ var char_database
 var wpn_database
 var item_database
 
+# Database-related variables
+
+# Estas variáveis não representam o tamanho real da database,
+# e sim o tamanho relevante para o Shop exibir a cada momento
+var w_db_size
+var i_db_size
+
 # Other Variables / Transitioning data
 var screen_size
 var window_size
@@ -188,7 +195,7 @@ func _ready():
 	# uma database, um vetor para instanciar as armas a serem compradas,
 	# e mudar como populamos as statusboxes no script dos statusbox
 	
-	var w_db_size = 5
+	w_db_size = 5
 	var iter = 0
 	while (iter <= w_db_size):
 		if (wpn_database.get_lock(iter) != 1):
@@ -196,11 +203,11 @@ func _ready():
 			sm_sw.set_item_tooltip(sm_sw.get_item_count() - 1, wpn_database.get_wpn_name(iter))
 		iter += 1
 		
-	var i_db_size = 8
+	i_db_size = 8
 	iter = 0
 	while (iter <= i_db_size):
-		sm_sw.add_item("", load(str("res://resources/sprites/weapons/",item_database.get_item_name(iter),".tex")), 1)
-		sm_sw.set_item_tooltip(sm_si.get_item_count() - 1, item_database.get_item_name(iter))
+		sm_si.add_item("", load(str("res://resources/sprites/items/",item_database.get_item_name(iter),".tex")), 1)
+		sm_si.set_item_tooltip(sm_si.get_item_count() - 1, item_database.get_item_name(iter))
 		iter += 1
 		
 	# Fix sizes and positions of some nodes
@@ -208,7 +215,10 @@ func _ready():
 	
 	# Blocks "ready" button if game just begun, or if came
 	# back from a party wipe
-	get_node("Selection/Play").set_disabled(true)
+	if (get_parent().victory == 0):
+		get_node("Selection/Play").set_disabled(true)
+	else:
+		get_node("Selection/Play").set_disabled(false)
 	
 	# Begin fixed process
 	set_fixed_process(true)
@@ -725,7 +735,24 @@ func Update_SM():
 	if (wpn_amount == 0 and item_amount == 0):
 		get_node("ShopManagement/Buy").set_disabled(true)
 	else:
-		get_node("ShopManagement/Buy").set_disabled(false)
+		# Apenas comprando armas
+		if (item_amount == 0):
+			if (wpn_database.get_price(sm_sw.get_selected_items()[0]) * wpn_amount <= get_parent().quesha):
+				get_node("ShopManagement/Buy").set_disabled(false)
+			else:
+				get_node("ShopManagement/Buy").set_disabled(true)
+		# Apenas comprando items
+		elif (wpn_amount == 0):
+			if (item_database.get_price(sm_si.get_selected_items()[0]) * item_amount <= get_parent().quesha):
+				get_node("ShopManagement/Buy").set_disabled(false)
+			else:
+				get_node("ShopManagement/Buy").set_disabled(true)
+		# Comprando ambos armas e items
+		else:
+			if ((wpn_database.get_price(sm_sw.get_selected_items()[0]) * wpn_amount) + (item_database.get_price(sm_si.get_selected_items()[0]) * item_amount) <= get_parent().quesha):
+				get_node("ShopManagement/Buy").set_disabled(false)
+			else:
+				get_node("ShopManagement/Buy").set_disabled(true)
 	
 	# Certificando a corretude da exibição da storage,
 	# e populando as suas listas
@@ -743,10 +770,14 @@ func Update_SM():
 	 # Condições para a statusbox da storage no menu de vendas
 	if (sm_stw.get_selected_items().size() != 0):
 		sm_stws.update_statusbox(storage_weapons[sm_stw.get_selected_items()[0]].id, "Shop Status", "Weapon", wpn_database)
+		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
+		sm_stws.get_node("Price").set_text(str("Price: ", wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2))
 	else:
 		sm_stws.neutralize_node("Shop Status")
 	if (sm_sti.get_selected_items().size() != 0):
 		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]].id, "Shop Status", "Item", item_database)
+		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
+		sm_stis.get_node("Price").set_text(str("Price: ", item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2))
 	else:
 		sm_stis.neutralize_node("Shop Status")
 	if (sm_stw.get_selected_items().size() != 0 or sm_sti.get_selected_items().size() != 0):

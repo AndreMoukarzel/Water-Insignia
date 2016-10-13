@@ -61,6 +61,8 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Attack").set_pos(Vector2(20, 65))
 		# Defesa não será necessária, acredito. Pode ser que uma arma forneça defesa bônus.
 		get_node("Defense").set_pos(Vector2(20, 80))
+		get_node("Icon").set_pos(Vector2(185, 15))
+		get_node("Price").set_pos(Vector2(205, 15))
 
 # Não serve para Unit Status
 func update_statusbox(object, type, nature, database):
@@ -108,9 +110,13 @@ func update_statusbox(object, type, nature, database):
 			if (database.get_durability(object) > 0):
 				get_node("Durability").set_text(str(database.get_durability(object),"/",database.get_durability(object)))
 			get_node("Attack").set_text(str("ATK: ", database.get_attack(object)))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 		if (nature == "Item"):
 			get_node("Name").set_text(database.get_item_name(object))
 			get_node("Class").set_text(str("Type: ",database.get_item_type(object)))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 			# Não podemos fazer isto ainda, não existe amount na database de items
 #			if (object.amount > 10):
 #				get_node("Durability").set_pos(Vector2(65, 65))
