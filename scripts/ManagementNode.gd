@@ -139,6 +139,7 @@ func _ready():
 		# instance testing, will be removed
 		instance_unit(2, 2, "Barracks")
 		instance_unit(3, 5, "Barracks")
+		instance_unit(3, 4, "Barracks")
 	
 		for unit in barracks_units:
 			if unit.name == "baby_dragon":
@@ -146,6 +147,7 @@ func _ready():
 				instance_weapon("Bat Wings", unit)
 				instance_item("Hardener", unit)
 				instance_item("Potion", unit)
+				instance_item("Depar", unit)
 			if unit.name == "soldier":
 				instance_weapon("Katana", unit)
 				instance_weapon("Iron Axe", unit)
