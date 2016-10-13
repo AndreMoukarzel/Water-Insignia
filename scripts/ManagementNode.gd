@@ -1249,6 +1249,8 @@ func _on_Back3_pressed():
 	get_node("Selection").show()
 	ss_ps.set_pressed(false)
 	ss_ns.set_pressed(false)
+	ss_ps.set_ignore_mouse(false)
+	ss_ns.set_ignore_mouse(false)
 	get_node("SelectStage/Flavour").set_text("")
 
 # Return tanto da Unit Management, quando da Item Management e do Repair Menu
