@@ -296,34 +296,9 @@ func instance_status(name, target):
 	var status_instance = status.new(name, status_database)
 
 	var i = 0
-	for status in target.status_vector: # Refreshes old status if same is re-inflicted
+	for status in target.status_vector: # Removes old status if same is re-inflicted
 		if status.name == name:
-			if status.type == "Buff": # Nulify old effect
-				var base_atribute
-				var bonus_atribute
-				var bonus
-		
-				if status.stat == "ATK":
-					base_atribute = target.attack
-					bonus_atribute = target.bonus_attack
-				elif status.stat == "DEF":
-					base_atribute = target.defense
-					bonus_atribute = target.bonus_defense
-				elif status.stat == "SPD":
-					base_atribute = target.speed
-					bonus_atribute = target.bonus_speed
-
-				bonus = status.effect * base_atribute
-
-				if bonus != 0:
-					bonus_atribute -= bonus
-				else:
-					bonus_atribute += bonus_atribute
-
-				apply_bonus(bonus_atribute, status.stat, target)
-
-#			Refreshes duration
-			target.status_vector[i].duration = target.status_vector[i].max_duration
+			target.status_vector.remove(i)
 		i += 1
 
 	target.status_vector.append(status_instance)
@@ -461,11 +436,16 @@ func turn_based_system():
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.from[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.from[0]])
+<<<<<<< HEAD
+					status_apply(allies_vector[act.from[0]], "Allies", act.from[0])
+=======
 					allies_vector[act.from[0]].bonus_defense += 3*allies_vector[act.from[0]].defense
-
+#					status_apply("Allies", act.from[0])
+>>>>>>> 44858104a923c05784a41d4e6c6ea55721069a7a
 				elif act.from[1] == "Enemies":
 					instance_status("DEFEND", enemies_vector[act.from[0]])
 					enemies_vector[act.from[0]].bonus_defense += 3*enemies_vector[act.from[0]].defense
+#					status_apply("Enemies", act.from[0])
 
 				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
@@ -484,8 +464,8 @@ func turn_based_system():
 		toggle_menu(true)
 		enemy_attack_beta()
 		action_memory.sort_custom(self, "compare_speed")
-		turn_start = 0
 		STATE_NEXT = "EXECUTE ACTION"
+#		turn_start = 0
 
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
@@ -565,6 +545,10 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# DEFEND command greatly increses the unit's defense for only one attack or one turn
 	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
+<<<<<<< HEAD
+
+#	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
+=======
 	
 	var i = 0
 	for stat in defender[defender_vpos].status_vector:
@@ -572,6 +556,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			defender[defender_vpos].status_vector.remove(i)
 			defender[defender_vpos].bonus_defense -= 3*defender[defender_vpos].defense
 		i += 1
+>>>>>>> 44858104a923c05784a41d4e6c6ea55721069a7a
 
 	# damage can't be lower than zero
 	if (damage < 0):
@@ -816,17 +801,16 @@ func status_apply(target_side, target_vpos):
 							if bonus != 0:
 								bonus_atribute -= bonus
 							else:
-								bonus_atribute += base_atribute
-							apply_bonus(bonus_atribute, status.stat, target)
+								bonus_atribute += bonus_atribute
 
-						elif status.duration == status.max_duration:
-							if bonus != 0:
-								bonus_atribute += bonus
-								damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
-							else:
-								bonus_atribute = -base_atribute
-								damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
-							apply_bonus(bonus_atribute, status.stat, target)
+						else:
+							if status.duration == status.max_duration:
+								if bonus != 0:
+									bonus_atribute += bonus
+									damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
+								else:
+									bonus_atribute = -base_atribute
+									damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
 
 				elif type == "Dispell":
 					for removable in status.effect:
@@ -855,7 +839,6 @@ func status_apply(target_side, target_vpos):
 									bonus_atribute -= bonus
 								else:
 									bonus_atribute += bonus_atribute
-								apply_bonus(bonus_atribute, status.stat, target)
 
 			if turn_start == 0:
 				status.duration -= 1
@@ -864,15 +847,6 @@ func status_apply(target_side, target_vpos):
 				target.status_vector.remove(i)
 
 			i += 1
-
-
-func apply_bonus(bonus, stat, target):
-	if stat == "ATK":
-		target.bonus_attack = bonus
-	elif stat == "DEF":
-		target.bonus_defense = bonus
-	elif stat == "SPD":
-		target.bonus_speed = bonus
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -1225,6 +1199,7 @@ func _fixed_process(delta):
 	
 	# If it's choosing an action and its target
 	if STATE == "SELECT TARGET":
+		print("BENGA")
 		# The unit keeps blinking while not chosen yet
 		if blink_counter == 0:
 			blink_counter = 40
@@ -1239,24 +1214,25 @@ func _fixed_process(delta):
 	
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
+		print("JIROMBA")
 		if action_memory.empty(): # If all the actions have been executed
 			actor = 0
 			action_count = 0
 			toggle_menu(false)
 			STATE_NEXT = "SELECT TARGET"
+			turn_start = 0
 		else:
 			var act = action_memory[0]
 			var player = get_node(str(act.from[1],"/",act.from[0],"/anim_player"))
 			var actor
 
-			if act.from[1] == "Allies":
-				actor = allies_vector[act.from[0]]
-			elif act.from[1] == "Enemies":
-				actor = enemies_vector[act.from[0]]
-
-			if act.speed <= 0:
+			if act.speed == 0:
 				action_memory.pop_front()
 			else:
+				if act.from[1] == "Allies":
+					actor = allies_vector
+				elif act.from[1] == "Enemies":
+					actor = enemies_vector
 
 				if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
 					var flag = 1 # If the unit decides to attack itself, it doesn't move from its place (flag == 0)

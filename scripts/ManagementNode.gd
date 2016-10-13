@@ -140,7 +140,7 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		# instance testing, will be removed
-		instance_unit(2, 2, "Barracks")
+		instance_unit(2, 7, "Barracks")
 		instance_unit(3, 5, "Barracks")
 		instance_unit(3, 4, "Barracks")
 	
