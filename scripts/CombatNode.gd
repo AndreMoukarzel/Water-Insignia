@@ -118,7 +118,6 @@ class status:
 	var stat # Stats (ATK, DEF, SPD) it affects
 	var duration # Status' current timer
 	var max_duration # Status' initial timer
-#	var flag # Flag that indicates a status should be applied only when it's first used and in the beginning of each turn
 
 	func _init(name, database):
 		self.id = database.get_status_id(name)
@@ -129,7 +128,6 @@ class status:
 		self.stat = database.get_status_stat(id)
 		self.max_duration = database.get_status_duration(id)
 		self.duration = self.max_duration
-#		self.flag = 1
 
 
 # Arrays containing each unit in combat
@@ -797,7 +795,7 @@ func status_apply(target_side, target_vpos):
 									damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
 								else:
 									bonus_atribute = -base_atribute
-									damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
+									damage_box(str(status.stat, " NEGATED"), Color(1, 0.5, 0), pos)
 
 				elif type == "Dispell":
 					for removable in status.effect:
