@@ -844,6 +844,7 @@ func win_lose_cond():
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
 		get_parent().victory = 1
+		get_parent().stage += 1
 		get_parent().set_level("management")
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
