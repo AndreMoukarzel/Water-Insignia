@@ -436,11 +436,9 @@ func turn_based_system():
 				if act.from[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.from[0]])
 					allies_vector[act.from[0]].bonus_defense += 3*allies_vector[act.from[0]].defense
-#					status_apply("Allies", act.from[0])
 				elif act.from[1] == "Enemies":
 					instance_status("DEFEND", enemies_vector[act.from[0]])
 					enemies_vector[act.from[0]].bonus_defense += 3*enemies_vector[act.from[0]].defense
-#					status_apply("Enemies", act.from[0])
 
 				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
@@ -458,7 +456,6 @@ func turn_based_system():
 		enemy_attack_beta()
 		action_memory.sort_custom(self, "compare_speed")
 		STATE_NEXT = "EXECUTE ACTION"
-#		turn_start = 0
 
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
@@ -477,7 +474,6 @@ func process_action():
 		action_instance.speed = allies_vector[actor].get_speed()
 		action_instance.action = action
 
-
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -492,7 +488,7 @@ func filter_action(act):
 		attacker = allies_vector
 	elif act.from[1] == "Enemies":
 		attacker = enemies_vector
-	
+
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
 	if (act.action == "attack" or act.action == "attackSword" or act.action == "attackAxe" or act.action == "attackSpear"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
