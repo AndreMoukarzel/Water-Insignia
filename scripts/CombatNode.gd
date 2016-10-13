@@ -369,6 +369,10 @@ func unit_info(unit_num):
 		var info = info_scn.instance()
 		var pos = allies_pos[unit_num]
 
+		if get_node("Info") != null:
+			get_node("Info").set_name("Info_old")
+			get_node("Info_old").queue_free()
+
 		info.master = allies_vector[unit_num]
 		info.set_name("Info")
 		info.set_pos(Vector2(pos.x + 100, pos.y - 50))
@@ -411,14 +415,11 @@ func turn_based_system():
 				BUTTON = null
 				mouse_cooldown = 30
 				action_memory[action_count].to = closest
-				get_node("Info").set_name("Info_old")
-				get_node("Info_old").queue_free()
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-#				Criar a selectedinfo aqui, e destruir a anterior logo antes de somar ao actor e action_count
 				unit_info(action_count)
-				print(allies_vector[action_count].get_defense())
+
 				targeting = false
 
 				return_to_Selection()
@@ -436,10 +437,7 @@ func turn_based_system():
 				if act.from[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.from[0]])
 					status_apply(allies_vector[act.from[0]], "Allies", act.from[0])
-#					instance_status("Defend", "Defense", 1, allies_vector[act.from[0]], 2, "Buff")
-#					allies_vector[act.from[0]].bonus_defense += allies_vector[act.from[0]].defense * 2
 				elif act.from[1] == "Enemies":
-#					enemies_vector[act.from[0]].bonus_defense += enemies_vector[act.from[0]].defense * 2
 					instance_status("DEFEND", enemies_vector[act.from[0]])
 					status_apply(enemies_vector[act.from[0]], "Enemies", act.from[0])
 
@@ -451,6 +449,8 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
+				unit_info(action_count)
+
 				return_to_Selection()
 
 	# After all the allies' actions were chosen, begins the combat phase
@@ -539,7 +539,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# DEFEND command greatly increses the unit's defense for only one attack or one turn
 	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
-	
+
 #	defender[defender_vpos].bonus_defense -= defender[defender_vpos].defense * 2
 
 	# damage can't be lower than zero
@@ -1183,6 +1183,7 @@ func _fixed_process(delta):
 	
 	# If it's choosing an action and its target
 	if STATE == "SELECT TARGET":
+		print("BENGA")
 		# The unit keeps blinking while not chosen yet
 		if blink_counter == 0:
 			blink_counter = 40
@@ -1190,13 +1191,14 @@ func _fixed_process(delta):
 		
 		# If an ally has died, skips its turn to choose an action
 		while get_node(str("Allies/", actor)) == null:
-			actor += 1 % allies_pos.size(); #O problema é provavelmente que ele esta blinking eternamente aqui
+			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 		
 		turn_based_system()
 	
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
+		print("JIROMBA")
 		if action_memory.empty(): # If all the actions have been executed
 			actor = 0
 			action_count = 0
