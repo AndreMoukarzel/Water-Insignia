@@ -848,19 +848,18 @@ func status_apply(target_side, target_vpos):
 
 						if status.duration == 1:
 							if bonus != 0:
-								bonus_atribute -= bonus
+								bonus = -bonus
 							else:
-								bonus_atribute += base_atribute
-							apply_bonus(bonus_atribute, status.stat, target)
+								bonus = base_atribute
+							apply_bonus(bonus, status.stat, target)
 
 						elif status.duration == status.max_duration:
 							if bonus != 0:
-								bonus_atribute += bonus
 								damage_box(str(status.stat, "+", bonus), Color(0, 0, 1), pos)
 							else:
-								bonus_atribute = -base_atribute
+								bonus = -(base_atribute + bonus_atribute)
 								damage_box(str(status.stat, "NEGATED"), Color(1, 0.5, 0), pos)
-							apply_bonus(bonus_atribute, status.stat, target)
+							apply_bonus(bonus, status.stat, target)
 
 				elif type == "Dispell":
 					for removable in status.effect:
@@ -886,10 +885,10 @@ func status_apply(target_side, target_vpos):
 								bonus = status.effect * base_atribute
 
 								if bonus != 0:
-									bonus_atribute -= bonus
+									bonus = -bonus
 								else:
-									bonus_atribute += bonus_atribute
-								apply_bonus(bonus_atribute, status.stat, target)
+									bonus = (base_atribute + bonus_atribute)
+								apply_bonus(bonus, status.stat, target)
 
 			if turn_start == 0:
 				status.duration -= 1
@@ -902,11 +901,11 @@ func status_apply(target_side, target_vpos):
 
 func apply_bonus(bonus, stat, target):
 	if stat == "ATK":
-		target.bonus_attack = bonus
+		target.bonus_attack += bonus
 	elif stat == "DEF":
-		target.bonus_defense = bonus
+		target.bonus_defense += bonus
 	elif stat == "SPD":
-		target.bonus_speed = bonus
+		target.bonus_speed += bonus
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -1289,11 +1288,10 @@ func _fixed_process(delta):
 			elif act.from[1] == "Enemies":
 				actor = enemies_vector[act.from[0]]
 
-			if act.speed <= 0:
-				action_memory.pop_front()
-			else:
-
-				if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
+			if (get_node(str(act.to[1],"/",act.to[0])) != null) and (get_node(str(act.from[1],"/",act.from[0])) != null):
+				if actor.get_speed() <= 0:
+					action_memory.pop_front()
+				else:
 					var flag = 1 # If the unit decides to attack itself, it doesn't move from its place (flag == 0)
 					if act.action == "defend":
 						action_memory.pop_front() # add defense behavior here
@@ -1338,9 +1336,9 @@ func _fixed_process(delta):
 						time = (player.get_animation(act.action).get_length()) * 60
 						player.play(act.action)
 						STATE_NEXT = "ANIMATION"
-				else:
-					# Alvo invalido #
-					action_memory.pop_front()
+			else:
+				# Alvo invalido #
+				action_memory.pop_front()
 
 
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
