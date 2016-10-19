@@ -113,6 +113,18 @@ class item:
 		self.durability = database.get_item_stack(id)
 		self.amount = self.durability
 
+	func get_item_id():
+		return id
+
+	func get_item_name():
+		return name
+
+	func get_item_type():
+		return type
+
+	func get_item_hp():
+		return hp
+
 
 class action_class:
 	var from # Who is acting
@@ -290,10 +302,11 @@ func instance_weapon(name, owner):
 
 # Instances skills of all units
 func instance_skills():
-	for unit in allies_vector:
-		for skill_name in char_database.get_skill_vector(unit.id):
-			var skill_instance = skill.new(skill_name, skill_database)
-			unit.skill_vector.append(skill_instance)
+	if (battle == 1):
+		for unit in allies_vector:
+			for skill_name in char_database.get_skill_vector(unit.id):
+				var skill_instance = skill.new(skill_name, skill_database)
+				unit.skill_vector.append(skill_instance)
 
 	for unit in enemies_vector:
 		for skill_name in char_database.get_skill_vector(unit.id):
@@ -348,16 +361,19 @@ func instance_status(name, target):
 # Position the units in the battle screen
 func reposition_units():
 	var num
-
-	# Position the allies units
 	var temp = 1
-	num = get_node("Allies").get_child_count()
-	for child in get_node("Allies").get_children():
-		child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
-		allies_pos.append(child.get_pos())
-		temp += 1 
+
+	# Position the allies units (only when battle begins)
+	if (battle == 1):
+		num = get_node("Allies").get_child_count()
+		for child in get_node("Allies").get_children():
+			child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
+			allies_pos.append(child.get_pos())
+			temp += 1 
 
 	# Position the enemies units
+	enemies_pos.clear()
+	
 	temp = 1
 	num = get_node("Enemies").get_child_count()
 	for child in get_node("Enemies").get_children():
@@ -380,14 +396,21 @@ func resize_menu():
 # Name the units
 func name_units():
 	var i = 0;
-
-	for child in get_node("Allies").get_children():
-		child.set_name(str(i))
-		i += 1
-	i = 0
-	for child in get_node("Enemies").get_children():
-		child.set_name(str(i))
-		i += 1
+	
+	# Primeiro momento da batalha, precisa nomear todos
+	if (battle == 1):
+		for child in get_node("Allies").get_children():
+			child.set_name(str(i))
+			i += 1
+		i = 0
+		for child in get_node("Enemies").get_children():
+			child.set_name(str(i))
+			i += 1
+	# Momentos seguintes, apenas renomeia os monstros
+	else:
+		for child in get_node("Enemies").get_children():
+			child.set_name(str(i))
+			i += 1
 
 
 # Damage/Heal value that floats out of an attacked/healed unit
@@ -491,6 +514,7 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
+				print ("This is seemingly ok")
 				unit_info(action_count)
 
 				return_to_Selection()
@@ -735,7 +759,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 # Process the enemies attacks
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
-	var action = 1
+	var p_attack = 1
 	while(enemies < enemies_pos.size()):
 		var action_instance = action_class.new()
 		
@@ -746,34 +770,53 @@ func enemy_attack_beta():
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
-			action_instance.from = [enemies, "Enemies"]
-			var max_hp = enemies_vector[enemies].get_hp_max()
-			var current_hp = enemies_vector[enemies].get_hp_current()
-			print ("action = ", action)
-			action = action - 0.5*(current_hp/max_hp)
-			print ("action* = ", action)
 			randomize()
-			# so com chance de acertar allies, por ora
-			var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
-			# If the chosen target is already dead, randomly chooses another one
-			while (get_node(str("Allies/",int(random_target))) == null):
-				random_target = (random_target + 1) % allies_vector.size()
+			action_instance.from = [enemies, "Enemies"]
+			
+			# If the enemy doesn't have any Heal-type item, it will always attack
+			for item in enemies_vector[enemies].item_vector:
+				print(item.get_item_name(), " - ", item.get_item_type()[0], " - ", item.get_item_hp())
+				if (item.get_item_type()[0] == "HP") and (item.get_item_hp() > 0):
+					var max_hp = enemies_vector[enemies].get_hp_max()
+					var current_hp = enemies_vector[enemies].get_hp_current()
+					p_attack = float(p_attack) - 0.5*(1 - float(current_hp)/float(max_hp))
+					break
 
-			# Instances the attack
-			var wpn_type = enemies_vector[enemies].wpn_vector[0].type
-			var skill_elem = enemies_vector[enemies].skill_vector[0].elem
-			enemies_vector[enemies].last_weapon = null
-			enemies_vector[enemies].last_skill = null
-			if wpn_type != "Natural":
-				enemies_vector[enemies].last_weapon = wpn_type
-			if skill_elem != null:
-				enemies_vector[enemies].last_skill = skill_elem
-
-			action_instance.to = [int(random_target), "Allies"]
-			action_instance.action = "attack"
-			action_instance.action_id = 0
-			action_instance.speed = enemies_vector[enemies].get_speed()
-			action_memory.append(action_instance)
+			# Attacks or uses a skill
+			if randf() <= p_attack:
+				# so com chance de acertar allies, por ora
+				var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
+				# If the chosen target is already dead, randomly chooses another one
+				while (get_node(str("Allies/",int(random_target))) == null):
+					random_target = (random_target + 1) % allies_vector.size()
+	
+				# Instances the attack
+				var wpn_type = enemies_vector[enemies].wpn_vector[0].type
+				var skill_elem = enemies_vector[enemies].skill_vector[0].elem
+				enemies_vector[enemies].last_weapon = null
+				enemies_vector[enemies].last_skill = null
+				if wpn_type != "Natural":
+					enemies_vector[enemies].last_weapon = wpn_type
+				if skill_elem != null:
+					enemies_vector[enemies].last_skill = skill_elem
+	
+				action_instance.to = [int(random_target), "Allies"]
+				action_instance.action = "attack"
+				action_instance.action_id = 0
+				action_instance.speed = enemies_vector[enemies].get_speed()
+				action_memory.append(action_instance)
+			else: # Uses a Heal-type item, if has one
+				var max_hp = enemies_vector[enemies].get_hp_max()
+				var current_hp = enemies_vector[enemies].get_hp_current()
+				var id = 0
+				for item in enemies_vector[enemies].item_vector:
+					if (item.get_item_type()[0] == "HP") and (item.get_item_hp() > 0):
+						action_instance.to = [enemies, "Enemies"]
+						action_instance.action = "item"
+						action_instance.action_id = id
+						action_instance.speed = enemies_vector[enemies].get_speed()
+						action_memory.append(action_instance)
+					id += 1
 		enemies += 1
 
 
@@ -819,7 +862,7 @@ func status_apply(target_side, target_vpos):
 						color = Color(1, 0, 0)
 						damage_box(str(-damage), color, pos)
 
-					target.hp_current -= damage
+					target.hp_current += damage
 
 					if target.hp_current <= 0: # If the item kills the target
 						target = null
@@ -916,12 +959,18 @@ func win_lose_cond():
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
 		if battle % 6 == 0:
-			get_parent().stage += 1
+			if (get_parent().gd == 0):
+				get_parent().stage += 1
 			get_parent().victory = 1
 			get_parent().set_level("management")
 		else:
 			battle += 1
+			enemies_vector.clear()
+			action_memory.clear()
 			generate_mob(get_parent().stage)
+			reposition_units()
+			name_units()
+			instance_skills()
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
 		get_parent().victory = 0

@@ -1345,7 +1345,10 @@ func _on_NextStage_pressed():
 func _on_Begin_pressed():
 	# Este codigo leva em consideração o aumento do stage na tranição do CombatNode
 	if (ss_ps.is_pressed()):
+		get_parent().gd = 1
 		get_parent().stage -= 1
+	else:
+		get_parent().gd = 0
 	get_parent().set_level("combat")
 
 
