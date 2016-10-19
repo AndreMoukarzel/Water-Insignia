@@ -58,8 +58,8 @@ var skill_database = [
 	{ # ID = 5
 		SKILL_NAME : "Poison Sting",
 		TYPE : ["HP", "Effect"],
-		COST : 6,
-		HP : -5,
+		COST : 1,
+		HP : -1,
 		STATUS : ["Poison"],
 		ELEM : null
 	},

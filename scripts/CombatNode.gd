@@ -113,6 +113,18 @@ class item:
 		self.durability = database.get_item_stack(id)
 		self.amount = self.durability
 
+	func get_item_id():
+		return id
+
+	func get_item_name():
+		return name
+
+	func get_item_type():
+		return type
+
+	func get_item_hp():
+		return hp
+
 
 class action_class:
 	var from # Who is acting
@@ -732,7 +744,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 # Process the enemies attacks
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
-	var action = 1
+	var p_attack = 1
 	while(enemies < enemies_pos.size()):
 		var action_instance = action_class.new()
 		
@@ -743,34 +755,53 @@ func enemy_attack_beta():
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
-			action_instance.from = [enemies, "Enemies"]
-			var max_hp = enemies_vector[enemies].get_hp_max()
-			var current_hp = enemies_vector[enemies].get_hp_current()
-			print ("action = ", action)
-			action = action - 0.5*(current_hp/max_hp)
-			print ("action* = ", action)
 			randomize()
-			# so com chance de acertar allies, por ora
-			var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
-			# If the chosen target is already dead, randomly chooses another one
-			while (get_node(str("Allies/",int(random_target))) == null):
-				random_target = (random_target + 1) % allies_vector.size()
+			action_instance.from = [enemies, "Enemies"]
+			
+			# If the enemy doesn't have any Heal-type item, it will always attack
+			for item in enemies_vector[enemies].item_vector:
+				print(item.get_item_name(), " - ", item.get_item_type()[0], " - ", item.get_item_hp())
+				if (item.get_item_type()[0] == "HP") and (item.get_item_hp() > 0):
+					var max_hp = enemies_vector[enemies].get_hp_max()
+					var current_hp = enemies_vector[enemies].get_hp_current()
+					p_attack = float(p_attack) - 0.5*(1 - float(current_hp)/float(max_hp))
+					break
 
-			# Instances the attack
-			var wpn_type = enemies_vector[enemies].wpn_vector[0].type
-			var skill_elem = enemies_vector[enemies].skill_vector[0].elem
-			enemies_vector[enemies].last_weapon = null
-			enemies_vector[enemies].last_skill = null
-			if wpn_type != "Natural":
-				enemies_vector[enemies].last_weapon = wpn_type
-			if skill_elem != null:
-				enemies_vector[enemies].last_skill = skill_elem
-
-			action_instance.to = [int(random_target), "Allies"]
-			action_instance.action = "attack"
-			action_instance.action_id = 0
-			action_instance.speed = enemies_vector[enemies].get_speed()
-			action_memory.append(action_instance)
+			# Attacks or uses a skill
+			if randf() <= p_attack:
+				# so com chance de acertar allies, por ora
+				var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
+				# If the chosen target is already dead, randomly chooses another one
+				while (get_node(str("Allies/",int(random_target))) == null):
+					random_target = (random_target + 1) % allies_vector.size()
+	
+				# Instances the attack
+				var wpn_type = enemies_vector[enemies].wpn_vector[0].type
+				var skill_elem = enemies_vector[enemies].skill_vector[0].elem
+				enemies_vector[enemies].last_weapon = null
+				enemies_vector[enemies].last_skill = null
+				if wpn_type != "Natural":
+					enemies_vector[enemies].last_weapon = wpn_type
+				if skill_elem != null:
+					enemies_vector[enemies].last_skill = skill_elem
+	
+				action_instance.to = [int(random_target), "Allies"]
+				action_instance.action = "attack"
+				action_instance.action_id = 0
+				action_instance.speed = enemies_vector[enemies].get_speed()
+				action_memory.append(action_instance)
+			else: # Uses a Heal-type item, if has one
+				var max_hp = enemies_vector[enemies].get_hp_max()
+				var current_hp = enemies_vector[enemies].get_hp_current()
+				var id = 0
+				for item in enemies_vector[enemies].item_vector:
+					if (item.get_item_type()[0] == "HP") and (item.get_item_hp() > 0):
+						action_instance.to = [enemies, "Enemies"]
+						action_instance.action = "item"
+						action_instance.action_id = id
+						action_instance.speed = enemies_vector[enemies].get_speed()
+						action_memory.append(action_instance)
+					id += 1
 		enemies += 1
 
 
@@ -816,7 +847,7 @@ func status_apply(target_side, target_vpos):
 						color = Color(1, 0, 0)
 						damage_box(str(-damage), color, pos)
 
-					target.hp_current -= damage
+					target.hp_current += damage
 
 					if target.hp_current <= 0: # If the item kills the target
 						target = null
