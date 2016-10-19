@@ -111,12 +111,12 @@ func update_statusbox(object, type, nature, database):
 			if (database.get_durability(object) > 0):
 				get_node("Durability").set_text(str(database.get_durability(object),"/",database.get_durability(object)))
 			get_node("Attack").set_text(str("ATK: ", database.get_attack(object)))
-			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 		if (nature == "Item"):
 			get_node("Name").set_text(database.get_item_name(object))
 			get_node("Class").set_text(str("Type: ",database.get_item_type(object)))
-			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 			# Não podemos fazer isto ainda, não existe amount na database de items
 #			if (object.amount > 10):

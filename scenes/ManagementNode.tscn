@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=1]
+[gd_scene load_steps=34 format=1]
 
 [ext_resource path="res://scripts/ManagementNode.gd" type="Script" id=1]
 [ext_resource path="res://resources/sprites/gui/management/bluehover.tex" type="Texture" id=2]
@@ -18,7 +18,6 @@
 [ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" id=16]
 [ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=17]
 [ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=18]
-[ext_resource path="res://resources/sprites/gui/management/icons/quesha0000.tex" type="Texture" id=19]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -1073,7 +1072,6 @@ flat = false
 
 [node name="ShopManagement" type="Control" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1347,7 +1345,6 @@ flat = false
 
 [node name="CurrentQuesha" type="Button" parent="ShopManagement"]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -1371,7 +1368,6 @@ texture = ExtResource( 18 )
 
 [node name="SellManagement" type="Control" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1525,8 +1521,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "1"
-icon = ExtResource( 19 )
 flat = false
+
+[node name="Sprite" type="Sprite" parent="SellManagement/CurrentQuesha"]
+
+transform/pos = Vector2( 20, 40 )
+texture = ExtResource( 18 )
 
 [node name="SelectStage" type="Container" parent="."]
 
