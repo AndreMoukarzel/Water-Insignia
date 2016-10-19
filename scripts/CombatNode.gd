@@ -19,6 +19,7 @@ class unit:
 	var speed
 	var bonus_speed = 0
 	var last_weapon
+	var last_skill
 	var wpn_vector = [] # Array containing the unit's available weapons
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
@@ -36,6 +37,18 @@ class unit:
 
 	func get_name():
 		return db.get_char_name(id)
+
+	func get_hp_max():
+		return db.get_hp(id, level)
+
+	func get_mp_max():
+		return db.get_mp(id, level)
+
+	func get_hp_current():
+		return hp_current
+
+	func get_mp_current():
+		return mp_current
 
 	func get_allowed_weapons():
 		return db.get_weapon_vector(id)
@@ -493,10 +506,14 @@ func process_action():
 	if action != null:
 		if action == "attack":
 			var weapon = allies_vector[actor].wpn_vector[action_id].type
+			allies_vector[actor].last_weapon = null
 			if weapon != "Natural":
 				allies_vector[actor].last_weapon = weapon
-			else:
-				allies_vector[actor].last_weapon = null
+		elif action == "skill":
+			var skill = allies_vector[actor].skill_vector[action_id].elem
+			allies_vector[actor].last_skill = null
+			if skill != null:
+				allies_vector[actor].last_skill = skill
 
 		var action_instance = action_class.new()
 		action_instance.from = [actor, "Allies"]
@@ -549,7 +566,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].wpn_vector[action_id].id) # Attacker's weapon power
 	var char_def = defender[defender_vpos].get_defense() # Defender's base defense
 
-	# Checks for the weapon triangle
+	# Damage modifier by the Weapon Triangle
 	var tri = 1
 	var atk_wpn = attacker[attacker_vpos].last_weapon
 	var def_wpn = defender[defender_vpos].last_weapon
@@ -618,8 +635,16 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 	for type in skill.type:
 		if type == "HP":
-			var damage = skill.hp
-			
+			# Damage modifier by the Arcane Triangle
+			var tri = 1
+			var atk_skill = user[user_vpos].last_skill
+			var def_skill = target[target_vpos].last_skill
+			if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
+				tri = 1.2;
+			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
+				tri = 0.8;
+			var damage = skill.hp * tri
+
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -707,6 +732,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 # Process the enemies attacks
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
+	var action = 1
 	while(enemies < enemies_pos.size()):
 		var action_instance = action_class.new()
 		
@@ -714,24 +740,32 @@ func enemy_attack_beta():
 		# Avoids receiving action from an enemy that doesn't exist anymore
 		while ((enemies_vector[enemies] == null) and (enemies < enemies_pos.size() - 1)):
 			enemies += 1
-		
+
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
 			action_instance.from = [enemies, "Enemies"]
-			# so com chance de acertar allies, por ora
+			var max_hp = enemies_vector[enemies].get_hp_max()
+			var current_hp = enemies_vector[enemies].get_hp_current()
+			print ("action = ", action)
+			action = action - 0.5*(current_hp/max_hp)
+			print ("action* = ", action)
 			randomize()
+			# so com chance de acertar allies, por ora
 			var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
 			# If the chosen target is already dead, randomly chooses another one
 			while (get_node(str("Allies/",int(random_target))) == null):
 				random_target = (random_target + 1) % allies_vector.size()
-			
+
 			# Instances the attack
 			var wpn_type = enemies_vector[enemies].wpn_vector[0].type
-
-			if wpn_type == "Natural":
-				enemies_vector[enemies].last_weapon = null
-			else:
+			var skill_elem = enemies_vector[enemies].skill_vector[0].elem
+			enemies_vector[enemies].last_weapon = null
+			enemies_vector[enemies].last_skill = null
+			if wpn_type != "Natural":
 				enemies_vector[enemies].last_weapon = wpn_type
+			if skill_elem != null:
+				enemies_vector[enemies].last_skill = skill_elem
+
 			action_instance.to = [int(random_target), "Allies"]
 			action_instance.action = "attack"
 			action_instance.action_id = 0
