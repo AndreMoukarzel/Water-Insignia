@@ -79,7 +79,7 @@ var skill_database = [
 		COST : 6,
 		HP : -15,
 		STATUS : [],
-		ELEM : "Water"
+		ELEM : null
 	},
 	
 	{ # ID = 8
@@ -89,6 +89,24 @@ var skill_database = [
 		HP : -10,
 		STATUS : [],
 		ELEM : "Fire"
+	},
+	
+	{ # ID = 9
+		SKILL_NAME : "Aqua Blast",
+		TYPE : ["HP"],
+		COST : 3,
+		HP : -8,
+		STATUS : [],
+		ELEM : "Water"
+	},
+	
+	{ # ID = 10
+		SKILL_NAME : "Lightning Bolt",
+		TYPE : ["HP"],
+		COST : 3,
+		HP : -9,
+		STATUS : [],
+		ELEM : "Wind"
 	}
 ]
 
