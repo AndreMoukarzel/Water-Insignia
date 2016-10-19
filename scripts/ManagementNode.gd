@@ -323,7 +323,7 @@ func Update_UM():
 			# Ambos selecionados, exibe informações nas status boxes
 			if (last_selected_apunit != um_ap.get_selected_items()[0]):
 				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id, 2.5)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
 				#um_aps.get_node("Class").set_text("Class PH")
@@ -332,7 +332,7 @@ func Update_UM():
 				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id, 2.5)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
 				#um_bs.get_node("Class").set_text("Class PH")
@@ -345,7 +345,7 @@ func Update_UM():
 			# Selecionado membro da barracks, exibe informações na status box
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id, 2.5)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
 				#um_bs.get_node("Class").set_text("Class PH")
@@ -365,7 +365,7 @@ func Update_UM():
 			# Selecionado membro da active party, exibe informações na status box
 			if (last_selected_apunit != um_ap.get_selected_items()[0]):
 				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id, 2.5)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
 				#um_aps.get_node("Class").set_text("Class PH")

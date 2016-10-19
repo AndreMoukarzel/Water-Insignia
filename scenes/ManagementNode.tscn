@@ -1072,6 +1072,7 @@ flat = false
 
 [node name="ShopManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1368,6 +1369,7 @@ texture = ExtResource( 18 )
 
 [node name="SellManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
