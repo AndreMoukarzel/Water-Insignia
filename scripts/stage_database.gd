@@ -54,7 +54,7 @@ class stage_spawner:
 
 # Specifics of each stage
 var stage_database = [
-#	Stage 1
+#	Stage 0
 	stage_spawner.new([ #Allowed Mobs
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
 		mob.new([spawn.new("samurai", 3)]),
@@ -68,7 +68,7 @@ var stage_database = [
 		"Potion",
 		"Poison Bomb",
 		"Bomb"]),
-#	Stage 2
+#	Stage 1
 	stage_spawner.new([ #Allowed Mobs
 		mob.new([spawn.new("samurai", 3)]),
 		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)])

@@ -179,6 +179,9 @@ var STATE_NEXT = "SELECT TARGET"
 # turn_start == 1 : begin actions
 var turn_start = 0
 
+# Number of the current battle
+var battle = 1
+
 func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
@@ -191,7 +194,7 @@ func _ready():
 		allies_vector[size].item_vector = unit.item_vector
 		allies_vector.pop_front()
 
-	generate_mob(0)
+	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
@@ -878,9 +881,13 @@ func apply_bonus(bonus, stat, target):
 func win_lose_cond():
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
-		get_parent().victory = 1
-		get_parent().stage += 1
-		get_parent().set_level("management")
+		if battle % 6 == 0:
+			get_parent().stage += 1
+			get_parent().victory = 1
+			get_parent().set_level("management")
+		else:
+			battle += 1
+			generate_mob(get_parent().stage)
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
 		get_parent().victory = 0
