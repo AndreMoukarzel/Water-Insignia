@@ -204,6 +204,9 @@ var STATE_NEXT = "SELECT TARGET"
 # turn_start == 1 : begin actions
 var turn_start = 0
 
+# Number of the current battle
+var battle = 1
+
 func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
@@ -216,7 +219,7 @@ func _ready():
 		allies_vector[size].item_vector = unit.item_vector
 		allies_vector.pop_front()
 
-	generate_mob(0)
+	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
@@ -299,10 +302,11 @@ func instance_weapon(name, owner):
 
 # Instances skills of all units
 func instance_skills():
-	for unit in allies_vector:
-		for skill_name in char_database.get_skill_vector(unit.id):
-			var skill_instance = skill.new(skill_name, skill_database)
-			unit.skill_vector.append(skill_instance)
+	if (battle == 1):
+		for unit in allies_vector:
+			for skill_name in char_database.get_skill_vector(unit.id):
+				var skill_instance = skill.new(skill_name, skill_database)
+				unit.skill_vector.append(skill_instance)
 
 	for unit in enemies_vector:
 		for skill_name in char_database.get_skill_vector(unit.id):
@@ -357,16 +361,19 @@ func instance_status(name, target):
 # Position the units in the battle screen
 func reposition_units():
 	var num
-
-	# Position the allies units
 	var temp = 1
-	num = get_node("Allies").get_child_count()
-	for child in get_node("Allies").get_children():
-		child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
-		allies_pos.append(child.get_pos())
-		temp += 1 
+
+	# Position the allies units (only when battle begins)
+	if (battle == 1):
+		num = get_node("Allies").get_child_count()
+		for child in get_node("Allies").get_children():
+			child.set_pos(Vector2(300 - 50*temp, temp*500/(num + 1)))
+			allies_pos.append(child.get_pos())
+			temp += 1 
 
 	# Position the enemies units
+	enemies_pos.clear()
+	
 	temp = 1
 	num = get_node("Enemies").get_child_count()
 	for child in get_node("Enemies").get_children():
@@ -389,14 +396,21 @@ func resize_menu():
 # Name the units
 func name_units():
 	var i = 0;
-
-	for child in get_node("Allies").get_children():
-		child.set_name(str(i))
-		i += 1
-	i = 0
-	for child in get_node("Enemies").get_children():
-		child.set_name(str(i))
-		i += 1
+	
+	# Primeiro momento da batalha, precisa nomear todos
+	if (battle == 1):
+		for child in get_node("Allies").get_children():
+			child.set_name(str(i))
+			i += 1
+		i = 0
+		for child in get_node("Enemies").get_children():
+			child.set_name(str(i))
+			i += 1
+	# Momentos seguintes, apenas renomeia os monstros
+	else:
+		for child in get_node("Enemies").get_children():
+			child.set_name(str(i))
+			i += 1
 
 
 # Damage/Heal value that floats out of an attacked/healed unit
@@ -500,6 +514,7 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
+				print ("This is seemingly ok")
 				unit_info(action_count)
 
 				return_to_Selection()
@@ -943,9 +958,19 @@ func apply_bonus(bonus, stat, target):
 func win_lose_cond():
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
-		get_parent().victory = 1
-		get_parent().stage += 1
-		get_parent().set_level("management")
+		if battle % 6 == 0:
+			if (get_parent().gd == 0):
+				get_parent().stage += 1
+			get_parent().victory = 1
+			get_parent().set_level("management")
+		else:
+			battle += 1
+			enemies_vector.clear()
+			action_memory.clear()
+			generate_mob(get_parent().stage)
+			reposition_units()
+			name_units()
+			instance_skills()
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
 		get_parent().victory = 0
