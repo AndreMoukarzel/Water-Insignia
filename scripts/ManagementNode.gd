@@ -1102,13 +1102,13 @@ func _on_RepairAll_pressed():
 func _on_BuyMenu_pressed():
 	current_screen = "ShopManagement"
 	get_node("ShopMenu").hide()
-	sm_cqb.set_text(str("Current: ", get_parent().quesha))
+	sm_cqb.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_SellMenu_pressed():
 	current_screen = "SellManagement"
 	get_node("ShopMenu").hide()
-	sm_cqs.set_text(str("Current: ", get_parent().quesha))
+	sm_cqs.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_Buy_pressed():
@@ -1323,6 +1323,9 @@ func _on_Play_pressed():
 		ss_ps.set_disabled(true)
 		ss_ns.set_disabled(true)
 		get_node("SelectStage/Flavour").set_text("Go to stage:\n         0")
+	else:
+		ss_ns.set_pressed(true)
+		_on_NextStage_pressed()
 
 func _on_PreviousStage_pressed():
 	# Tem que estar desabilitado se o level for 0
