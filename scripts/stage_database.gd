@@ -33,9 +33,15 @@ class stage_spawner:
 	func get_random_mob():
 		var random
 		randomize()
-		random = randi() % mobs.size()
+		# Tem que ser mobs.size() - 1, pois o ultimo mob de cada stage
+		# sempre será o boss dessa stage, e não queremos que este seja
+		# incluido nos mobs aleatorios possiveis.
+		random = randi() % (mobs.size() - 1)
 		return mobs[random]
-
+		
+	func get_stage_boss():
+		return mobs[mobs.size() - 1]
+		
 	func get_permited_weapons(type, wpn_db):
 		var vector = []
 		for wpn in weapons:
@@ -58,7 +64,8 @@ var stage_database = [
 	stage_spawner.new([ #Allowed Mobs
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
 		mob.new([spawn.new("samurai", 3)]),
-		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)])
+		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1)]),
+		mob.new([spawn.new("baby_dragon", 3)])
 		],[ # Allowed Weapons
 		"Katana",
 		"Bamboo Sword",

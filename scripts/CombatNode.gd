@@ -206,6 +206,9 @@ var turn_start = 0
 # Number of the current battle
 var battle = 1
 
+# Number of the maximum battles of a certain stage (including boss)
+var stage_battles = 3
+
 func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
@@ -266,7 +269,12 @@ func instance_unit(id, level, path):
 # Instance a random mob from the specified stage
 func generate_mob(stage):
 	var stage_spawner = stage_database.get_stage_spawner(stage)
-	var selected_mob = stage_spawner.get_random_mob()
+	var selected_mob
+	
+	if (battle != stage_battles):
+		selected_mob = stage_spawner.get_random_mob()
+	else:
+		selected_mob = stage_spawner.get_stage_boss()
 
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
@@ -959,9 +967,10 @@ func apply_bonus(bonus, stat, target):
 
 # Victory or Defeat condition. Either way, goes to the management screen
 func win_lose_cond():
+	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
-		if battle % 2 == 0:
+		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
 			var recruit = recruit_scn.instance()
 
@@ -973,6 +982,8 @@ func win_lose_cond():
 			generate_mob(get_parent().stage)
 			reposition_units()
 			name_units()
+			if (battle == stage_battles):
+				get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
 			instance_skills()
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
