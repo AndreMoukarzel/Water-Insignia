@@ -75,7 +75,7 @@ var stage_database = [
 		],[ # Allowed Weapons
 		"Katana"
 		],[ # Allowed Items
-		"PAR Bomb"])
+		"Static Bomb"])
 ]
 
 
