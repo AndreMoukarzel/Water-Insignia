@@ -28,6 +28,7 @@ alignment = 0
 
 [node name="StatusBox1" parent="HBoxContainer" instance=ExtResource( 3 )]
 
+editor/display_folded = true
 rect/min_size = Vector2( 30, 20 )
 size_flags/horizontal = 1
 size_flags/vertical = 1
@@ -36,8 +37,23 @@ margin/top = 290.0
 margin/right = 141.0
 margin/bottom = 310.0
 
+[node name="Speed" type="Label" parent="HBoxContainer/StatusBox1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="StatusBox2" parent="HBoxContainer" instance=ExtResource( 3 )]
 
+editor/display_folded = true
 rect/min_size = Vector2( 30, 20 )
 size_flags/horizontal = 1
 size_flags/vertical = 1
@@ -46,8 +62,23 @@ margin/top = 290.0
 margin/right = 398.0
 margin/bottom = 310.0
 
+[node name="Speed" type="Label" parent="HBoxContainer/StatusBox2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="StatusBox3" parent="HBoxContainer" instance=ExtResource( 3 )]
 
+editor/display_folded = true
 rect/min_size = Vector2( 30, 20 )
 size_flags/horizontal = 1
 size_flags/vertical = 1
@@ -56,8 +87,23 @@ margin/top = 290.0
 margin/right = 655.0
 margin/bottom = 310.0
 
+[node name="Speed" type="Label" parent="HBoxContainer/StatusBox3"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="StatusBox4" parent="HBoxContainer" instance=ExtResource( 3 )]
 
+editor/display_folded = true
 rect/min_size = Vector2( 30, 20 )
 size_flags/horizontal = 1
 size_flags/vertical = 1
@@ -66,8 +112,23 @@ margin/top = 290.0
 margin/right = 912.0
 margin/bottom = 310.0
 
+[node name="Speed" type="Label" parent="HBoxContainer/StatusBox4"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="ButtonBox" type="HBoxContainer" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 1
@@ -139,3 +200,4 @@ shortcut = null
 flat = false
 
 
+[editable path="HBoxContainer/StatusBox1"]

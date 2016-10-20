@@ -143,7 +143,6 @@ class status:
 	var stat # Stats (ATK, DEF, SPD) it affects
 	var duration # Status' current timer
 	var max_duration # Status' initial timer
-#	var flag # Flag that indicates a status should be applied only when it's first used and in the beginning of each turn
 
 	func _init(name, database):
 		self.id = database.get_status_id(name)
@@ -154,13 +153,14 @@ class status:
 		self.stat = database.get_status_stat(id)
 		self.max_duration = database.get_status_duration(id)
 		self.duration = self.max_duration
-#		self.flag = 1
 
 
 # Arrays containing each unit in combat
 # Each element in each array is an unit class
 var allies_vector = []
 var enemies_vector = []
+
+var recruit_vector = []
 
 # Arrays containing the position of each unit in combat, counting from 0 from the top to the bottom
 var allies_pos = []
@@ -172,7 +172,6 @@ var action_id = 10 # Qualquer numero fora do intervalo 0 - 3 é invalido #
 var action_memory = []
 var action_count = 0
 
-# (targeting == true) = time to choose an action and a target for said action
 var targeting = false
 
 # Acess databases (are global scripts) #
@@ -268,10 +267,14 @@ func instance_unit(id, level, path):
 func generate_mob(stage):
 	var stage_spawner = stage_database.get_stage_spawner(stage)
 	var selected_mob = stage_spawner.get_random_mob()
-	
+
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
-	
+
+#	Adds a random unit from enemies to recruitment list
+	randomize()
+	recruit_vector.append(enemies_vector[randi() % enemies_vector.size()])
+
 	for unit in enemies_vector:
 		var allowed_weapon = unit.get_allowed_weapons()
 		
@@ -958,11 +961,11 @@ func apply_bonus(bonus, stat, target):
 func win_lose_cond():
 	if get_node("Enemies").get_child_count() < 1:
 		print("GG IZI")
-		if battle % 6 == 0:
-			if (get_parent().gd == 0):
-				get_parent().stage += 1
-			get_parent().victory = 1
-			get_parent().set_level("management")
+		if battle % 2 == 0:
+			var recruit_scn = load("res://scenes/Recruit.tscn")
+			var recruit = recruit_scn.instance()
+
+			add_child(recruit)
 		else:
 			battle += 1
 			enemies_vector.clear()
