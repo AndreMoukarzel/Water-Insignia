@@ -209,6 +209,8 @@ var battle = 1
 # Number of the maximum battles of a certain stage (including boss)
 var stage_battles = 3
 
+var info_active = 0
+
 func _ready():
 	# Get window size #
 	window_size = OS.get_window_size()
@@ -226,8 +228,6 @@ func _ready():
 	resize_menu()      # Position the action buttons in the battle screen
 	name_units()       # Rename the units to 0, 1, ..., different from Godot's weird names
 	instance_skills()
-
-	unit_info(0)
 
 	set_fixed_process(true)
 
@@ -493,7 +493,7 @@ func turn_based_system():
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-				unit_info(action_count)
+				info_active = 0
 
 				targeting = false
 
@@ -525,8 +525,7 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-				print ("This is seemingly ok")
-				unit_info(action_count)
+				info_active = 0
 
 				return_to_Selection()
 
@@ -1338,7 +1337,11 @@ func _fixed_process(delta):
 		while get_node(str("Allies/", actor)) == null:
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
-		
+
+		if !info_active:
+			unit_info(actor)
+			info_active = 1
+
 		turn_based_system()
 	
 	# If it's executing the chosen actions
