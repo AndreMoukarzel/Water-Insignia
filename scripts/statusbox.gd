@@ -157,7 +157,7 @@ func neutralize_node(type):
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
 
-# Exclusive for Unit Managemente
+# Exclusive for Unit Management
 func instance_animation(id, scale):
 	
 	# Initialize visuals #

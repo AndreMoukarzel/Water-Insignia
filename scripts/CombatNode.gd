@@ -173,6 +173,8 @@ var action_memory = []
 var action_count = 0
 
 var targeting = false
+var turn_start = true
+var info_active = false
 
 # Acess databases (are global scripts) #
 onready var char_database = get_node("/root/character_database")
@@ -186,30 +188,20 @@ onready var status_database = get_node("/root/status_database")
 # Used to properly position the buttons and units as well
 var window_size
 
-var mouse_cooldown = 0 # Cooldown for when the mouse's button is pressed, avoiding "multiple clicks in a single click"
-var time = 0 # time variable for general purposes
-var blink_counter = 0 # When an unit is choosing an action, it keeps "blinking"
+var mouse_cooldown = 0
+var time = 0
+var blink_counter = 0
 
 # Variable to determine which button was pressed (ATTACK, SKILL, ITEM, DEFEND, weapon in ATTACK's slot 1, 2, 3 or 4, ...)
 var BUTTON = null
 
-# Determines what is happening: choosing action, executing actions, executing animations....
-# and what getting ready for the next action
+# Determines current state processing
 var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
-# Determines if it's in the beginning of the turn
-# turn_start == 0 : beginning of turn
-# turn_start == 1 : begin actions
-var turn_start = 0
+var battle = 1 # INUTIL
+var stage_battles = 3 # É bom que seja temporário, se n te arrebentarei
 
-# Number of the current battle
-var battle = 1
-
-# Number of the maximum battles of a certain stage (including boss)
-var stage_battles = 3
-
-var info_active = 0
 
 func _ready():
 	# Get window size #
@@ -462,7 +454,7 @@ func turn_based_system():
 
 	# Apply the afflicted status on each unit if they are afflicted by anything at all
 	# WORK IN PROGRESS
-	if (turn_start == 0):
+	if turn_start:
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
@@ -473,7 +465,7 @@ func turn_based_system():
 			if (char != null):
 				status_apply("Enemies", i)
 			i += 1
-		turn_start = 1
+		turn_start = false
 
 	# Choose an action and a target (if allowed)
 	if(targeting):
@@ -493,8 +485,8 @@ func turn_based_system():
 				get_node(str("Allies/", actor)).set_opacity(1) # in case of blinking
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-				info_active = 0
 
+				info_active = false
 				targeting = false
 
 				return_to_Selection()
@@ -525,7 +517,7 @@ func turn_based_system():
 				action_memory[action_count].to = [actor, "Allies"]
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
-				info_active = 0
+				info_active = false
 
 				return_to_Selection()
 
@@ -534,7 +526,7 @@ func turn_based_system():
 		toggle_menu(true)
 		enemy_attack_beta()
 		action_memory.sort_custom(self, "compare_speed")
-		turn_start = 0
+		turn_start = true
 		STATE_NEXT = "EXECUTE ACTION"
 
 
@@ -860,7 +852,7 @@ func status_apply(target_side, target_vpos):
 
 		for status in target.status_vector:
 			for type in status.type:
-				if (type == "HP") and (turn_start == 0):
+				if (type == "HP") and !turn_start:
 					var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
 					var damage = status.hp
 					var color
@@ -946,7 +938,7 @@ func status_apply(target_side, target_vpos):
 									bonus = (base_atribute + bonus_atribute)
 								apply_bonus(bonus, status.stat, target)
 
-			if turn_start == 0:
+			if !turn_start:
 				status.duration -= 1
 
 			if status.duration <= 0:
@@ -1340,7 +1332,7 @@ func _fixed_process(delta):
 
 		if !info_active:
 			unit_info(actor)
-			info_active = 1
+			info_active = true
 
 		turn_based_system()
 	
