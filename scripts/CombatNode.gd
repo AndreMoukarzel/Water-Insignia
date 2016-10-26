@@ -963,6 +963,13 @@ func apply_bonus(bonus, stat, target):
 		target.bonus_speed += bonus
 
 
+func buff_boss():
+	get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
+	enemies_vector[0].attack = (enemies_vector[0].attack) * 1.2
+	enemies_vector[0].defense = (enemies_vector[0].defense) * 1.2
+	enemies_vector[0].speed = (enemies_vector[0].speed) * 1.2
+
+
 # Victory or Defeat condition. Either way, goes to the management screen
 func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
@@ -984,8 +991,10 @@ func win_lose_cond():
 			generate_mob(get_parent().stage)
 			reposition_units()
 			name_units()
-			if (battle == stage_battles):
-				get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
+
+			if battle == stage_battles:
+				buff_boss()
+
 			instance_skills()
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
