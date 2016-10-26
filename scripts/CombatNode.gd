@@ -460,7 +460,6 @@ func turn_based_system():
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
-				print("name: ", char.get_name(), " || defense: ", char.get_defense())
 				status_apply("Allies", i)
 				var j = 0
 				for stat in char.status_vector:
@@ -475,6 +474,7 @@ func turn_based_system():
 				status_apply("Enemies", i)
 			i += 1
 		turn_start = false
+		info_active = false
 
 	# Choose an action and a target (if allowed)
 	if(targeting):
@@ -536,6 +536,10 @@ func turn_based_system():
 		action_memory.sort_custom(self, "compare_speed")
 		turn_start = true
 		STATE_NEXT = "EXECUTE ACTION"
+
+		get_node("Info").set_name("Info_old")
+		get_node("Info_old").queue_free()
+		info_active = true # So info can update on first ally before info shows up
 
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
@@ -1350,12 +1354,12 @@ func _fixed_process(delta):
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
+		turn_based_system()
+
 		if !info_active:
 			unit_info(actor)
 			info_active = true
 
-		turn_based_system()
-	
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty(): # If all the actions have been executed
