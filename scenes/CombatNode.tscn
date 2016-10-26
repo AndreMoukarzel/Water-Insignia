@@ -323,6 +323,7 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" type="HBoxContainer" parent="ActionMenu"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -424,7 +425,6 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" type="HBoxContainer" parent="ActionMenu"]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -618,14 +618,31 @@ expand = true
 
 [connection signal="pressed" from="ActionMenu/Skill/SkillSlot4" to="." method="_on_SkillSlot4_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Item/ItemSlot1" to="." method="_on_ItemSlot1_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Item/ItemSlot1" to="." method="_on_ItemSlot1_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Item/ItemSlot1" to="." method="_on_ItemSlot1_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Item/ItemSlot2" to="." method="_on_ItemSlot2_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Item/ItemSlot2" to="." method="_on_ItemSlot2_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Item/ItemSlot2" to="." method="_on_ItemSlot2_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Item/ItemSlot3" to="." method="_on_ItemSlot3_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Item/ItemSlot3" to="." method="_on_ItemSlot3_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Item/ItemSlot3" to="." method="_on_ItemSlot3_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Item/ItemSlot4" to="." method="_on_ItemSlot4_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Item/ItemSlot4" to="." method="_on_ItemSlot4_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Item/ItemSlot4" to="." method="_on_ItemSlot4_pressed"]
 
 [connection signal="pressed" from="ActionMenu/Return" to="." method="_on_Return_pressed"]
 
 
+[editable path="ActionMenu/InfoMenu"]
