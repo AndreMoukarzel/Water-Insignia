@@ -24,7 +24,7 @@ var status_database = [
 		HP : null,
 		EFFECT : 3,
 		STAT : null,
-		DURATION : 1
+		DURATION : 5
 	},
 	
 	{ # ID = 1
