@@ -20,10 +20,10 @@ const DURATION = 6
 var status_database = [
 	{ # ID = 0
 		NAME : "DEFEND",
-		TYPE : ["Buff"],
+		TYPE : [],
 		HP : null,
 		EFFECT : 3,
-		STAT : "DEF",
+		STAT : null,
 		DURATION : 1
 	},
 	
