@@ -66,7 +66,7 @@ var status_database = [
 	{ # ID = 5
 		NAME : "Poison",
 		TYPE : ["HP"],
-		HP : -3,
+		HP : -1,
 		EFFECT : null,
 		STAT : null,
 		DURATION : 4

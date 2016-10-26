@@ -323,7 +323,7 @@ func Update_UM():
 			# Ambos selecionados, exibe informações nas status boxes
 			if (last_selected_apunit != um_ap.get_selected_items()[0]):
 				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id, 2.5)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
 				#um_aps.get_node("Class").set_text("Class PH")
@@ -332,7 +332,7 @@ func Update_UM():
 				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id, 2.5)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
 				#um_bs.get_node("Class").set_text("Class PH")
@@ -345,7 +345,7 @@ func Update_UM():
 			# Selecionado membro da barracks, exibe informações na status box
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
-				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id)
+				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id, 2.5)
 				last_selected_bunit = um_b.get_selected_items()[0]
 				um_bs.get_node("Name").set_text(char_database.get_char_name(barracks_units[um_b.get_selected_items()[0]].id).capitalize())
 				#um_bs.get_node("Class").set_text("Class PH")
@@ -365,7 +365,7 @@ func Update_UM():
 			# Selecionado membro da active party, exibe informações na status box
 			if (last_selected_apunit != um_ap.get_selected_items()[0]):
 				um_aps.neutralize_node("Unit Status")
-				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id)
+				um_aps.instance_animation(active_units[um_ap.get_selected_items()[0]].id, 2.5)
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
 				#um_aps.get_node("Class").set_text("Class PH")
@@ -1102,13 +1102,13 @@ func _on_RepairAll_pressed():
 func _on_BuyMenu_pressed():
 	current_screen = "ShopManagement"
 	get_node("ShopMenu").hide()
-	sm_cqb.set_text(str("Current: ", get_parent().quesha))
+	sm_cqb.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_SellMenu_pressed():
 	current_screen = "SellManagement"
 	get_node("ShopMenu").hide()
-	sm_cqs.set_text(str("Current: ", get_parent().quesha))
+	sm_cqs.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_Buy_pressed():
@@ -1323,6 +1323,9 @@ func _on_Play_pressed():
 		ss_ps.set_disabled(true)
 		ss_ns.set_disabled(true)
 		get_node("SelectStage/Flavour").set_text("Go to stage:\n         0")
+	else:
+		ss_ns.set_pressed(true)
+		_on_NextStage_pressed()
 
 func _on_PreviousStage_pressed():
 	# Tem que estar desabilitado se o level for 0
@@ -1342,7 +1345,10 @@ func _on_NextStage_pressed():
 func _on_Begin_pressed():
 	# Este codigo leva em consideração o aumento do stage na tranição do CombatNode
 	if (ss_ps.is_pressed()):
+		get_parent().gd = 1
 		get_parent().stage -= 1
+	else:
+		get_parent().gd = 0
 	get_parent().set_level("combat")
 
 

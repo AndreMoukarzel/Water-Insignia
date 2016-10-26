@@ -17,9 +17,9 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 	xp = x_pos
 	yp = y_pos
 
+	set_size(Vector2(x_size, y_size))
+	set_pos(Vector2(x_pos, y_pos))
 	if (type == "Unit Status"):
-		set_size(Vector2(x_size, y_size))
-		set_pos(Vector2(x_pos, y_pos))
 		get_node("Name").set_pos(Vector2(20, 20))
 		get_node("Class").set_pos(Vector2(20, 40))
 		get_node("Attack").set_pos(Vector2(20, 60))
@@ -27,8 +27,6 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Speed").set_pos(Vector2(20, 100))
 		
 	if (type == "Item Status"):
-		set_size(Vector2(x_size, y_size))
-		set_pos(Vector2(x_pos, y_pos))
 		# Falta ajustar, e colocar a durabilidade
 		get_node("Name").set_pos(Vector2(7, 8))
 		get_node("Class").set_pos(Vector2(7, 22))
@@ -38,8 +36,6 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Defense").set_pos(Vector2(20, 80))
 
 	if (type == "Repair Status"):
-		set_size(Vector2(x_size, y_size))
-		set_pos(Vector2(x_pos, y_pos))
 		var icon = TextureFrame.new()
 		icon.set_name("Icon")
 		add_child(icon)
@@ -53,8 +49,6 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Defense").set_pos(Vector2(20, 100))
 		
 	if (type == "Shop Status"):
-		set_size(Vector2(x_size, y_size))
-		set_pos(Vector2(x_pos, y_pos))
 		# Falta ajustar, e colocar a durabilidade
 		get_node("Name").set_pos(Vector2(15, 10))
 		get_node("Class").set_pos(Vector2(30, 30))
@@ -111,12 +105,12 @@ func update_statusbox(object, type, nature, database):
 			if (database.get_durability(object) > 0):
 				get_node("Durability").set_text(str(database.get_durability(object),"/",database.get_durability(object)))
 			get_node("Attack").set_text(str("ATK: ", database.get_attack(object)))
-			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 		if (nature == "Item"):
 			get_node("Name").set_text(database.get_item_name(object))
 			get_node("Class").set_text(str("Type: ",database.get_item_type(object)))
-			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha0000.tex"))
+			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 			# Não podemos fazer isto ainda, não existe amount na database de items
 #			if (object.amount > 10):
@@ -153,7 +147,7 @@ func neutralize_node(type):
 		get_node("Durability").set_text("")
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
-	
+
 	if (type == "Shop Status"):
 		hide()
 		get_node("Icon").set_texture(null)
@@ -163,8 +157,8 @@ func neutralize_node(type):
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
 
-# Exclusive for Unit Managemente
-func instance_animation(id):
+# Exclusive for Unit Management
+func instance_animation(id, scale):
 	
 	# Initialize visuals #
 	var anim_sprite = AnimatedSprite.new()
@@ -185,6 +179,6 @@ func instance_animation(id):
 	anim_player.set_name("anim_player")
 	anim_sprite.add_child(anim_player)
 	anim_sprite.set_name("Icon")
-	anim_sprite.set_scale(Vector2(-2.5, 2.5))
+	anim_sprite.set_scale(Vector2(-scale, scale))
 	anim_sprite.set_pos(Vector2(get_size().x - 55, 70))
 	add_child(anim_sprite)
