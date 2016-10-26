@@ -400,6 +400,7 @@ func resize_menu():
 	get_node("ActionMenu/Skill").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Item").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - (get_node("ActionMenu/Return").get_size().x + 10), -45))
+	get_node("Tip").set_pos(Vector2((window_size.x - get_node("Tip").get_size().x)/2 , get_node("ActionMenu").get_pos().y - 45))
 
 
 # Name the units
@@ -481,7 +482,9 @@ func turn_based_system():
 		info_active = false
 
 	# Choose an action and a target (if allowed)
+	get_node("Tip").hide()
 	if(targeting):
+		get_node("Tip").show()
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
