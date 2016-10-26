@@ -5,7 +5,6 @@ extends Node2D
 
 const scale = 5
 
-
 class unit:
 	var id # Unit ID in the character database
 	var level
@@ -547,7 +546,7 @@ func turn_based_system():
 		get_node("Info").set_name("Info_old")
 		get_node("Info_old").queue_free()
 		info_active = true # So info can update on first ally before info shows up
-
+		get_node("Tip").hide()
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
@@ -1527,11 +1526,11 @@ func _fixed_process(delta):
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
-		turn_based_system()
-
 		if !info_active:
 			unit_info(actor)
 			info_active = true
+
+		turn_based_system()
 
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
