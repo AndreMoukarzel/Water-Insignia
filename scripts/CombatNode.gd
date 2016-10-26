@@ -276,10 +276,6 @@ func generate_mob(stage):
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
 
-#	Adds a random unit from enemies to recruitment list
-	randomize()
-	recruit_vector.append(enemies_vector[randi() % enemies_vector.size()])
-
 	for unit in enemies_vector:
 		var allowed_weapon = unit.get_allowed_weapons()
 		
@@ -300,6 +296,11 @@ func generate_mob(stage):
 			var item = stage_spawner.get_random_item()
 			if item != null: # 50% chance of recieving no item at each slot
 				instance_item(item, unit)
+
+#	Adds a random unit from enemies to recruitment list
+	randomize()
+	recruit_vector.append(enemies_vector[randi() % enemies_vector.size()])
+
 
 
 # Owner must be the reference in the correct vector (allies or enemies)
@@ -986,8 +987,6 @@ func win_lose_cond():
 			var recruit_scn = load("res://scenes/Recruit.tscn")
 			var recruit = recruit_scn.instance()
 
-			get_node("Info").set_name("Info_old")
-			get_node("Info_old").queue_free()
 			set_fixed_process(false)
 
 			add_child(recruit)
