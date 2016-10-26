@@ -945,7 +945,7 @@ func status_apply(target_side, target_vpos):
 									bonus = (base_atribute + bonus_atribute)
 								apply_bonus(bonus, status.stat, target)
 
-			if !turn_start:
+			if turn_start:
 				status.duration -= 1
 
 			if status.duration <= 0:
