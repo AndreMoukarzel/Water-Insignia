@@ -460,7 +460,14 @@ func turn_based_system():
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
+				print("name: ", char.get_name(), " || defense: ", char.get_defense())
 				status_apply("Allies", i)
+				var j = 0
+				for stat in char.status_vector:
+					if stat.name == "DEFEND":
+						char.status_vector.remove(j)
+						char.bonus_defense -= 3*char.defense
+					j += 1
 			i += 1
 		i = 0
 		for char in enemies_vector:
@@ -939,7 +946,6 @@ func status_apply(target_side, target_vpos):
 								apply_bonus(bonus, status.stat, target)
 
 			if turn_start:
-				print(status.duration)
 				status.duration -= 1
 
 			if status.duration <= 0:
