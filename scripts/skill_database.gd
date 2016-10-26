@@ -7,6 +7,7 @@ const COST = 2
 const HP = 3
 const STATUS = 4
 const ELEM = 5
+const MOD = 6
 
 var skill_database = [
 
@@ -16,7 +17,8 @@ var skill_database = [
 		COST : 1,
 		HP : 10,
 		STATUS : [],
-		ELEM : null
+		ELEM : null,
+		MOD : 0
 	},
 	
 	{ # ID = 1
@@ -25,7 +27,8 @@ var skill_database = [
 		COST : 2,
 		HP : -70,
 		STATUS : [],
-		ELEM : null
+		ELEM : null,
+		MOD : 0.1
 	},
 
 	{ # ID = 2
@@ -34,7 +37,8 @@ var skill_database = [
 		COST : 3,
 		HP : null,
 		STATUS : ["Def Up"],
-		ELEM : null
+		ELEM : null,
+		MOD : 0
 	},
 
 	{ # ID = 3
@@ -43,7 +47,8 @@ var skill_database = [
 		COST : 4,
 		HP : null,
 		STATUS : ["Spd Up"],
-		ELEM : null
+		ELEM : null,
+		MOD : 0
 	},
 
 	{ # ID = 4
@@ -52,7 +57,8 @@ var skill_database = [
 		COST : 5,
 		HP : 5,
 		STATUS : ["Detox"],
-		ELEM : null
+		ELEM : null,
+		MOD : 0
 	},
 	
 	{ # ID = 5
@@ -61,7 +67,8 @@ var skill_database = [
 		COST : 1,
 		HP : -1,
 		STATUS : ["Poison"],
-		ELEM : null
+		ELEM : null,
+		MOD : 0.1
 	},
 	
 	{ # ID = 6
@@ -70,7 +77,8 @@ var skill_database = [
 		COST : 7,
 		HP : null,
 		STATUS : ["Paralysis"],
-		ELEM : "Wind"
+		ELEM : "Wind",
+		MOD : 0
 	},
 	
 	{ # ID = 7
@@ -79,7 +87,8 @@ var skill_database = [
 		COST : 6,
 		HP : -15,
 		STATUS : [],
-		ELEM : null
+		ELEM : null,
+		MOD : 0.5
 	},
 	
 	{ # ID = 8
@@ -88,7 +97,8 @@ var skill_database = [
 		COST : 3,
 		HP : -10,
 		STATUS : [],
-		ELEM : "Fire"
+		ELEM : "Fire",
+		MOD : 0.25
 	},
 	
 	{ # ID = 9
@@ -97,7 +107,8 @@ var skill_database = [
 		COST : 3,
 		HP : -8,
 		STATUS : [],
-		ELEM : "Water"
+		ELEM : "Water",
+		MOD : 0.35
 	},
 	
 	{ # ID = 10
@@ -106,7 +117,8 @@ var skill_database = [
 		COST : 3,
 		HP : -9,
 		STATUS : [],
-		ELEM : "Wind"
+		ELEM : "Wind",
+		MOD : 0.3
 	}
 ]
 
@@ -137,3 +149,6 @@ func get_skill_status(id):
 
 func get_skill_element(id):
 	return skill_database[id][ELEM]
+
+func get_skill_modifier(id):
+	return skill_database[id][MOD]
