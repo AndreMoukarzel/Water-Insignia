@@ -23,16 +23,16 @@
 [ext_resource path="res://resources/sprites/gui/combat/AttackSlotPressed.png" type="Texture" id=21]
 [ext_resource path="res://resources/sprites/gui/combat/AttackSlotHover.png" type="Texture" id=22]
 [ext_resource path="res://scenes/WeaponTextBox.xml" type="PackedScene" id=23]
-[ext_resource path="res://scenes/InfoBox.tscn" type="PackedScene" id=24]
-[ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" id=25]
-[ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" id=26]
-[ext_resource path="res://resources/sprites/gui/combat/SkillSlotHover.png" type="Texture" id=27]
-[ext_resource path="res://resources/sprites/gui/combat/ItemSlotNormal.png" type="Texture" id=28]
-[ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" id=29]
-[ext_resource path="res://resources/sprites/gui/combat/ItemSlotHover.png" type="Texture" id=30]
-[ext_resource path="res://resources/sprites/gui/management/redhover.tex" type="Texture" id=31]
-[ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=32]
-[ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=33]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotNormal.png" type="Texture" id=24]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotPressed.png" type="Texture" id=25]
+[ext_resource path="res://resources/sprites/gui/combat/SkillSlotHover.png" type="Texture" id=26]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotNormal.png" type="Texture" id=27]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotPressed.png" type="Texture" id=28]
+[ext_resource path="res://resources/sprites/gui/combat/ItemSlotHover.png" type="Texture" id=29]
+[ext_resource path="res://resources/sprites/gui/management/redhover.tex" type="Texture" id=30]
+[ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=31]
+[ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=32]
+[ext_resource path="res://scenes/InfoBox.tscn" type="PackedScene" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -56,7 +56,7 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 31 )
+texture = ExtResource( 30 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -73,7 +73,7 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 32 )
+texture = ExtResource( 31 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -221,6 +221,7 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Attack" type="HBoxContainer" parent="ActionMenu"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -234,6 +235,7 @@ alignment = 0
 
 [node name="AttackSlot1" type="TextureButton" parent="ActionMenu/Attack"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -253,10 +255,9 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Weapon" parent="ActionMenu/Attack/AttackSlot1" instance=ExtResource( 23 )]
 
-[node name="Background" parent="ActionMenu/Attack/AttackSlot1" instance=ExtResource( 24 )]
-
 [node name="AttackSlot2" type="TextureButton" parent="ActionMenu/Attack"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -278,6 +279,7 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="AttackSlot3" type="TextureButton" parent="ActionMenu/Attack"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -299,6 +301,7 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="AttackSlot4" type="TextureButton" parent="ActionMenu/Attack"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -320,7 +323,6 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" type="HBoxContainer" parent="ActionMenu"]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -346,10 +348,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 25 )
-textures/pressed = ExtResource( 26 )
-textures/hover = ExtResource( 27 )
-textures/disabled = ExtResource( 26 )
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+textures/disabled = ExtResource( 25 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" parent="ActionMenu/Skill/SkillSlot1" instance=ExtResource( 23 )]
@@ -368,10 +370,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 25 )
-textures/pressed = ExtResource( 26 )
-textures/hover = ExtResource( 27 )
-textures/disabled = ExtResource( 26 )
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+textures/disabled = ExtResource( 25 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" parent="ActionMenu/Skill/SkillSlot2" instance=ExtResource( 23 )]
@@ -390,10 +392,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 25 )
-textures/pressed = ExtResource( 26 )
-textures/hover = ExtResource( 27 )
-textures/disabled = ExtResource( 26 )
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+textures/disabled = ExtResource( 25 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" parent="ActionMenu/Skill/SkillSlot3" instance=ExtResource( 23 )]
@@ -412,10 +414,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 25 )
-textures/pressed = ExtResource( 26 )
-textures/hover = ExtResource( 27 )
-textures/disabled = ExtResource( 26 )
+textures/normal = ExtResource( 24 )
+textures/pressed = ExtResource( 25 )
+textures/hover = ExtResource( 26 )
+textures/disabled = ExtResource( 25 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" parent="ActionMenu/Skill/SkillSlot4" instance=ExtResource( 23 )]
@@ -448,10 +450,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 28 )
-textures/pressed = ExtResource( 29 )
-textures/hover = ExtResource( 30 )
-textures/disabled = ExtResource( 29 )
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" parent="ActionMenu/Item/ItemSlot1" instance=ExtResource( 23 )]
@@ -482,10 +484,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 28 )
-textures/pressed = ExtResource( 29 )
-textures/hover = ExtResource( 30 )
-textures/disabled = ExtResource( 29 )
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" parent="ActionMenu/Item/ItemSlot2" instance=ExtResource( 23 )]
@@ -504,10 +506,10 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 28 )
-textures/pressed = ExtResource( 29 )
-textures/hover = ExtResource( 30 )
-textures/disabled = ExtResource( 29 )
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" parent="ActionMenu/Item/ItemSlot3" instance=ExtResource( 23 )]
@@ -526,10 +528,10 @@ margin/bottom = 110.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 28 )
-textures/pressed = ExtResource( 29 )
-textures/hover = ExtResource( 30 )
-textures/disabled = ExtResource( 29 )
+textures/normal = ExtResource( 27 )
+textures/pressed = ExtResource( 28 )
+textures/hover = ExtResource( 29 )
+textures/disabled = ExtResource( 28 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" parent="ActionMenu/Item/ItemSlot4" instance=ExtResource( 23 )]
@@ -548,12 +550,17 @@ margin/bottom = 40.0
 custom_styles/hover = SubResource( 3 )
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
-custom_fonts/font = ExtResource( 33 )
+custom_fonts/font = ExtResource( 32 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Return"
 flat = false
+
+[node name="InfoMenu" parent="ActionMenu" instance=ExtResource( 33 )]
+
+visibility/visible = false
+expand = true
 
 [connection signal="pressed" from="ActionMenu/Selection/Attack" to="." method="_on_Attack_pressed"]
 
@@ -563,19 +570,51 @@ flat = false
 
 [connection signal="pressed" from="ActionMenu/Selection/Defend" to="." method="_on_Defend_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Attack/AttackSlot1" to="." method="_on_AttackSlot1_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Attack/AttackSlot1" to="." method="_on_AttackSlot1_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Attack/AttackSlot1" to="." method="_on_AttackSlot1_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Attack/AttackSlot2" to="." method="_on_AttackSlot2_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Attack/AttackSlot2" to="." method="_on_AttackSlot2_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Attack/AttackSlot2" to="." method="_on_AttackSlot2_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Attack/AttackSlot3" to="." method="_on_AttackSlot3_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Attack/AttackSlot3" to="." method="_on_AttackSlot3_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Attack/AttackSlot3" to="." method="_on_AttackSlot3_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Attack/AttackSlot4" to="." method="_on_AttackSlot4_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Attack/AttackSlot4" to="." method="_on_AttackSlot4_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Attack/AttackSlot4" to="." method="_on_AttackSlot4_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Skill/SkillSlot1" to="." method="_on_SkillSlot1_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Skill/SkillSlot1" to="." method="_on_SkillSlot1_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Skill/SkillSlot1" to="." method="_on_SkillSlot1_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Skill/SkillSlot2" to="." method="_on_SkillSlot2_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Skill/SkillSlot2" to="." method="_on_SkillSlot2_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Skill/SkillSlot2" to="." method="_on_SkillSlot2_pressed"]
 
+[connection signal="mouse_enter" from="ActionMenu/Skill/SkillSlot3" to="." method="_on_SkillSlot3_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Skill/SkillSlot3" to="." method="_on_SkillSlot3_mouse_exit"]
+
 [connection signal="pressed" from="ActionMenu/Skill/SkillSlot3" to="." method="_on_SkillSlot3_pressed"]
+
+[connection signal="mouse_enter" from="ActionMenu/Skill/SkillSlot4" to="." method="_on_SkillSlot4_mouse_enter"]
+
+[connection signal="mouse_exit" from="ActionMenu/Skill/SkillSlot4" to="." method="_on_SkillSlot4_mouse_exit"]
 
 [connection signal="pressed" from="ActionMenu/Skill/SkillSlot4" to="." method="_on_SkillSlot4_pressed"]
 
@@ -590,4 +629,3 @@ flat = false
 [connection signal="pressed" from="ActionMenu/Return" to="." method="_on_Return_pressed"]
 
 
-[editable path="ActionMenu/Attack/AttackSlot1/Background"]

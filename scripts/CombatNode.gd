@@ -186,6 +186,9 @@ onready var item_database = get_node("/root/item_database")
 onready var stage_database = get_node("/root/stage_database")
 onready var status_database = get_node("/root/status_database")
 
+# Acess infomenu #
+onready var infomenu = get_node("ActionMenu/InfoMenu")
+
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
 var window_size
@@ -1085,6 +1088,50 @@ func _on_AttackSlot4_pressed():
 	action = "attack"
 	action_id = 3
 
+# Info menu controlling
+func _on_AttackSlot1_mouse_enter():
+	if (allies_vector[actor].wpn_vector.size() > 0):
+		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot1").get_pos().x, get_node("ActionMenu/Attack/AttackSlot1").get_pos().y, allies_vector[actor].wpn_vector[0].id, wpn_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+func _on_AttackSlot1_mouse_exit():
+	infomenu.hide()
+
+func _on_AttackSlot2_mouse_enter():
+	if (allies_vector[actor].wpn_vector.size() > 1):
+		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot2").get_pos().x, get_node("ActionMenu/Attack/AttackSlot2").get_pos().y, allies_vector[actor].wpn_vector[1].id, wpn_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+func _on_AttackSlot2_mouse_exit():
+	infomenu.hide()
+
+
+func _on_AttackSlot3_mouse_enter():
+	if (allies_vector[actor].wpn_vector.size() > 2):
+		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot3").get_pos().x, get_node("ActionMenu/Attack/AttackSlot3").get_pos().y, allies_vector[actor].wpn_vector[2].id, wpn_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_AttackSlot3_mouse_exit():
+	infomenu.hide()
+
+
+func _on_AttackSlot4_mouse_enter():
+	if (allies_vector[actor].wpn_vector.size() > 3):
+		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot4").get_pos().x, get_node("ActionMenu/Attack/AttackSlot4").get_pos().y, allies_vector[actor].wpn_vector[3].id, wpn_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_AttackSlot4_mouse_exit():
+	infomenu.hide()
 
 #################################
 #  _____ |  / _____ |     |     _____
@@ -1135,6 +1182,40 @@ func _on_SkillSlot4_pressed():
 	BUTTON = "Skill/SkillSlot4"
 	action = "skill"
 	action_id = 3
+	
+# Info menu controlling
+
+func _on_SkillSlot1_mouse_enter():
+	pass # replace with function body
+
+
+func _on_SkillSlot1_mouse_exit():
+	pass # replace with function body
+
+
+func _on_SkillSlot2_mouse_enter():
+	pass # replace with function body
+
+
+func _on_SkillSlot2_mouse_exit():
+	pass # replace with function body
+
+
+func _on_SkillSlot3_mouse_enter():
+	pass # replace with function body
+
+
+func _on_SkillSlot3_mouse_exit():
+	pass # replace with function body
+
+
+func _on_SkillSlot4_mouse_enter():
+	pass # replace with function body
+
+
+func _on_SkillSlot4_mouse_exit():
+	pass # replace with function body
+
 
 
 #############################

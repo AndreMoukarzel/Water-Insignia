@@ -12,7 +12,7 @@ size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 240.0
-margin/bottom = 300.0
+margin/bottom = 200.0
 stretch_mode = 0
 script/script = ExtResource( 1 )
 
