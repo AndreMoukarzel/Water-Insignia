@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=1]
+[gd_scene load_steps=40 format=1]
 
 [ext_resource path="res://scripts/CombatNode.gd" type="Script" id=1]
 [ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" id=2]
@@ -33,6 +33,8 @@
 [ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=31]
 [ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=32]
 [ext_resource path="res://scenes/InfoBox.tscn" type="PackedScene" id=33]
+[ext_resource path="res://resources/sprites/gui/management/button0006.tex" type="Texture" id=34]
+[ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=35]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -121,6 +123,7 @@ transform/scale = Vector2( 3, 3 )
 
 [node name="ActionMenu" type="Panel" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -561,6 +564,39 @@ flat = false
 
 visibility/visible = false
 expand = true
+
+[node name="Tip" type="TextureFrame" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+rect/min_size = Vector2( 120, 0 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 466.0
+margin/top = 459.0
+margin/right = 616.0
+margin/bottom = 489.0
+texture = ExtResource( 34 )
+expand = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Tip"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 10.0
+margin/top = 5.0
+margin/right = 141.0
+margin/bottom = 25.0
+custom_fonts/font = ExtResource( 35 )
+text = "Select Target"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="pressed" from="ActionMenu/Selection/Attack" to="." method="_on_Attack_pressed"]
 

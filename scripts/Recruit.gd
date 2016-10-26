@@ -6,8 +6,11 @@ var recruits = []
 onready var char_db = get_node("/root/character_database")
 
 class unit:
-	var id # Unit ID in the character database
+	var id
+	var name
 	var level
+	var wpn_vector = []
+	var item_vector = []
 
 
 func _ready():
@@ -15,6 +18,7 @@ func _ready():
 
 	recruits = get_parent().recruit_vector
 	populate()
+	button_update()
 
 
 func organize_positions():
@@ -68,7 +72,7 @@ func add_info(unit, parent):
 	var size
 
 	parent.get_node("Name").set_text(str(char_db.get_char_name(unit.id)))
-	size = parent.get_node("Name").length()
+	size = parent.get_node("Name").get_text().length()
 	parent.get_node("Name").set_pos(Vector2(size/2, 0))
 	parent.get_node("Attack").set_text(str("Attack:\n", char_db.get_attack(unit.id, unit.level)))
 	parent.get_node("Defense").set_text(str("Defense:\n", char_db.get_defense(unit.id, unit.level)))
@@ -86,7 +90,7 @@ func add_info(unit, parent):
 		parent.get_node("Weapons").set_text("Natural Weapons")
 	else:
 		parent.get_node("Weapons").set_text(str(weapons))
-	size = parent.get_node("Weapons").length()
+	size = parent.get_node("Weapons").get_text().length()
 	parent.get_node("Weapons").set_pos(Vector2(size/2, 0))
 
 
@@ -96,6 +100,13 @@ func calculate_chance(unit):
 	stats += char_db.get_speed(unit.id, unit.level)
 	
 	return stats
+
+
+func button_update():
+	var i = 0
+	for button in get_node("ButtonBox").get_children():
+		button.set_text(str("Chance: ", calculate_chance(recruits[i]),"%"))
+		i += 1
 
 
 func goto_management():
@@ -108,43 +119,47 @@ func goto_management():
 
 func _on_Button1_pressed():
 	randomize()
-	var rand = randi() % 1000
+	var rand = randi() % 100
 	var chance = calculate_chance(recruits[0])
 
 	if rand < chance:
-		pass
+		get_parent().get_parent().barracks.append(recruits[0])
+		print("RECRUTOU")
 
 	goto_management()
 
 
 func _on_Button2_pressed():
 	randomize()
-	var rand = randi() % 1000
+	var rand = randi() % 100
 	var chance = calculate_chance(recruits[1])
 
 	if rand < chance:
-		pass
+		get_parent().get_parent().barracks.append(recruits[1])
+		print("RECRUTOU")
 
 	goto_management()
 
 
 func _on_Button3_pressed():
 	randomize()
-	var rand = randi() % 1000
+	var rand = randi() % 100
 	var chance = calculate_chance(recruits[2])
 
 	if rand < chance:
-		pass
+		get_parent().get_parent().barracks.append(recruits[2])
+		print("RECRUTOU")
 
 	goto_management()
 
 
 func _on_Button4_pressed():
 	randomize()
-	var rand = randi() % 1000
+	var rand = randi() % 100
 	var chance = calculate_chance(recruits[3])
 
 	if rand < chance:
-		pass
+		get_parent().get_parent().barracks.append(recruits[3])
+		print("RECRUTOU")
 
 	goto_management()

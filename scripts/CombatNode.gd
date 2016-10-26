@@ -276,10 +276,6 @@ func generate_mob(stage):
 	for monster in selected_mob.spawns:
 		instance_unit(char_database.get_char_id(monster.name), monster.level, "Enemies")
 
-#	Adds a random unit from enemies to recruitment list
-	randomize()
-	recruit_vector.append(enemies_vector[randi() % enemies_vector.size()])
-
 	for unit in enemies_vector:
 		var allowed_weapon = unit.get_allowed_weapons()
 		
@@ -300,6 +296,11 @@ func generate_mob(stage):
 			var item = stage_spawner.get_random_item()
 			if item != null: # 50% chance of recieving no item at each slot
 				instance_item(item, unit)
+
+#	Adds a random unit from enemies to recruitment list
+	randomize()
+	recruit_vector.append(enemies_vector[randi() % enemies_vector.size()])
+
 
 
 # Owner must be the reference in the correct vector (allies or enemies)
@@ -399,6 +400,7 @@ func resize_menu():
 	get_node("ActionMenu/Skill").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Item").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - (get_node("ActionMenu/Return").get_size().x + 10), -45))
+	get_node("Tip").set_pos(Vector2((window_size.x - get_node("Tip").get_size().x)/2 , get_node("ActionMenu").get_pos().y - 45))
 
 
 # Name the units
@@ -480,7 +482,9 @@ func turn_based_system():
 		info_active = false
 
 	# Choose an action and a target (if allowed)
+	get_node("Tip").hide()
 	if(targeting):
+		get_node("Tip").show()
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
@@ -687,7 +691,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
 				tri = 0.8;
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
-			var damage = skill.hp * tri - user[user_vpos].get_attack() * skill.mod
+			var damage = floor(skill.hp * tri - user[user_vpos].get_attack() * skill.mod)
 
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
@@ -986,8 +990,6 @@ func win_lose_cond():
 			var recruit_scn = load("res://scenes/Recruit.tscn")
 			var recruit = recruit_scn.instance()
 
-			get_node("Info").set_name("Info_old")
-			get_node("Info_old").queue_free()
 			set_fixed_process(false)
 
 			add_child(recruit)
