@@ -672,10 +672,8 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				tri = 1.2;
 			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
 				tri = 0.8;
-			print ("skill.hp = ", skill.hp, " || tri = ", tri, " || unit's AD = ", user[user_vpos].get_attack(), " || skill.mod = ", skill.mod)
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
 			var damage = skill.hp * tri - user[user_vpos].get_attack() * skill.mod
-			print ("damage = ", damage)
 
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
@@ -780,7 +778,6 @@ func enemy_attack_beta():
 			
 			# If the enemy doesn't have any Heal-type item, it will always attack
 			for item in enemies_vector[enemies].item_vector:
-				print(item.get_item_name(), " - ", item.get_item_type()[0], " - ", item.get_item_hp())
 				if (item.get_item_type()[0] == "HP") and (item.get_item_hp() > 0):
 					var max_hp = enemies_vector[enemies].get_hp_max()
 					var current_hp = enemies_vector[enemies].get_hp_current()
@@ -941,7 +938,8 @@ func status_apply(target_side, target_vpos):
 									bonus = (base_atribute + bonus_atribute)
 								apply_bonus(bonus, status.stat, target)
 
-			if !turn_start:
+			if turn_start:
+				print(status.duration)
 				status.duration -= 1
 
 			if status.duration <= 0:
