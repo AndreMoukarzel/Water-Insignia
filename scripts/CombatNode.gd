@@ -1,4 +1,3 @@
-# Status timer está com um valor placeholder de 3
 
 extends Node2D
 
@@ -18,8 +17,8 @@ class unit:
 	var bonus_defense = 0
 	var speed
 	var bonus_speed = 0
-	var last_weapon
-	var last_skill
+	var last_weapon # Type of the last weapon used
+	var last_skill # Element of the last skill used
 	var wpn_vector = [] # Array containing the unit's available weapons
 	var skill_vector = [] # Array containing the unit's available skills
 	var item_vector = [] # Array containing the unit's available items
@@ -61,6 +60,18 @@ class unit:
 
 	func get_speed():
 		return speed + bonus_speed
+	
+	func get_attack_bonus():
+		return bonus_attack
+	
+	func get_defense_bonus():
+		return bonus_defense
+	
+	func get_speed_bonus():
+		return bonus_speed
+	
+	func get_status_vector();
+		return status_vector
 
 
 class weapon:
