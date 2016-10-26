@@ -84,6 +84,7 @@ class skill:
 	var hp # How much the HP will be affected by the skill
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
+	var mod # Damage modifier of the skill - skill's damage scales with units ATK
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
@@ -93,6 +94,7 @@ class skill:
 		self.hp = database.get_skill_hp(id)
 		self.status = database.get_skill_status(id)
 		self.elem = database.get_skill_element(id)
+		self.mod = database.get_skill_modifier(id)
 
 
 class item:
@@ -504,7 +506,6 @@ func turn_based_system():
 				if act.from[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.from[0]])
 					allies_vector[act.from[0]].bonus_defense += 3*allies_vector[act.from[0]].defense
-
 				elif act.from[1] == "Enemies":
 					instance_status("DEFEND", enemies_vector[act.from[0]])
 					enemies_vector[act.from[0]].bonus_defense += 3*enemies_vector[act.from[0]].defense
@@ -550,7 +551,6 @@ func process_action():
 		action_instance.speed = allies_vector[actor].get_speed()
 		action_instance.action = action
 
-
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -565,7 +565,7 @@ func filter_action(act):
 		attacker = allies_vector
 	elif act.from[1] == "Enemies":
 		attacker = enemies_vector
-	
+
 	# Lidamos com a defesa em cima, pois ela precisa acontecer antes de tudo #
 	if (act.action == "attack" or act.action == "attackSword" or act.action == "attackAxe" or act.action == "attackSpear"):
 		process_attack(act.action_id, act.from[1], act.from[0], act.to[1], act.to[0])
@@ -672,12 +672,15 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				tri = 1.2;
 			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
 				tri = 0.8;
-			var damage = skill.hp * tri
+			print ("skill.hp = ", skill.hp, " || tri = ", tri, " || unit's AD = ", user[user_vpos].get_attack(), " || skill.mod = ", skill.mod)
+			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
+			var damage = skill.hp * tri - user[user_vpos].get_attack() * skill.mod
+			print ("damage = ", damage)
 
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-			else:
+			else: # If it's a heal-type HP skill
 				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 	
 			# If the skill kills the target
