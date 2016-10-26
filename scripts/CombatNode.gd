@@ -859,7 +859,7 @@ func status_apply(target_side, target_vpos):
 
 		for status in target.status_vector:
 			for type in status.type:
-				if (type == "HP") and !turn_start:
+				if (type == "HP") and turn_start:
 					var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
 					var damage = status.hp
 					var color
