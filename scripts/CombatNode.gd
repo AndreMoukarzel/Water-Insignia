@@ -687,7 +687,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
 				tri = 0.8;
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
-			var damage = skill.hp * tri - user[user_vpos].get_attack() * skill.mod
+			var damage = floor(skill.hp * tri - user[user_vpos].get_attack() * skill.mod)
 
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
