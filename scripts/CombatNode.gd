@@ -202,7 +202,7 @@ var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
 var battle = 1 # INUTIL
-var stage_battles = 3 # É bom que seja temporário, se n te arrebentarei
+var stage_battles = 5 # É bom que seja temporário, se n te arrebentarei
 
 
 func _ready():
@@ -967,6 +967,10 @@ func win_lose_cond():
 		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
 			var recruit = recruit_scn.instance()
+
+			get_node("Info").set_name("Info_old")
+			get_node("Info_old").queue_free()
+			set_fixed_process(false)
 
 			add_child(recruit)
 		else:

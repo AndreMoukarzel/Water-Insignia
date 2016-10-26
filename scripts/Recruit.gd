@@ -16,13 +16,6 @@ func _ready():
 	recruits = get_parent().recruit_vector
 	populate()
 
-#   Aciona depois de escolher qual unidade vai tentar capturar
-#	var main = get_parent().get_parent()
-#	if (main.gd == 0):
-#		main.stage += 1
-#	main.victory = 1
-#	main.set_level("management")
-
 
 func organize_positions():
 	var window_size = OS.get_window_size()
@@ -91,17 +84,61 @@ func add_info(unit, parent):
 		parent.get_node("Weapons").set_text(str(weapons))
 
 
+func calculate_chance(unit):
+	var stats = char_db.get_attack(unit.id, unit.level)
+	stats += char_db.get_defense(unit.id, unit.level)
+	stats += char_db.get_speed(unit.id, unit.level)
+	
+	return stats
+
+
+func goto_management():
+	var main = get_parent().get_parent()
+	if (main.gd == 0):
+		main.stage += 1
+	main.victory = 1
+	main.set_level("management")
+
+
 func _on_Button1_pressed():
-	pass # replace with function body
+	randomize()
+	var rand = randi() % 1000
+	var chance = calculate_chance(recruits[0])
+
+	if rand < chance:
+		pass
+
+	goto_management()
 
 
 func _on_Button2_pressed():
-	pass # replace with function body
+	randomize()
+	var rand = randi() % 1000
+	var chance = calculate_chance(recruits[1])
+
+	if rand < chance:
+		pass
+
+	goto_management()
 
 
 func _on_Button3_pressed():
-	pass # replace with function body
+	randomize()
+	var rand = randi() % 1000
+	var chance = calculate_chance(recruits[2])
+
+	if rand < chance:
+		pass
+
+	goto_management()
 
 
 func _on_Button4_pressed():
-	pass # replace with function body
+	randomize()
+	var rand = randi() % 1000
+	var chance = calculate_chance(recruits[3])
+
+	if rand < chance:
+		pass
+
+	goto_management()
