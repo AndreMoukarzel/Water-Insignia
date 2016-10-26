@@ -17,6 +17,7 @@ texture = ExtResource( 2 )
 
 [node name="RecruitsBox" type="HBoxContainer" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 1
@@ -397,7 +398,6 @@ max_lines_visible = -1
 
 [node name="ButtonBox" type="HBoxContainer" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 1
