@@ -463,7 +463,6 @@ func turn_based_system():
 		var i = 0
 		for char in allies_vector:
 			if (char != null):
-				print("name: ", char.get_name(), " || defense: ", char.get_defense())
 				status_apply("Allies", i)
 				var j = 0
 				for stat in char.status_vector:
@@ -478,6 +477,7 @@ func turn_based_system():
 				status_apply("Enemies", i)
 			i += 1
 		turn_start = false
+		info_active = false
 
 	# Choose an action and a target (if allowed)
 	if(targeting):
@@ -539,6 +539,10 @@ func turn_based_system():
 		action_memory.sort_custom(self, "compare_speed")
 		turn_start = true
 		STATE_NEXT = "EXECUTE ACTION"
+
+		get_node("Info").set_name("Info_old")
+		get_node("Info_old").queue_free()
+		info_active = true # So info can update on first ally before info shows up
 
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
@@ -862,7 +866,7 @@ func status_apply(target_side, target_vpos):
 
 		for status in target.status_vector:
 			for type in status.type:
-				if (type == "HP") and !turn_start:
+				if (type == "HP") and turn_start:
 					var pos = get_node(str(target_side, "/", target_vpos)).get_pos()
 					var damage = status.hp
 					var color
@@ -966,6 +970,13 @@ func apply_bonus(bonus, stat, target):
 		target.bonus_speed += bonus
 
 
+func buff_boss():
+	get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
+	enemies_vector[0].attack = (enemies_vector[0].attack) * 1.2
+	enemies_vector[0].defense = (enemies_vector[0].defense) * 1.2
+	enemies_vector[0].speed = (enemies_vector[0].speed) * 1.2
+
+
 # Victory or Defeat condition. Either way, goes to the management screen
 func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
@@ -987,8 +998,10 @@ func win_lose_cond():
 			generate_mob(get_parent().stage)
 			reposition_units()
 			name_units()
-			if (battle == stage_battles):
-				get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
+
+			if battle == stage_battles:
+				buff_boss()
+
 			instance_skills()
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
@@ -1422,12 +1435,12 @@ func _fixed_process(delta):
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
+		turn_based_system()
+
 		if !info_active:
 			unit_info(actor)
 			info_active = true
 
-		turn_based_system()
-	
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
 		if action_memory.empty(): # If all the actions have been executed
