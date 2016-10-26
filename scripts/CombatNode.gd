@@ -4,7 +4,6 @@ extends Node2D
 
 const scale = 5
 
-
 class unit:
 	var id # Unit ID in the character database
 	var level
@@ -411,6 +410,7 @@ func resize_menu():
 	get_node("ActionMenu/Skill").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Item").set_size(Vector2(window_size.x, window_size.y - 500))
 	get_node("ActionMenu/Return").set_pos(Vector2(window_size.x - (get_node("ActionMenu/Return").get_size().x + 10), -45))
+	get_node("Tip").set_pos(Vector2((window_size.x - get_node("Tip").get_size().x)/2 , get_node("ActionMenu").get_pos().y - 45))
 
 
 # Name the units
@@ -492,7 +492,9 @@ func turn_based_system():
 		info_active = false
 
 	# Choose an action and a target (if allowed)
+	get_node("Tip").hide()
 	if(targeting):
+		get_node("Tip").show()
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
@@ -555,7 +557,7 @@ func turn_based_system():
 		get_node("Info").set_name("Info_old")
 		get_node("Info_old").queue_free()
 		info_active = true # So info can update on first ally before info shows up
-
+		get_node("Tip").hide()
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
@@ -1124,7 +1126,7 @@ func _on_AttackSlot1_mouse_exit():
 
 func _on_AttackSlot2_mouse_enter():
 	if (allies_vector[actor].wpn_vector.size() > 1):
-		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot2").get_pos().x, get_node("ActionMenu/Attack/AttackSlot2").get_pos().y, allies_vector[actor].wpn_vector[1].id, wpn_database)
+		infomenu.adjust_properties(1, "attack", get_node("ActionMenu/Attack/AttackSlot2").get_pos().x, get_node("ActionMenu/Attack/AttackSlot2").get_pos().y, allies_vector[actor].wpn_vector[1].id, wpn_database)
 		infomenu.set_opacity(0)
 		infomenu.show()
 		infomenu.set_opacity(0.8)
@@ -1135,7 +1137,7 @@ func _on_AttackSlot2_mouse_exit():
 
 func _on_AttackSlot3_mouse_enter():
 	if (allies_vector[actor].wpn_vector.size() > 2):
-		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot3").get_pos().x, get_node("ActionMenu/Attack/AttackSlot3").get_pos().y, allies_vector[actor].wpn_vector[2].id, wpn_database)
+		infomenu.adjust_properties(2, "attack", get_node("ActionMenu/Attack/AttackSlot3").get_pos().x, get_node("ActionMenu/Attack/AttackSlot3").get_pos().y, allies_vector[actor].wpn_vector[2].id, wpn_database)
 		infomenu.set_opacity(0)
 		infomenu.show()
 		infomenu.set_opacity(0.8)
@@ -1147,7 +1149,7 @@ func _on_AttackSlot3_mouse_exit():
 
 func _on_AttackSlot4_mouse_enter():
 	if (allies_vector[actor].wpn_vector.size() > 3):
-		infomenu.adjust_properties(0, "attack", get_node("ActionMenu/Attack/AttackSlot4").get_pos().x, get_node("ActionMenu/Attack/AttackSlot4").get_pos().y, allies_vector[actor].wpn_vector[3].id, wpn_database)
+		infomenu.adjust_properties(3, "attack", get_node("ActionMenu/Attack/AttackSlot4").get_pos().x, get_node("ActionMenu/Attack/AttackSlot4").get_pos().y, allies_vector[actor].wpn_vector[3].id, wpn_database)
 		infomenu.set_opacity(0)
 		infomenu.show()
 		infomenu.set_opacity(0.8)
@@ -1209,35 +1211,61 @@ func _on_SkillSlot4_pressed():
 # Info menu controlling
 
 func _on_SkillSlot1_mouse_enter():
-	pass # replace with function body
-
+	if (allies_vector[actor].skill_vector.size() > 0):
+		infomenu.adjust_properties(0, "skill", get_node("ActionMenu/Skill/SkillSlot1").get_pos().x, get_node("ActionMenu/Skill/SkillSlot1").get_pos().y, allies_vector[actor].skill_vector[0].id, skill_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
 
 func _on_SkillSlot1_mouse_exit():
-	pass # replace with function body
-
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
 
 func _on_SkillSlot2_mouse_enter():
-	pass # replace with function body
+	if (allies_vector[actor].skill_vector.size() > 1):
+		infomenu.adjust_properties(1, "skill", get_node("ActionMenu/Skill/SkillSlot2").get_pos().x, get_node("ActionMenu/Skill/SkillSlot2").get_pos().y, allies_vector[actor].skill_vector[1].id, skill_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
 
 
 func _on_SkillSlot2_mouse_exit():
-	pass # replace with function body
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
 
 
 func _on_SkillSlot3_mouse_enter():
-	pass # replace with function body
+	if (allies_vector[actor].skill_vector.size() > 2):
+		infomenu.adjust_properties(2, "skill", get_node("ActionMenu/Skill/SkillSlot3").get_pos().x, get_node("ActionMenu/Skill/SkillSlot3").get_pos().y, allies_vector[actor].skill_vector[2].id, skill_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
 
 
 func _on_SkillSlot3_mouse_exit():
-	pass # replace with function body
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
 
 
 func _on_SkillSlot4_mouse_enter():
-	pass # replace with function body
+	if (allies_vector[actor].skill_vector.size() > 2):
+		infomenu.adjust_properties(3, "skill", get_node("ActionMenu/Skill/SkillSlot4").get_pos().x, get_node("ActionMenu/Skill/SkillSlot4").get_pos().y, allies_vector[actor].skill_vector[3].id, skill_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
 
 
 func _on_SkillSlot4_mouse_exit():
-	pass # replace with function body
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
 
 
 
@@ -1290,6 +1318,70 @@ func _on_ItemSlot4_pressed():
 	BUTTON = "Item/ItemSlot4"
 	action = "item"
 	action_id = 3
+	
+# Info menu controlling
+
+func _on_ItemSlot1_mouse_enter():
+	if (allies_vector[actor].item_vector.size() > 0):
+		infomenu.adjust_properties(0, "item", get_node("ActionMenu/Item/ItemSlot1").get_pos().x, get_node("ActionMenu/Item/ItemSlot1").get_pos().y, allies_vector[actor].item_vector[0].id, item_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_ItemSlot1_mouse_exit():
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
+
+
+func _on_ItemSlot2_mouse_enter():
+	if (allies_vector[actor].item_vector.size() > 1):
+		infomenu.adjust_properties(1, "item", get_node("ActionMenu/Item/ItemSlot2").get_pos().x, get_node("ActionMenu/Item/ItemSlot2").get_pos().y, allies_vector[actor].item_vector[1].id, item_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_ItemSlot2_mouse_exit():
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
+
+
+func _on_ItemSlot3_mouse_enter():
+	if (allies_vector[actor].item_vector.size() > 2):
+		infomenu.adjust_properties(2, "item", get_node("ActionMenu/Item/ItemSlot3").get_pos().x, get_node("ActionMenu/Item/ItemSlot3").get_pos().y, allies_vector[actor].item_vector[2].id, item_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_ItemSlot3_mouse_exit():
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
+
+
+func _on_ItemSlot4_mouse_enter():
+	if (allies_vector[actor].item_vector.size() > 3):
+		infomenu.adjust_properties(3, "item", get_node("ActionMenu/Item/ItemSlot4").get_pos().x, get_node("ActionMenu/Item/ItemSlot4").get_pos().y, allies_vector[actor].item_vector[3].id, item_database)
+		infomenu.set_opacity(0)
+		infomenu.show()
+		infomenu.set_opacity(0.8)
+
+
+func _on_ItemSlot4_mouse_exit():
+	infomenu.hide()
+	get_node("ActionMenu/InfoMenu/NumericInfo").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra1").set_text("")
+	get_node("ActionMenu/InfoMenu/Extra2").set_text("")
+	
+	
+######################################################################
 
 
 # When the DEFEND button is pressed
@@ -1445,11 +1537,11 @@ func _fixed_process(delta):
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
-		turn_based_system()
-
 		if !info_active:
 			unit_info(actor)
 			info_active = true
+
+		turn_based_system()
 
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":

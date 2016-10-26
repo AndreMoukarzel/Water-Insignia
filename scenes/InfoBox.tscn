@@ -3,8 +3,6 @@
 [ext_resource path="res://scripts/infobox.gd" type="Script" id=1]
 [ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=2]
 
-
-
 [node name="Background" type="TextureFrame"]
 
 focus/ignore_mouse = true
@@ -49,6 +47,36 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="Description" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 2 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Extra1" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 2 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Extra2" type="Label" parent="."]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
