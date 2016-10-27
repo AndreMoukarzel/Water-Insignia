@@ -41,28 +41,36 @@ func update_status():
 	get_node("ManaBar/MP").set_align(1)
 	
 	if atk_bonus > 0:
-		pass
+		get_node("ATK").set_texture(load("res://resources/sprites/gui/combat/icons/atkup.tex"))
+		get_node("ATK").show()
 	elif atk_bonus < 0:
-		pass
+		get_node("ATK").set_texture(load("res://resources/sprites/gui/combat/icons/atkdown.tex"))
+		get_node("ATK").show()
 	else:
-		pass
+		get_node("ATK").hide()
 	
 	if def_bonus > 0:
-		pass
+		get_node("DEF").set_texture(load("res://resources/sprites/gui/combat/icons/defup.tex"))
+		get_node("DEF").show()
 	elif def_bonus < 0:
-		pass
+		get_node("DEF").set_texture(load("res://resources/sprites/gui/combat/icons/defdown.tex"))
+		get_node("DEF").show()
 	else:
-		pass
+		get_node("DEF").hide()
 	
 	if spd_bonus > 0:
-		pass
+		get_node("SPD").set_texture(load("res://resources/sprites/gui/combat/icons/spdup.tex"))
+		get_node("SPD").show()
 	elif spd_bonus < 0:
-		pass
+		get_node("SPD").set_texture(load("res://resources/sprites/gui/combat/icons/spddown.tex"))
+		get_node("SPD").show()
 	else:
-		pass
+		get_node("SPD").hide()
 	
+	get_node("PSN").hide()
+	get_node("PAR").hide()
 	for stat in stat_vector:
 		if stat.name == "Poison":
-			pass
+			get_node("PSN").show()
 		elif stat.name == "Paralize":
-			pass
+			get_node("PAR").show()

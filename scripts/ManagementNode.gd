@@ -270,6 +270,8 @@ func size_update():
 	get_node("RepairMenu/Weapons").set_pos(Vector2(window_size.x - get_node("RepairMenu/Weapons").get_size().x - 40, 40))
 	rm_rs.adjust_size("Repair Status", 300, 100, rm_w.get_pos().x, 130)
 	
+	get_node("ShopMenu").set_size(Vector2(window_size.x/2, window_size.y))
+	
 	sm_sw.set_size(Vector2(window_size.x/2, window_size.y/2.5))
 	sm_sw.set_pos((Vector2(sm_sw.get_pos().x + 15, sm_sw.get_pos().y + 10)))
 	sm_si.set_size(Vector2(window_size.x/2, window_size.y/2.5))
@@ -1078,15 +1080,20 @@ func _on_RepairAll_pressed():
 
 func _on_BuyMenu_pressed():
 	current_screen = "ShopManagement"
+	get_node("ShopKeeperContainer").neutralize_dialog()
 	get_node("ShopMenu").hide()
 	sm_cqb.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
 func _on_SellMenu_pressed():
 	current_screen = "SellManagement"
+	get_node("ShopKeeperContainer").neutralize_dialog()
 	get_node("ShopMenu").hide()
 	sm_cqs.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
+	
+func _on_TalkMenu_pressed():
+	get_node("ShopKeeperContainer").generate_dialog(get_parent().stage)
 
 func _on_Buy_pressed():
 	# Teremos o id de todas as armas selecionadas, aqui
@@ -1194,6 +1201,7 @@ func _on_Shop_pressed():
 	current_screen = "ShopMenu"
 	get_node("Selection").hide()
 	get_node(current_screen).show()
+	get_node("ShopKeeperContainer").show()
 
 
 func _on_ManageUnits_pressed():
@@ -1219,6 +1227,7 @@ func _on_Back_pressed():
 	
 func _on_Back2_pressed():
 	get_node("ShopMenu").hide()
+	get_node("ShopKeeperContainer").neutralize_node()
 	get_node("Selection").show()
 	
 func _on_Back3_pressed():
