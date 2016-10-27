@@ -17,7 +17,6 @@ texture = ExtResource( 2 )
 
 [node name="RecruitsBox" type="HBoxContainer" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 1
@@ -27,6 +26,7 @@ margin/top = -30.0
 margin/right = 1000.0
 margin/bottom = 570.0
 alignment = 0
+__meta__ = { "_edit_lock_":true }
 
 [node name="RecruitInfo1" type="Control" parent="RecruitsBox"]
 
@@ -46,10 +46,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
+margin/left = -47.0
 margin/top = -95.0
-margin/right = 38.0
-margin/bottom = -81.0
+margin/right = -9.0
+margin/bottom = -79.0
 custom_fonts/font = ExtResource( 3 )
 text = "Name"
 percent_visible = 1.0
@@ -398,15 +398,17 @@ max_lines_visible = -1
 
 [node name="ButtonBox" type="HBoxContainer" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 1
 size_flags/vertical = 1
 margin/left = 0.0
-margin/top = 100.0
+margin/top = 150.0
 margin/right = 1024.0
-margin/bottom = 700.0
+margin/bottom = 750.0
 alignment = 0
+__meta__ = { "_edit_lock_":true }
 
 [node name="Button1" type="Button" parent="ButtonBox"]
 
