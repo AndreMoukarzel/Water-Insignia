@@ -141,28 +141,6 @@ func _ready():
 	char_database = get_node("/root/character_database")
 	wpn_database = get_node("/root/weapon_database")
 	item_database = get_node("/root/item_database")
-
-	if get_parent().first_play:
-		get_parent().first_play = 0
-		# instance testing, will be removed
-		instance_unit(2, 7, "Barracks")
-		instance_unit(3, 5, "Barracks")
-		instance_unit(3, 4, "Barracks")
-	
-		for unit in barracks_units:
-			if unit.name == "baby_dragon":
-				instance_weapon("Bat Fangs", unit)
-				instance_weapon("Bat Wings", unit)
-				instance_item("Hardener", unit)
-				instance_item("Potion", unit)
-				instance_item("Depar", unit)
-			if unit.name == "soldier":
-				instance_weapon("Katana", unit)
-				instance_weapon("Iron Axe", unit)
-				instance_item("Hardener", unit)
-				instance_item("Potion", unit)
-				instance_item("Static Bomb", unit)
-				instance_item("Static Bomb", unit)
 	
 	# Settings for ItemLists
 	um_ap.set_max_columns(3)
@@ -187,7 +165,6 @@ func _ready():
 	# Those are instanced here, because for every action taken on
 	# the ItemLists, the same action is taken on the actual character
 	# arrays, for some operations are index-based
-	
 	for unit in active_units:
 		um_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)
 		im_ap.add_item(char_database.get_char_name(unit.id).capitalize(), load(str(char_database.get_char_folder(unit.id),char_database.get_char_name(unit.id),"0001.tex")), 1)

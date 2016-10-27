@@ -230,6 +230,12 @@ func _ready():
 		allies_vector[size].item_vector = unit.item_vector
 		allies_vector.pop_front()
 
+	if get_parent().first_play:
+		get_parent().first_play = 0
+		instance_unit(3, 1, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[0])
+		instance_weapon("Bat Wings", allies_vector[0])
+
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
 	resize_menu()      # Position the action buttons in the battle screen
@@ -1018,7 +1024,15 @@ func win_lose_cond():
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
 		get_parent().victory = 0
-		get_parent().set_level("management")
+		if get_parent().barracks.empty():
+			var game_over_scn = load("res://scenes/GameOver.tscn")
+			var game_over = game_over_scn.instance()
+
+			set_fixed_process(false)
+
+			add_child(game_over)
+		else:
+			get_parent().set_level("management")
 
 
 # ################################ #
