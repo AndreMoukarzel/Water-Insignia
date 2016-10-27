@@ -69,7 +69,7 @@ class unit:
 	func get_speed_bonus():
 		return bonus_speed
 	
-	func get_status_vector();
+	func get_status_vector():
 		return status_vector
 
 
