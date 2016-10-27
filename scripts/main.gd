@@ -28,7 +28,7 @@ class unit:
 
 
 func _ready():
-	var level = management_scn.instance()
+	var level = combat_scn.instance()
 	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
 	get_node("Music").play()
 	

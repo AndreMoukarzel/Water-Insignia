@@ -14,6 +14,10 @@ class unit:
 	var bonus_attack = 0
 	var defense
 	var bonus_defense = 0
+	var special_attack
+	var bonus_special_attack = 0
+	var special_defense
+	var bonus_special_defense = 0
 	var speed
 	var bonus_speed = 0
 	var last_weapon # Type of the last weapon used
@@ -31,6 +35,8 @@ class unit:
 		self.mp_current = db.get_mp(id, level)
 		self.attack = db.get_attack(id, level)
 		self.defense = db.get_defense(id, level)
+		self.special_attack = db.get_sp_attack(id, level)
+		self.special_defense = db.get_sp_defense(id, level)
 		self.speed = db.get_speed(id, level)
 
 	func get_name():
@@ -57,18 +63,30 @@ class unit:
 	func get_defense():
 		return defense + bonus_defense
 
+	func get_special_attack():
+		return special_attack + bonus_special_attack
+
+	func get_special_defense():
+		return special_defense + bonus_special_defense
+
 	func get_speed():
 		return speed + bonus_speed
-	
+
 	func get_attack_bonus():
 		return bonus_attack
-	
+
 	func get_defense_bonus():
 		return bonus_defense
-	
+
+	func get_special_attack_bonus():
+		return bonus_special_attack
+
+	func get_special_defense_bonus():
+		return bonus_special_defense
+
 	func get_speed_bonus():
 		return bonus_speed
-	
+
 	func get_status_vector():
 		return status_vector
 
@@ -95,6 +113,7 @@ class skill:
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
+	var is_physical # 0 == Attack is special/magical || 1 == Attack is physical
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
@@ -105,6 +124,10 @@ class skill:
 		self.status = database.get_skill_status(id)
 		self.elem = database.get_skill_element(id)
 		self.mod = database.get_skill_modifier(id)
+		self.is_physical = database.get_is_physical(id)
+	
+	func get_is_physical():
+		return is_physical
 
 
 class item:
@@ -229,6 +252,12 @@ func _ready():
 		allies_vector[size].wpn_vector = unit.wpn_vector
 		allies_vector[size].item_vector = unit.item_vector
 		allies_vector.pop_front()
+
+	if get_parent().first_play:
+		get_parent().first_play = 0
+		instance_unit(3, 1, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[0])
+		instance_weapon("Bat Wings", allies_vector[0])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -692,6 +721,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 	for type in skill.type:
 		if type == "HP":
+			var is_physical = user[user_vpos].skill_vector[action_id].get_is_physical()
 			# Damage modifier by the Arcane Triangle
 			var tri = 1
 			var atk_skill = user[user_vpos].last_skill
@@ -700,8 +730,15 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				tri = 1.2;
 			elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
 				tri = 0.8;
+			# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
+			var reduce_damage = 0
+			if skill.hp < 0:
+				if is_physical == 0:
+					reduce_damage = target[target_vpos].get_special_defense()
+				else:
+					reduce_damage = target[target_vpos].get_defense()
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
-			var damage = floor(skill.hp * tri - user[user_vpos].get_attack() * skill.mod)
+			var damage = floor(skill.hp * tri + user[user_vpos].get_special_attack() * skill.mod + reduce_damage)
 
 			target[target_vpos].hp_current += damage
 			if damage < 0: # If it's a damage-type HP skill
@@ -1018,7 +1055,15 @@ func win_lose_cond():
 	elif get_node("Allies").get_child_count() < 1:
 		print("YOU SUCK")
 		get_parent().victory = 0
-		get_parent().set_level("management")
+		if get_parent().barracks.empty():
+			var game_over_scn = load("res://scenes/GameOver.tscn")
+			var game_over = game_over_scn.instance()
+
+			set_fixed_process(false)
+
+			add_child(game_over)
+		else:
+			get_parent().set_level("management")
 
 
 # ################################ #

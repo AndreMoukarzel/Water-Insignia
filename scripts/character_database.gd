@@ -8,9 +8,11 @@ const HP = 3
 const MP = 4
 const ATK = 5
 const DEF = 6
-const SPD = 7
-const WPN_VECTOR = 8
-const SKILL_VECTOR = 9
+const SPATK = 7
+const SPDEF = 8
+const SPD = 9
+const WPN_VECTOR = 10
+const SKILL_VECTOR = 11
 
 
 var char_database = [
@@ -21,6 +23,8 @@ var char_database = [
 		HP : [10, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP : [7, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [5, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPATK : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		SPDEF : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		DEF : [1, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
@@ -34,9 +38,11 @@ var char_database = [
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPATK : [1, 2, 2, 2, 1, 3, 1, 1, 2, 1, 1, 1, 4, 1, 1, 3, 1, 1, 1, 5],
+		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword", "Sword"],
-		SKILL_VECTOR : ["Heal"]
+		SKILL_VECTOR : ["Heal", "Sonic Blow"]
 	},
 	{ # ID = 2
 		FOLDER : "res://characters/soldier/",
@@ -46,9 +52,11 @@ var char_database = [
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPATK : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Axe"],
-		SKILL_VECTOR : ["Guard", "Aqua Blast", "Lightning Bolt", "Heal"]
+		SKILL_VECTOR : ["Slash", "Aqua Blast", "Lightning Bolt", "Heal"]
 	},
 	{ # ID = 3
 		FOLDER : "res://characters/baby_dragon/",
@@ -58,6 +66,8 @@ var char_database = [
 		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPATK : [2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 2, 1, 1, 5],
+		SPDEF : [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
 		SKILL_VECTOR : ["Blast", "Eruption", "Aqua Blast", "Lightning Bolt"]
@@ -118,6 +128,24 @@ func get_defense(id, level):
 		def += char_database[id][DEF][i]
 		i += 1
 	return def
+
+func get_sp_attack(id, level):
+	var spatk = 0
+	var i = 0
+	
+	while (i < level):
+		spatk += char_database[id][SPATK][i]
+		i += 1
+	return spatk
+
+func get_sp_defense(id, level):
+	var spdef = 0
+	var i = 0
+	
+	while (i < level):
+		spdef += char_database[id][SPDEF][i]
+		i += 1
+	return spdef
 
 func get_speed(id, level):
 	var spd = 0
