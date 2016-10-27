@@ -62,15 +62,15 @@ var char_database = [
 		FOLDER : "res://characters/baby_dragon/",
 		CHAR_NAME : "baby_dragon",
 		ANIM_ARRAY : ["idle", "attack", "skillmagic"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
-		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
+		HP : [60, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
+		MP : [50, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
 		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEF : [30, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPATK : [2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 2, 1, 1, 5],
 		SPDEF : [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
-		SKILL_VECTOR : ["Blast", "Eruption", "Aqua Blast", "Lightning Bolt"]
+		SKILL_VECTOR : ["Guard", "Agility", "Poison Sting", "Sword Dance"]
 	}
 ]
 

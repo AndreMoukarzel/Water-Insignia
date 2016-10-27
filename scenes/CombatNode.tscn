@@ -33,7 +33,7 @@
 [ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=31]
 [ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=32]
 [ext_resource path="res://scenes/InfoBox.tscn" type="PackedScene" id=33]
-[ext_resource path="res://resources/sprites/gui/management/button0006.tex" type="Texture" id=34]
+[ext_resource path="res://resources/sprites/gui/management/button0009.tex" type="Texture" id=34]
 [ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=35]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -123,7 +123,6 @@ transform/scale = Vector2( 3, 3 )
 
 [node name="ActionMenu" type="Panel" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -428,6 +427,7 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" type="HBoxContainer" parent="ActionMenu"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -562,13 +562,12 @@ flat = false
 
 [node name="InfoMenu" parent="ActionMenu" instance=ExtResource( 33 )]
 
+editor/display_folded = true
 visibility/visible = false
 expand = true
 
 [node name="Tip" type="TextureFrame" parent="."]
 
-editor/display_folded = true
-visibility/visible = false
 rect/min_size = Vector2( 120, 0 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -593,7 +592,7 @@ margin/top = 5.0
 margin/right = 141.0
 margin/bottom = 25.0
 custom_fonts/font = ExtResource( 35 )
-text = "Select Target"
+text = "Select target"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

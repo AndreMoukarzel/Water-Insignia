@@ -30,7 +30,7 @@ var skill_database = [
 		HP : -70,
 		STATUS : [],
 		ELEM : null,
-		MOD : -0.1,
+		MOD : 0.1,
 		IS_PHY : 0
 	},
 
@@ -74,16 +74,16 @@ var skill_database = [
 		HP : -1,
 		STATUS : ["Poison"],
 		ELEM : null,
-		MOD : -0.1,
+		MOD : 0.1,
 		IS_PHY : 0
 	},
 	
 	{ # ID = 6
 		SKILL_NAME : "Thunderwave",
 		TYPE : ["Effect"],
-		COST : 7,
+		COST : 2,
 		HP : null,
-		STATUS : ["Paralysis"],
+		STATUS : ["Paralize"],
 		ELEM : "Wind",
 		MOD : 0,
 		IS_PHY : 0
@@ -96,7 +96,7 @@ var skill_database = [
 		HP : -15,
 		STATUS : [],
 		ELEM : null,
-		MOD : -0.5,
+		MOD : 0.5,
 		IS_PHY : 1
 	},
 	
@@ -107,7 +107,7 @@ var skill_database = [
 		HP : -10,
 		STATUS : [],
 		ELEM : "Fire",
-		MOD : -0.25,
+		MOD : 0.25,
 		IS_PHY : 0
 	},
 	
@@ -118,7 +118,7 @@ var skill_database = [
 		HP : -8,
 		STATUS : [],
 		ELEM : "Water",
-		MOD : -0.35,
+		MOD : 0.35,
 		IS_PHY : 0
 	},
 	
@@ -129,7 +129,7 @@ var skill_database = [
 		HP : -9,
 		STATUS : [],
 		ELEM : "Wind",
-		MOD : -0.3,
+		MOD : 0.3,
 		IS_PHY : 0
 	},
 	
@@ -140,7 +140,7 @@ var skill_database = [
 		HP : -2,
 		STATUS : [],
 		ELEM : null,
-		MOD : -0.9,
+		MOD : 0.9,
 		IS_PHY : 1
 	},
 	
@@ -151,8 +151,19 @@ var skill_database = [
 		HP : -8,
 		STATUS : [],
 		ELEM : null,
-		MOD : -0.35,
+		MOD : 0.35,
 		IS_PHY : 1
+	},
+	
+	{ # ID = 13
+		SKILL_NAME : "Sword Dance",
+		TYPE : ["Effect"],
+		COST : 1,
+		HP : null,
+		STATUS : ["Atk Up"],
+		ELEM : null,
+		MOD : 0,
+		IS_PHY : 0
 	}
 ]
 

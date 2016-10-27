@@ -564,6 +564,8 @@ func turn_based_system():
 					enemies_vector[act.from[0]].bonus_defense += 3*enemies_vector[act.from[0]].defense
 
 				# Plays the DEFEND animation
+				print (act.from[1])
+				print (act.from[0])
 				effect.set_pos(get_node(str(act.from[1], "/", act.from[0])).get_pos())
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("defend")
 
@@ -737,15 +739,22 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					reduce_damage = target[target_vpos].get_special_defense()
 				else:
 					reduce_damage = target[target_vpos].get_defense()
-			# Skill's damage is its base damage plus an amount which scales with the unit's ATK
-			var damage = floor(skill.hp * tri + user[user_vpos].get_special_attack() * skill.mod + reduce_damage)
+			# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
+			var damage = skill.hp * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
+			if damage < 0:
+				damage -= user[user_vpos].get_special_attack() * skill.mod
+				damage = ceil(damage)
+			else:
+				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage += user[user_vpos].get_special_attack() * skill.mod
+				damage = floor(damage)
+				var effect = get_node("Effects")
+				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
 			target[target_vpos].hp_current += damage
-			if damage < 0: # If it's a damage-type HP skill
-				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-			else: # If it's a heal-type HP skill
-				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-	
+
 			# If the skill kills the target
 			if target[target_vpos].hp_current <= 0:
 				target[target_vpos] = null

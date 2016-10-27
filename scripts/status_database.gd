@@ -42,7 +42,7 @@ var status_database = [
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "ATK",
-		DURATION : 3
+		DURATION : 30
 	},
 	
 	{ # ID = 3
@@ -51,7 +51,7 @@ var status_database = [
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "DEF",
-		DURATION : 3
+		DURATION : 30
 	},
 
 	{ # ID = 4
@@ -60,7 +60,7 @@ var status_database = [
 		HP : null,
 		EFFECT : 1.5,
 		STAT : "SPD",
-		DURATION : 3
+		DURATION : 30
 	},
 
 	{ # ID = 5
@@ -69,7 +69,7 @@ var status_database = [
 		HP : -1,
 		EFFECT : null,
 		STAT : null,
-		DURATION : 4
+		DURATION : 40
 	},
 
 	{ # ID = 6
@@ -86,7 +86,7 @@ var status_database = [
 		HP : -1,
 		EFFECT : 0,
 		STAT : "SPD",
-		DURATION : 4
+		DURATION : 40
 	},
 	
 	{ # ID = 8
