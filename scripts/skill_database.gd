@@ -8,6 +8,7 @@ const HP = 3
 const STATUS = 4
 const ELEM = 5
 const MOD = 6
+const IS_PHY = 7
 
 var skill_database = [
 
@@ -18,7 +19,8 @@ var skill_database = [
 		HP : 10,
 		STATUS : [],
 		ELEM : null,
-		MOD : 0
+		MOD : 1,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 1
@@ -28,7 +30,8 @@ var skill_database = [
 		HP : -70,
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.1
+		MOD : -0.1,
+		IS_PHY : 0
 	},
 
 	{ # ID = 2
@@ -38,7 +41,8 @@ var skill_database = [
 		HP : null,
 		STATUS : ["Def Up"],
 		ELEM : null,
-		MOD : 0
+		MOD : 0,
+		IS_PHY : 0
 	},
 
 	{ # ID = 3
@@ -48,7 +52,8 @@ var skill_database = [
 		HP : null,
 		STATUS : ["Spd Up"],
 		ELEM : null,
-		MOD : 0
+		MOD : 0,
+		IS_PHY : 0
 	},
 
 	{ # ID = 4
@@ -58,7 +63,8 @@ var skill_database = [
 		HP : 5,
 		STATUS : ["Detox"],
 		ELEM : null,
-		MOD : 0
+		MOD : 0,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 5
@@ -68,7 +74,8 @@ var skill_database = [
 		HP : -1,
 		STATUS : ["Poison"],
 		ELEM : null,
-		MOD : 0.1
+		MOD : -0.1,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 6
@@ -78,7 +85,8 @@ var skill_database = [
 		HP : null,
 		STATUS : ["Paralysis"],
 		ELEM : "Wind",
-		MOD : 0
+		MOD : 0,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 7
@@ -88,7 +96,8 @@ var skill_database = [
 		HP : -15,
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.5
+		MOD : -0.5,
+		IS_PHY : 1
 	},
 	
 	{ # ID = 8
@@ -98,7 +107,8 @@ var skill_database = [
 		HP : -10,
 		STATUS : [],
 		ELEM : "Fire",
-		MOD : 0.25
+		MOD : -0.25,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 9
@@ -108,7 +118,8 @@ var skill_database = [
 		HP : -8,
 		STATUS : [],
 		ELEM : "Water",
-		MOD : 0.35
+		MOD : -0.35,
+		IS_PHY : 0
 	},
 	
 	{ # ID = 10
@@ -118,7 +129,30 @@ var skill_database = [
 		HP : -9,
 		STATUS : [],
 		ELEM : "Wind",
-		MOD : 0.3
+		MOD : -0.3,
+		IS_PHY : 0
+	},
+	
+	{ # ID = 11
+		SKILL_NAME : "Sonic Blow",
+		TYPE : ["HP"],
+		COST : 2,
+		HP : -2,
+		STATUS : [],
+		ELEM : null,
+		MOD : -0.9,
+		IS_PHY : 1
+	},
+	
+	{ # ID = 12
+		SKILL_NAME : "Slash",
+		TYPE : ["HP"],
+		COST : 1,
+		HP : -8,
+		STATUS : [],
+		ELEM : null,
+		MOD : -0.35,
+		IS_PHY : 1
 	}
 ]
 
@@ -152,3 +186,6 @@ func get_skill_element(id):
 
 func get_skill_modifier(id):
 	return skill_database[id][MOD]
+
+func get_is_physical(id):
+	return skill_database[id][IS_PHY]
