@@ -4,10 +4,9 @@
 
 [node name="Main" type="Node"]
 
-editor/display_folded = true
 script/script = ExtResource( 1 )
 
-[node name="StreamPlayer" type="StreamPlayer" parent="."]
+[node name="Music" type="StreamPlayer" parent="."]
 
 stream/stream = null
 stream/play = false

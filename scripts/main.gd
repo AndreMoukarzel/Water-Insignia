@@ -29,7 +29,9 @@ class unit:
 
 func _ready():
 	var level = management_scn.instance()
-
+	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+	get_node("Music").play()
+	
 	level.set_name("level")
 	add_child(level)
 
@@ -38,12 +40,16 @@ func _ready():
 func set_level(mode):
 	if mode == "combat":
 		scn = combat_scn
+		get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+		get_node("Music").play()
 		units_vector = get_node("level").active_units
 		barracks = get_node("level").barracks_units
 		storage_wpn = get_node("level").storage_weapons
 		storage_itm = get_node("level").storage_items
 	elif mode == "management":
 		scn = management_scn
+		get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+		get_node("Music").play()
 		units_vector = get_node("level").allies_vector
 
 	var remove = 1
