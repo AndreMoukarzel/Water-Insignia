@@ -29,7 +29,8 @@ class unit:
 
 func _ready():
 	var level = combat_scn.instance()
-	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+	get_node("Music").set_loop(true)
 	get_node("Music").play()
 	
 	level.set_name("level")
