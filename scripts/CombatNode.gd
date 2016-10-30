@@ -39,8 +39,16 @@ class unit:
 		self.special_defense = db.get_sp_defense(id, level)
 		self.speed = db.get_speed(id, level)
 
+	# GETTERS
+
+	func get_id():
+		return id
+
 	func get_name():
 		return db.get_char_name(id)
+
+	func get_level():
+		return level
 
 	func get_hp_max():
 		return db.get_hp(id, level)
@@ -57,17 +65,32 @@ class unit:
 	func get_allowed_weapons():
 		return db.get_weapon_vector(id)
 
+	func get_base_attack():
+		return attack
+
 	func get_attack():
 		return attack + bonus_attack
+
+	func get_base_defense():
+		return defense
 
 	func get_defense():
 		return defense + bonus_defense
 
+	func get_base_special_attack():
+		return special_attack
+
 	func get_special_attack():
 		return special_attack + bonus_special_attack
 
+	func get_base_special_defense():
+		return special_defense
+
 	func get_special_defense():
 		return special_defense + bonus_special_defense
+
+	func get_base_speed():
+		return speed
 
 	func get_speed():
 		return speed + bonus_speed
@@ -87,9 +110,52 @@ class unit:
 	func get_speed_bonus():
 		return bonus_speed
 
+	func get_last_weapon():
+		return last_weapon
+
+	func get_last_skill():
+		return last_skill
+
+	func get_wpn_vector():
+		return wpn_vector
+
+	func get_skill_vector():
+		return skill_vector
+
+	func get_item_vector():
+		return item_vector
+
 	func get_status_vector():
 		return status_vector
 
+	# SETTERS
+
+	func set_hp_current(hp):
+		self.hp_current = hp
+
+	func set_mp_current(mp):
+		self.mp_current = mp
+
+	func set_bonus_attack(bonus_attack):
+		self.bonus_attack = bonus_attack
+
+	func set_bonus_defense(bonus_defense):
+		self.bonus_defense = bonus_defense
+
+	func set_bonus_special_attack(bonus_special_attack):
+		self.bonus_special_attack = bonus_special_attack
+
+	func set_bonus_special_defense(bonus_special_defense):
+		self.bonus_special_defense = bonus_special_defense
+
+	func set_bonus_speed(bonus_speed):
+		self.bonus_speed = bonus_speed
+
+	func set_last_weapon(last_weapon_type):
+		self.last_weapon = last_weapon_type
+
+	func set_last_skill(last_skill_elem):
+		self.last_skill = last_skill_elem
 
 class weapon:
 	var id # Weapon ID in the weapon database
@@ -248,9 +314,11 @@ func _ready():
 	var size = allies_vector.size()
 	for i in range(size): # Spawns allies
 		var unit = allies_vector[0]
-		instance_unit(unit.id, unit.level, "Allies")
-		allies_vector[size].wpn_vector = unit.wpn_vector
-		allies_vector[size].item_vector = unit.item_vector
+		var id = unit.get_id()
+		var level = unit.get_level()
+		instance_unit(id, level, "Allies")
+		allies_vector[size].wpn_vector = unit.get_wpn_vector()
+		allies_vector[size].item_vector = unit.get_item_vector()
 		allies_vector.pop_front()
 
 	if get_parent().first_play:
