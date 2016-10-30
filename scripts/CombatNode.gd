@@ -191,10 +191,34 @@ class skill:
 		self.elem = database.get_skill_element(id)
 		self.mod = database.get_skill_modifier(id)
 		self.is_physical = database.get_is_physical(id)
-	
+
+	# GETTERS
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_type():
+		return type
+
+	func get_cost():
+		return cost
+
+	func get_hp():
+		return hp
+
+	func get_status():
+		return status
+
+	func get_elem():
+		return elem
+
+	func get_mod():
+		return mod
+
 	func get_is_physical():
 		return is_physical
-
 
 class item:
 	var id
@@ -234,6 +258,37 @@ class action_class:
 	var action_id # Which slot of the action button (ATTACK, SKILL, ITEM) was pressed
 	var speed # Speed of the action
 
+	# GETTERS
+	func get_from():
+		return from
+
+	func get_to():
+		return to
+
+	func get_action():
+		return action
+
+	func get_action_id():
+		return action_id
+
+	func get_speed():
+		return speed
+
+	# SETTERS
+	func set_from(from):
+		self.from = from
+
+	func set_to(to):
+		self.to = to
+
+	func set_action(action):
+		self.action = action
+
+	func set_action_id(action_id):
+		self.action_id = action_id
+
+	func set_speed(speed):
+		self.speed = speed
 
 class status:
 	var id
@@ -254,6 +309,35 @@ class status:
 		self.stat = database.get_status_stat(id)
 		self.max_duration = database.get_status_duration(id)
 		self.duration = self.max_duration
+
+	# GETTERS
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_type():
+		return type
+
+	func get_hp():
+		return hp
+
+	func get_effect():
+		return effect
+
+	func get_stat():
+		return stat
+
+	func get_duration():
+		return duration
+
+	func get_max_duration():
+		return max_duration
+
+	# SETTERS
+	func set_duration(duration):
+		self.duration = duration
 
 
 # Arrays containing each unit in combat
@@ -317,8 +401,8 @@ func _ready():
 		var id = unit.get_id()
 		var level = unit.get_level()
 		instance_unit(id, level, "Allies")
-		allies_vector[size].wpn_vector = unit.get_wpn_vector()
-		allies_vector[size].item_vector = unit.get_item_vector()
+		allies_vector[size].wpn_vector = unit.wpn_vector
+		allies_vector[size].item_vector = unit.item_vector
 		allies_vector.pop_front()
 
 	if get_parent().first_play:
