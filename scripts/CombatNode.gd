@@ -559,7 +559,7 @@ func instance_status(name, target):
 				var base_atribute
 				var bonus_atribute
 				var bonus
-		
+
 				if status.get_stat() == "ATK":
 					base_atribute = target.get_base_attack()
 					bonus_atribute = target.get_bonus_attack()
@@ -571,17 +571,16 @@ func instance_status(name, target):
 					bonus_atribute = target.get_bonus_speed()
 
 				bonus = status.get_effect() * base_atribute
-				
+
 				if bonus != 0:
 					bonus_atribute -= bonus
-# O QUE ISTO FAAAAAAAAAZ
 				else:
 					bonus_atribute += bonus_atribute
 
 				apply_bonus(bonus_atribute, status.get_stat(), target)
 
 #			Refreshes duration
-			target.get_status_vector()[i].set_duration(target.get_status_vector()[i].get_max_duration())
+			target.get_status_vector().remove(i)
 		i += 1
 
 	target.get_status_vector().append(status_instance)
@@ -930,9 +929,12 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
 			var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
 			if damage < 0:
-				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage += reduce_damage
+				if damage >= 0:
+					damage = -1
 				damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = ceil(damage)
+				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else:
 				damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = floor(damage)
