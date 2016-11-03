@@ -896,7 +896,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	else:
 		# Attack hits
-		
+
 		# Damage modifier by the Weapon Triangle
 		var tri = 1
 		var atk_wpn = attacker[attacker_vpos].get_last_weapon()
@@ -905,38 +905,36 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			tri = 1.25
 		elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
 			tri = 0.75
-		
+
 		# Assumindo que o maximo de dexterity é 60
 		var attack_damage = (char_atk * char_dex/45) + wpn_atk
-		
+
 		randomize()
 		random = randi() % 250
 		var critical = 0
 		if (random < char_luk):
 			critical = 1
-		
+
 		# Actual damage calculation
 		var damage = floor((attack_damage - defender_def) * tri)  # Damage dealt
 		if (critical):
 			damage * 1.5
-	
+
 		# Decreases the weapon's durability
 		# If the target dies prior to the attack being dealt, the durability doesn't decrease
-		var durability = attacker[attacker_vpos].get_wpn_vector()[action_id].get_durability()
-		attacker[attacker_vpos].get_wpn_vector()[action_id].set_durability(durability - 1)
-	
+		attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
+
 		# DEFEND command greatly increses the unit's defense for only one attack or one turn
 		# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
-		
+
 		var i = 0
 		for stat in defender[defender_vpos].get_status_vector():
 			if stat.get_name() == "DEFEND":
 				defender[defender_vpos].get_status_vector().remove(i)
-				var bonus_defense = defender[defender_vpos].get_bonus_defense()
 				var bonus = 3*defender[defender_vpos].get_base_defense()
-				defender[defender_vpos].set_bonus_defense(bonus_defense - bonus)
+				defender[defender_vpos].decrease_bonus_defense(-bonus)
 			i += 1
-	
+
 		# damage can't be lower than zero
 		if (damage <= 0):
 			damage = 1
@@ -946,8 +944,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			damage_box(str(damage, "!!"), Color(1, 0.5, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 		else:
 			damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
-		var hp_current = defender[defender_vpos].get_hp_current()
-		defender[defender_vpos].set_hp_current(hp_current - damage)
+		defender[defender_vpos].modify_hp_current(-damage)
 
 	# If the attack kills the defender
 	if (defender[defender_vpos].get_hp_current() <= 0):
