@@ -23,15 +23,15 @@ var char_database = [
 		FOLDER : "res://characters/bat/",
 		CHAR_NAME : "bat",
 		ANIM_ARRAY : ["idle", "attack"],
-		HP : [10, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
-		MP : [7, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
-		ATK : [5, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		SPATK : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		SPDEF : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		DEF : [1, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		HP :    [10, 16, 23, 27, 30, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
+		MP :    [7,  9,  13, 16, 18, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
+		ATK :   [5,  8,  13, 15, 1,  2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPATK : [0,  3,  6,  9,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		DEF :   [1,  3,  6,  10, 1,  2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		SPDEF : [0,  2,  5,  8,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		SPD :   [7,  11, 14, 16, 1,  2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX :   [7,  11, 14, 16, 1,  2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK :   [1,  4,  5,  10, 2,  2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
 		SKILL_VECTOR : ["Shadow Strike"]
 	},
@@ -39,15 +39,15 @@ var char_database = [
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
 		ANIM_ARRAY : ["idle", "idleSword", "attackSword"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
-		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
-		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		HP :    [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
+		MP :    [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
+		ATK :   [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEF :   [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPATK : [1, 2, 2, 2, 1, 3, 1, 1, 2, 1, 1, 1, 4, 1, 1, 3, 1, 1, 1, 5],
+		SPD :   [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword", "Sword"],
 		SKILL_VECTOR : ["Heal", "Sonic Blow"]
 	},
@@ -55,15 +55,15 @@ var char_database = [
 		FOLDER : "res://characters/soldier/",
 		CHAR_NAME : "soldier",
 		ANIM_ARRAY : ["idle", "idleSword", "idleAxe", "attackSword", "attackAxe", "skillmagic"],
-		HP : [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
-		MP : [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
-		ATK : [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEF : [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		HP :    [15, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
+		MP :    [5, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
+		ATK :   [8, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEF :   [3, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPATK : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		SPD :   [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Axe"],
 		SKILL_VECTOR : ["Slash", "Aqua Blast", "Lightning Bolt", "Heal"]
 	},
@@ -71,15 +71,15 @@ var char_database = [
 		FOLDER : "res://characters/baby_dragon/",
 		CHAR_NAME : "baby_dragon",
 		ANIM_ARRAY : ["idle", "attack", "skillmagic"],
-		HP : [25, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
-		MP : [10, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
-		ATK : [13, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEF : [7, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		HP :    [25, 1, 1, 2, 1, 3, 1, 1, 2, 5, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
+		MP :    [10, 0, 1, 2, 1, 0, 0, 1, 0, 3, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
+		ATK :   [13, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEF :   [7, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPATK : [5, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 2, 1, 1, 5],
+		SPD :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPDEF : [5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
-		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
 		SKILL_VECTOR : ["Heal", "Thunderwave", "Poison Sting", "Sword Dance"]
 	}
@@ -105,85 +105,31 @@ func get_animation_array(id):
 	return char_database[id][ANIM_ARRAY]
 
 func get_hp(id, level):
-	var hp = 0
-	var i = 0
-
-	while(i < level):
-		hp += char_database[id][HP][i]
-		i += 1
-	return hp
+	return char_database[id][HP][level - 1]
 
 func get_mp(id, level):
-	var mp = 0
-	var i = 0
-
-	while(i < level):
-		mp += char_database[id][MP][i]
-		i += 1
-	return mp
+	return char_database[id][MP][level - 1]
 
 func get_attack(id, level):
-	var atk = 0
-	var i = 0
-
-	while(i < level):
-		atk += char_database[id][ATK][i]
-		i += 1
-	return atk
+	return char_database[id][ATK][level - 1]
 	
 func get_defense(id, level):
-	var def = 0
-	var i = 0
-
-	while(i < level):
-		def += char_database[id][DEF][i]
-		i += 1
-	return def
+	return char_database[id][DEF][level - 1]
 
 func get_sp_attack(id, level):
-	var spatk = 0
-	var i = 0
-	
-	while (i < level):
-		spatk += char_database[id][SPATK][i]
-		i += 1
-	return spatk
+	return char_database[id][SPATK][level - 1]
 
 func get_sp_defense(id, level):
-	var spdef = 0
-	var i = 0
-	
-	while (i < level):
-		spdef += char_database[id][SPDEF][i]
-		i += 1
-	return spdef
+	return char_database[id][SPDEF][level - 1]
 
 func get_speed(id, level):
-	var spd = 0
-	var i = 0
-
-	while(i < level):
-		spd += char_database[id][SPD][i]
-		i += 1
-	return spd
+	return char_database[id][SPD][level - 1]
 
 func get_dexterity(id, level):
-	var dex = 0
-	var i = 0
-
-	while(i < level):
-		dex += char_database[id][DEX][i]
-		i += 1
-	return dex
+	return char_database[id][DEX][level - 1]
 
 func get_luck(id, level):
-	var luk = 0
-	var i = 0
-
-	while(i < level):
-		luk += char_database[id][LUK][i]
-		i += 1
-	return luk
+	return char_database[id][LUK][level - 1]
 
 func get_weapon_vector(id):
 	return char_database[id][WPN_VECTOR]
