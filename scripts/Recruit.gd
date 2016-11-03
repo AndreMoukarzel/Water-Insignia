@@ -108,7 +108,7 @@ func calculate_chance(unit):
 	stats += char_db.get_speed(unit.id, unit.level)
 
 #   max stats is 420, therefore max recruit chance is 50%
-	return 50 - (stats/84)
+	return 51 - (stats/84 + 1)
 
 
 func button_update():

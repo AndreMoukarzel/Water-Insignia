@@ -1077,23 +1077,30 @@ func _on_RepairWeapon_pressed():
 	if (last_selected_type == 0):
 		weapon = active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
 		price = (wpn_database.get_durability(weapon.id) - weapon.durability)/wpn_database.get_durability(weapon.id) * wpn_database.get_price(weapon.id)
-		if get_parent().quesha >= price:
-			get_parent().quesha -= price
-			weapon.durability = wpn_database.get_durability(weapon.id)
+		get_parent().quesha -= price
+		weapon.durability = wpn_database.get_durability(weapon.id)
 	else:
 		weapon = barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
 		price = (wpn_database.get_durability(weapon.id) - weapon.durability)/wpn_database.get_durability(weapon.id) * wpn_database.get_price(weapon.id)
-		if get_parent().quesha >= price:
-			get_parent().quesha -= price
-			weapon.durability = wpn_database.get_durability(weapon.id)# Condições de preço vem aqui
+		get_parent().quesha -= price
+		weapon.durability = wpn_database.get_durability(weapon.id)# Condições de preço vem aqui
 		
 func _on_RepairAll_pressed():
+	var price
 	if (rm_ap.get_selected_items().size() != 0):
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
 			weapon.durability = wpn_database.get_durability(weapon.id)
+		price = 0
+		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+			price += wpn_database.get_price(weapon.id)
+		get_parent().quesha -= price
 	if (rm_b.get_selected_items().size() != 0):
 		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
 			weapon.durability = wpn_database.get_durability(weapon.id)
+		price = 0
+		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+			price += wpn_database.get_price(weapon.id)
+		get_parent().quesha -= price
 
 # ####################################### #
 # ##### SHOP MENU BUTTON FUNCTIONS #### # 
