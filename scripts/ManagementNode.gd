@@ -54,6 +54,7 @@ onready var rm_w = get_node("RepairMenu/Weapons")
 onready var rm_rw = get_node("RepairMenu/RepairWeapon")
 onready var rm_ra = get_node("RepairMenu/RepairAll")
 onready var rm_rs = get_node("RepairMenu/RepairStatus")
+onready var rm_cq = get_node("RepairMenu/CurrentQuesha")
 
 # Shop Menu Nodes (sm)
 onready var sm_sw = get_node("ShopManagement/ShopWeapons")
@@ -1078,11 +1079,13 @@ func _on_RepairWeapon_pressed():
 		weapon = active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
 		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
 		get_parent().quesha -= price
+		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 		weapon.durability = wpn_database.get_durability(weapon.id)
 	else:
 		weapon = barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
 		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
 		get_parent().quesha -= price
+		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 		weapon.durability = wpn_database.get_durability(weapon.id)# Condições de preço vem aqui
 		
 func _on_RepairAll_pressed():
@@ -1094,6 +1097,7 @@ func _on_RepairAll_pressed():
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
 			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
 		get_parent().quesha -= price
+		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 	if (rm_b.get_selected_items().size() != 0):
 		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
 			weapon.durability = wpn_database.get_durability(weapon.id)
@@ -1101,6 +1105,7 @@ func _on_RepairAll_pressed():
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
 			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
 		get_parent().quesha -= price
+		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 
 # ####################################### #
 # ##### SHOP MENU BUTTON FUNCTIONS #### # 
@@ -1222,6 +1227,7 @@ func _on_Units_pressed():
 
 func _on_Repair_pressed():
 	current_screen = "RepairMenu"
+	rm_cq.set_text(str("  Current: ", get_parent().quesha))
 	get_node("Selection").hide()
 	get_node(current_screen).show()
 

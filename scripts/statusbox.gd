@@ -39,14 +39,14 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		var icon = TextureFrame.new()
 		icon.set_name("Icon")
 		add_child(icon)
-		get_node("Icon").set_scale(Vector2(0.8, 0.8))
-		get_node("Icon").set_pos(Vector2(get_size().x - 65, 10))
-		get_node("Name").set_pos(Vector2(20, 20))
-		get_node("Class").set_pos(Vector2(20, 40))
-		get_node("Durability").set_pos(Vector2(20, 65))
+		get_node("Name").set_pos(Vector2(20, 10))
+		get_node("Class").set_pos(Vector2(20, 30))
+		get_node("Durability").set_pos(Vector2(20, 60))
 		get_node("Attack").set_pos(Vector2(20, 80))
 		# Defesa não será necessária, acredito. Pode ser que uma arma forneça defesa bônus.
 		get_node("Defense").set_pos(Vector2(20, 100))
+		get_node("Icon").set_pos(Vector2(185, 15))
+		get_node("Price").set_pos(Vector2(205, 15))
 		
 	if (type == "Shop Status"):
 		# Falta ajustar, e colocar a durabilidade
@@ -83,7 +83,8 @@ func update_statusbox(object, type, nature, database):
 			get_node("Durability").set_text(str(object.amount,"/","3"))
 			
 	if (type == "Repair Status"):
-		get_node("Icon").set_texture(load(str("res://resources/sprites/weapons/",object.name,".tex")))
+		get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
+		get_node("Price").set_text(str((database.get_durability(object.id) - object.durability) * database.get_price(object.id) / 500))
 		get_node("Name").set_text(object.name)
 		get_node("Class").set_text(str("Type: ",database.get_wpn_type(object.id)))
 		get_node("Durability").set_text(str(object.durability,"/",database.get_durability(object.id)))
@@ -147,6 +148,7 @@ func neutralize_node(type):
 		get_node("Durability").set_text("")
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
+		get_node("Price").set_text("")
 
 	if (type == "Shop Status"):
 		hide()
