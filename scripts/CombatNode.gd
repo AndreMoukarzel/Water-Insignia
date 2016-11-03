@@ -127,6 +127,12 @@ class unit:
 	func get_bonus_speed():
 		return bonus_speed
 
+	func get_bonus_dexterity():
+		return bonus_dexterity
+
+	func get_bonus_luck():
+		return bonus_luck
+
 	func get_last_weapon():
 		return last_weapon
 
@@ -168,13 +174,19 @@ class unit:
 	func set_bonus_speed(bonus_speed):
 		self.bonus_speed = bonus_speed
 
+	func set_bonus_dexterity(bonus_dexterity):
+		self.bonus_dexterity = bonus_dexterity
+
+	func set_bonus_luck(bonus_luck):
+		self.bonus_luck = bonus_luck
+
 	func set_last_weapon(last_weapon_type):
 		self.last_weapon = last_weapon_type
 
 	func set_last_skill(last_skill_elem):
 		self.last_skill = last_skill_elem
 
-	# OTHERS
+	# MODIFIERS
 	func modify_hp_current(mod): # mod < 0 means damage || mod > 0 means heal
 		self.hp_current += mod
 
@@ -198,6 +210,18 @@ class unit:
 
 	func decrease_bonus_speed(bonus):
 		self.bonus_speed -= bonus
+
+	func increase_bonus_dexterity(bonus):
+		self.bonus_dexterity += bonus
+
+	func decrease_bonus_dexterity(bonus):
+		self.bonus_dexterity -= bonus
+
+	func increase_bonus_luck(bonus):
+		self.bonus_luck += bonus
+
+	func decrease_bonus_luck(bonus):
+		self.bonus_luck -= bonus
 
 class weapon:
 	var id # Weapon ID in the weapon database
