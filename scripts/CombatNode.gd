@@ -1,7 +1,6 @@
 
 extends Node2D
 
-
 const scale = 5
 
 class unit:
@@ -210,6 +209,9 @@ class weapon:
 	# SETTERS
 	func set_durability(durability):
 		self.durability = durability
+
+	func decrease_durability():
+		self.durability -= 1
 
 class skill:
 	var id
@@ -876,8 +878,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
-	var durability = attacker[attacker_vpos].get_wpn_vector()[action_id].get_durability()
-	attacker[attacker_vpos].get_wpn_vector()[action_id].set_durability(durability - 1)
+	attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
 
 	# DEFEND command greatly increses the unit's defense for only one attack or one turn
 	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
@@ -1130,7 +1131,6 @@ func blink(actor, counter):
 
 
 # Applies the status in target unit
-# WORK IN PROGRESS
 func status_apply(target_side, target_vpos):
 	var target
 	if target_side == "Enemies":
@@ -1184,6 +1184,14 @@ func status_apply(target_side, target_vpos):
 							bonus_atribute = target.get_bonus_speed()
 
 						bonus = status.get_effect() * base_atribute
+						if bonus < 0:
+							bonus = ceil(bonus)
+							if bonus == 0:
+								bonus = -1
+						elif bonus > 0:
+							bonus = floor(bonus)
+							if bonus == 0:
+								bonus = 1
 
 						if status.get_duration() == 1:
 							if bonus != 0:
@@ -1260,6 +1268,10 @@ func buff_boss():
 func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
 	if get_node("Enemies").get_child_count() < 1:
+		for unit in allies_vector:
+			for wpn in unit.get_wpn_vector():
+				if wpn.get_type() == "Natural":
+					wpn.set_durability(-1)
 		print("GG IZI")
 		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
