@@ -20,7 +20,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 1,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 1
@@ -31,7 +31,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.1,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 
 	{ # ID = 2
@@ -42,7 +42,7 @@ var skill_database = [
 		STATUS : ["Def Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 
 	{ # ID = 3
@@ -53,7 +53,7 @@ var skill_database = [
 		STATUS : ["Spd Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 
 	{ # ID = 4
@@ -64,7 +64,7 @@ var skill_database = [
 		STATUS : ["Detox"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 5
@@ -75,7 +75,7 @@ var skill_database = [
 		STATUS : ["Poison"],
 		ELEM : null,
 		MOD : 0.1,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 6
@@ -86,7 +86,7 @@ var skill_database = [
 		STATUS : ["Paralize"],
 		ELEM : "Wind",
 		MOD : 0,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 7
@@ -97,7 +97,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.5,
-		IS_PHY : 1
+		IS_PHY : true
 	},
 	
 	{ # ID = 8
@@ -108,7 +108,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Fire",
 		MOD : 0.25,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 9
@@ -119,7 +119,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Water",
 		MOD : 0.35,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 10
@@ -130,7 +130,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Wind",
 		MOD : 0.3,
-		IS_PHY : 0
+		IS_PHY : false
 	},
 	
 	{ # ID = 11
@@ -141,7 +141,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.9,
-		IS_PHY : 1
+		IS_PHY : true
 	},
 	
 	{ # ID = 12
@@ -152,7 +152,7 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.35,
-		IS_PHY : 1
+		IS_PHY : true
 	},
 	
 	{ # ID = 13
@@ -163,7 +163,7 @@ var skill_database = [
 		STATUS : ["Atk Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : 0
+		IS_PHY : false
 	}
 ]
 

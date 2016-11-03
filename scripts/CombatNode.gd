@@ -240,7 +240,7 @@ class skill:
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
-	var is_physical # 0 == Attack is special/magical || 1 == Attack is physical
+	var is_physical # false == Attack is special/magical || true == Attack is physical
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
@@ -995,7 +995,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 			var reduce_damage = 0
 			if skill.get_hp() < 0:
-				if is_physical == 0:
+				if not is_physical:
 					reduce_damage = target[target_vpos].get_total_special_defense()
 				else:
 					reduce_damage = target[target_vpos].get_total_defense()

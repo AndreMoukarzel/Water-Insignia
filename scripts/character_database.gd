@@ -1,4 +1,5 @@
-	
+# The sum of ATK, DEF, SPATK, SPDEF, DEX and LUK in lv. 20 is 420 blaze it no scope 360
+
 extends Node
 
 const FOLDER = 0
