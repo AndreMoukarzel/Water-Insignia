@@ -84,7 +84,7 @@ func update_statusbox(object, type, nature, database):
 			
 	if (type == "Repair Status"):
 		get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
-		get_node("Price").set_text(str((database.get_durability(object.id) - object.durability) * database.get_price(object.id) / 500))
+		get_node("Price").set_text(str(ceil((database.get_durability(object.id) - object.durability) * database.get_price(object.id) / 50)))
 		get_node("Name").set_text(object.name)
 		get_node("Class").set_text(str("Type: ",database.get_wpn_type(object.id)))
 		get_node("Durability").set_text(str(object.durability,"/",database.get_durability(object.id)))

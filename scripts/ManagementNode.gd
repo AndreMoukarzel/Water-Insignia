@@ -683,7 +683,7 @@ func Update_RM():
 					min_cond = 1
 			var price = 0
 			for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
-				price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+				price += ceil((wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50)
 			if min_cond == 0 or get_parent().quesha < price:
 				rm_ra.set_disabled(true)
 		# Membro da barracks selecionado, verificar para cada uma das armas
@@ -695,7 +695,7 @@ func Update_RM():
 					min_cond = 1
 			var price = 0
 			for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
-				price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+				price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
 			if min_cond == 0 or get_parent().quesha < price:
 				rm_ra.set_disabled(true)
 	# Nenhum selecionado, desabilita o botão
@@ -1077,13 +1077,13 @@ func _on_RepairWeapon_pressed():
 
 	if (last_selected_type == 0):
 		weapon = active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
-		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 		weapon.durability = wpn_database.get_durability(weapon.id)
 	else:
 		weapon = barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
-		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+		price = (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 		weapon.durability = wpn_database.get_durability(weapon.id)# Condições de preço vem aqui
@@ -1095,7 +1095,7 @@ func _on_RepairAll_pressed():
 			weapon.durability = wpn_database.get_durability(weapon.id)
 		price = 0
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
-			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 	if (rm_b.get_selected_items().size() != 0):
@@ -1103,7 +1103,7 @@ func _on_RepairAll_pressed():
 			weapon.durability = wpn_database.get_durability(weapon.id)
 		price = 0
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
-			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/500
+			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 

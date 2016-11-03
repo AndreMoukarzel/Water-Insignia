@@ -480,13 +480,13 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
-		instance_unit(3, 19, "Allies")
+		instance_unit(3, 20, "Allies")
 		instance_weapon("Bat Fangs", allies_vector[0])
 		instance_weapon("Bat Wings", allies_vector[0])
-		instance_unit(1, 18, "Allies")
+		instance_unit(1, 20, "Allies")
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 17, "Allies")
+		instance_unit(3, 20, "Allies")
 		instance_weapon("Bat Fangs", allies_vector[2])
 		instance_weapon("Bat Wings", allies_vector[2])
 
