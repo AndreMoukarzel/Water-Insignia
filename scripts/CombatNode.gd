@@ -954,9 +954,12 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
 			var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
 			if damage < 0:
-				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage += reduce_damage
+				if damage >= 0:
+					damage = -1
 				damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = ceil(damage)
+				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else:
 				damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = floor(damage)

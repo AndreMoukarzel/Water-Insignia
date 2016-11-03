@@ -20,6 +20,14 @@ func _ready():
 	populate()
 	button_update()
 
+#   Adds Money
+	var stats = 0
+	for unit in recruits:
+		stats += char_db.get_attack(unit.id, unit.level)
+		stats += char_db.get_defense(unit.id, unit.level)
+		stats += char_db.get_speed(unit.id, unit.level)
+	get_parent().get_parent().quesha += 2*stats
+
 
 func organize_positions():
 	var window_size = OS.get_window_size()
