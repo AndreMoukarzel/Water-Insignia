@@ -19,6 +19,10 @@ class unit:
 	var bonus_special_defense = 0
 	var speed
 	var bonus_speed = 0
+	var dexterity
+	var bonus_dexterity = 0
+	var luck
+	var bonus_luck = 0
 	var last_weapon # Type of the last weapon used
 	var last_skill # Element of the last skill used
 	var wpn_vector = [] # Array containing the unit's available weapons
@@ -37,6 +41,8 @@ class unit:
 		self.special_attack = db.get_sp_attack(id, level)
 		self.special_defense = db.get_sp_defense(id, level)
 		self.speed = db.get_speed(id, level)
+		self.dexterity = db.get_dexterity(id, level)
+		self.luck = db.get_luck(id, level)
 
 	# GETTERS
 
@@ -93,6 +99,18 @@ class unit:
 
 	func get_total_speed():
 		return speed + bonus_speed
+	
+	func get_base_dexterity():
+		return dexterity
+
+	func get_total_dexterity():
+		return dexterity + bonus_dexterity
+	
+	func get_base_luck():
+		return luck
+
+	func get_total_luck():
+		return luck + bonus_luck
 
 	func get_bonus_attack():
 		return bonus_attack
@@ -222,7 +240,7 @@ class skill:
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
-	var is_physical # 0 == Attack is special/magical || 1 == Attack is physical
+	var is_physical # false == Attack is special/magical || true == Attack is physical
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
@@ -463,7 +481,7 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		instance_unit(3, 3, "Allies")
-		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Bat Fangs", allies_vector[0])
 		instance_weapon("Bat Wings", allies_vector[0])
 
 	generate_mob(get_parent().stage)
@@ -862,42 +880,73 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
-	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's base attack
+	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
+	var char_dex = attacker[attacker_vpos].get_total_dexterity() # Attacker's total dexterity
+	var char_luk = attacker[attacker_vpos].get_total_luck() # Attacker's total luck
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].get_wpn_vector()[action_id].get_id()) # Attacker's weapon power
-	var char_def = defender[defender_vpos].get_total_defense() # Defender's base defense
 
-	# Damage modifier by the Weapon Triangle
-	var tri = 1
-	var atk_wpn = attacker[attacker_vpos].get_last_weapon()
-	var def_wpn = defender[defender_vpos].get_last_weapon()
-	if (atk_wpn == "Sword" and def_wpn == "Axe") or (atk_wpn == "Axe" and def_wpn == "Spear") or (atk_wpn == "Spear" and def_wpn == "Sword"):
-		tri = 1.25
-	elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
-		tri = 0.75
-	var damage = floor(((char_atk + wpn_atk) - char_def) * tri)  # Damage dealt
+	var defender_def = defender[defender_vpos].get_total_defense() # Defender's total defense
+	var defender_dex = defender[defender_vpos].get_total_dexterity() # Defender's total dexterity
 
-	# Decreases the weapon's durability
-	# If the target dies prior to the attack being dealt, the durability doesn't decrease
-	attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
+	# Check for defender avoidance
+	randomize()
+	var random = randi() % 300
+	if (random < defender_dex):
+		# Attack misses
+		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+	else:
+		# Attack hits
 
-	# DEFEND command greatly increses the unit's defense for only one attack or one turn
-	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
+		# Damage modifier by the Weapon Triangle
+		var tri = 1
+		var atk_wpn = attacker[attacker_vpos].get_last_weapon()
+		var def_wpn = defender[defender_vpos].get_last_weapon()
+		if (atk_wpn == "Sword" and def_wpn == "Axe") or (atk_wpn == "Axe" and def_wpn == "Spear") or (atk_wpn == "Spear" and def_wpn == "Sword"):
+			tri = 1.25
+		elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
+			tri = 0.75
+
+		# Assumindo que o maximo de dexterity é 60
+		randomize()
+		random = rand_range(0, 0.4)
+		var attack_damage = (char_atk - (random * (80 - char_dex)/80)) + wpn_atk
+		
+		randomize()
+		random = randi() % 250
+		var critical = 0
+		if (random < char_luk):
+			critical = 1
+
+		# Actual damage calculation
+		var damage = floor((attack_damage - defender_def) * tri)  # Damage dealt
+		if (critical):
+			damage * 1.5
+
+		# Decreases the weapon's durability
+		# If the target dies prior to the attack being dealt, the durability doesn't decrease
+		attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
+
+		# DEFEND command greatly increses the unit's defense for only one attack or one turn
+		# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
+
+		var i = 0
+		for stat in defender[defender_vpos].get_status_vector():
+			if stat.get_name() == "DEFEND":
+				defender[defender_vpos].get_status_vector().remove(i)
+				var bonus = 3*defender[defender_vpos].get_base_defense()
+				defender[defender_vpos].decrease_bonus_defense(-bonus)
+			i += 1
+
+		# damage can't be lower than zero
+		if (damage <= 0):
+			damage = 1
 	
-	var i = 0
-	for stat in defender[defender_vpos].get_status_vector():
-		if stat.get_name() == "DEFEND":
-			defender[defender_vpos].get_status_vector().remove(i)
-			var bonus = 3*defender[defender_vpos].get_base_defense()
-			defender[defender_vpos].decrease_bonus_defense(bonus)
-		i += 1
-
-	# damage can't be lower than zero
-	if (damage < 0):
-		damage = 0
-
-	# Reduces the defender's HP and shows it in the combat screen
-	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
-	defender[defender_vpos].modify_hp_current(-damage)
+		# Reduces the defender's HP and shows it in the combat screen
+		if (critical):
+			damage_box(str(damage, "!!"), Color(1, 0.5, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+		else:
+			damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+		defender[defender_vpos].modify_hp_current(-damage)
 
 	# If the attack kills the defender
 	if (defender[defender_vpos].get_hp_current() <= 0):
@@ -948,7 +997,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 			var reduce_damage = 0
 			if skill.get_hp() < 0:
-				if is_physical == 0:
+				if not is_physical:
 					reduce_damage = target[target_vpos].get_total_special_defense()
 				else:
 					reduce_damage = target[target_vpos].get_total_defense()
