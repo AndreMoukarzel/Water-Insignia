@@ -11,8 +11,10 @@ const DEF = 6
 const SPATK = 7
 const SPDEF = 8
 const SPD = 9
-const WPN_VECTOR = 10
-const SKILL_VECTOR = 11
+const DEX = 10
+const LUK = 11
+const WPN_VECTOR = 12
+const SKILL_VECTOR = 13
 
 
 var char_database = [
@@ -27,6 +29,8 @@ var char_database = [
 		SPDEF : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		DEF : [1, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		SPD : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
 		SKILL_VECTOR : ["Shadow Strike"]
 	},
@@ -41,6 +45,8 @@ var char_database = [
 		SPATK : [1, 2, 2, 2, 1, 3, 1, 1, 2, 1, 1, 1, 4, 1, 1, 3, 1, 1, 1, 5],
 		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword", "Sword"],
 		SKILL_VECTOR : ["Heal", "Sonic Blow"]
 	},
@@ -55,6 +61,8 @@ var char_database = [
 		SPATK : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SPDEF : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Axe"],
 		SKILL_VECTOR : ["Slash", "Aqua Blast", "Lightning Bolt", "Heal"]
 	},
@@ -69,6 +77,8 @@ var char_database = [
 		SPATK : [2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 2, 1, 1, 5],
 		SPDEF : [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SPD : [11, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		DEX : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
+		LUK : [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
 		SKILL_VECTOR : ["Heal", "Thunderwave", "Poison Sting", "Sword Dance"]
 	}
@@ -155,6 +165,24 @@ func get_speed(id, level):
 		spd += char_database[id][SPD][i]
 		i += 1
 	return spd
+
+func get_dexterity(id, level):
+	var dex = 0
+	var i = 0
+
+	while(i < level):
+		dex += char_database[id][DEX][i]
+		i += 1
+	return dex
+
+func get_luck(id, level):
+	var luk = 0
+	var i = 0
+
+	while(i < level):
+		luk += char_database[id][LUK][i]
+		i += 1
+	return luk
 
 func get_weapon_vector(id):
 	return char_database[id][WPN_VECTOR]
