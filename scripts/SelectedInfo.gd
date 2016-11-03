@@ -29,9 +29,9 @@ func update():
 
 func update_status():
 	var color = Color(1, 1, 1)
-	var atk_bonus = master.get_attack_bonus()
-	var def_bonus = master.get_defense_bonus()
-	var spd_bonus = master.get_speed_bonus()
+	var atk_bonus = master.get_bonus_attack()
+	var def_bonus = master.get_bonus_defense()
+	var spd_bonus = master.get_bonus_speed()
 	var stat_vector = master.get_status_vector()
 	
 	get_node("LifeBar/HP").set_text(str(master.get_hp_current(), "/", master.get_hp_max()))
