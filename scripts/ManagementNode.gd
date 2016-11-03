@@ -643,24 +643,27 @@ func Update_RM():
 		
 	# Condições do botão repair weapon
 	if (rm_w.get_selected_items().size() != 0):
+		var weapon
 		# A arma selecionada era de um membro da party ativa
 		if (last_selected_type == 0):
 			# Atualiza a RepairStatus
-			rm_rs.update_statusbox(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]], "Repair Status", null, wpn_database)
+			weapon = active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
+			rm_rs.update_statusbox(weapon, "Repair Status", null, wpn_database)
 			
 			# Checa se a durabilidade atual da arma selecionada
 			# é menor do que sua durabilidade original
-			if (active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
+			if (weapon.durability < wpn_database.get_durability(weapon.id)) and (get_parent().quesha >= wpn_database.get_price(weapon.id)):
 				rm_rw.set_disabled(false)
 			else:
 				rm_rw.set_disabled(true)
 		else:
 			# Atualiza a RepairStatus
-			rm_rs.update_statusbox(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]], "Repair Status", null, wpn_database)
+			weapon = barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
+			rm_rs.update_statusbox(weapon, "Repair Status", null, wpn_database)
 			
 			# Checa se a durabilidade atual da arma selecionada
 			# é menor do que sua durabilidade original
-			if (barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability < wpn_database.get_durability(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)):
+			if (weapon.durability < wpn_database.get_durability(weapon.id)) and (get_parent().quesha >= wpn_database.get_price(weapon.id)):
 				rm_rw.set_disabled(false)
 			else:
 				rm_rw.set_disabled(true)
@@ -677,7 +680,10 @@ func Update_RM():
 				if (weapon.durability < wpn_database.get_durability(weapon.id)):
 					rm_ra.set_disabled(false)
 					min_cond = 1
-			if (min_cond == 0):
+			var price = 0
+			for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+				price += wpn_database.get_price(weapon.id)
+			if min_cond == 0 or get_parent().quesha < price:
 				rm_ra.set_disabled(true)
 		# Membro da barracks selecionado, verificar para cada uma das armas
 		else:
@@ -686,7 +692,10 @@ func Update_RM():
 				if (weapon.durability < wpn_database.get_durability(weapon.id)):
 					rm_ra.set_disabled(false)
 					min_cond = 1
-			if (min_cond == 0):
+			var price = 0
+			for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+				price += wpn_database.get_price(weapon.id)
+			if min_cond == 0 or get_parent().quesha < price:
 				rm_ra.set_disabled(true)
 	# Nenhum selecionado, desabilita o botão
 	else:
@@ -1062,12 +1071,21 @@ func _on_StorageBarracks_pressed():
 # se ele esta trabalhando corretamente com as condições limitantes.
 
 func _on_RepairWeapon_pressed():
+	var price
+	var weapon
+
 	if (last_selected_type == 0):
-		# Condições de preço vem aqui
-		active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability = wpn_database.get_durability(active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)
+		weapon = active_units[rm_ap.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
+		price = (wpn_database.get_durability(weapon.id) - weapon.durability)/wpn_database.get_durability(weapon.id) * wpn_database.get_price(weapon.id)
+		if get_parent().quesha >= price:
+			get_parent().quesha -= price
+			weapon.durability = wpn_database.get_durability(weapon.id)
 	else:
-		# Condições de preço vem aqui
-		barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].durability = wpn_database.get_durability(barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]].id)
+		weapon = barracks_units[rm_b.get_selected_items()[0]].wpn_vector[rm_w.get_selected_items()[0]]
+		price = (wpn_database.get_durability(weapon.id) - weapon.durability)/wpn_database.get_durability(weapon.id) * wpn_database.get_price(weapon.id)
+		if get_parent().quesha >= price:
+			get_parent().quesha -= price
+			weapon.durability = wpn_database.get_durability(weapon.id)# Condições de preço vem aqui
 		
 func _on_RepairAll_pressed():
 	if (rm_ap.get_selected_items().size() != 0):

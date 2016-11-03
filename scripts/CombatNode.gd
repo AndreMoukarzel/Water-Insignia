@@ -436,7 +436,7 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		instance_unit(3, 3, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[0])
+		instance_weapon("Katana", allies_vector[0])
 		instance_weapon("Bat Wings", allies_vector[0])
 
 	generate_mob(get_parent().stage)

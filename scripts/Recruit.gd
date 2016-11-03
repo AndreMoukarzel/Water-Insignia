@@ -41,7 +41,7 @@ func organize_positions():
 	get_node("RecruitsBox").set_pos(Vector2(0, -30))
 
 	get_node("ButtonBox").set_size(Vector2(window_size.x - 50, window_size.y))
-	get_node("ButtonBox").set_pos(Vector2(0, 100))
+	get_node("ButtonBox").set_pos(Vector2(20, 100))
 
 
 func populate():
@@ -106,8 +106,9 @@ func calculate_chance(unit):
 	var stats = char_db.get_attack(unit.id, unit.level)
 	stats += char_db.get_defense(unit.id, unit.level)
 	stats += char_db.get_speed(unit.id, unit.level)
-	
-	return stats
+
+#   max stats is 420, therefore max recruit chance is 50%
+	return 50 - (stats/84)
 
 
 func button_update():
