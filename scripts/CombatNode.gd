@@ -481,7 +481,7 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 		instance_unit(3, 3, "Allies")
-		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Bat Fangs", allies_vector[0])
 		instance_weapon("Bat Wings", allies_vector[0])
 
 	generate_mob(get_parent().stage)
@@ -907,7 +907,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			tri = 0.75
 		
 		# Assumindo que o maximo de dexterity é 60
-		var attack_damage = (char_atk * char_dex/45) + wpn_atk
+		randomize()
+		random = rand_range(0, 0.4)
+		var attack_damage = (char_atk - (random * (80 - char_dex)/80)) + wpn_atk
 		
 		randomize()
 		random = randi() % 250
