@@ -17,7 +17,7 @@ var item_database = [
 		HP : 10,
 		STATUS : [],
 		STACK : 10,
-		PRICE : 50
+		PRICE : 10
 	},
 
 	{ # ID = 1

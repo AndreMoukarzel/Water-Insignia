@@ -653,7 +653,7 @@ func Update_RM():
 			
 			# Checa se a durabilidade atual da arma selecionada
 			# é menor do que sua durabilidade original
-			if (weapon.durability < wpn_database.get_durability(weapon.id)) and (get_parent().quesha >= wpn_database.get_price(weapon.id)):
+			if (weapon.durability < wpn_database.get_durability(weapon.id)) and (get_parent().quesha >= ceil((wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50)):
 				rm_rw.set_disabled(false)
 			else:
 				rm_rw.set_disabled(true)
@@ -1091,19 +1091,17 @@ func _on_RepairWeapon_pressed():
 func _on_RepairAll_pressed():
 	var price
 	if (rm_ap.get_selected_items().size() != 0):
-		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
-			weapon.durability = wpn_database.get_durability(weapon.id)
 		price = 0
 		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
 			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
+			weapon.durability = wpn_database.get_durability(weapon.id)
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 	if (rm_b.get_selected_items().size() != 0):
-		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
-			weapon.durability = wpn_database.get_durability(weapon.id)
 		price = 0
-		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
 			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
+			weapon.durability = wpn_database.get_durability(weapon.id)
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 

@@ -1005,6 +1005,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
+custom_fonts/font = ExtResource( 17 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1175,6 +1176,7 @@ visible_characters = -1
 
 [node name="ShopManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
