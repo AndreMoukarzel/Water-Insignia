@@ -1,7 +1,6 @@
 
 extends Node2D
 
-
 const scale = 5
 
 class unit:
@@ -157,6 +156,31 @@ class unit:
 	func set_last_skill(last_skill_elem):
 		self.last_skill = last_skill_elem
 
+	# OTHERS
+	func modify_hp_current(mod): # mod < 0 means damage || mod > 0 means heal
+		self.hp_current += mod
+
+	func modify_mp_current(mod): # mod < 0 means skill used || mod > 0 means MP recovered
+		self.mp_current += mod
+
+	func increase_bonus_attack(bonus):
+		self.bonus_attack += bonus
+
+	func decrease_bonus_attack(bonus):
+		self.bonus_attack -= bonus
+
+	func increase_bonus_defense(bonus):
+		self.bonus_defense += bonus
+
+	func decrease_bonus_defense(bonus):
+		self.bonus_defense -= bonus
+
+	func increase_bonus_speed(bonus):
+		self.bonus_speed += bonus
+
+	func decrease_bonus_speed(bonus):
+		self.bonus_speed -= bonus
+
 class weapon:
 	var id # Weapon ID in the weapon database
 	var name # Weapon name in the weapon database
@@ -185,6 +209,9 @@ class weapon:
 	# SETTERS
 	func set_durability(durability):
 		self.durability = durability
+
+	func decrease_durability():
+		self.durability -= 1
 
 class skill:
 	var id
@@ -555,29 +582,34 @@ func instance_status(name, target):
 	var i = 0
 	for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
 		if status.get_name() == name:
-			if status.get_type() == "Buff": # Nulify old effect
-				var base_atribute
-				var bonus_atribute
-				var bonus
+			for type in status.get_type():
+				if type == "Buff": # Nulify old effect
+					var bonus_atribute
+					var bonus = status.get_effect()
 
-				if status.get_stat() == "ATK":
-					base_atribute = target.get_base_attack()
-					bonus_atribute = target.get_bonus_attack()
-				elif status.get_stat() == "DEF":
-					base_atribute = target.get_base_defense()
-					bonus_atribute = target.get_bonus_defense()
-				elif status.get_stat() == "SPD":
-					base_atribute = target.get_base_speed()
-					bonus_atribute = target.get_bonus_speed()
+					if status.get_stat() == "ATK":
+						bonus *= target.get_base_attack()
+						if bonus != 0:
+							target.decrease_bonus_attack(bonus)
+						else:
+							target.set_bonus_attack(-target.get_base_attack())
+						bonus_atribute = target.get_bonus_attack()
+					if status.get_stat() == "DEF":
+						bonus *= target.get_base_defense()
+						if bonus != 0:
+							target.decrease_bonus_defense(bonus)
+						else:
+							target.set_bonus_defense(-target.get_base_defense())
+						bonus_atribute = target.get_bonus_defense()
+					if status.get_stat() == "SPD":
+						bonus *= target.get_base_speed()
+						if bonus != 0:
+							target.decrease_bonus_speed(bonus)
+						else:
+							target.set_bonus_speed(-target.get_base_speed())
+						bonus_atribute = target.get_bonus_speed()
 
-				bonus = status.get_effect() * base_atribute
-
-				if bonus != 0:
-					bonus_atribute -= bonus
-				else:
-					bonus_atribute += bonus_atribute
-
-				apply_bonus(bonus_atribute, status.get_stat(), target)
+					apply_bonus(bonus_atribute, status.get_stat(), target)
 
 #			Refreshes duration
 			target.get_status_vector().remove(i)
@@ -689,7 +721,7 @@ func turn_based_system():
 				for stat in char.get_status_vector():
 					if stat.get_name() == "DEFEND":
 						char.get_status_vector().remove(j)
-						char.set_bonus_defense(char.get_bonus_defense() - 3*char.get_base_defense())
+						char.decrease_bonus_defense(3*char.get_base_defense())
 					j += 1
 			i += 1
 		i = 0
@@ -738,14 +770,12 @@ func turn_based_system():
 				# Verifies who chose to defend and increses the actor's defense accordingly
 				if act.get_from()[1] == "Allies":
 					instance_status("DEFEND", allies_vector[act.get_from()[0]])
-					var bonus_defense = allies_vector[act.get_from()[0]].get_bonus_defense()
 					var bonus = 3*allies_vector[act.get_from()[0]].get_base_defense()
-					allies_vector[act.get_from()[0]].set_bonus_defense(bonus_defense + bonus)
+					allies_vector[act.get_from()[0]].increase_bonus_defense(bonus)
 				elif act.get_from()[1] == "Enemies":
 					instance_status("DEFEND", enemies_vector[act.get_from()[0]])
-					var bonus_defense = enemies_vector[act.get_from()[0]].get_bonus_defense()
 					var bonus = 3*enemies_vector[act.get_from()[0]].get_base_defense()
-					enemies_vector[act.get_from()[0]].set_bonus_defense(bonus_defense + bonus)
+					enemies_vector[act.get_from()[0]].increase_bonus_defense(bonus)
 
 				# Plays the DEFEND animation
 				effect.set_pos(get_node(str(act.get_from()[1], "/", act.get_from()[0])).get_pos())
@@ -848,8 +878,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Decreases the weapon's durability
 	# If the target dies prior to the attack being dealt, the durability doesn't decrease
-	var durability = attacker[attacker_vpos].get_wpn_vector()[action_id].get_durability()
-	attacker[attacker_vpos].get_wpn_vector()[action_id].set_durability(durability - 1)
+	attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
 
 	# DEFEND command greatly increses the unit's defense for only one attack or one turn
 	# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
@@ -858,9 +887,8 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	for stat in defender[defender_vpos].get_status_vector():
 		if stat.get_name() == "DEFEND":
 			defender[defender_vpos].get_status_vector().remove(i)
-			var bonus_defense = defender[defender_vpos].get_bonus_defense()
 			var bonus = 3*defender[defender_vpos].get_base_defense()
-			defender[defender_vpos].set_bonus_defense(bonus_defense - bonus)
+			defender[defender_vpos].decrease_bonus_defense(bonus)
 		i += 1
 
 	# damage can't be lower than zero
@@ -869,8 +897,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Reduces the defender's HP and shows it in the combat screen
 	damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
-	var hp_current = defender[defender_vpos].get_hp_current()
-	defender[defender_vpos].set_hp_current(hp_current - damage)
+	defender[defender_vpos].modify_hp_current(-damage)
 
 	# If the attack kills the defender
 	if (defender[defender_vpos].get_hp_current() <= 0):
@@ -905,8 +932,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 # Reduces the user's MP in the corresponding cost.
 # MP isn't spend if the target dies before the skill is used
-	var mp_current = user[user_vpos].get_mp_current()
-	user[user_vpos].set_mp_current(mp_current - cost)
+	user[user_vpos].modify_mp_current(-cost)
 
 	for type in skill.get_type():
 		if type == "HP":
@@ -944,7 +970,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
 			var hp_current = target[target_vpos].get_hp_current()
-			target[target_vpos].set_hp_current(hp_current + damage)
+			target[target_vpos].modify_hp_current(damage)
 
 			# If the skill kills the target
 			if target[target_vpos].get_hp_current() <= 0:
@@ -994,8 +1020,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 		if type == "HP":
 			var damage = item.get_hp()
 
-			var hp_current = target[target_vpos].get_hp_current()
-			target[target_vpos].set_hp_current(hp_current + damage)
+			target[target_vpos].modify_hp_current(damage)
 			if damage < 0: # If it's a damage-type HP item
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else: # If it's a heal-type HP item
@@ -1106,7 +1131,6 @@ func blink(actor, counter):
 
 
 # Applies the status in target unit
-# WORK IN PROGRESS
 func status_apply(target_side, target_vpos):
 	var target
 	if target_side == "Enemies":
@@ -1131,8 +1155,7 @@ func status_apply(target_side, target_vpos):
 						color = Color(1, 0, 0)
 						damage_box(str(-damage), color, pos)
 
-					var hp_current = target.get_hp_current()
-					target.set_hp_current(hp_current + damage)
+					target.modify_hp_current(damage)
 
 					if target.get_hp_current() <= 0: # If the item kills the target
 						target = null
@@ -1161,6 +1184,14 @@ func status_apply(target_side, target_vpos):
 							bonus_atribute = target.get_bonus_speed()
 
 						bonus = status.get_effect() * base_atribute
+						if bonus < 0:
+							bonus = ceil(bonus)
+							if bonus == 0:
+								bonus = -1
+						elif bonus > 0:
+							bonus = floor(bonus)
+							if bonus == 0:
+								bonus = 1
 
 						if status.get_duration() == 1:
 							if bonus != 0:
@@ -1217,15 +1248,13 @@ func status_apply(target_side, target_vpos):
 
 
 func apply_bonus(bonus, stat, target):
+	# Might actually decrease if bonus is negative
 	if stat == "ATK":
-		var bonus_attack = target.get_bonus_attack()
-		target.set_bonus_attack(bonus_attack + bonus)
+		target.increase_bonus_attack(bonus)
 	elif stat == "DEF":
-		var bonus_defense = target.get_bonus_defense()
-		target.set_bonus_defense(bonus_defense + bonus)
+		target.increase_bonus_defense(bonus)
 	elif stat == "SPD":
-		var bonus_speed = target.get_bonus_speed()
-		target.set_bonus_speed(bonus_speed + bonus)
+		target.increase_bonus_speed(bonus)
 
 
 func buff_boss():
@@ -1239,6 +1268,10 @@ func buff_boss():
 func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
 	if get_node("Enemies").get_child_count() < 1:
+		for unit in allies_vector:
+			for wpn in unit.get_wpn_vector():
+				if wpn.get_type() == "Natural":
+					wpn.set_durability(-1)
 		print("GG IZI")
 		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
