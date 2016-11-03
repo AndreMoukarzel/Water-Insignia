@@ -71,7 +71,7 @@ func instance_unit(id, scale, parent):
 func add_info(unit, parent):
 	var size
 
-	parent.get_node("Name").set_text(str(char_db.get_char_name(unit.id)))
+	parent.get_node("Name").set_text(str(char_db.get_char_name(unit.id).capitalize()))
 	size = parent.get_node("Name").get_text().length()
 	parent.get_node("Name").set_pos(Vector2(-size/2, -100))
 	parent.get_node("Attack").set_text(str("Attack:\n", char_db.get_attack(unit.id, unit.level)))

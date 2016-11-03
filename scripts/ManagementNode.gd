@@ -82,7 +82,10 @@ var item_database
 # Database-related variables
 
 # Estas variáveis não representam o tamanho real da database,
-# e sim o tamanho relevante para o Shop exibir a cada momento
+# e sim o tamanho relevante para o Shop exibir a cada momento.
+# Temos que trocar por um vetor com numeros, e pega o relevante
+# para o andar.
+
 var w_db_size
 var i_db_size
 
