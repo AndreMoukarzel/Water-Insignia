@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="14" version="2.1" version_name="Godot Engine v2.1.stable.official">
+<resource_file type="PackedScene" subresource_count="15" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://resources/sprites/effects/defense/defend0002.tex" type="Texture" index="2"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/defense/defend0004.tex" type="Texture" index="4"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/defense/defend0003.tex" type="Texture" index="3"></ext_resource>
-	<ext_resource path="res://resources/sprites/effects/defense/defend0001.tex" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/defense/defend0000.tex" type="Texture" index="0"></ext_resource>
+	<ext_resource path="res://resources/sprites/effects/defense/defend0001.tex" type="Texture" index="1"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/heal/heal0002.png" type="Texture" index="7"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/heal/heal0003.png" type="Texture" index="8"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/heal/heal0000.png" type="Texture" index="5"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/heal/heal0001.png" type="Texture" index="6"></ext_resource>
 	<ext_resource path="res://resources/sprites/effects/heal/heal0004.png" type="Texture" index="9"></ext_resource>
+	<ext_resource path="res://resources/sprites/effects/heal/heal0005.png" type="Texture" index="10"></ext_resource>
 	<resource type="SpriteFrames" path="local://1">
 		<array name="animations" len="1" shared="false">
 			<dictionary  shared="false">
 				<string> "frames" </string>
-				<array  len="10" shared="false">
+				<array  len="11" shared="false">
 					<resource  external="0">  </resource>
 					<resource  external="1">  </resource>
 					<resource  external="2">  </resource>
@@ -25,6 +26,7 @@
 					<resource  external="7">  </resource>
 					<resource  external="8">  </resource>
 					<resource  external="9">  </resource>
+					<resource  external="10">  </resource>
 				</array>
 				<string> "loop" </string>
 				<bool> True </bool>
@@ -82,7 +84,7 @@
 	</resource>
 	<resource type="Animation" path="local://3">
 		<string name="resource/name"> "heal" </string>
-		<real name="length"> 0.5 </real>
+		<real name="length"> 0.6 </real>
 		<bool name="loop"> False </bool>
 		<real name="step"> 0.1 </real>
 		<string name="tracks/0/type"> "value" </string>
@@ -91,7 +93,7 @@
 		<bool name="tracks/0/imported"> False </bool>
 		<dictionary name="tracks/0/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="2"> 				0, 0.5 </real_array>
+			<real_array  len="2"> 				0, 0.6 </real_array>
 			<string> "transitions" </string>
 			<real_array  len="2"> 				1, 1 </real_array>
 			<string> "update" </string>
@@ -108,18 +110,19 @@
 		<bool name="tracks/1/imported"> False </bool>
 		<dictionary name="tracks/1/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="5"> 				0, 0.1, 0.2, 0.3, 0.4 </real_array>
+			<real_array  len="6"> 				0, 0.1, 0.2, 0.3, 0.4, 0.5 </real_array>
 			<string> "transitions" </string>
-			<real_array  len="5"> 				1, 1, 1, 1, 1 </real_array>
+			<real_array  len="6"> 				1, 1, 1, 1, 1, 1 </real_array>
 			<string> "update" </string>
 			<int> 1 </int>
 			<string> "values" </string>
-			<array  len="5" shared="false">
+			<array  len="6" shared="false">
 				<int> 5 </int>
 				<int> 6 </int>
 				<int> 7 </int>
 				<int> 8 </int>
 				<int> 9 </int>
+				<int> 10 </int>
 			</array>
 		</dictionary>
 
@@ -167,7 +170,7 @@
 				<vector2> 4, 4 </vector2>
 				<resource  resource_type="SpriteFrames" path="local://1">  </resource>
 				<string> "default" </string>
-				<int> 9 </int>
+				<int> 10 </int>
 				<int> 1 </int>
 				<real> 0 </real>
 				<node_path> ".." </node_path>
