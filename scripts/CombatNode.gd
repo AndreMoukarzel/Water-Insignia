@@ -799,7 +799,12 @@ func turn_based_system():
 		closest = target_select("All")
 		if closest[0] != -1:
 			get_node("Target").show()
-			get_node("Target").set_pos(get_node(str(closest[1], "/", closest[0])).get_pos())
+			var current_action = action_memory[action_memory.size() - 1]
+			if (current_action.get_action() == "skill") and (allies_vector[actor].get_skill_vector()[current_action.get_action_id()].get_is_multi_target()):
+				print ("blub")
+				pass
+			else:
+				get_node("Target").set_pos(get_node(str(closest[1], "/", closest[0])).get_pos())
 
 			# Receives the action's target when the left button mouse is clicked
 			if Input.is_action_pressed("left_click") and mouse_cooldown == 0:
