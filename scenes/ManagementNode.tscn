@@ -1034,6 +1034,32 @@ flat = false
 transform/pos = Vector2( 20, 40 )
 texture = ExtResource( 18 )
 
+[node name="RepairAllPrice" type="Button" parent="RepairMenu"]
+
+editor/display_folded = true
+visibility/visible = false
+visibility/opacity = 0.85
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 555.0
+margin/top = 349.0
+margin/right = 730.0
+margin/bottom = 429.0
+custom_styles/normal = SubResource( 14 )
+custom_fonts/font = ExtResource( 17 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "1"
+flat = false
+
+[node name="Sprite" type="Sprite" parent="RepairMenu/RepairAllPrice"]
+
+transform/pos = Vector2( 20, 40 )
+texture = ExtResource( 18 )
+
 [node name="ShopMenu" type="VBoxContainer" parent="."]
 
 editor/display_folded = true
@@ -1774,6 +1800,10 @@ flat = false
 [connection signal="pressed" from="ItemManagement/Return" to="." method="_on_Return_pressed"]
 
 [connection signal="pressed" from="RepairMenu/RepairWeapon" to="." method="_on_RepairWeapon_pressed"]
+
+[connection signal="mouse_enter" from="RepairMenu/RepairAll" to="." method="_on_RepairAll_mouse_enter"]
+
+[connection signal="mouse_exit" from="RepairMenu/RepairAll" to="." method="_on_RepairAll_mouse_exit"]
 
 [connection signal="pressed" from="RepairMenu/RepairAll" to="." method="_on_RepairAll_pressed"]
 
