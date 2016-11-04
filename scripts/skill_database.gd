@@ -9,7 +9,7 @@ const STATUS = 4
 const ELEM = 5
 const IS_PHY = 6
 const MELEE = 7
-
+const TARGET = 8
 
 var skill_database = [
 	{ # ID = 0
