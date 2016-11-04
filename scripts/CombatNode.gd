@@ -1062,6 +1062,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					enemies_pos[target_vpos] = Vector2(-100, -100)
 				elif target_side == "Allies":
 					allies_pos[target_vpos] = Vector2(-100, -100)
+				break
 	
 			# If the skill tries to overheal an unit
 			elif target[target_vpos].get_hp_current() > char_database.get_hp(target[target_vpos].get_id(), target[target_vpos].get_level()):
@@ -1220,6 +1221,7 @@ func status_apply(target_side, target_vpos):
 	
 	if target.get_status_vector().size() != 0:
 		var i = 0
+		var target_died = false
 
 		for status in target.get_status_vector():
 			for type in status.get_type():
@@ -1245,6 +1247,8 @@ func status_apply(target_side, target_vpos):
 							enemies_pos[target_vpos] = Vector2(-100, -100)
 						elif target_side == "Allies":
 							allies_pos[target_vpos] = Vector2(-100, -100)
+						target_died = true
+						break
 
 				elif type == "Buff":
 					if status.get_duration() == status.get_max_duration() or status.get_duration() == 1:
@@ -1316,7 +1320,11 @@ func status_apply(target_side, target_vpos):
 								else:
 									bonus = (base_atribute + bonus_atribute)
 								apply_bonus(bonus, status.get_stat(), target)
-
+			
+			if (target_died):
+				break
+			
+			
 			if turn_start:
 				var duration = status.get_duration()
 				status.set_duration(duration - 1)
