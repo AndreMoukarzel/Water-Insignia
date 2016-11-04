@@ -127,6 +127,12 @@ class unit:
 	func get_bonus_speed():
 		return bonus_speed
 
+	func get_bonus_dexterity():
+		return bonus_dexterity
+
+	func get_bonus_luck():
+		return bonus_luck
+
 	func get_last_weapon():
 		return last_weapon
 
@@ -168,13 +174,19 @@ class unit:
 	func set_bonus_speed(bonus_speed):
 		self.bonus_speed = bonus_speed
 
+	func set_bonus_dexterity(bonus_dexterity):
+		self.bonus_dexterity = bonus_dexterity
+
+	func set_bonus_luck(bonus_luck):
+		self.bonus_luck = bonus_luck
+
 	func set_last_weapon(last_weapon_type):
 		self.last_weapon = last_weapon_type
 
 	func set_last_skill(last_skill_elem):
 		self.last_skill = last_skill_elem
 
-	# OTHERS
+	# MODIFIERS
 	func modify_hp_current(mod): # mod < 0 means damage || mod > 0 means heal
 		self.hp_current += mod
 
@@ -198,6 +210,18 @@ class unit:
 
 	func decrease_bonus_speed(bonus):
 		self.bonus_speed -= bonus
+
+	func increase_bonus_dexterity(bonus):
+		self.bonus_dexterity += bonus
+
+	func decrease_bonus_dexterity(bonus):
+		self.bonus_dexterity -= bonus
+
+	func increase_bonus_luck(bonus):
+		self.bonus_luck += bonus
+
+	func decrease_bonus_luck(bonus):
+		self.bonus_luck -= bonus
 
 class weapon:
 	var id # Weapon ID in the weapon database
@@ -236,22 +260,25 @@ class skill:
 	var name
 	var type # HP and/or Effect
 	var cost 
-	var hp # How much the HP will be affected by the skill
+	var mult # Quadratic function that multiplies skill's damage
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
-	var is_physical # 0 == Attack is special/magical || 1 == Attack is physical
+	var is_physical # false == skill is special/magical || true == skill is physical
+	var melee # true == skill is melee || false == skill isn't mele / is ranged
+	var multi_target # true == skill is multi target || false == skill is single target
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
 		self.name = name
 		self.type = database.get_skill_type(id)
 		self.cost = database.get_skill_cost(id)
-		self.hp = database.get_skill_hp(id)
+		self.mult = database.get_skill_multiplayer(id)
 		self.status = database.get_skill_status(id)
 		self.elem = database.get_skill_element(id)
-		self.mod = database.get_skill_modifier(id)
 		self.is_physical = database.get_is_physical(id)
+		self.melee = database.get_is_melee(id)
+		self.multi_target = database.get_multi_target(id)
 
 	# GETTERS
 	func get_id():
@@ -266,8 +293,8 @@ class skill:
 	func get_cost():
 		return cost
 
-	func get_hp():
-		return hp
+	func get_mult():
+		return mult
 
 	func get_status():
 		return status
@@ -280,6 +307,12 @@ class skill:
 
 	func get_is_physical():
 		return is_physical
+
+	func get_is_melee():
+		return melee
+
+	func get_is_multi_target():
+		return multi_target
 
 class item:
 	var id
@@ -480,9 +513,16 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
-		instance_unit(3, 3, "Allies")
+		instance_unit(3, 20, "Allies")
 		instance_weapon("Bat Fangs", allies_vector[0])
 		instance_weapon("Bat Wings", allies_vector[0])
+		instance_unit(1, 20, "Allies")
+		instance_weapon("Katana", allies_vector[1])
+		instance_weapon("Katana", allies_vector[1])
+		instance_weapon("Bamboo Sword", allies_vector[1])
+		instance_unit(3, 20, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[2])
+		instance_weapon("Bat Wings", allies_vector[2])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -589,7 +629,7 @@ func instance_skills():
 
 # owner is the reference in the correct vector (allies or enemies)
 func instance_item(name, owner):
-	var item_instance = item.new(name, item_database) # <-- Total amount == 3 is only a placeholder
+	var item_instance = item.new(name, item_database)
 	owner.get_item_vector().append(item_instance)
 
 
@@ -907,15 +947,10 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			tri = 0.75
 
 		# Assumindo que o maximo de dexterity é 60
-<<<<<<< HEAD
 		randomize()
 		random = rand_range(0, 0.4)
 		var attack_damage = (char_atk - (random * (80 - char_dex)/80)) + wpn_atk
 		
-=======
-		var attack_damage = (char_atk * char_dex/45) + wpn_atk
-
->>>>>>> 2ee2d5d4ff666d543ed33421a45c6ac201f6805b
 		randomize()
 		random = randi() % 250
 		var critical = 0
@@ -984,10 +1019,11 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	var skill = user[user_vpos].get_skill_vector()[action_id]
 	var cost = skill.get_cost()
 
-# Reduces the user's MP in the corresponding cost.
-# MP isn't spend if the target dies before the skill is used
+	# Reduces the user's MP in the corresponding cost.
+	# MP isn't spent if the target dies before the skill is used
 	user[user_vpos].modify_mp_current(-cost)
 
+<<<<<<< HEAD
 	for type in skill.get_type():
 		if type == "HP":
 			var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
@@ -1001,22 +1037,30 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				tri = 0.8;
 			# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 			var reduce_damage = 0
-			if skill.get_hp() < 0:
-				if is_physical == 0:
-					reduce_damage = target[target_vpos].get_total_special_defense()
-				else:
+			var mult = skill.get_mult()
+			if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
+				if is_physical:
 					reduce_damage = target[target_vpos].get_total_defense()
+				else:
+					reduce_damage = target[target_vpos].get_total_special_defense()
+
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
-			var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
+			var damage = mult[0]
+			if is_physical:
+				damage += mult[1] * user[user_vpos].get_total_attack()
+				damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
+			else:
+				damage += mult[1] * user[user_vpos].get_total_special_attack()
+				damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+			damage = damage * tri
+
 			if damage < 0:
 				damage += reduce_damage
 				if damage >= 0:
 					damage = -1
-				damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = ceil(damage)
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else:
-				damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = floor(damage)
 				var effect = get_node("Effects")
 				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -1036,6 +1080,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					enemies_pos[target_vpos] = Vector2(-100, -100)
 				elif target_side == "Allies":
 					allies_pos[target_vpos] = Vector2(-100, -100)
+				break
 	
 			# If the skill tries to overheal an unit
 			elif target[target_vpos].get_hp_current() > char_database.get_hp(target[target_vpos].get_id(), target[target_vpos].get_level()):
@@ -1049,6 +1094,146 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				elif target_side == "Enemies":
 					status_apply("Enemies", target_vpos)
 
+=======
+	if not skill.get_is_multi_target():
+		for type in skill.get_type():
+	    	if type == "HP":
+	    		var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
+	    		# Damage modifier by the Arcane Triangle
+	    		var tri = 1
+	    		var atk_skill = user[user_vpos].get_last_skill()
+	    		var def_skill = target[target_vpos].get_last_skill()
+	    		if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
+	    			tri = 1.2;
+	    		elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
+	    			tri = 0.8;
+	    		# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
+	    		var reduce_damage = 0
+	    		var mult = skill.get_mult()
+	    		if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
+	    			if is_physical:
+	    				reduce_damage = target[target_vpos].get_total_defense()
+	    			else:
+	    				reduce_damage = target[target_vpos].get_total_special_defense()
+
+	    		# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
+	    		var damage = mult[0]
+	    		if is_physical:
+	    			damage += mult[1] * user[user_vpos].get_total_attack()
+	    			damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
+	    		else:
+    				damage += mult[1] * user[user_vpos].get_total_special_attack()
+    				damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+    			damage = damage * tri
+
+				if damage < 0:
+					damage += reduce_damage
+					if damage >= 0:
+						damage = -1
+					damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
+					damage = ceil(damage)
+					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				else:
+					damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
+					damage = floor(damage)
+					var effect = get_node("Effects")
+					damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+					effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+					effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
+
+				var hp_current = target[target_vpos].get_hp_current()
+				target[target_vpos].modify_hp_current(damage)
+
+				# If the skill kills the target
+				if target[target_vpos].get_hp_current() <= 0:
+					target[target_vpos] = null
+					get_node(str(target_side, "/", target_vpos)).queue_free()
+
+					# Pushes the defender's position outside the screen so it can't be targeted
+					if target_side == "Enemies":
+						enemies_pos[target_vpos] = Vector2(-100, -100)
+					elif target_side == "Allies":
+						allies_pos[target_vpos] = Vector2(-100, -100)
+
+				# If the skill tries to overheal an unit
+				elif target[target_vpos].get_hp_current() > char_database.get_hp(target[target_vpos].get_id(), target[target_vpos].get_level()):
+					target[target_vpos].set_hp_current(char_database.get_hp(target[target_vpos].get_id(), target[target_vpos].get_level()))
+
+			elif type == "Effect":
+				for stat in skill.get_status():
+					instance_status(stat, target[target_vpos])
+					if target_side == "Allies":
+						status_apply("Allies", target_vpos)
+					elif target_side == "Enemies":
+						status_apply("Enemies", target_vpos)
+	else:
+		for type in skill.get_type():
+			var target_pos
+			if target_side == "Allies":
+				target_pos = allies_pos
+			elif target_side == "Enemies":
+				target_pos = enemies_pos
+
+			if type == "HP":
+				var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
+				var atk_skill = user[user_vpos].get_last_skill()
+				for i in range(target.size()):
+					if target[i] != null:
+						var tri = 1
+						var def_skill = target[i].get_last_skill()
+						if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
+							tri = 1.2
+						elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
+							tri = 0.8
+						var reduce_damage = 0
+						if skill.get_hp() < 0:
+							if not is_physical:
+								reduce_damage = target[i].get_total_special_defense()
+							else:
+								reduce_damage = target[i].get_total_defense()
+						# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
+						var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
+						if damage < 0:
+							damage += reduce_damage
+							if damage >= 0:
+								damage = -1
+							damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
+							damage = ceil(damage)
+							damage_box(str(-damage), Color(1, 0, 0), target_pos[i])
+						else:
+							damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
+							damage = floor(damage)
+							var effect = get_node("Effects")
+							damage_box(str(damage), Color(0, 1, 0), target_pos[i])
+							effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
+
+						var hp_current = target[i].get_hp_current()
+						target[i].modify_hp_current(damage)
+
+						# If the skill kills the target
+						if target[i].get_hp_current() <= 0:
+							target[i] = null
+							get_node(str(target_side, "/", i)).queue_free()
+
+							# Pushes the defender's position outside the screen so it can't be targeted
+							if target_side == "Enemies":
+								enemies_pos[i] = Vector2(-100, -100)
+							elif target_side == "Allies":
+								allies_pos[i] = Vector2(-100, -100)
+
+						# If the skill tries to overheal an unit
+						elif target[i].get_hp_current() > char_database.get_hp(target[i].get_id(), target[i].get_level()):
+							target[i].set_hp_current(char_database.get_hp(target[i].get_id(), target[i].get_level()))
+
+			elif type == "Effect":
+				for stat in skill.get_status():
+					for i in range(target.size()):
+						instance_status(stat, target[i])
+						if target_side == "Allies":
+							status_apply("Allies", i)
+						elif target_side == "Enemies":
+							status_apply("Enemies", i)
 
 # Executes an ITEM action
 func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
@@ -1194,6 +1379,7 @@ func status_apply(target_side, target_vpos):
 	
 	if target.get_status_vector().size() != 0:
 		var i = 0
+		var target_died = false
 
 		for status in target.get_status_vector():
 			for type in status.get_type():
@@ -1219,6 +1405,8 @@ func status_apply(target_side, target_vpos):
 							enemies_pos[target_vpos] = Vector2(-100, -100)
 						elif target_side == "Allies":
 							allies_pos[target_vpos] = Vector2(-100, -100)
+						target_died = true
+						break
 
 				elif type == "Buff":
 					if status.get_duration() == status.get_max_duration() or status.get_duration() == 1:
@@ -1290,7 +1478,11 @@ func status_apply(target_side, target_vpos):
 								else:
 									bonus = (base_atribute + bonus_atribute)
 								apply_bonus(bonus, status.get_stat(), target)
-
+			
+			if (target_died):
+				break
+			
+			
 			if turn_start:
 				var duration = status.get_duration()
 				status.set_duration(duration - 1)
@@ -1908,10 +2100,65 @@ func _fixed_process(delta):
 					if act.get_action() == "defend":
 						action_memory.pop_front() # add defense behavior here
 					elif act.get_action() == "skill":
-						time = 2
+						var atk_pos
+						var def_pos
+						var unit
+						var melee
+
+						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
+						if act.get_from()[1] == "Allies":
+							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
+							atk_pos = allies_pos[act.get_from()[0]]
+							if allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(window_size[0]/2 - 50, window_size[1]/2))
+
+							elif melee:
+								if act.get_to()[1] == "Allies":
+									def_pos = allies_pos[act.get_to()[0]]
+									if act.get_from()[0] == act.get_to()[0]:
+										flag = 0
+								elif act.get_to()[1] == "Enemies":
+									def_pos = enemies_pos[act.get_to()[0]]
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(def_pos[0] - flag * 200, def_pos[1]))
+							else:
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(atk_pos[0] + 50, atk_pos[1]))
+
+						elif act.get_from()[1] == "Enemies":
+							melee = enemies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
+							atk_pos = enemies_pos[act.get_from()[0]]
+							if enemies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(window_size[0]/2 + 50, window_size[1]/2))
+
+							elif melee:
+								if act.get_to()[1] == "Allies":
+									def_pos = allies_pos[act.get_to()[0]]
+								elif act.get_to()[1] == "Enemies":
+									def_pos = enemies_pos[act.get_to()[0]]
+								unit = get_node(str("Enemies/", act.get_from()[0]))
+								unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
+							else:
+								unit = get_node(str("Enemies/", act.get_from()[0]))
+								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
+
+						time = 45
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
-						time = 2
+						var user_pos
+
+						if act.get_from()[1] == "Allies":
+							user_pos = allies_pos[act.get_from()[0]]
+							unit = get_node(str("Allies/", act.get_from()[0]))
+							unit.set_pos(Vector2(user_pos[0] + 50, user_pos[1]))
+						elif act.get_from()[1] == "Enemies":
+							user_pos = enemies_pos[act.get_from()[0]]
+							unit = get_node(str("Allies/", act.get_from()[0]))
+							unit.set_pos(Vector2(user_pos[0] - 50, user_pos[1]))
+
+						time = 45
 						STATE_NEXT = "ANIMATION"
 					else: #action is an attack
 						var atk_pos
@@ -1930,8 +2177,8 @@ func _fixed_process(delta):
 							elif act.get_to()[1] == "Enemies":
 								def_pos = enemies_pos[act.get_to()[0]]
 							unit = get_node(str("Allies/", act.get_from()[0]))
-							unit.set_pos(Vector2(def_pos[0] - flag * 130, def_pos[1]))
-							
+							unit.set_pos(Vector2(def_pos[0] - flag * 200, def_pos[1]))
+
 						elif act.get_from()[1] == "Enemies":
 							vector = enemies_vector
 							atk_pos = enemies_pos[act.get_from()[0]]
@@ -1940,7 +2187,7 @@ func _fixed_process(delta):
 							elif act.get_to()[1] == "Enemies":
 								def_pos = enemies_pos[act.get_to()[0]]
 							unit = get_node(str("Enemies/", act.get_from()[0]))
-							unit.set_pos(Vector2(def_pos[0] + 130, def_pos[1]))
+							unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
 
 						unit = vector[act.get_from()[0]]
 						if unit.get_last_weapon() != null:

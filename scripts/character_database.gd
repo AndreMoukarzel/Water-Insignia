@@ -81,7 +81,7 @@ var char_database = [
 		DEX :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		LUK :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Bat Fangs", "Bat Wings"],
-		SKILL_VECTOR : ["Heal", "Thunderwave", "Poison Sting", "Sword Dance"]
+		SKILL_VECTOR : ["Blast", "Thunderwave", "Toxic Blast", "Sword Dance"]
 	}
 ]
 

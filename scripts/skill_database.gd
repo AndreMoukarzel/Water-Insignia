@@ -10,8 +10,8 @@ const ELEM = 5
 const IS_PHY = 6
 const MELEE = 7
 
-var skill_database = [
 
+var skill_database = [
 	{ # ID = 0
 		SKILL_NAME : "Heal",
 		TYPE : ["HP"],
@@ -20,9 +20,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 1
 		SKILL_NAME : "Blast",
 		TYPE : ["HP"],
@@ -31,10 +32,11 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : true
 	},
 
-	{ # ID = 2
+		{ # ID = 2
 		SKILL_NAME : "Guard",
 		TYPE : ["Effect"],
 		COST : 3,
@@ -42,7 +44,8 @@ var skill_database = [
 		STATUS : ["Def Up"],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
 
 	{ # ID = 3
@@ -53,7 +56,8 @@ var skill_database = [
 		STATUS : ["Spd Up"],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
 
 	{ # ID = 4
@@ -64,9 +68,10 @@ var skill_database = [
 		STATUS : ["Detox"],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 5
 		SKILL_NAME : "Poison Sting",
 		TYPE : ["HP", "Effect"],
@@ -75,9 +80,10 @@ var skill_database = [
 		STATUS : ["Poison"],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : true
+		MELEE : true,
+		TARGET : false
 	},
-	
+
 	{ # ID = 6
 		SKILL_NAME : "Thunderwave",
 		TYPE : ["Effect"],
@@ -86,9 +92,10 @@ var skill_database = [
 		STATUS : ["Paralize"],
 		ELEM : "Wind",
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 7
 		SKILL_NAME : "Shadow Strike",
 		TYPE : ["HP"],
@@ -97,9 +104,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : true,
-		MELEE : true
+		MELEE : true,
+		TARGET : false
 	},
-	
+
 	{ # ID = 8
 		SKILL_NAME : "Eruption",
 		TYPE : ["HP"],
@@ -108,9 +116,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Fire",
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 9
 		SKILL_NAME : "Aqua Blast",
 		TYPE : ["HP"],
@@ -119,9 +128,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Water",
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 10
 		SKILL_NAME : "Lightning Bolt",
 		TYPE : ["HP"],
@@ -130,9 +140,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Wind",
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
 	},
-	
+
 	{ # ID = 11
 		SKILL_NAME : "Sonic Blow",
 		TYPE : ["HP"],
@@ -141,9 +152,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : true,
-		MELEE : true
+		MELEE : true,
+		TARGET : false
 	},
-	
+
 	{ # ID = 12
 		SKILL_NAME : "Slash",
 		TYPE : ["HP"],
@@ -152,9 +164,10 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : true,
-		MELEE : true
+		MELEE : true,
+		TARGET : false
 	},
-	
+
 	{ # ID = 13
 		SKILL_NAME : "Sword Dance",
 		TYPE : ["Effect"],
@@ -163,10 +176,23 @@ var skill_database = [
 		STATUS : ["Atk Up"],
 		ELEM : null,
 		IS_PHY : false,
-		MELEE : false
+		MELEE : false,
+		TARGET : false
+	},
+	
+	{ # ID = 14
+		SKILL_NAME : "Toxic Blast",
+		TYPE : ["Effect"],
+		COST : 1,
+		HP : null,
+		STATUS : ["Poison"],
+		ELEM : null,
+		MOD : 0,
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
 	}
 ]
-
 
 var sk_map = { }
 
@@ -200,3 +226,6 @@ func get_is_physical(id):
 
 func get_is_melee(id):
 	return skill_database[id][MELEE]
+
+func get_multi_target(id):
+	return skill_database[id][TARGET]
