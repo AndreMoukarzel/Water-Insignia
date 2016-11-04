@@ -9,6 +9,7 @@ const STATUS = 4
 const ELEM = 5
 const IS_PHY = 6
 const MELEE = 7
+const TARGET = 8
 
 
 var skill_database = [
@@ -28,7 +29,7 @@ var skill_database = [
 		SKILL_NAME : "Blast",
 		TYPE : ["HP"],
 		COST : 2,
-		MUL : [-70, 0.3, 0],
+		MUL : [-70, -0.3, 0],
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
@@ -184,10 +185,9 @@ var skill_database = [
 		SKILL_NAME : "Toxic Blast",
 		TYPE : ["Effect"],
 		COST : 1,
-		HP : null,
+		MUL : null,
 		STATUS : ["Poison"],
 		ELEM : null,
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false,
 		TARGET : true

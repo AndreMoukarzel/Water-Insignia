@@ -1025,44 +1025,48 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 	if not skill.get_is_multi_target():
 		for type in skill.get_type():
-	    	if type == "HP":
-	    		var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
-	    		# Damage modifier by the Arcane Triangle
-	    		var tri = 1
-	    		var atk_skill = user[user_vpos].get_last_skill()
-	    		var def_skill = target[target_vpos].get_last_skill()
-	    		if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
-	    			tri = 1.2;
-	    		elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
-	    			tri = 0.8;
-	    		# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
-	    		var reduce_damage = 0
-	    		var mult = skill.get_mult()
-	    		if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
-	    			if is_physical:
-	    				reduce_damage = target[target_vpos].get_total_defense()
-	    			else:
-	    				reduce_damage = target[target_vpos].get_total_special_defense()
-
-	    		# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
-	    		var damage = mult[0]
-	    		if is_physical:
-	    			damage += mult[1] * user[user_vpos].get_total_attack()
-	    			damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
-	    		else:
-    				damage += mult[1] * user[user_vpos].get_total_special_attack()
-    				damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
-    			damage = damage * tri
-
+			if type == "HP":
+				var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
+				# Damage modifier by the Arcane Triangle
+				var tri = 1
+				var atk_skill = user[user_vpos].get_last_skill()
+				var def_skill = target[target_vpos].get_last_skill()
+				if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
+					tri = 1.2;
+				elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
+					tri = 0.8;
+				# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
+				var reduce_damage = 0
+				var mult = skill.get_mult()
+				if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
+					if is_physical:
+						reduce_damage = target[target_vpos].get_total_defense()
+					else:
+						reduce_damage = target[target_vpos].get_total_special_defense()
+	
+				# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
+				var damage = mult[0]
+				if is_physical:
+					damage += mult[1] * user[user_vpos].get_total_attack()
+					if mult[2] < 0:
+						damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+					else:
+						damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+				else:
+					damage += mult[1] * user[user_vpos].get_total_special_attack()
+					if mult[2] < 0:
+						damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+					else:
+						damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+				damage = damage * tri
+	
 				if damage < 0:
 					damage += reduce_damage
 					if damage >= 0:
 						damage = -1
-					damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 					damage = ceil(damage)
 					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 				else:
-					damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 					damage = floor(damage)
 					var effect = get_node("Effects")
 					damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -1107,49 +1111,67 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				var atk_skill = user[user_vpos].get_last_skill()
 				for i in range(target.size()):
 					if target[i] != null:
+						var is_physical = user[user_vpos].get_skill_vector()[action_id].get_is_physical()
+						# Damage modifier by the Arcane Triangle
 						var tri = 1
+						var atk_skill = user[user_vpos].get_last_skill()
 						var def_skill = target[i].get_last_skill()
 						if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
-							tri = 1.2
+							tri = 1.2;
 						elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
-							tri = 0.8
+							tri = 0.8;
+						# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 						var reduce_damage = 0
-						if skill.get_hp() < 0:
-							if not is_physical:
-								reduce_damage = target[i].get_total_special_defense()
-							else:
+						var mult = skill.get_mult()
+						if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
+							if is_physical:
 								reduce_damage = target[i].get_total_defense()
+							else:
+								reduce_damage = target[i].get_total_special_defense()
+			
 						# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
-						var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
+						var damage = mult[0]
+						if is_physical:
+							damage += mult[1] * user[user_vpos].get_total_attack()
+							if mult[2] < 0:
+								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+							else:
+								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+						else:
+							damage += mult[1] * user[user_vpos].get_total_special_attack()
+							if mult[2] < 0:
+								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+							else:
+								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+						damage = damage * tri
+			
 						if damage < 0:
 							damage += reduce_damage
 							if damage >= 0:
 								damage = -1
-							damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 							damage = ceil(damage)
-							damage_box(str(-damage), Color(1, 0, 0), target_pos[i])
+							damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", i)).get_pos())
 						else:
-							damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 							damage = floor(damage)
 							var effect = get_node("Effects")
-							damage_box(str(damage), Color(0, 1, 0), target_pos[i])
-							effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+							damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", i)).get_pos())
+							effect.set_pos(get_node(str(target_side, "/", i)).get_pos())
 							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
-
+		
 						var hp_current = target[i].get_hp_current()
 						target[i].modify_hp_current(damage)
-
+		
 						# If the skill kills the target
 						if target[i].get_hp_current() <= 0:
 							target[i] = null
 							get_node(str(target_side, "/", i)).queue_free()
-
+		
 							# Pushes the defender's position outside the screen so it can't be targeted
 							if target_side == "Enemies":
 								enemies_pos[i] = Vector2(-100, -100)
 							elif target_side == "Allies":
 								allies_pos[i] = Vector2(-100, -100)
-
+		
 						# If the skill tries to overheal an unit
 						elif target[i].get_hp_current() > char_database.get_hp(target[i].get_id(), target[i].get_level()):
 							target[i].set_hp_current(char_database.get_hp(target[i].get_id(), target[i].get_level()))
