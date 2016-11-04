@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="5" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://characters/baby_dragon/skillmagic.xml" type="Animation" index="3"></ext_resource>
 	<ext_resource path="res://characters/baby_dragon/idle.xml" type="Animation" index="2"></ext_resource>
-	<ext_resource path="res://characters/baby_dragon/baby_dragon.tres" type="SpriteFrames" index="0"></ext_resource>
+	<ext_resource path="res://characters/baby_dragon/skillmagic.xml" type="Animation" index="3"></ext_resource>
 	<ext_resource path="res://characters/baby_dragon/attack.xml" type="Animation" index="1"></ext_resource>
+	<ext_resource path="res://characters/baby_dragon/baby_dragon.tres" type="SpriteFrames" index="0"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>
@@ -14,10 +14,11 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="14">
+			<string_array  len="15">
 				<string> "AnimatedSprite" </string>
 				<string> "frames" </string>
 				<string> "animation" </string>
+				<string> "frame" </string>
 				<string> "AnimationPlayer" </string>
 				<string> "playback/process_mode" </string>
 				<string> "playback/default_blend_time" </string>
@@ -36,11 +37,12 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="38"> 				-1, -1, 0, 0, -1, 2, 1, 0, 2, 1, 0, 0, 0, 3, 3, -1, 10, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 0 </int_array>
+			<int_array  len="40"> 				-1, -1, 0, 0, -1, 3, 1, 0, 2, 1, 3, 2, 0, 0, 0, 4, 4, -1, 10, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 14, 12, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="12" shared="false">
+			<array  len="13" shared="false">
 				<resource  external="0">  </resource>
 				<string> "default" </string>
+				<int> 2 </int>
 				<int> 1 </int>
 				<real> 0 </real>
 				<node_path> ".." </node_path>
