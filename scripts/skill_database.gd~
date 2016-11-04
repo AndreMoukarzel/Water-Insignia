@@ -10,6 +10,10 @@ const ELEM = 5
 const IS_PHY = 6
 const MELEE = 7
 const TARGET = 8
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2c21dbd97c475621cfc19553a82b5750a3464c2f
 
 var skill_database = [
 	{ # ID = 0
