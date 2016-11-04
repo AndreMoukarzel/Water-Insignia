@@ -260,7 +260,7 @@ class skill:
 	var name
 	var type # HP and/or Effect
 	var cost 
-	var hp # How much the HP will be affected by the skill
+	var mult # Quadratic function that multiplies skill's damage
 	var status # Skill's status effect (poison, speed up, ...)
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
@@ -272,10 +272,9 @@ class skill:
 		self.name = name
 		self.type = database.get_skill_type(id)
 		self.cost = database.get_skill_cost(id)
-		self.hp = database.get_skill_hp(id)
+		self.mult = database.get_skill_multiplayer(id)
 		self.status = database.get_skill_status(id)
 		self.elem = database.get_skill_element(id)
-		self.mod = database.get_skill_modifier(id)
 		self.is_physical = database.get_is_physical(id)
 		self.melee = database.get_is_melee(id)
 
@@ -292,8 +291,8 @@ class skill:
 	func get_cost():
 		return cost
 
-	func get_hp():
-		return hp
+	func get_mult():
+		return mult
 
 	func get_status():
 		return status
@@ -1034,22 +1033,30 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				tri = 0.8;
 			# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 			var reduce_damage = 0
-			if skill.get_hp() < 0:
-				if not is_physical:
-					reduce_damage = target[target_vpos].get_total_special_defense()
-				else:
+			var mult = skill.get_mult()
+			if mult[0] < 0 or mult[1] < 0 or mult[2] < 0:
+				if is_physical:
 					reduce_damage = target[target_vpos].get_total_defense()
+				else:
+					reduce_damage = target[target_vpos].get_total_special_defense()
+
 			# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
-			var damage = skill.get_hp() * tri # + user[user_vpos].get_special_attack() * skill.mod + reduce_damage
+			var damage = mult[0]
+			if is_physical:
+				damage += mult[1] * user[user_vpos].get_total_attack()
+				damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
+			else:
+				damage += mult[1] * user[user_vpos].get_total_special_attack()
+				damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+			damage = damage * tri
+
 			if damage < 0:
 				damage += reduce_damage
 				if damage >= 0:
 					damage = -1
-				damage -= user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = ceil(damage)
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else:
-				damage += user[user_vpos].get_total_special_attack() * skill.get_mod()
 				damage = floor(damage)
 				var effect = get_node("Effects")
 				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())

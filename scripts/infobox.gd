@@ -19,7 +19,11 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 		var spacing = 0
 		for type in database.get_skill_type(object_id):
 			if (type == "HP"):
-				var potency = database.get_skill_hp(object_id)
+				var mult = database.get_skill_multiplayer(object_id)
+				var potency = mult[0]
+				potency += mult[1] * 5
+				potency += mult[2] * mult[2] * 10
+				potency = round(potency)
 				if (potency < 0):
 					potency = -potency
 				get_node("NumericInfo").set_text(str("Potency: ", potency))

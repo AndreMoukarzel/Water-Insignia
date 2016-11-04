@@ -4,12 +4,11 @@ extends Node
 const SKILL_NAME = 0
 const TYPE = 1
 const COST = 2
-const HP = 3
+const MUL = 3  # Vector is a [a, bx, cx²] vector that defines skill's damage
 const STATUS = 4
 const ELEM = 5
-const MOD = 6
-const IS_PHY = 7
-const MELEE = 8
+const IS_PHY = 6
+const MELEE = 7
 
 var skill_database = [
 
@@ -17,10 +16,9 @@ var skill_database = [
 		SKILL_NAME : "Heal",
 		TYPE : ["HP"],
 		COST : 1,
-		HP : 10,
+		MUL : [10, 0, 1.5],
 		STATUS : [],
 		ELEM : null,
-		MOD : 1,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -29,10 +27,9 @@ var skill_database = [
 		SKILL_NAME : "Blast",
 		TYPE : ["HP"],
 		COST : 2,
-		HP : -70,
+		MUL : [-70, 0.3, 0],
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.1,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -41,10 +38,9 @@ var skill_database = [
 		SKILL_NAME : "Guard",
 		TYPE : ["Effect"],
 		COST : 3,
-		HP : null,
+		MUL : null,
 		STATUS : ["Def Up"],
 		ELEM : null,
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -53,10 +49,9 @@ var skill_database = [
 		SKILL_NAME : "Agility",
 		TYPE : ["Effect"],
 		COST : 4,
-		HP : null,
+		MUL : null,
 		STATUS : ["Spd Up"],
 		ELEM : null,
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -65,10 +60,9 @@ var skill_database = [
 		SKILL_NAME : "Cure",
 		TYPE : ["HP", "Effect"],
 		COST : 5,
-		HP : 5,
+		MUL : [5, 3, 0],
 		STATUS : ["Detox"],
 		ELEM : null,
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -77,10 +71,9 @@ var skill_database = [
 		SKILL_NAME : "Poison Sting",
 		TYPE : ["HP", "Effect"],
 		COST : 1,
-		HP : -1,
+		MUL : [-1, 0, 0],
 		STATUS : ["Poison"],
 		ELEM : null,
-		MOD : 0.1,
 		IS_PHY : false,
 		MELEE : true
 	},
@@ -89,10 +82,9 @@ var skill_database = [
 		SKILL_NAME : "Thunderwave",
 		TYPE : ["Effect"],
 		COST : 2,
-		HP : null,
+		MUL : null,
 		STATUS : ["Paralize"],
 		ELEM : "Wind",
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -101,10 +93,9 @@ var skill_database = [
 		SKILL_NAME : "Shadow Strike",
 		TYPE : ["HP"],
 		COST : 6,
-		HP : -15,
+		MUL : [-15, -0.2, 0],
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.5,
 		IS_PHY : true,
 		MELEE : true
 	},
@@ -113,10 +104,9 @@ var skill_database = [
 		SKILL_NAME : "Eruption",
 		TYPE : ["HP"],
 		COST : 3,
-		HP : -10,
+		MUL : [-10, -0.75, -1.2],
 		STATUS : [],
 		ELEM : "Fire",
-		MOD : 0.25,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -125,10 +115,9 @@ var skill_database = [
 		SKILL_NAME : "Aqua Blast",
 		TYPE : ["HP"],
 		COST : 3,
-		HP : -8,
+		MUL : [-8, -1, -1],
 		STATUS : [],
 		ELEM : "Water",
-		MOD : 0.35,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -137,10 +126,9 @@ var skill_database = [
 		SKILL_NAME : "Lightning Bolt",
 		TYPE : ["HP"],
 		COST : 3,
-		HP : -9,
+		MUL : [-9, -0.5, 0],
 		STATUS : [],
 		ELEM : "Wind",
-		MOD : 0.3,
 		IS_PHY : false,
 		MELEE : false
 	},
@@ -149,10 +137,9 @@ var skill_database = [
 		SKILL_NAME : "Sonic Blow",
 		TYPE : ["HP"],
 		COST : 2,
-		HP : -2,
+		MUL : [-2, 0, -2],
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.9,
 		IS_PHY : true,
 		MELEE : true
 	},
@@ -161,10 +148,9 @@ var skill_database = [
 		SKILL_NAME : "Slash",
 		TYPE : ["HP"],
 		COST : 1,
-		HP : -8,
+		MUL : [-8, -1, 0],
 		STATUS : [],
 		ELEM : null,
-		MOD : 0.35,
 		IS_PHY : true,
 		MELEE : true
 	},
@@ -173,10 +159,9 @@ var skill_database = [
 		SKILL_NAME : "Sword Dance",
 		TYPE : ["Effect"],
 		COST : 1,
-		HP : null,
+		MUL : null,
 		STATUS : ["Atk Up"],
 		ELEM : null,
-		MOD : 0,
 		IS_PHY : false,
 		MELEE : false
 	}
@@ -201,17 +186,14 @@ func get_skill_type(id):
 func get_skill_cost(id):
 	return skill_database[id][COST]
 
-func get_skill_hp(id):
-	return skill_database[id][HP]
+func get_skill_multiplayer(id):
+	return skill_database[id][MUL]
 
 func get_skill_status(id):
 	return skill_database[id][STATUS]
 
 func get_skill_element(id):
 	return skill_database[id][ELEM]
-
-func get_skill_modifier(id):
-	return skill_database[id][MOD]
 
 func get_is_physical(id):
 	return skill_database[id][IS_PHY]
