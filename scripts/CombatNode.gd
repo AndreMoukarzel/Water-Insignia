@@ -265,6 +265,7 @@ class skill:
 	var elem # The skill's element, for the Arcane Triangle
 	var mod # Damage modifier of the skill - skill's damage scales with units ATK
 	var is_physical # false == Attack is special/magical || true == Attack is physical
+	var melee
 
 	func _init(name, database):
 		self.id = database.get_skill_id(name)
@@ -276,6 +277,7 @@ class skill:
 		self.elem = database.get_skill_element(id)
 		self.mod = database.get_skill_modifier(id)
 		self.is_physical = database.get_is_physical(id)
+		self.melee = database.get_is_melee(id)
 
 	# GETTERS
 	func get_id():
@@ -304,6 +306,9 @@ class skill:
 
 	func get_is_physical():
 		return is_physical
+
+	func get_is_melee():
+		return melee
 
 class item:
 	var id
@@ -620,13 +625,15 @@ func instance_skills():
 
 # owner is the reference in the correct vector (allies or enemies)
 func instance_item(name, owner):
-	var item_instance = item.new(name, item_database) # <-- Total amount == 3 is only a placeholder
+	var item_instance = item.new(name, item_database)
 	owner.get_item_vector().append(item_instance)
 
 
 # target is the unit who is going to be afflicted by the status
 func instance_status(name, target):
 	var status_instance = status.new(name, status_database)
+
+	print (target.get_name())
 
 	var i = 0
 	for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
@@ -1942,10 +1949,57 @@ func _fixed_process(delta):
 					if act.get_action() == "defend":
 						action_memory.pop_front() # add defense behavior here
 					elif act.get_action() == "skill":
-						time = 2
+						var atk_pos
+						var def_pos
+						var unit
+						var melee
+
+						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
+						if act.get_from()[1] == "Allies":
+							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
+							atk_pos = allies_pos[act.get_from()[0]]
+							if melee:
+								if act.get_to()[1] == "Allies":
+									def_pos = allies_pos[act.get_to()[0]]
+									if act.get_from()[0] == act.get_to()[0]:
+										flag = 0
+								elif act.get_to()[1] == "Enemies":
+									def_pos = enemies_pos[act.get_to()[0]]
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(def_pos[0] - flag * 200, def_pos[1]))
+							else:
+								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit.set_pos(Vector2(atk_pos[0] + 50, atk_pos[1]))
+
+						elif act.get_from()[1] == "Enemies":
+							melee = enemies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
+							atk_pos = enemies_pos[act.get_from()[0]]
+							if melee:
+								if act.get_to()[1] == "Allies":
+									def_pos = allies_pos[act.get_to()[0]]
+								elif act.get_to()[1] == "Enemies":
+									def_pos = enemies_pos[act.get_to()[0]]
+								unit = get_node(str("Enemies/", act.get_from()[0]))
+								unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
+							else:
+								unit = get_node(str("Enemies/", act.get_from()[0]))
+								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
+
+						time = 45
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
-						time = 2
+						var user_pos
+
+						if act.get_from()[1] == "Allies":
+							user_pos = allies_pos[act.get_from()[0]]
+							unit = get_node(str("Allies/", act.get_from()[0]))
+							unit.set_pos(Vector2(user_pos[0] + 50, user_pos[1]))
+						elif act.get_from()[1] == "Enemies":
+							user_pos = enemies_pos[act.get_from()[0]]
+							unit = get_node(str("Allies/", act.get_from()[0]))
+							unit.set_pos(Vector2(user_pos[0] - 50, user_pos[1]))
+
+						time = 45
 						STATE_NEXT = "ANIMATION"
 					else: #action is an attack
 						var atk_pos
@@ -1964,8 +2018,8 @@ func _fixed_process(delta):
 							elif act.get_to()[1] == "Enemies":
 								def_pos = enemies_pos[act.get_to()[0]]
 							unit = get_node(str("Allies/", act.get_from()[0]))
-							unit.set_pos(Vector2(def_pos[0] - flag * 130, def_pos[1]))
-							
+							unit.set_pos(Vector2(def_pos[0] - flag * 200, def_pos[1]))
+
 						elif act.get_from()[1] == "Enemies":
 							vector = enemies_vector
 							atk_pos = enemies_pos[act.get_from()[0]]
@@ -1974,7 +2028,7 @@ func _fixed_process(delta):
 							elif act.get_to()[1] == "Enemies":
 								def_pos = enemies_pos[act.get_to()[0]]
 							unit = get_node(str("Enemies/", act.get_from()[0]))
-							unit.set_pos(Vector2(def_pos[0] + 130, def_pos[1]))
+							unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
 
 						unit = vector[act.get_from()[0]]
 						if unit.get_last_weapon() != null:

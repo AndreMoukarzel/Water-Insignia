@@ -9,6 +9,7 @@ const STATUS = 4
 const ELEM = 5
 const MOD = 6
 const IS_PHY = 7
+const MELEE = 8
 
 var skill_database = [
 
@@ -20,7 +21,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 1,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 1
@@ -31,7 +33,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.1,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 
 	{ # ID = 2
@@ -42,7 +45,8 @@ var skill_database = [
 		STATUS : ["Def Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 
 	{ # ID = 3
@@ -53,7 +57,8 @@ var skill_database = [
 		STATUS : ["Spd Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 
 	{ # ID = 4
@@ -64,7 +69,8 @@ var skill_database = [
 		STATUS : ["Detox"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 5
@@ -75,7 +81,8 @@ var skill_database = [
 		STATUS : ["Poison"],
 		ELEM : null,
 		MOD : 0.1,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : true
 	},
 	
 	{ # ID = 6
@@ -86,7 +93,8 @@ var skill_database = [
 		STATUS : ["Paralize"],
 		ELEM : "Wind",
 		MOD : 0,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 7
@@ -97,7 +105,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.5,
-		IS_PHY : true
+		IS_PHY : true,
+		MELEE : true
 	},
 	
 	{ # ID = 8
@@ -108,7 +117,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Fire",
 		MOD : 0.25,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 9
@@ -119,7 +129,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Water",
 		MOD : 0.35,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 10
@@ -130,7 +141,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : "Wind",
 		MOD : 0.3,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	},
 	
 	{ # ID = 11
@@ -141,7 +153,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.9,
-		IS_PHY : true
+		IS_PHY : true,
+		MELEE : true
 	},
 	
 	{ # ID = 12
@@ -152,7 +165,8 @@ var skill_database = [
 		STATUS : [],
 		ELEM : null,
 		MOD : 0.35,
-		IS_PHY : true
+		IS_PHY : true,
+		MELEE : true
 	},
 	
 	{ # ID = 13
@@ -163,7 +177,8 @@ var skill_database = [
 		STATUS : ["Atk Up"],
 		ELEM : null,
 		MOD : 0,
-		IS_PHY : false
+		IS_PHY : false,
+		MELEE : false
 	}
 ]
 
@@ -200,3 +215,6 @@ func get_skill_modifier(id):
 
 func get_is_physical(id):
 	return skill_database[id][IS_PHY]
+
+func get_is_melee(id):
+	return skill_database[id][MELEE]
