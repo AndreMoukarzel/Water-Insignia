@@ -1105,6 +1105,25 @@ func _on_RepairAll_pressed():
 		get_parent().quesha -= price
 		rm_cq.set_text(str("  Current: ", get_parent().quesha))
 
+func _on_RepairAll_mouse_enter():
+	var price
+	if (rm_ap.get_selected_items().size() != 0):
+		price = 0
+		for weapon in active_units[rm_ap.get_selected_items()[0]].wpn_vector:
+			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
+		get_node("RepairMenu/RepairAllPrice").set_text(str("  Price: ", price))
+		get_node("RepairMenu/RepairAllPrice").show()
+	if (rm_b.get_selected_items().size() != 0):
+		price = 0
+		for weapon in barracks_units[rm_b.get_selected_items()[0]].wpn_vector:
+			price += (wpn_database.get_durability(weapon.id) - weapon.durability) * wpn_database.get_price(weapon.id)/50
+		get_node("RepairMenu/RepairAllPrice").set_text(str("  Price: ", price))
+		get_node("RepairMenu/RepairAllPrice").show()
+
+func _on_RepairAll_mouse_exit():
+	get_node("RepairMenu/RepairAllPrice").hide()
+
+
 # ####################################### #
 # ##### SHOP MENU BUTTON FUNCTIONS #### # 
 # ####################################### #
