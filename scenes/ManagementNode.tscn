@@ -292,6 +292,7 @@ script/script = ExtResource( 1 )
 [node name="Selection" type="VBoxContainer" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 3
@@ -602,7 +603,6 @@ max_lines_visible = -1
 [node name="ItemManagement" type="Control" parent="."]
 
 editor/display_folded = true
-visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -887,6 +887,7 @@ custom_fonts/font = ExtResource( 16 )
 
 [node name="RepairMenu" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true

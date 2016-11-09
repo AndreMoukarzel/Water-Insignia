@@ -1,18 +1,19 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://scripts/mainmenu.gd" type="Script" id=1]
-[ext_resource path="res://resources/sprites/gui/mainmenu/NewGameNormal.png" type="Texture" id=2]
-[ext_resource path="res://resources/sprites/gui/mainmenu/NewGameClicked.png" type="Texture" id=3]
-[ext_resource path="res://resources/sprites/gui/mainmenu/NewGameHover.png" type="Texture" id=4]
-[ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameNormal.png" type="Texture" id=5]
-[ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameClicked.png" type="Texture" id=6]
-[ext_resource path="res://resources/sprites/gui/mainmenu/LoadGameHover.png" type="Texture" id=7]
-[ext_resource path="res://resources/sprites/gui/mainmenu/OptionsNormal.png" type="Texture" id=8]
-[ext_resource path="res://resources/sprites/gui/mainmenu/OptionsClicked.png" type="Texture" id=9]
-[ext_resource path="res://resources/sprites/gui/mainmenu/OptionsHover.png" type="Texture" id=10]
-[ext_resource path="res://resources/sprites/gui/mainmenu/QuitNormal.png" type="Texture" id=11]
-[ext_resource path="res://resources/sprites/gui/mainmenu/QuitPressed.png" type="Texture" id=12]
-[ext_resource path="res://resources/sprites/gui/mainmenu/QuitHover.png" type="Texture" id=13]
+[ext_resource path="res://resources/sprites/gui/buttons/button0003.tex" type="Texture" id=2]
+[ext_resource path="res://resources/sprites/gui/buttons/button0005.tex" type="Texture" id=3]
+[ext_resource path="res://resources/sprites/gui/buttons/button0004.tex" type="Texture" id=4]
+[ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=5]
+[ext_resource path="res://resources/sprites/gui/buttons/button0000.tex" type="Texture" id=6]
+[ext_resource path="res://resources/sprites/gui/buttons/button0002.tex" type="Texture" id=7]
+[ext_resource path="res://resources/sprites/gui/buttons/button0001.tex" type="Texture" id=8]
+[ext_resource path="res://resources/sprites/gui/buttons/combat0009.tex" type="Texture" id=9]
+[ext_resource path="res://resources/sprites/gui/buttons/combat0011.tex" type="Texture" id=10]
+[ext_resource path="res://resources/sprites/gui/buttons/combat0010.tex" type="Texture" id=11]
+[ext_resource path="res://resources/sprites/gui/buttons/button0009.tex" type="Texture" id=12]
+[ext_resource path="res://resources/sprites/gui/mainmenu/QuitPressed.png" type="Texture" id=13]
+[ext_resource path="res://resources/sprites/gui/mainmenu/QuitHover.png" type="Texture" id=14]
 
 [node name="MainMenu" type="Panel"]
 
@@ -32,10 +33,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 1.0
-margin/top = -2.0
-margin/right = 1025.0
-margin/bottom = 598.0
+margin/left = 0.0
+margin/top = -3.0
+margin/right = 1024.0
+margin/bottom = 597.0
 alignment = 0
 
 [node name="NewGame" type="TextureButton" parent="Base"]
@@ -44,10 +45,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
-margin/left = 412.0
-margin/top = 28.0
-margin/right = 612.0
-margin/bottom = 118.0
+margin/left = 392.0
+margin/top = 23.0
+margin/right = 632.0
+margin/bottom = 123.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -56,23 +57,63 @@ textures/pressed = ExtResource( 3 )
 textures/hover = ExtResource( 4 )
 params/scale = Vector2( 0.5, 0.5 )
 
+[node name="Label" type="Label" parent="Base/NewGame"]
+
+rect/scale = Vector2( 1.33, 1.33 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 180.0
+margin/bottom = 75.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NEW GAME"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="Continue" type="TextureButton" parent="Base"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
-margin/left = 412.0
-margin/top = 179.0
-margin/right = 612.0
-margin/bottom = 269.0
+margin/left = 392.0
+margin/top = 174.0
+margin/right = 632.0
+margin/bottom = 274.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 5 )
-textures/pressed = ExtResource( 6 )
-textures/hover = ExtResource( 7 )
+textures/normal = ExtResource( 6 )
+textures/pressed = ExtResource( 7 )
+textures/hover = ExtResource( 8 )
 params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Base/Continue"]
+
+rect/scale = Vector2( 1.33, 1.33 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -1.0
+margin/top = -1.0
+margin/right = 179.0
+margin/bottom = 74.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LOAD GAME"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Settings" type="TextureButton" parent="Base"]
 
@@ -80,17 +121,37 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
-margin/left = 412.0
-margin/top = 330.0
-margin/right = 612.0
-margin/bottom = 420.0
+margin/left = 392.0
+margin/top = 325.0
+margin/right = 632.0
+margin/bottom = 425.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 8 )
-textures/pressed = ExtResource( 9 )
-textures/hover = ExtResource( 10 )
+textures/normal = ExtResource( 9 )
+textures/pressed = ExtResource( 10 )
+textures/hover = ExtResource( 11 )
 params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Base/Settings"]
+
+rect/scale = Vector2( 1.33, 1.33 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 180.0
+margin/bottom = 75.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "OPTIONS"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Exit" type="TextureButton" parent="Base"]
 
@@ -98,17 +159,37 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
-margin/left = 412.0
-margin/top = 481.0
-margin/right = 612.0
-margin/bottom = 571.0
+margin/left = 482.0
+margin/top = 514.0
+margin/right = 542.0
+margin/bottom = 539.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 11 )
-textures/pressed = ExtResource( 12 )
-textures/hover = ExtResource( 13 )
+textures/normal = ExtResource( 12 )
+textures/pressed = ExtResource( 13 )
+textures/hover = ExtResource( 14 )
 params/scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Base/Exit"]
+
+rect/scale = Vector2( 1.33, 1.33 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 180.0
+margin/bottom = 75.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "QUIT"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="SettingsMenu" type="VBoxContainer" parent="."]
 
