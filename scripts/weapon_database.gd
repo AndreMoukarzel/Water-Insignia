@@ -16,7 +16,7 @@ var wpn_database = [
 	{ # ID = 0
 		WPN_NAME : "Katana",
 		TYPE : "Sword",
-		ATK : 10,
+		ATK : 6,
 		DURABILITY : 45,
 		LOCK : 0,
 		PRICE : 500
@@ -43,7 +43,7 @@ var wpn_database = [
 	{ # ID = 3
 		WPN_NAME : "Iron Spear",
 		TYPE : "Spear",
-		ATK : 9,
+		ATK : 5,
 		DURABILITY : 15,
 		LOCK : 0,
 		PRICE : 250

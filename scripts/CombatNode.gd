@@ -513,16 +513,16 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
-#		instance_unit(3, 20, "Allies")
-#		instance_weapon("Bat Fangs", allies_vector[0])
-#		instance_weapon("Bat Wings", allies_vector[0])
-		instance_unit(1, 2, "Allies")
-		instance_weapon("Katana", allies_vector[0])
-		instance_weapon("Katana", allies_vector[0])
-		instance_weapon("Bamboo Sword", allies_vector[0])
-		instance_unit(3, 2, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[1])
-		instance_weapon("Bat Wings", allies_vector[1])
+		instance_unit(2, 1, "Allies")
+		instance_weapon("Iron Axe", allies_vector[0])
+		instance_weapon("Iron Spear", allies_vector[0])
+		instance_unit(1, 1, "Allies")
+		instance_weapon("Katana", allies_vector[1])
+		instance_weapon("Katana", allies_vector[1])
+		instance_weapon("Bamboo Sword", allies_vector[1])
+		instance_unit(3, 1, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[2])
+		instance_weapon("Bat Wings", allies_vector[2])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -805,7 +805,6 @@ func turn_based_system():
 				var i = 1
 				if closest[1] == "Enemies":
 					i = 4
-				
 				get_node("MultiTarget").show()
 				get_node("Target").hide()
 				get_node("MultiTarget").set_pos(Vector2(i * window_size.x/5, window_size.y/2 - 50))
@@ -1468,9 +1467,14 @@ func apply_bonus(bonus, stat, target):
 
 func buff_boss():
 	get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
-	enemies_vector[0].attack = (enemies_vector[0].get_base_attack()) * 1.2
-	enemies_vector[0].defense = (enemies_vector[0].get_base_defense()) * 1.2
-	enemies_vector[0].speed = (enemies_vector[0].get_base_speed()) * 1.2
+	enemies_vector[0].set_hp_current(ceil(enemies_vector[0].get_hp_max() * 1.5))
+	enemies_vector[0].attack = (enemies_vector[0].get_base_attack()) * 1.1
+	enemies_vector[0].special_attack = (enemies_vector[0].get_base_special_attack()) * 1.1
+	enemies_vector[0].defense = (enemies_vector[0].get_base_defense()) * 1.1
+	enemies_vector[0].special_defense = (enemies_vector[0].get_base_special_defense()) * 1.1
+	enemies_vector[0].speed = (enemies_vector[0].get_base_speed()) * 1.1
+	enemies_vector[0].dexterity = (enemies_vector[0].get_base_dexterity()) * 1.1
+	enemies_vector[0].luck = (enemies_vector[0].get_base_luck()) * 1.1
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -2065,6 +2069,8 @@ func _fixed_process(delta):
 				actor = allies_vector[act.get_from()[0]]
 			elif act.get_from()[1] == "Enemies":
 				actor = enemies_vector[act.get_from()[0]]
+
+#			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && :
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
 				if actor.get_total_speed() <= 0:
