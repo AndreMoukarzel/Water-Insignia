@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=1]
+[gd_scene load_steps=39 format=1]
 
 [ext_resource path="res://scripts/ManagementNode.gd" type="Script" id=1]
 [ext_resource path="res://resources/sprites/gui/management/bluehover.tex" type="Texture" id=2]
@@ -19,9 +19,10 @@
 [ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" id=17]
 [ext_resource path="res://resources/pkmndpb.fnt" type="BitmapFont" id=18]
 [ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=19]
-[ext_resource path="res://scripts/dialog.gd" type="Script" id=20]
-[ext_resource path="res://resources/sprites/gui/management/shopkeeper.png" type="Texture" id=21]
-[ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=22]
+[ext_resource path="res://resources/pkm20Shadow.fnt" type="BitmapFont" id=20]
+[ext_resource path="res://scripts/dialog.gd" type="Script" id=21]
+[ext_resource path="res://resources/sprites/gui/management/shopkeeper.png" type="Texture" id=22]
+[ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=23]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -469,6 +470,7 @@ flat = false
 
 [node name="UnitManagement" type="Control" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -548,6 +550,12 @@ text = "Return"
 flat = false
 
 [node name="ActivePartyStatus" parent="UnitManagement" instance=ExtResource( 15 )]
+
+editor/display_folded = true
+
+[node name="Name" parent="UnitManagement/ActivePartyStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="UnitManagement/ActivePartyStatus"]
 
@@ -644,6 +652,12 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="BarracksStatus" parent="UnitManagement" instance=ExtResource( 15 )]
+
+editor/display_folded = true
+
+[node name="Name" parent="UnitManagement/BarracksStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="UnitManagement/BarracksStatus"]
 
@@ -929,14 +943,17 @@ visibility/visible = false
 [node name="Name" parent="ItemManagement/APWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/APWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/APWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/APWStatus"]
 
@@ -946,6 +963,7 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 [node name="Defense" parent="ItemManagement/APWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="APIStatus" parent="ItemManagement" instance=ExtResource( 15 )]
 
@@ -955,14 +973,17 @@ visibility/visible = false
 [node name="Name" parent="ItemManagement/APIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/APIStatus"]
 
 custom_fonts/font = ExtResource( 18 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/APIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/APIStatus"]
 
@@ -972,6 +993,7 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 [node name="Defense" parent="ItemManagement/APIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="BWStatus" parent="ItemManagement" instance=ExtResource( 15 )]
 
@@ -981,14 +1003,17 @@ visibility/visible = false
 [node name="Name" parent="ItemManagement/BWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/BWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/BWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/BWStatus"]
 
@@ -998,6 +1023,7 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 [node name="Defense" parent="ItemManagement/BWStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="BIStatus" parent="ItemManagement" instance=ExtResource( 15 )]
 
@@ -1007,14 +1033,17 @@ visibility/visible = false
 [node name="Name" parent="ItemManagement/BIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/BIStatus"]
 
 custom_fonts/font = ExtResource( 18 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/BIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/BIStatus"]
 
@@ -1024,10 +1053,10 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 [node name="Defense" parent="ItemManagement/BIStatus"]
 
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="RepairMenu" type="Control" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1147,6 +1176,8 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
 custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1189,7 +1220,11 @@ margin/top = 349.0
 margin/right = 730.0
 margin/bottom = 429.0
 custom_styles/normal = SubResource( 14 )
-custom_fonts/font = ExtResource( 16 )
+custom_fonts/font = ExtResource( 20 )
+custom_colors/font_color_disabled = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_hover = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_pressed = Color( 0.937255, 0.878431, 0.00392157, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -1311,20 +1346,20 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
-script/script = ExtResource( 20 )
+script/script = ExtResource( 21 )
 
 [node name="ShopKeeper" type="Sprite" parent="ShopKeeperContainer"]
 
 transform/pos = Vector2( 790.227, 388.356 )
 transform/scale = Vector2( 2.48329, 2.47687 )
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 
 [node name="DialogBubble" type="Sprite" parent="ShopKeeperContainer"]
 
 visibility/visible = false
 transform/pos = Vector2( 644.856, 168.325 )
 transform/scale = Vector2( 0.799136, 1.00219 )
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 
 [node name="DialogText" type="RichTextLabel" parent="ShopKeeperContainer"]
 
@@ -1422,7 +1457,23 @@ flat = false
 editor/display_folded = true
 visibility/visible = false
 
+[node name="Name" parent="ShopManagement/SWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Class" parent="ShopManagement/SWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Durability" parent="ShopManagement/SWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
 [node name="Attack" parent="ShopManagement/SWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Defense" parent="ShopManagement/SWStatus"]
 
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
@@ -1449,6 +1500,8 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 0.9375, 0.879364, 0.00732422, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1520,7 +1573,23 @@ flat = false
 editor/display_folded = true
 visibility/visible = false
 
+[node name="Name" parent="ShopManagement/SIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Class" parent="ShopManagement/SIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Durability" parent="ShopManagement/SIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
 [node name="Attack" parent="ShopManagement/SIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Defense" parent="ShopManagement/SIStatus"]
 
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
@@ -1547,6 +1616,8 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1717,8 +1788,27 @@ flat = false
 
 [node name="STWStatus" parent="SellManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
+
+[node name="Name" parent="SellManagement/STWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Class" parent="SellManagement/STWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Durability" parent="SellManagement/STWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Attack" parent="SellManagement/STWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Defense" parent="SellManagement/STWStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Icon" type="TextureFrame" parent="SellManagement/STWStatus"]
 
@@ -1743,14 +1833,31 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
 [node name="STIStatus" parent="SellManagement" instance=ExtResource( 15 )]
 
-editor/display_folded = true
 visibility/visible = false
+
+[node name="Name" parent="SellManagement/STIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Class" parent="SellManagement/STIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Durability" parent="SellManagement/STIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+
+[node name="Defense" parent="SellManagement/STIStatus"]
+
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Icon" type="TextureFrame" parent="SellManagement/STIStatus"]
 
@@ -1775,12 +1882,15 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
 custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
 [node name="CurrentQuesha" type="Button" parent="SellManagement"]
 
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 1

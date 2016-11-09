@@ -55,7 +55,7 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 	if (type == "Shop Status"):
 		# Falta ajustar, e colocar a durabilidade
 		get_node("Name").set_pos(Vector2(15, 10))
-		get_node("Class").set_pos(Vector2(30, 30))
+		get_node("Class").set_pos(Vector2(15, 30))
 		# Durability is set at a later time
 		get_node("Attack").set_pos(Vector2(20, 65))
 		# Defesa não será necessária, acredito. Pode ser que uma arma forneça defesa bônus.
@@ -118,11 +118,12 @@ func update_statusbox(object, type, nature, database):
 			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 			# Não podemos fazer isto ainda, não existe amount na database de items
-#			if (object.amount > 10):
-#				get_node("Durability").set_pos(Vector2(65, 65))
-#			else:
-#				get_node("Durability").set_pos(Vector2(85, 65))
-#			get_node("Durability").set_text(str(object.amount,"/","3"))
+			if (database.get_item_stack(object) > 10):
+				get_node("Durability").set_pos(Vector2(220, 65))
+			else:
+				get_node("Durability").set_pos(Vector2(240, 65))
+			if (database.get_item_stack(object) > 0):
+				get_node("Durability").set_text(str(database.get_item_stack(object),"/",database.get_item_stack(object)))
 
 func neutralize_node(type):
 	# acho que essa parte possívelmente irá ser apenas para Unit Status

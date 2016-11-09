@@ -49,7 +49,7 @@ var char_database = [
 		DEX :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		LUK :   [15, 2, 2, 2, 1, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Sword", "Sword"],
-		SKILL_VECTOR : ["Heal", "Sonic Blow"]
+		SKILL_VECTOR : ["Heal", "Sonic Blow", "Poison Sting"]
 	},
 	{ # ID = 2
 		FOLDER : "res://characters/soldier/",
