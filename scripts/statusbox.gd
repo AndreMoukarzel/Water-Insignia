@@ -24,7 +24,11 @@ func adjust_size(type, x_size, y_size, x_pos, y_pos):
 		get_node("Class").set_pos(Vector2(20, 40))
 		get_node("Attack").set_pos(Vector2(20, 60))
 		get_node("Defense").set_pos(Vector2(20, 80))
-		get_node("Speed").set_pos(Vector2(20, 100))
+		get_node("SpecialAttack").set_pos(Vector2(100, 60))
+		get_node("SpecialDefense").set_pos(Vector2(100, 80))
+		get_node("Dexterity").set_pos(Vector2(20, 100))
+		get_node("Speed").set_pos(Vector2(100, 100))
+		get_node("Luck").set_pos(Vector2(20, 120))
 		
 	if (type == "Item Status"):
 		# Falta ajustar, e colocar a durabilidade
@@ -80,7 +84,7 @@ func update_statusbox(object, type, nature, database):
 				get_node("Durability").set_pos(Vector2(65, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(85, 65))
-			get_node("Durability").set_text(str(object.amount,"/","3"))
+			get_node("Durability").set_text(str(object.amount,"/",database.get_item_stack(object.id)))
 			
 	if (type == "Repair Status"):
 		get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
@@ -131,7 +135,11 @@ func neutralize_node(type):
 		get_node("Class").set_text("")
 		get_node("Attack").set_text("")
 		get_node("Defense").set_text("")
+		get_node("SpecialAttack").set_text("")
+		get_node("SpecialDefense").set_text("")
+		get_node("Dexterity").set_text("")
 		get_node("Speed").set_text("")
+		get_node("Luck").set_text("")
 	
 	if (type == "Item Status"):
 		hide()

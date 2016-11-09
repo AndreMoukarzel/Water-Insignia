@@ -312,7 +312,11 @@ func Update_UM():
 				#um_aps.get_node("Class").set_text("Class PH")
 				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("SpecialAttack").set_text(str("SPATK: ", char_database.get_sp_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("SpecialDefense").set_text(str("SPDEF: ", char_database.get_sp_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Dexterity").set_text(str("DEX: ", char_database.get_dexterity(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Luck").set_text(str("LUK: ", char_database.get_luck(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			if (last_selected_bunit != um_b.get_selected_items()[0]):
 				um_bs.neutralize_node("Unit Status")
 				um_bs.instance_animation(barracks_units[um_b.get_selected_items()[0]].id, 2.5)
@@ -321,7 +325,11 @@ func Update_UM():
 				#um_bs.get_node("Class").set_text("Class PH")
 				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("SpecialAttack").set_text(str("SPATK: ", char_database.get_sp_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("SpecialDefense").set_text(str("SPDEF: ", char_database.get_sp_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Dexterity").set_text(str("DEX: ", char_database.get_dexterity(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 				um_bs.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Luck").set_text(str("LUK: ", char_database.get_luck(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 			# Coordena estado do botão de swap
 			um_s.set_disabled(false)
 		elif (um_ap.get_selected_items().size() == 0):
@@ -334,7 +342,11 @@ func Update_UM():
 				#um_bs.get_node("Class").set_text("Class PH")
 				um_bs.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 				um_bs.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("SpecialAttack").set_text(str("SPATK: ", char_database.get_sp_attack(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("SpecialDefense").set_text(str("SPDEF: ", char_database.get_sp_defense(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Dexterity").set_text(str("DEX: ", char_database.get_dexterity(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 				um_bs.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
+				um_bs.get_node("Luck").set_text(str("LUK: ", char_database.get_luck(barracks_units[um_b.get_selected_items()[0]].id, barracks_units[um_b.get_selected_items()[0]].level)))
 			# Neutralizando a status box das unidades ativas
 			um_aps.neutralize_node("Unit Status")
 			last_selected_apunit = -1
@@ -352,9 +364,13 @@ func Update_UM():
 				last_selected_apunit = um_ap.get_selected_items()[0]
 				um_aps.get_node("Name").set_text(char_database.get_char_name(active_units[um_ap.get_selected_items()[0]].id).capitalize())
 				#um_aps.get_node("Class").set_text("Class PH")
-				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
-				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level))) #Precisa colocar o level da unidade aqui, como estamos instanciando as unidades das barracks ainda, colocamos 1 para não crashar
+				um_aps.get_node("Attack").set_text(str("ATK: ", char_database.get_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Defense").set_text(str("DEF: ", char_database.get_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("SpecialAttack").set_text(str("SPATK: ", char_database.get_sp_attack(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("SpecialDefense").set_text(str("SPDEF: ", char_database.get_sp_defense(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Dexterity").set_text(str("DEX: ", char_database.get_dexterity(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 				um_aps.get_node("Speed").set_text(str("SPD: ", char_database.get_speed(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
+				um_aps.get_node("Luck").set_text(str("LUK: ", char_database.get_luck(active_units[um_ap.get_selected_items()[0]].id, active_units[um_ap.get_selected_items()[0]].level)))
 			# Neutralizando a status box das unidades das barracks
 			um_bs.neutralize_node("Unit Status")
 			last_selected_bunit = -1
