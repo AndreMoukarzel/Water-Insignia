@@ -134,8 +134,9 @@ func _on_Button1_pressed():
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[0])
 		print("RECRUTOU")
-
-	goto_management()
+		get_node("AnimationPlayer").play("sucess")
+	else:
+		get_node("AnimationPlayer").play("fail")
 
 
 func _on_Button2_pressed():
@@ -146,8 +147,9 @@ func _on_Button2_pressed():
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[1])
 		print("RECRUTOU")
-
-	goto_management()
+		get_node("AnimationPlayer").play("sucess")
+	else:
+		get_node("AnimationPlayer").play("fail")
 
 
 func _on_Button3_pressed():
@@ -158,8 +160,9 @@ func _on_Button3_pressed():
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[2])
 		print("RECRUTOU")
-
-	goto_management()
+		get_node("AnimationPlayer").play("sucess")
+	else:
+		get_node("AnimationPlayer").play("fail")
 
 
 func _on_Button4_pressed():
@@ -170,5 +173,6 @@ func _on_Button4_pressed():
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[3])
 		print("RECRUTOU")
-
-	goto_management()
+		get_node("AnimationPlayer").play("sucess")
+	else:
+		get_node("AnimationPlayer").play("fail")
