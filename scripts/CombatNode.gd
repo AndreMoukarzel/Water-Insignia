@@ -1495,12 +1495,13 @@ func win_lose_cond():
 
 #			Destroy broken weapons
 			for unit in allies_vector:
-				var i = 0
-				for wpn in unit.wpn_vector:
-					print(wpn.name, "|", wpn.durability)
-					if wpn.durability == 0:
-						unit.wpn_vector.remove(i)
-					i += 1
+				if unit != null:
+					var i = 0
+					for wpn in unit.wpn_vector:
+						print(wpn.name, "|", wpn.durability)
+						if wpn.durability == 0:
+							unit.wpn_vector.remove(i)
+						i += 1
 
 			add_child(recruit)
 		else:
@@ -1762,7 +1763,7 @@ func _on_SkillSlot3_mouse_exit():
 
 
 func _on_SkillSlot4_mouse_enter():
-	if (allies_vector[actor].get_skill_vector().size() > 2):
+	if (allies_vector[actor].get_skill_vector().size() > 3):
 		infomenu.adjust_properties(3, "skill", get_node("ActionMenu/Skill/SkillSlot4").get_pos().x, get_node("ActionMenu/Skill/SkillSlot4").get_pos().y, allies_vector[actor].skill_vector[3].id, skill_database)
 		infomenu.set_opacity(0)
 		infomenu.show()
