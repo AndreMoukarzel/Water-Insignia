@@ -513,16 +513,16 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
-		instance_unit(3, 20, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[0])
-		instance_weapon("Bat Wings", allies_vector[0])
-		instance_unit(1, 20, "Allies")
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 20, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[2])
-		instance_weapon("Bat Wings", allies_vector[2])
+#		instance_unit(3, 20, "Allies")
+#		instance_weapon("Bat Fangs", allies_vector[0])
+#		instance_weapon("Bat Wings", allies_vector[0])
+		instance_unit(1, 2, "Allies")
+		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Bamboo Sword", allies_vector[0])
+		instance_unit(3, 2, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[1])
+		instance_weapon("Bat Wings", allies_vector[1])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -798,11 +798,19 @@ func turn_based_system():
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
 		if closest[0] != -1:
+			get_node("Target").show()
+			get_node("MultiTarget").show()
 			var current_action = action_memory[action_memory.size() - 1]
 			if (current_action.get_action() == "skill") and (allies_vector[actor].get_skill_vector()[current_action.get_action_id()].get_is_multi_target()):
-				print ("blub")
-				pass
+				var i = 1
+				if closest[1] == "Enemies":
+					i = 4
+				
+				get_node("MultiTarget").show()
+				get_node("Target").hide()
+				get_node("MultiTarget").set_pos(Vector2(i * window_size.x/5, window_size.y/2 - 50))
 			else:
+				get_node("MultiTarget").hide()
 				get_node("Target").show()
 				get_node("Target").set_pos(get_node(str(closest[1], "/", closest[0])).get_pos())
 
@@ -1470,9 +1478,10 @@ func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
 	if get_node("Enemies").get_child_count() < 1:
 		for unit in allies_vector:
-			for wpn in unit.get_wpn_vector():
-				if wpn.get_type() == "Natural":
-					wpn.set_durability(-1)
+			if unit != null:
+				for wpn in unit.get_wpn_vector():
+					if wpn.get_type() == "Natural":
+						wpn.set_durability(-1)
 		print("GG IZI")
 		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
@@ -2020,7 +2029,8 @@ func organize_slots(type, actor):
 
 func _fixed_process(delta):
 	get_node("Target").hide()
-	
+	get_node("MultiTarget").hide()
+
 	# If it's choosing an action and its target
 	if STATE == "SELECT TARGET":
 		# The unit keeps blinking while not chosen yet

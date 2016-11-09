@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="4" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" index="0">
-	</ext_resource>
+	<ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" index="0"></ext_resource>
 	<resource type="StyleBoxFlat" path="local://1">
-
-
 		<real name="content_margin/left"> -1 </real>
 		<real name="content_margin/right"> -1 </real>
 		<real name="content_margin/top"> -1 </real>
 		<real name="content_margin/bottom"> -1 </real>
-		<color name="bg_color"> 0.898438, 0.41352, 0.0596619, 1 </color>
+		<color name="bg_color"> 0.235294, 0.392157, 0.0588235, 1 </color>
 		<color name="light_color"> 0.8, 0.8, 0.8, 1 </color>
 		<color name="dark_color"> 0.8, 0.8, 0.8, 1 </color>
 		<int name="border_size"> 0 </int>

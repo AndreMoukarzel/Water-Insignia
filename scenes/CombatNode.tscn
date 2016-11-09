@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=1]
+[gd_scene load_steps=45 format=1]
 
 [ext_resource path="res://scripts/CombatNode.gd" type="Script" id=1]
 [ext_resource path="res://resources/sprites/gui/combat/moving target/target0000.tex" type="Texture" id=2]
@@ -37,6 +37,7 @@
 [ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=35]
 [ext_resource path="res://resources/sprites/gui/background/forest1.jpg" type="Texture" id=36]
 
+
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ { "frames":[ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ], "loop":true, "name":"default", "speed":5.0 } ]
@@ -53,13 +54,29 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.2, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 1.4, 1.5, 1.6 ), "transitions":FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ), "update":1, "values":[ 0, 1, 0, 1, 2, 3, 4, 3, 4, 2, 1 ] }
 
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="SpriteFrames" id=3]
+
+animations = [ { "frames":[ ExtResource( 7 ), ExtResource( 8 ) ], "loop":true, "name":"default", "speed":5.0 } ]
+
+[sub_resource type="Animation" id=6]
+
+resource/name = "idle"
+length = 0.8
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.4 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ 0, 1 ] }
+
+[sub_resource type="StyleBoxTexture" id=4]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -70,13 +87,13 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=4]
+[sub_resource type="StyleBoxTexture" id=5]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 31 )
+texture = ExtResource( 33 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -106,6 +123,7 @@ transform/scale = Vector2( 5, 5 )
 frames = SubResource( 1 )
 animation = "default"
 frame = 1
+__meta__ = { "_edit_group_":true }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Target"]
 
@@ -118,7 +136,26 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = "idle"
 
-[node name="Effects" parent="." instance=ExtResource( 7 )]
+[node name="MultiTarget" type="AnimatedSprite" parent="."]
+
+editor/display_folded = true
+transform/scale = Vector2( 4, 4 )
+frames = SubResource( 3 )
+animation = "default"
+__meta__ = { "_edit_group_":true }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MultiTarget"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = SubResource( 6 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "idle"
+
+[node name="Effects" parent="." instance=ExtResource( 9 )]
 
 transform/scale = Vector2( 3, 3 )
 
@@ -133,6 +170,7 @@ margin/left = 0.0
 margin/top = 500.0
 margin/right = 1024.0
 margin/bottom = 600.0
+__meta__ = { "_edit_lock_":true }
 
 [node name="Selection" type="HBoxContainer" parent="ActionMenu"]
 
@@ -160,10 +198,10 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 8 )
-textures/pressed = ExtResource( 9 )
-textures/hover = ExtResource( 10 )
-textures/disabled = ExtResource( 9 )
+textures/normal = ExtResource( 10 )
+textures/pressed = ExtResource( 11 )
+textures/hover = ExtResource( 12 )
+textures/disabled = ExtResource( 11 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Skill" type="TextureButton" parent="ActionMenu/Selection"]
@@ -179,10 +217,10 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 11 )
-textures/pressed = ExtResource( 12 )
-textures/hover = ExtResource( 13 )
-textures/disabled = ExtResource( 12 )
+textures/normal = ExtResource( 13 )
+textures/pressed = ExtResource( 14 )
+textures/hover = ExtResource( 15 )
+textures/disabled = ExtResource( 14 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Item" type="TextureButton" parent="ActionMenu/Selection"]
@@ -198,10 +236,10 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 14 )
-textures/pressed = ExtResource( 15 )
-textures/hover = ExtResource( 16 )
-textures/disabled = ExtResource( 15 )
+textures/normal = ExtResource( 16 )
+textures/pressed = ExtResource( 17 )
+textures/hover = ExtResource( 18 )
+textures/disabled = ExtResource( 17 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Defend" type="TextureButton" parent="ActionMenu/Selection"]
@@ -217,10 +255,10 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 17 )
-textures/pressed = ExtResource( 18 )
-textures/hover = ExtResource( 19 )
-textures/disabled = ExtResource( 18 )
+textures/normal = ExtResource( 19 )
+textures/pressed = ExtResource( 20 )
+textures/hover = ExtResource( 21 )
+textures/disabled = ExtResource( 20 )
 params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Attack" type="HBoxContainer" parent="ActionMenu"]
@@ -250,12 +288,12 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 20 )
-textures/pressed = ExtResource( 21 )
-textures/hover = ExtResource( 22 )
-textures/disabled = ExtResource( 21 )
+textures/normal = ExtResource( 22 )
+textures/pressed = ExtResource( 23 )
+textures/hover = ExtResource( 24 )
+textures/disabled = ExtResource( 23 )
 
-[node name="Weapon" parent="ActionMenu/Attack/AttackSlot1" instance=ExtResource( 23 )]
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot1" instance=ExtResource( 25 )]
 
 [node name="AttackSlot2" type="TextureButton" parent="ActionMenu/Attack"]
 
@@ -271,12 +309,12 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 20 )
-textures/pressed = ExtResource( 21 )
-textures/hover = ExtResource( 22 )
-textures/disabled = ExtResource( 21 )
+textures/normal = ExtResource( 22 )
+textures/pressed = ExtResource( 23 )
+textures/hover = ExtResource( 24 )
+textures/disabled = ExtResource( 23 )
 
-[node name="Weapon" parent="ActionMenu/Attack/AttackSlot2" instance=ExtResource( 23 )]
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot2" instance=ExtResource( 25 )]
 
 [node name="AttackSlot3" type="TextureButton" parent="ActionMenu/Attack"]
 
@@ -292,12 +330,12 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 20 )
-textures/pressed = ExtResource( 21 )
-textures/hover = ExtResource( 22 )
-textures/disabled = ExtResource( 21 )
+textures/normal = ExtResource( 22 )
+textures/pressed = ExtResource( 23 )
+textures/hover = ExtResource( 24 )
+textures/disabled = ExtResource( 23 )
 
-[node name="Weapon" parent="ActionMenu/Attack/AttackSlot3" instance=ExtResource( 23 )]
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot3" instance=ExtResource( 25 )]
 
 [node name="AttackSlot4" type="TextureButton" parent="ActionMenu/Attack"]
 
@@ -313,12 +351,12 @@ margin/bottom = 100.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 20 )
-textures/pressed = ExtResource( 21 )
-textures/hover = ExtResource( 22 )
-textures/disabled = ExtResource( 21 )
+textures/normal = ExtResource( 22 )
+textures/pressed = ExtResource( 23 )
+textures/hover = ExtResource( 24 )
+textures/disabled = ExtResource( 23 )
 
-[node name="Weapon" parent="ActionMenu/Attack/AttackSlot4" instance=ExtResource( 23 )]
+[node name="Weapon" parent="ActionMenu/Attack/AttackSlot4" instance=ExtResource( 25 )]
 
 [node name="Skill" type="HBoxContainer" parent="ActionMenu"]
 
@@ -348,12 +386,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 24 )
-textures/pressed = ExtResource( 25 )
-textures/hover = ExtResource( 26 )
-textures/disabled = ExtResource( 25 )
+textures/normal = ExtResource( 26 )
+textures/pressed = ExtResource( 27 )
+textures/hover = ExtResource( 28 )
+textures/disabled = ExtResource( 27 )
 
-[node name="Skill" parent="ActionMenu/Skill/SkillSlot1" instance=ExtResource( 23 )]
+[node name="Skill" parent="ActionMenu/Skill/SkillSlot1" instance=ExtResource( 25 )]
 
 [node name="SkillSlot2" type="TextureButton" parent="ActionMenu/Skill"]
 
@@ -369,12 +407,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 24 )
-textures/pressed = ExtResource( 25 )
-textures/hover = ExtResource( 26 )
-textures/disabled = ExtResource( 25 )
+textures/normal = ExtResource( 26 )
+textures/pressed = ExtResource( 27 )
+textures/hover = ExtResource( 28 )
+textures/disabled = ExtResource( 27 )
 
-[node name="Skill" parent="ActionMenu/Skill/SkillSlot2" instance=ExtResource( 23 )]
+[node name="Skill" parent="ActionMenu/Skill/SkillSlot2" instance=ExtResource( 25 )]
 
 [node name="SkillSlot3" type="TextureButton" parent="ActionMenu/Skill"]
 
@@ -390,12 +428,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 24 )
-textures/pressed = ExtResource( 25 )
-textures/hover = ExtResource( 26 )
-textures/disabled = ExtResource( 25 )
+textures/normal = ExtResource( 26 )
+textures/pressed = ExtResource( 27 )
+textures/hover = ExtResource( 28 )
+textures/disabled = ExtResource( 27 )
 
-[node name="Skill" parent="ActionMenu/Skill/SkillSlot3" instance=ExtResource( 23 )]
+[node name="Skill" parent="ActionMenu/Skill/SkillSlot3" instance=ExtResource( 25 )]
 
 [node name="SkillSlot4" type="TextureButton" parent="ActionMenu/Skill"]
 
@@ -411,12 +449,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 24 )
-textures/pressed = ExtResource( 25 )
-textures/hover = ExtResource( 26 )
-textures/disabled = ExtResource( 25 )
+textures/normal = ExtResource( 26 )
+textures/pressed = ExtResource( 27 )
+textures/hover = ExtResource( 28 )
+textures/disabled = ExtResource( 27 )
 
-[node name="Skill" parent="ActionMenu/Skill/SkillSlot4" instance=ExtResource( 23 )]
+[node name="Skill" parent="ActionMenu/Skill/SkillSlot4" instance=ExtResource( 25 )]
 
 [node name="Item" type="HBoxContainer" parent="ActionMenu"]
 
@@ -446,12 +484,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 27 )
-textures/pressed = ExtResource( 28 )
-textures/hover = ExtResource( 29 )
-textures/disabled = ExtResource( 28 )
+textures/normal = ExtResource( 29 )
+textures/pressed = ExtResource( 30 )
+textures/hover = ExtResource( 31 )
+textures/disabled = ExtResource( 30 )
 
-[node name="Item" parent="ActionMenu/Item/ItemSlot1" instance=ExtResource( 23 )]
+[node name="Item" parent="ActionMenu/Item/ItemSlot1" instance=ExtResource( 25 )]
 
 [node name="TextureFrame" type="TextureFrame" parent="ActionMenu/Item/ItemSlot1/Item"]
 
@@ -479,12 +517,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 27 )
-textures/pressed = ExtResource( 28 )
-textures/hover = ExtResource( 29 )
-textures/disabled = ExtResource( 28 )
+textures/normal = ExtResource( 29 )
+textures/pressed = ExtResource( 30 )
+textures/hover = ExtResource( 31 )
+textures/disabled = ExtResource( 30 )
 
-[node name="Item" parent="ActionMenu/Item/ItemSlot2" instance=ExtResource( 23 )]
+[node name="Item" parent="ActionMenu/Item/ItemSlot2" instance=ExtResource( 25 )]
 
 [node name="ItemSlot3" type="TextureButton" parent="ActionMenu/Item"]
 
@@ -500,12 +538,12 @@ margin/bottom = 29.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 27 )
-textures/pressed = ExtResource( 28 )
-textures/hover = ExtResource( 29 )
-textures/disabled = ExtResource( 28 )
+textures/normal = ExtResource( 29 )
+textures/pressed = ExtResource( 30 )
+textures/hover = ExtResource( 31 )
+textures/disabled = ExtResource( 30 )
 
-[node name="Item" parent="ActionMenu/Item/ItemSlot3" instance=ExtResource( 23 )]
+[node name="Item" parent="ActionMenu/Item/ItemSlot3" instance=ExtResource( 25 )]
 
 [node name="ItemSlot4" type="TextureButton" parent="ActionMenu/Item"]
 
@@ -521,12 +559,12 @@ margin/bottom = 110.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 27 )
-textures/pressed = ExtResource( 28 )
-textures/hover = ExtResource( 29 )
-textures/disabled = ExtResource( 28 )
+textures/normal = ExtResource( 29 )
+textures/pressed = ExtResource( 30 )
+textures/hover = ExtResource( 31 )
+textures/disabled = ExtResource( 30 )
 
-[node name="Item" parent="ActionMenu/Item/ItemSlot4" instance=ExtResource( 23 )]
+[node name="Item" parent="ActionMenu/Item/ItemSlot4" instance=ExtResource( 25 )]
 
 [node name="Return" type="Button" parent="ActionMenu"]
 
@@ -539,17 +577,17 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 105.0
 margin/bottom = 40.0
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
-custom_fonts/font = ExtResource( 32 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 34 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Return"
 flat = false
 
-[node name="InfoMenu" parent="ActionMenu" instance=ExtResource( 33 )]
+[node name="InfoMenu" parent="ActionMenu" instance=ExtResource( 35 )]
 
 editor/display_folded = true
 visibility/visible = false
@@ -558,6 +596,7 @@ expand = true
 
 [node name="Tip" type="TextureFrame" parent="."]
 
+editor/display_folded = true
 rect/min_size = Vector2( 120, 0 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -567,9 +606,10 @@ margin/left = 466.0
 margin/top = 459.0
 margin/right = 616.0
 margin/bottom = 489.0
-texture = ExtResource( 34 )
+texture = ExtResource( 36 )
 expand = true
 stretch_mode = 0
+__meta__ = { "_edit_lock_":true }
 
 [node name="Label" type="Label" parent="Tip"]
 
@@ -581,7 +621,7 @@ margin/left = 10.0
 margin/top = 5.0
 margin/right = 141.0
 margin/bottom = 25.0
-custom_fonts/font = ExtResource( 35 )
+custom_fonts/font = ExtResource( 37 )
 text = "Select target"
 percent_visible = 1.0
 lines_skipped = 0
@@ -610,9 +650,10 @@ margin/left = -600.0
 margin/top = -600.0
 margin/right = 1448.0
 margin/bottom = 600.0
-texture = ExtResource( 36 )
+texture = ExtResource( 38 )
 expand = true
 stretch_mode = 0
+__meta__ = { "_edit_lock_":true }
 
 [connection signal="pressed" from="ActionMenu/Selection/Attack" to="." method="_on_Attack_pressed"]
 
