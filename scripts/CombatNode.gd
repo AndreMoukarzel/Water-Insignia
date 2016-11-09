@@ -513,16 +513,16 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
-		instance_unit(3, 20, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[0])
-		instance_weapon("Bat Wings", allies_vector[0])
-		instance_unit(1, 20, "Allies")
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 20, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[2])
-		instance_weapon("Bat Wings", allies_vector[2])
+#		instance_unit(3, 20, "Allies")
+#		instance_weapon("Bat Fangs", allies_vector[0])
+#		instance_weapon("Bat Wings", allies_vector[0])
+		instance_unit(1, 2, "Allies")
+		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Katana", allies_vector[0])
+		instance_weapon("Bamboo Sword", allies_vector[0])
+		instance_unit(3, 2, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[1])
+		instance_weapon("Bat Wings", allies_vector[1])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -1474,9 +1474,10 @@ func win_lose_cond():
 	# Depois podemos mudar os numeros que interagem com "battle", para dinamicamente escolhermos o numero de batalhas por stage
 	if get_node("Enemies").get_child_count() < 1:
 		for unit in allies_vector:
-			for wpn in unit.get_wpn_vector():
-				if wpn.get_type() == "Natural":
-					wpn.set_durability(-1)
+			if unit != null:
+				for wpn in unit.get_wpn_vector():
+					if wpn.get_type() == "Natural":
+						wpn.set_durability(-1)
 		print("GG IZI")
 		if battle % stage_battles == 0:
 			var recruit_scn = load("res://scenes/Recruit.tscn")
