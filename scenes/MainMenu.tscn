@@ -1,19 +1,19 @@
 [gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://scripts/mainmenu.gd" type="Script" id=1]
-[ext_resource path="res://resources/sprites/gui/buttons/button0003.tex" type="Texture" id=2]
-[ext_resource path="res://resources/sprites/gui/buttons/button0005.tex" type="Texture" id=3]
-[ext_resource path="res://resources/sprites/gui/buttons/button0004.tex" type="Texture" id=4]
+[ext_resource path="res://resources/sprites/gui/combat/combat0003.tex" type="Texture" id=2]
+[ext_resource path="res://resources/sprites/gui/combat/combat0005.tex" type="Texture" id=3]
+[ext_resource path="res://resources/sprites/gui/combat/combat0004.tex" type="Texture" id=4]
 [ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=5]
-[ext_resource path="res://resources/sprites/gui/buttons/button0000.tex" type="Texture" id=6]
-[ext_resource path="res://resources/sprites/gui/buttons/button0002.tex" type="Texture" id=7]
-[ext_resource path="res://resources/sprites/gui/buttons/button0001.tex" type="Texture" id=8]
-[ext_resource path="res://resources/sprites/gui/buttons/combat0009.tex" type="Texture" id=9]
-[ext_resource path="res://resources/sprites/gui/buttons/combat0011.tex" type="Texture" id=10]
-[ext_resource path="res://resources/sprites/gui/buttons/combat0010.tex" type="Texture" id=11]
-[ext_resource path="res://resources/sprites/gui/buttons/button0009.tex" type="Texture" id=12]
-[ext_resource path="res://resources/sprites/gui/mainmenu/QuitPressed.png" type="Texture" id=13]
-[ext_resource path="res://resources/sprites/gui/mainmenu/QuitHover.png" type="Texture" id=14]
+[ext_resource path="res://resources/sprites/gui/combat/combat0000.tex" type="Texture" id=6]
+[ext_resource path="res://resources/sprites/gui/combat/combat0002.tex" type="Texture" id=7]
+[ext_resource path="res://resources/sprites/gui/combat/combat0001.tex" type="Texture" id=8]
+[ext_resource path="res://resources/sprites/gui/combat/combat0006.tex" type="Texture" id=9]
+[ext_resource path="res://resources/sprites/gui/combat/combat0008.tex" type="Texture" id=10]
+[ext_resource path="res://resources/sprites/gui/combat/combat0007.tex" type="Texture" id=11]
+[ext_resource path="res://resources/sprites/gui/combat/combat0009.tex" type="Texture" id=12]
+[ext_resource path="res://resources/sprites/gui/combat/combat0011.tex" type="Texture" id=13]
+[ext_resource path="res://resources/sprites/gui/combat/combat0010.tex" type="Texture" id=14]
 
 [node name="MainMenu" type="Panel"]
 
@@ -55,7 +55,6 @@ shortcut = null
 textures/normal = ExtResource( 2 )
 textures/pressed = ExtResource( 3 )
 textures/hover = ExtResource( 4 )
-params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Label" type="Label" parent="Base/NewGame"]
 
@@ -93,7 +92,6 @@ shortcut = null
 textures/normal = ExtResource( 6 )
 textures/pressed = ExtResource( 7 )
 textures/hover = ExtResource( 8 )
-params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Label" type="Label" parent="Base/Continue"]
 
@@ -131,7 +129,6 @@ shortcut = null
 textures/normal = ExtResource( 9 )
 textures/pressed = ExtResource( 10 )
 textures/hover = ExtResource( 11 )
-params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Label" type="Label" parent="Base/Settings"]
 
@@ -159,17 +156,16 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
-margin/left = 482.0
-margin/top = 514.0
-margin/right = 542.0
-margin/bottom = 539.0
+margin/left = 392.0
+margin/top = 476.0
+margin/right = 632.0
+margin/bottom = 576.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 12 )
 textures/pressed = ExtResource( 13 )
 textures/hover = ExtResource( 14 )
-params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Label" type="Label" parent="Base/Exit"]
 
