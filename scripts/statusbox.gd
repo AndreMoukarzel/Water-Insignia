@@ -191,5 +191,5 @@ func instance_animation(id, scale):
 	anim_sprite.add_child(anim_player)
 	anim_sprite.set_name("Icon")
 	anim_sprite.set_scale(Vector2(-scale, scale))
-	anim_sprite.set_pos(Vector2(get_size().x - 55, 70))
+	anim_sprite.set_pos(Vector2(get_size().x - 85, 70))
 	add_child(anim_sprite)
