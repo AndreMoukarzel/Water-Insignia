@@ -4,7 +4,7 @@ extends Node
 func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 	set_pos(Vector2(pos_x, pos_y - 210))
 	if (type == "attack"):
-		set_texture(load("res://resources/sprites/gui/combat/AttackSlotNormal.png"))
+		set_texture(load("res://resources/sprites/gui/management/button0003.png"))
 		get_node("Name").set_pos(Vector2(30, 35))
 		get_node("Name").set_text(database.get_wpn_name(object_id))
 		#get_node("Description").set_text(database.get_wpn_description(object_id))
@@ -12,7 +12,7 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 		get_node("NumericInfo").set_pos(Vector2(30, 60))
 	
 	if (type == "skill"):
-		set_texture(load("res://resources/sprites/gui/combat/SkillSlotNormal.png"))
+		set_texture(load("res://resources/sprites/gui/management/button0000.png"))
 		get_node("Name").set_pos(Vector2(30, 35))
 		get_node("Name").set_text(database.get_skill_name(object_id))
 		#get_node("Description").set_text(database.get_wpn_description(object_id))
@@ -35,7 +35,7 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 				spacing += 1
 		
 	if (type == "item"):
-		set_texture(load("res://resources/sprites/gui/combat/ItemSlotNormal.png"))
+		set_texture(load("res://resources/sprites/gui/management/button0006.png"))
 		get_node("Name").set_pos(Vector2(30, 35))
 		get_node("Name").set_text(database.get_item_name(object_id))
 		#get_node("Description").set_text(database.get_wpn_description(object_id))

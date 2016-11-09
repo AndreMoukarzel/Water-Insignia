@@ -124,6 +124,7 @@ transform/scale = Vector2( 3, 3 )
 
 [node name="ActionMenu" type="Panel" parent="."]
 
+editor/display_folded = true
 visibility/self_opacity = 0.0
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -225,7 +226,6 @@ params/scale = Vector2( 0.5, 0.5 )
 
 [node name="Attack" type="HBoxContainer" parent="ActionMenu"]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
