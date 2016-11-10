@@ -987,7 +987,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			if stat.get_name() == "DEFEND":
 				defender[defender_vpos].get_status_vector().remove(i)
 				var bonus = 3*defender[defender_vpos].get_base_defense()
-				defender[defender_vpos].decrease_bonus_defense(-bonus)
+				defender[defender_vpos].decrease_bonus_defense(bonus)
 			i += 1
 
 		# damage can't be lower than zero
@@ -1144,20 +1144,21 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			
 						# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
 						var damage = mult[0]
+
 						if is_physical:
 							damage += mult[1] * user[user_vpos].get_total_attack()
 							if mult[2] < 0:
 								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
 							else:
-								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+								damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
 						else:
 							damage += mult[1] * user[user_vpos].get_total_special_attack()
 							if mult[2] < 0:
 								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 							else:
-								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+								damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 						damage = damage * tri
-			
+
 						if damage < 0:
 							damage += reduce_damage
 							if damage >= 0:
@@ -1167,9 +1168,12 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 						else:
 							damage = floor(damage)
 							var effect = get_node("Effects")
+							var side = 1
+							if target_side == "Enemies":
+								side = 3
 							damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", i)).get_pos())
-							effect.set_pos(get_node(str(target_side, "/", i)).get_pos())
-							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
+							effect.set_pos(Vector2(side * window_size.x/4, window_size.y/2 - 50))
+							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal wave")
 		
 						var hp_current = target[i].get_hp_current()
 						target[i].modify_hp_current(damage)
@@ -2102,9 +2106,13 @@ func _fixed_process(delta):
 						if act.get_from()[1] == "Allies":
 							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
 							atk_pos = allies_pos[act.get_from()[0]]
+							# If skill is multi-target
 							if allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
 								unit = get_node(str("Allies/", act.get_from()[0]))
-								unit.set_pos(Vector2(window_size[0]/2 - 50, window_size[1]/2))
+								if act.get_to()[1] == "Allies":
+									unit.set_pos(Vector2(unit.get_pos().x + 50, unit.get_pos().y))
+								elif act.get_to()[1] == "Enemies":
+									unit.set_pos(Vector2(window_size[0]/2 - 50, window_size[1]/2))
 
 							elif melee:
 								if act.get_to()[1] == "Allies":
