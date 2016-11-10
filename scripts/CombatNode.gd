@@ -2071,7 +2071,7 @@ func _fixed_process(delta):
 			elif act.get_from()[1] == "Enemies":
 				actor = enemies_vector[act.get_from()[0]]
 
-#			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && :
+#			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
 				if actor.get_total_speed() <= 0:
@@ -2184,7 +2184,7 @@ func _fixed_process(delta):
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
 	elif STATE == "ANIMATION":
 		time -= 1
-		if time < 1:
+		if time <= 1:
 			var act = action_memory[0]
 			var player = get_node(str(act.get_from()[1],"/",act.get_from()[0],"/anim_player"))
 
