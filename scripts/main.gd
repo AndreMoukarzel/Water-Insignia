@@ -1,6 +1,10 @@
 
 extends Node
 
+onready var char_database = get_node("/root/character_database")
+onready var wpn_database = get_node("/root/weapon_database")
+onready var item_database = get_node("/root/item_database")
+
 var menu_scn = preload("res://scenes/MainMenu.tscn")
 var combat_scn = preload("res://scenes/CombatNode.tscn")
 var management_scn = preload("res://scenes/ManagementNode.tscn")
@@ -26,6 +30,41 @@ class unit:
 	var level 
 	var wpn_vector = []
 	var item_vector = []
+
+	func _init(id, level, db):
+		self.id = id
+		self.level = level
+		self.name = db.get_char_name(id)
+
+class weapon:
+	var id # Weapon ID in the weapon database
+	var name # Weapon name in the weapon database
+	var durability # Weapon durability
+	var type # Weapon type - sword, axe, spear or natural
+
+	func _init(id, database):
+		self.id = id
+		self.name = database.get_wpn_name(id)
+		self.durability = database.get_durability(id)
+		self.type = database.get_wpn_type(id)
+
+class item:
+	var id
+	var name 
+	var type # HP and/or Effect
+	var hp # How much the HP will be affected by the item
+	var status # Item's status effect (poison, speed up, ...)
+	var max_amount # Item's total amount
+	var amount
+
+	func _init(id, database):
+		self.id = id
+		self.name = database.get_item_name(id)
+		self.type = database.get_item_type(id)
+		self.hp = database.get_item_hp(id)
+		self.status = database.get_item_status(id)
+		self.max_amount = database.get_item_stack(id)
+		self.amount = self.max_amount
 
 
 func _ready():
@@ -131,7 +170,6 @@ func save():
 		
 	# Begin dictionary
 	var savedict = {
-		newgame = 0,
 		first_play = first_play,
 		stage = stage,
 		quesha = quesha,
@@ -167,3 +205,69 @@ func load_game():
 	var savedata = {}
 	savedata.parse_json(savegame.get_as_text())
 	savegame.close()
+
+	first_play = savedata.first_play
+	stage = savedata.stage
+	quesha = savedata.quesha
+	
+	var wpns_iter
+	var current_wpn = 0
+	var items_iter
+	var current_item = 0
+
+	for i in range(0, savedata.active_units_size):
+		wpns_iter = 0
+		items_iter = 0
+		
+		var u = savedata.units[i]
+		units_vector.append(unit.new(u.id, u.level, char_database))
+		while (wpns_iter < u.wpn_num):
+			units_vector[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
+			units_vector[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
+			wpns_iter += 1
+			current_wpn += 1
+		while (items_iter < u.item_num):
+			units_vector[i].item_vector.append(item.new(savedata.items[current_item].id, item_database))
+			units_vector[i].item_vector[items_iter].amount = savedata.items[current_item].amount
+			items_iter += 1
+			current_item += 1
+	
+	for i in range(savedata.active_units_size, savedata.barracks_units_size):
+		wpns_iter = 0
+		items_iter = 0
+		
+		var u = savedata.units[i]
+		barracks.append(unit.new(u.id, u.level, char_database))
+		while (wpns_iter < u.wpn_num):
+			barracks[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
+			barracks[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
+			wpns_iter += 1
+			current_wpn += 1
+		while (items_iter < u.item_num):
+			barracks[i].item_vector.append(item.new(savedata.items[current_item].id, item_database))
+			barracks[i].item_vector[items_iter].amount = savedata.items[current_item].amount
+			items_iter += 1
+			current_item += 1
+	
+	if (current_wpn != savedata.weapons.size() or current_item != savedata.items.size()):
+		#Error handler, did not load correctly
+		print("Error loading data!")
+	
+	current_wpn = 0
+	current_item = 0
+	
+	for weapon in savedata.storage_weapons:
+		storage_wpn.append(weapon.new(weapon.id, wpn_database))
+		storage_wpn[current_wpn].durability = weapon.durability
+		current_wpn += 1
+	for item in savedata.storage_items:
+		storage_itm.append(item.new(item.id, item_database))
+		storage_itm[current_item].amount = item.amount
+		current_item += 1
+	
+	if (current_wpn != savedata.storage_weapons.size() or current_item != savedata.storage_items.size()):
+		#Error handler, did not load correctly
+		print("Error loading data!")
+	
+	print ("Finished loading data!")
+	# Continue population weapons and items, need more details on unit maybe

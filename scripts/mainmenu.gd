@@ -23,7 +23,7 @@ func _on_NewGame_pressed():
 
 
 func _on_Continue_pressed():
-	pass # replace with function body
+	get_parent().load_game()
 
 
 func _on_Settings_pressed():
