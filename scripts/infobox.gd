@@ -22,7 +22,10 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 				var mult = database.get_skill_multiplayer(object_id)
 				var potency = mult[0]
 				potency += mult[1] * 5
-				potency += mult[2] * mult[2] * 10
+				if mult[2] < 0:
+					potency -= mult[2] * mult[2] * 10
+				else:
+					potency += mult[2] * mult[2] * 10
 				potency = round(potency)
 				if (potency < 0):
 					potency = -potency
