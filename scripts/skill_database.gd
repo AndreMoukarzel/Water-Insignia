@@ -15,7 +15,7 @@ var skill_database = [
 	{ # ID = 0
 		SKILL_NAME : "Heal",
 		TYPE : ["HP"],
-		COST : 1,
+		COST : 2,
 		MUL : [10, 0, 1.5],
 		STATUS : [],
 		ELEM : null,
@@ -186,6 +186,18 @@ var skill_database = [
 		COST : 1,
 		MUL : null,
 		STATUS : ["Poison"],
+		ELEM : null,
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
+	},
+	
+	{ # ID = 15
+		SKILL_NAME : "Heal Wave",
+		TYPE : ["HP"],
+		COST : 3,
+		MUL : [8, 0, 1.5],
+		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
 		MELEE : false,

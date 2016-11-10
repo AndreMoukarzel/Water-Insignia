@@ -638,42 +638,43 @@ func instance_status(name, target):
 	var status_instance = status.new(name, status_database)
 
 	var i = 0
-	for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
-		if status.get_name() == name:
-			for type in status.get_type():
-				if type == "Buff": # Nulify old effect
-					var bonus_atribute
-					var bonus = status.get_effect()
-
-					if status.get_stat() == "ATK":
-						bonus *= target.get_base_attack()
-						if bonus != 0:
-							target.decrease_bonus_attack(bonus)
-						else:
-							target.set_bonus_attack(-target.get_base_attack())
-						bonus_atribute = target.get_bonus_attack()
-					if status.get_stat() == "DEF":
-						bonus *= target.get_base_defense()
-						if bonus != 0:
-							target.decrease_bonus_defense(bonus)
-						else:
-							target.set_bonus_defense(-target.get_base_defense())
-						bonus_atribute = target.get_bonus_defense()
-					if status.get_stat() == "SPD":
-						bonus *= target.get_base_speed()
-						if bonus != 0:
-							target.decrease_bonus_speed(bonus)
-						else:
-							target.set_bonus_speed(-target.get_base_speed())
-						bonus_atribute = target.get_bonus_speed()
-
-					apply_bonus(bonus_atribute, status.get_stat(), target)
-
-#			Refreshes duration
-			target.get_status_vector().remove(i)
-		i += 1
-
-	target.get_status_vector().append(status_instance)
+	if (target != null):
+		for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
+			if status.get_name() == name:
+				for type in status.get_type():
+					if type == "Buff": # Nulify old effect
+						var bonus_atribute
+						var bonus = status.get_effect()
+	
+						if status.get_stat() == "ATK":
+							bonus *= target.get_base_attack()
+							if bonus != 0:
+								target.decrease_bonus_attack(bonus)
+							else:
+								target.set_bonus_attack(-target.get_base_attack())
+							bonus_atribute = target.get_bonus_attack()
+						if status.get_stat() == "DEF":
+							bonus *= target.get_base_defense()
+							if bonus != 0:
+								target.decrease_bonus_defense(bonus)
+							else:
+								target.set_bonus_defense(-target.get_base_defense())
+							bonus_atribute = target.get_bonus_defense()
+						if status.get_stat() == "SPD":
+							bonus *= target.get_base_speed()
+							if bonus != 0:
+								target.decrease_bonus_speed(bonus)
+							else:
+								target.set_bonus_speed(-target.get_base_speed())
+							bonus_atribute = target.get_bonus_speed()
+	
+						apply_bonus(bonus_atribute, status.get_stat(), target)
+	
+	#			Refreshes duration
+				target.get_status_vector().remove(i)
+			i += 1
+	
+		target.get_status_vector().append(status_instance)
 
 
 # Position the units in the battle screen
@@ -986,7 +987,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 			if stat.get_name() == "DEFEND":
 				defender[defender_vpos].get_status_vector().remove(i)
 				var bonus = 3*defender[defender_vpos].get_base_defense()
-				defender[defender_vpos].decrease_bonus_defense(-bonus)
+				defender[defender_vpos].decrease_bonus_defense(bonus)
 			i += 1
 
 		# damage can't be lower than zero
@@ -1143,20 +1144,21 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 			
 						# Skill's damage is its base damage plus an amount which scales with the unit's ATK/SPATK
 						var damage = mult[0]
+
 						if is_physical:
 							damage += mult[1] * user[user_vpos].get_total_attack()
 							if mult[2] < 0:
 								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
 							else:
-								damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+								damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
 						else:
 							damage += mult[1] * user[user_vpos].get_total_special_attack()
 							if mult[2] < 0:
 								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 							else:
-								damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+								damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 						damage = damage * tri
-			
+
 						if damage < 0:
 							damage += reduce_damage
 							if damage >= 0:
@@ -1166,9 +1168,12 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 						else:
 							damage = floor(damage)
 							var effect = get_node("Effects")
+							var side = 1
+							if target_side == "Enemies":
+								side = 3
 							damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", i)).get_pos())
-							effect.set_pos(get_node(str(target_side, "/", i)).get_pos())
-							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
+							effect.set_pos(Vector2(side * window_size.x/4, window_size.y/2 - 50))
+							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal wave")
 		
 						var hp_current = target[i].get_hp_current()
 						target[i].modify_hp_current(damage)
@@ -1339,7 +1344,7 @@ func status_apply(target_side, target_vpos):
 	elif target_side == "Allies":
 		target = allies_vector[target_vpos]
 	
-	if target.get_status_vector().size() != 0:
+	if target != null and target.get_status_vector().size() != 0:
 		var i = 0
 		var target_died = false
 
@@ -2071,7 +2076,18 @@ func _fixed_process(delta):
 			elif act.get_from()[1] == "Enemies":
 				actor = enemies_vector[act.get_from()[0]]
 
-#			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && :
+			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+				var vector
+				if act.get_to()[1] == "Enemies":
+					vector = enemies_vector
+				elif act.get_to()[1] == "Allies":
+					vector = allies_vector
+				var i = 0
+				for t in vector:
+					if t != null:
+						act.set_to([i, act.get_to()[1]])
+						break
+					i += 1
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
 				if actor.get_total_speed() <= 0:
@@ -2090,9 +2106,13 @@ func _fixed_process(delta):
 						if act.get_from()[1] == "Allies":
 							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
 							atk_pos = allies_pos[act.get_from()[0]]
+							# If skill is multi-target
 							if allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
 								unit = get_node(str("Allies/", act.get_from()[0]))
-								unit.set_pos(Vector2(window_size[0]/2 - 50, window_size[1]/2))
+								if act.get_to()[1] == "Allies":
+									unit.set_pos(Vector2(unit.get_pos().x + 50, unit.get_pos().y))
+								elif act.get_to()[1] == "Enemies":
+									unit.set_pos(Vector2(window_size[0]/2 - 50, window_size[1]/2))
 
 							elif melee:
 								if act.get_to()[1] == "Allies":
@@ -2184,7 +2204,7 @@ func _fixed_process(delta):
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
 	elif STATE == "ANIMATION":
 		time -= 1
-		if time < 1:
+		if time <= 1:
 			var act = action_memory[0]
 			var player = get_node(str(act.get_from()[1],"/",act.get_from()[0],"/anim_player"))
 
