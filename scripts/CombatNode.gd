@@ -638,42 +638,43 @@ func instance_status(name, target):
 	var status_instance = status.new(name, status_database)
 
 	var i = 0
-	for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
-		if status.get_name() == name:
-			for type in status.get_type():
-				if type == "Buff": # Nulify old effect
-					var bonus_atribute
-					var bonus = status.get_effect()
-
-					if status.get_stat() == "ATK":
-						bonus *= target.get_base_attack()
-						if bonus != 0:
-							target.decrease_bonus_attack(bonus)
-						else:
-							target.set_bonus_attack(-target.get_base_attack())
-						bonus_atribute = target.get_bonus_attack()
-					if status.get_stat() == "DEF":
-						bonus *= target.get_base_defense()
-						if bonus != 0:
-							target.decrease_bonus_defense(bonus)
-						else:
-							target.set_bonus_defense(-target.get_base_defense())
-						bonus_atribute = target.get_bonus_defense()
-					if status.get_stat() == "SPD":
-						bonus *= target.get_base_speed()
-						if bonus != 0:
-							target.decrease_bonus_speed(bonus)
-						else:
-							target.set_bonus_speed(-target.get_base_speed())
-						bonus_atribute = target.get_bonus_speed()
-
-					apply_bonus(bonus_atribute, status.get_stat(), target)
-
-#			Refreshes duration
-			target.get_status_vector().remove(i)
-		i += 1
-
-	target.get_status_vector().append(status_instance)
+	if (target != null):
+		for status in target.get_status_vector(): # Refreshes old status if same is re-inflicted
+			if status.get_name() == name:
+				for type in status.get_type():
+					if type == "Buff": # Nulify old effect
+						var bonus_atribute
+						var bonus = status.get_effect()
+	
+						if status.get_stat() == "ATK":
+							bonus *= target.get_base_attack()
+							if bonus != 0:
+								target.decrease_bonus_attack(bonus)
+							else:
+								target.set_bonus_attack(-target.get_base_attack())
+							bonus_atribute = target.get_bonus_attack()
+						if status.get_stat() == "DEF":
+							bonus *= target.get_base_defense()
+							if bonus != 0:
+								target.decrease_bonus_defense(bonus)
+							else:
+								target.set_bonus_defense(-target.get_base_defense())
+							bonus_atribute = target.get_bonus_defense()
+						if status.get_stat() == "SPD":
+							bonus *= target.get_base_speed()
+							if bonus != 0:
+								target.decrease_bonus_speed(bonus)
+							else:
+								target.set_bonus_speed(-target.get_base_speed())
+							bonus_atribute = target.get_bonus_speed()
+	
+						apply_bonus(bonus_atribute, status.get_stat(), target)
+	
+	#			Refreshes duration
+				target.get_status_vector().remove(i)
+			i += 1
+	
+		target.get_status_vector().append(status_instance)
 
 
 # Position the units in the battle screen
@@ -1339,7 +1340,7 @@ func status_apply(target_side, target_vpos):
 	elif target_side == "Allies":
 		target = allies_vector[target_vpos]
 	
-	if target.get_status_vector().size() != 0:
+	if target != null and target.get_status_vector().size() != 0:
 		var i = 0
 		var target_died = false
 
