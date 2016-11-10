@@ -936,6 +936,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
 	var char_dex = attacker[attacker_vpos].get_total_dexterity() # Attacker's total dexterity
 	var char_luk = attacker[attacker_vpos].get_total_luck() # Attacker's total luck
+	var char_spd = attacker[attacker_vpos].get_total_speed() # Attacker's total speed
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].get_wpn_vector()[action_id].get_id()) # Attacker's weapon power
 
 	var defender_def = defender[defender_vpos].get_total_defense() # Defender's total defense
@@ -943,8 +944,8 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Check for defender avoidance
 	randomize()
-	var random = randi() % 300
-	if (random < defender_dex):
+	var random = randi() % 150
+	if (random < defender_dex + char_spd):
 		# Attack misses
 		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	else:
@@ -965,7 +966,7 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		var attack_damage = (char_atk - (random * (80 - char_dex)/80)) + wpn_atk
 		
 		randomize()
-		random = randi() % 250
+		random = randi() % 100
 		var critical = 0
 		if (random < char_luk):
 			critical = 1
@@ -1064,13 +1065,13 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					if mult[2] < 0:
 						damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
 					else:
-						damage -= mult[2] * mult[2] * user[user_vpos].get_total_attack()
+						damage += mult[2] * mult[2] * user[user_vpos].get_total_attack()
 				else:
 					damage += mult[1] * user[user_vpos].get_total_special_attack()
 					if mult[2] < 0:
 						damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 					else:
-						damage -= mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
+						damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 				damage = damage * tri
 	
 				if damage < 0:
