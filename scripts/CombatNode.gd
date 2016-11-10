@@ -521,8 +521,8 @@ func _ready():
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Bamboo Sword", allies_vector[1])
 		instance_unit(3, 1, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[2])
-		instance_weapon("Bat Wings", allies_vector[2])
+		instance_weapon("Fangs", allies_vector[2])
+		instance_weapon("Claws", allies_vector[2])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -955,9 +955,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		var atk_wpn = attacker[attacker_vpos].get_last_weapon()
 		var def_wpn = defender[defender_vpos].get_last_weapon()
 		if (atk_wpn == "Sword" and def_wpn == "Axe") or (atk_wpn == "Axe" and def_wpn == "Spear") or (atk_wpn == "Spear" and def_wpn == "Sword"):
-			tri = 1.25
+			tri = 1.15
 		elif (def_wpn == "Sword" and atk_wpn == "Axe") or (def_wpn == "Axe" and atk_wpn == "Spear") or (def_wpn == "Spear" and atk_wpn == "Sword"):
-			tri = 0.75
+			tri = 0.85
 
 		# Assumindo que o maximo de dexterity é 60
 		randomize()
@@ -1045,9 +1045,9 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 				var atk_skill = user[user_vpos].get_last_skill()
 				var def_skill = target[target_vpos].get_last_skill()
 				if (atk_skill == "Water" and def_skill == "Fire") or (atk_skill == "Wind" and def_skill == "Water") or (atk_skill == "Fire" and def_skill == "Wind"):
-					tri = 1.2;
+					tri = 1.1;
 				elif (def_skill == "Water" and atk_skill == "Fire") or (def_skill == "Wind" and atk_skill == "Water") or (def_skill == "Fire" and atk_skill == "Wind"):
-					tri = 0.8;
+					tri = 0.9;
 				# Special/Magic defense of the target. If it's a Damage-type HP skill, the damage will be reduced
 				var reduce_damage = 0
 				var mult = skill.get_mult()
@@ -2076,18 +2076,20 @@ func _fixed_process(delta):
 			elif act.get_from()[1] == "Enemies":
 				actor = enemies_vector[act.get_from()[0]]
 
-			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
-				var vector
-				if act.get_to()[1] == "Enemies":
-					vector = enemies_vector
-				elif act.get_to()[1] == "Allies":
-					vector = allies_vector
-				var i = 0
-				for t in vector:
-					if t != null:
-						act.set_to([i, act.get_to()[1]])
-						break
-					i += 1
+			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null):
+				if allies_vector[act.get_from()[0]] != null:
+					if allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+						var vector
+						if act.get_to()[1] == "Enemies":
+							vector = enemies_vector
+						elif act.get_to()[1] == "Allies":
+							vector = allies_vector
+						var i = 0
+						for t in vector:
+							if t != null:
+								act.set_to([i, act.get_to()[1]])
+								break
+							i += 1
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
 				if actor.get_total_speed() <= 0:

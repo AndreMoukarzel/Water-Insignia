@@ -180,6 +180,7 @@ autoplay = "idle"
 
 [node name="Effects" parent="." instance=ExtResource( 9 )]
 
+editor/display_folded = true
 transform/scale = Vector2( 3, 3 )
 
 [node name="AnimationPlayer" parent="Effects/AnimatedSprite"]
