@@ -65,7 +65,7 @@ var char_database = [
 		DEX :   [5,  5,  6,  8,  10, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		LUK :   [1,  2,  2,  3,  4, 2, 0, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15],
 		WPN_VECTOR : ["Katana", "Sword", "Axe"],
-		SKILL_VECTOR : ["Slash", "Aqua Blast", "Lightning Bolt", "Heal"]
+		SKILL_VECTOR : ["Slash", "Blast", "Lightning Bolt", "Heal"]
 	},
 	{ # ID = 3
 		FOLDER : "res://characters/baby_dragon/",

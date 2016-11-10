@@ -2072,7 +2072,18 @@ func _fixed_process(delta):
 			elif act.get_from()[1] == "Enemies":
 				actor = enemies_vector[act.get_from()[0]]
 
-#			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null) && allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
+				var vector
+				if act.get_to()[1] == "Enemies":
+					vector = enemies_vector
+				elif act.get_to()[1] == "Allies":
+					vector = allies_vector
+				var i = 0
+				for t in vector:
+					if t != null:
+						act.set_to([i, act.get_to()[1]])
+						break
+					i += 1
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
 				if actor.get_total_speed() <= 0:
