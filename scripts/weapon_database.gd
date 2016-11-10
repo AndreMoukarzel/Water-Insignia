@@ -70,6 +70,24 @@ var wpn_database = [
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
+	},
+	
+	{
+		WPN_NAME : "Fangs",
+		TYPE : "Natural",
+		ATK : 5,
+		DURABILITY : -1, # infinite
+		LOCK : 1,
+		PRICE : 0
+	},
+	
+	{
+		WPN_NAME : "Claws",
+		TYPE : "Natural",
+		ATK : 4,
+		DURABILITY : -1, #infinite
+		LOCK : 1,
+		PRICE : 0
 	}
 ]
 
