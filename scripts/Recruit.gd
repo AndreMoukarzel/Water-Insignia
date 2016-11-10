@@ -2,6 +2,7 @@
 extends Node2D
 
 var recruits = []
+var desired = 0
 
 onready var char_db = get_node("/root/character_database")
 
@@ -118,6 +119,19 @@ func button_update():
 		i += 1
 
 
+func clear_recruit():
+	get_node("ButtonBox").queue_free()
+
+	var i = 0
+	for unit in get_node("RecruitsBox").get_children():
+		if i != (desired - 1):
+			unit.queue_free()
+		i += 1
+
+	get_node("RecruitsBox").set_size(Vector2(100, 100))
+	get_node("RecruitsBox").set_pos(OS.get_window_size()/2 - Vector2(100, 100))
+
+
 func goto_management():
 	var main = get_parent().get_parent()
 	if (main.gd == 0):
@@ -130,6 +144,7 @@ func _on_Button1_pressed():
 	randomize()
 	var rand = randi() % 100
 	var chance = calculate_chance(recruits[0])
+	desired = 1
 
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[0])
@@ -143,6 +158,7 @@ func _on_Button2_pressed():
 	randomize()
 	var rand = randi() % 100
 	var chance = calculate_chance(recruits[1])
+	desired = 2
 
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[1])
@@ -156,6 +172,7 @@ func _on_Button3_pressed():
 	randomize()
 	var rand = randi() % 100
 	var chance = calculate_chance(recruits[2])
+	desired = 3
 
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[2])
@@ -169,6 +186,7 @@ func _on_Button4_pressed():
 	randomize()
 	var rand = randi() % 100
 	var chance = calculate_chance(recruits[3])
+	desired = 4
 
 	if rand < chance:
 		get_parent().get_parent().barracks.append(recruits[3])

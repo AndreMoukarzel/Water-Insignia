@@ -1,6 +1,7 @@
 
 extends Node
 
+var menu_scn = preload("res://scenes/MainMenu.tscn")
 var combat_scn = preload("res://scenes/CombatNode.tscn")
 var management_scn = preload("res://scenes/ManagementNode.tscn")
 var scn
@@ -20,21 +21,29 @@ var storage_itm = []
 
 # Unit class - for instancing an enemy or ally
 class unit:
-	var id # Unit ID in the character database
+	var id
 	var name
 	var level 
-	var wpn_vector = [] # Array containing the unit's available weapons, be it natural or not
-	var item_vector = [] # Array containing the unit's available items
+	var wpn_vector = []
+	var item_vector = []
 
 
 func _ready():
-	var level = combat_scn.instance()
+	var level = menu_scn.instance()
 	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
 	get_node("Music").set_loop(true)
 	get_node("Music").play()
 	
 	level.set_name("level")
 	add_child(level)
+
+
+func start_game():
+	var level = combat_scn.instance()
+	get_node("level").set_name("old")
+	level.set_name("level")
+	add_child(level)
+	get_node("old").queue_free()
 
 
 # Assumes it will always be changing scenes, not reloading the same
@@ -78,9 +87,17 @@ func set_level(mode):
 
 
 func save():
+	var unit_ids
+	var unit_levels
+	
+	
 	var savedict = {
 		newgame = 0,
-		party = units_vector
+		first_play = first_play,
+		stage = stage,
+		quesha = quesha,
+		
+		units_id = units_vector,
 		}
 	return savedict
 
