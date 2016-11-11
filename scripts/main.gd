@@ -270,4 +270,19 @@ func load_game():
 		print("Error loading data!")
 	
 	print ("Finished loading data!")
+	
+	scn = management_scn
+	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+	get_node("Music").play()
+	
+	var level = scn.instance()
+	get_node("level").set_name("old")
+	level.set_name("level")
+	
+	level.active_units = units_vector
+	level.barracks_units = barracks
+	level.storage_weapons = storage_wpn
+	level.storage_items = storage_itm
+	add_child(level)
+	get_node("old").queue_free()
 	# Continue population weapons and items, need more details on unit maybe
