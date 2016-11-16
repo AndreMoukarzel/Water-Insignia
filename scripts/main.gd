@@ -275,6 +275,7 @@ func load_game():
 	
 	scn = management_scn
 	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+	get_node("Music").set_loop(true)
 	get_node("Music").play()
 	
 	var level = scn.instance()

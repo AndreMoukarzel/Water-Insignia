@@ -131,8 +131,8 @@ draw_center = true
 
 [sub_resource type="SampleLibrary" id=8]
 
-samples/Hit1 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 39 ) }
-samples/Skill1 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 40 ) }
+samples/Hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 39 ) }
+samples/Skill = { "db":0.0, "pitch":1.0, "sample":ExtResource( 40 ) }
 
 [node name="CombatNode" type="Node2D"]
 
