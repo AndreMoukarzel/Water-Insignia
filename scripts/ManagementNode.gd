@@ -148,6 +148,12 @@ func _ready():
 	wpn_database = get_node("/root/weapon_database")
 	item_database = get_node("/root/item_database")
 	
+	var scale = window_size/Vector2(600, 600) # Makes bg screen size
+	var pos = (Vector2(600, 600)*scale)/2 # Centralizes bg on screen
+
+	get_node("BackGround").set_scale(scale)
+	get_node("BackGround").set_pos(pos)
+	
 	# Settings for ItemLists
 	um_ap.set_max_columns(3)
 	um_b.set_max_columns(3)

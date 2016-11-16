@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="4" version="2.1" version_name="Godot Engine v2.1.stable.official">
+<resource_file type="PackedScene" subresource_count="5" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://characters/bat/bat.tres" type="SpriteFrames" index="0"></ext_resource>
 	<ext_resource path="res://characters/bat/attack.xml" type="Animation" index="1"></ext_resource>
+	<ext_resource path="res://characters/bat/skilmagic.xml" type="Animation" index="2"></ext_resource>
 	<resource type="Animation" path="local://1">
 		<string name="resource/name"> "idle" </string>
 		<real name="length"> 0.8 </real>
@@ -38,7 +39,7 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="16">
+			<string_array  len="17">
 				<string> "AnimatedSprite" </string>
 				<string> "transform/pos" </string>
 				<string> "transform/scale" </string>
@@ -51,6 +52,7 @@
 				<string> "root/root" </string>
 				<string> "anims/attack" </string>
 				<string> "anims/idle" </string>
+				<string> "anims/skillmagic" </string>
 				<string> "playback/active" </string>
 				<string> "playback/speed" </string>
 				<string> "blend_times" </string>
@@ -62,18 +64,20 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="42"> 				-1, -1, 0, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0, 0, 0, 6, 6, -1, 9, 7, 4, 8, 5, 9, 6, 10, 7, 11, 8, 12, 9, 13, 10, 14, 11, 15, 12, 0 </int_array>
+			<int_array  len="44"> 				-1, -1, 0, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0, 0, 0, 6, 6, -1, 10, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 14, 12, 15, 13, 16, 14, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="13" shared="false">
+			<array  len="15" shared="false">
 				<vector2> 497.982, 108.277 </vector2>
 				<vector2> 5, 5 </vector2>
 				<resource  external="0">  </resource>
 				<string> "default" </string>
+				<int> 3 </int>
 				<int> 1 </int>
 				<real> 0 </real>
 				<node_path> ".." </node_path>
 				<resource  external="1">  </resource>
 				<resource  resource_type="Animation" path="local://1">  </resource>
+				<resource  external="2">  </resource>
 				<bool> True </bool>
 				<real> 1 </real>
 				<array  len="0" shared="false">
