@@ -120,6 +120,25 @@ class weapon:
 	var durability
 	var type # Weapon type - sword, axe, spear or natural
 
+	# GETTERS
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_durability():
+		return durability
+
+	func get_type():
+		return type
+
+	# SETTERS
+	func set_durability(durability):
+		self.durability = durability
+
+	func decrease_durability():
+		self.durability -= 1
 
 class item:
 	var id
@@ -138,6 +157,31 @@ class item:
 		self.status = database.get_item_status(id)
 		self.durability = database.get_item_stack(id)
 		self.amount = self.durability
+	
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_type():
+		return type
+
+	func get_hp():
+		return hp
+
+	func get_status():
+		return status
+
+	func get_max_amount():
+		return durability
+
+	func get_amount():
+		return amount
+
+	# SETTERS
+	func set_amount(amount):
+		self.amount = amount
 
 func _ready():
 	# Get screen and window sizes, and get databases
