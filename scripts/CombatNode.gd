@@ -1505,7 +1505,6 @@ func win_lose_cond():
 				if unit != null:
 					var i = 0
 					for wpn in unit.wpn_vector:
-						print(wpn.name, "|", wpn.durability)
 						if wpn.durability == 0:
 							unit.wpn_vector.remove(i)
 						i += 1

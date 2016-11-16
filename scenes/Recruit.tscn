@@ -65,7 +65,6 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="RecruitInfo1" type="Control" parent="RecruitsBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -82,59 +81,29 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = -47.0
-margin/top = -95.0
+margin/top = -115.0
 margin/right = -9.0
-margin/bottom = -79.0
+margin/bottom = -99.0
 custom_fonts/font = ExtResource( 3 )
 text = "Name"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Attack" type="Label" parent="RecruitsBox/RecruitInfo1"]
+[node name="Level" type="Label" parent="RecruitsBox/RecruitInfo1"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -60.0
-margin/right = 140.0
-margin/bottom = -46.0
+margin/left = -47.0
+margin/top = -95.0
+margin/right = -7.0
+margin/bottom = -80.0
 custom_fonts/font = ExtResource( 4 )
 text = "ATK"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Defense" type="Label" parent="RecruitsBox/RecruitInfo1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -10.0
-margin/right = 140.0
-margin/bottom = 4.0
-custom_fonts/font = ExtResource( 4 )
-text = "DEF"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Speed" type="Label" parent="RecruitsBox/RecruitInfo1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = 40.0
-margin/right = 140.0
-margin/bottom = 54.0
-custom_fonts/font = ExtResource( 4 )
-text = "SPD"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -145,12 +114,13 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
+margin/left = -47.0
 margin/top = 95.0
-margin/right = 117.0
-margin/bottom = 109.0
+margin/right = 79.0
+margin/bottom = 111.0
 custom_fonts/font = ExtResource( 3 )
 text = "Possible Weapons"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -173,60 +143,30 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
-margin/top = -95.0
-margin/right = 38.0
-margin/bottom = -81.0
+margin/left = -47.0
+margin/top = -115.0
+margin/right = -9.0
+margin/bottom = -99.0
 custom_fonts/font = ExtResource( 3 )
 text = "Name"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Attack" type="Label" parent="RecruitsBox/RecruitInfo2"]
+[node name="Level" type="Label" parent="RecruitsBox/RecruitInfo2"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -60.0
-margin/right = 140.0
-margin/bottom = -46.0
+margin/left = -47.0
+margin/top = -95.0
+margin/right = -7.0
+margin/bottom = -80.0
 custom_fonts/font = ExtResource( 4 )
 text = "ATK"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Defense" type="Label" parent="RecruitsBox/RecruitInfo2"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -10.0
-margin/right = 140.0
-margin/bottom = 4.0
-custom_fonts/font = ExtResource( 4 )
-text = "DEF"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Speed" type="Label" parent="RecruitsBox/RecruitInfo2"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = 40.0
-margin/right = 140.0
-margin/bottom = 54.0
-custom_fonts/font = ExtResource( 4 )
-text = "SPD"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -243,6 +183,7 @@ margin/right = 117.0
 margin/bottom = 109.0
 custom_fonts/font = ExtResource( 3 )
 text = "Possible Weapons"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -265,60 +206,30 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
-margin/top = -95.0
-margin/right = 38.0
-margin/bottom = -81.0
+margin/left = -47.0
+margin/top = -115.0
+margin/right = -9.0
+margin/bottom = -99.0
 custom_fonts/font = ExtResource( 3 )
 text = "Name"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Attack" type="Label" parent="RecruitsBox/RecruitInfo3"]
+[node name="Level" type="Label" parent="RecruitsBox/RecruitInfo3"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -60.0
-margin/right = 140.0
-margin/bottom = -46.0
+margin/left = -47.0
+margin/top = -95.0
+margin/right = -7.0
+margin/bottom = -80.0
 custom_fonts/font = ExtResource( 4 )
 text = "ATK"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Defense" type="Label" parent="RecruitsBox/RecruitInfo3"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -10.0
-margin/right = 140.0
-margin/bottom = 4.0
-custom_fonts/font = ExtResource( 4 )
-text = "DEF"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Speed" type="Label" parent="RecruitsBox/RecruitInfo3"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = 40.0
-margin/right = 140.0
-margin/bottom = 54.0
-custom_fonts/font = ExtResource( 4 )
-text = "SPD"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -335,6 +246,7 @@ margin/right = 117.0
 margin/bottom = 109.0
 custom_fonts/font = ExtResource( 3 )
 text = "Possible Weapons"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -357,60 +269,30 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
-margin/top = -95.0
-margin/right = 38.0
-margin/bottom = -81.0
+margin/left = -47.0
+margin/top = -115.0
+margin/right = -9.0
+margin/bottom = -99.0
 custom_fonts/font = ExtResource( 3 )
 text = "Name"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Attack" type="Label" parent="RecruitsBox/RecruitInfo4"]
+[node name="Level" type="Label" parent="RecruitsBox/RecruitInfo4"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -60.0
-margin/right = 140.0
-margin/bottom = -46.0
+margin/left = -47.0
+margin/top = -95.0
+margin/right = -7.0
+margin/bottom = -80.0
 custom_fonts/font = ExtResource( 4 )
 text = "ATK"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Defense" type="Label" parent="RecruitsBox/RecruitInfo4"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = -10.0
-margin/right = 140.0
-margin/bottom = 4.0
-custom_fonts/font = ExtResource( 4 )
-text = "DEF"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Speed" type="Label" parent="RecruitsBox/RecruitInfo4"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 100.0
-margin/top = 40.0
-margin/right = 140.0
-margin/bottom = 54.0
-custom_fonts/font = ExtResource( 4 )
-text = "SPD"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -427,6 +309,7 @@ margin/right = 117.0
 margin/bottom = 109.0
 custom_fonts/font = ExtResource( 3 )
 text = "Possible Weapons"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
