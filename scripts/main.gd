@@ -69,9 +69,6 @@ class item:
 
 func _ready():
 	var level = menu_scn.instance()
-	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
-	get_node("Music").set_loop(true)
-	get_node("Music").play()
 	
 	level.set_name("level")
 	add_child(level)
@@ -83,6 +80,9 @@ func start_game():
 	level.set_name("level")
 	add_child(level)
 	get_node("old").queue_free()
+	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+	get_node("Music").set_loop(true)
+	get_node("Music").play()
 
 
 # Assumes it will always be changing scenes, not reloading the same
@@ -90,6 +90,7 @@ func set_level(mode):
 	if mode == "combat":
 		scn = combat_scn
 		get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+		get_node("Music").set_loop(true)
 		get_node("Music").play()
 		units_vector = get_node("level").active_units
 		barracks = get_node("level").barracks_units
@@ -98,6 +99,7 @@ func set_level(mode):
 	elif mode == "management":
 		scn = management_scn
 		get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+		get_node("Music").set_loop(true)
 		get_node("Music").play()
 		units_vector = get_node("level").allies_vector
 	save_game()

@@ -74,6 +74,8 @@ onready var sm_cqs = get_node("SellManagement/CurrentQuesha")
 onready var ss_ps = get_node("SelectStage/PreviousStage")
 onready var ss_ns = get_node("SelectStage/NextStage")
 
+# Other Nodes
+onready var sfx = get_node("SoundEffects")
 
 # Databases
 var char_database
@@ -1202,6 +1204,7 @@ func _on_Buy_pressed():
 			iter += 1
 			
 	sm_cqb.set_text(str("Current: ", get_parent().quesha))
+	sfx.play("Transaction")
 	
 	# Faremos uma checagem antes de concretizar a compra,
 	# por isso estar neutralizações ficarem separadas é importante
@@ -1229,6 +1232,7 @@ func _on_Sell_pressed():
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 		
 	sm_cqs.set_text(str("Current: ", get_parent().quesha))
+	sfx.play("Transaction")
 
 func _on_Plus1_pressed():
 	wpn_amount += 1
