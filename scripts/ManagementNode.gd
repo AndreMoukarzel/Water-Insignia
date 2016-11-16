@@ -106,7 +106,7 @@ var current_screen
 
 # Classes (possibly will not need those in final version, maybe weapon or item for shop, but probably not)
 
-class unit:
+class Unit:
 	var id
 	var name
 	var level
@@ -1426,7 +1426,7 @@ func _on_Begin_pressed():
 # Funções temporarias de teste
 #BEGIN TEMPORARY SECTION
 func instance_unit(id, level, path):
-	var unit_instance = unit.new()
+	var unit_instance = Unit.new()
 	unit_instance.id = id
 	unit_instance.name = char_database.get_char_name(id)
 	unit_instance.level = level

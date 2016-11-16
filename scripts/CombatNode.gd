@@ -3,7 +3,7 @@ extends Node2D
 
 const scale = 5
 
-class unit:
+class Unit:
 	var id # Unit ID in the character database
 	var level
 	var db # Char Database
@@ -560,7 +560,7 @@ func instance_unit(id, level, path):
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
 
-	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
+	var unit_instance = Unit.new(char_database.get_char_name(id), level, char_database)
 
 	if path == "Enemies":
 		enemies_vector.append(unit_instance)
@@ -2156,6 +2156,7 @@ func _fixed_process(delta):
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
 						var user_pos
+						var unit
 
 						if act.get_from()[1] == "Allies":
 							user_pos = allies_pos[act.get_from()[0]]
