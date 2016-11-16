@@ -413,6 +413,10 @@ func Update_IM():
 				im_api.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
 				im_api.set_item_tooltip(im_api.get_item_count() - 1, item.name)
 			last_selected_party = im_ap.get_selected_items()[0]
+	else:
+		im_apw.clear()
+		im_api.clear()
+		last_selected_party = -1
 			
 	# Checagens para o modo manage barracks items
 	if (item_swap_mode == 0):
@@ -430,6 +434,10 @@ func Update_IM():
 					im_bi.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
 					im_bi.set_item_tooltip(im_bi.get_item_count() - 1, item.name)
 				last_selected_barracks = im_b.get_selected_items()[0]
+		else:
+			im_bw.clear()
+			im_bi.clear()
+			last_selected_barracks = -1
 	
 		# Condições do botão de swap para armas
 		if (im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
@@ -490,13 +498,13 @@ func Update_IM():
 			
 		# Condições para a exibição de informações de armas
 		if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
-			if (im_apw.get_selected_items().size() == 0):
+			if (im_b.get_selected_items().size() != 0 and im_apw.get_selected_items().size() == 0):
 				# Mostra o status para a arma do barracks,
 				# some com a da party ativa
 				im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
 				im_apws.neutralize_node("Item Status")
 
-			if (im_bw.get_selected_items().size() == 0):
+			if (im_ap.get_selected_items().size() != 0 and im_bw.get_selected_items().size() == 0):
 				# Mostra o status para a arma da party ativa,
 				# some com a do barracks
 				im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)

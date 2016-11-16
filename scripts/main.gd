@@ -175,6 +175,7 @@ func save():
 		first_play = first_play,
 		stage = stage,
 		quesha = quesha,
+		victory = victory,
 		
 		active_units_size = units_vector.size(),
 		barracks_units_size = barracks.size(),
@@ -211,6 +212,7 @@ func load_game():
 	first_play = savedata.first_play
 	stage = savedata.stage
 	quesha = savedata.quesha
+	victory = savedata.victory
 	
 	var wpns_iter
 	var current_wpn = 0
