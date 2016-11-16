@@ -24,7 +24,7 @@ var storage_wpn = []
 var storage_itm = []
 
 # Unit class - for instancing an enemy or ally
-class unit:
+class Unit:
 	var id
 	var name
 	var level 
@@ -35,6 +35,19 @@ class unit:
 		self.id = id
 		self.level = level
 		self.name = db.get_char_name(id)
+
+	func get_id():
+		return id
+
+	func get_level():
+		return level
+
+	func get_wpn_vector():
+		return wpn_vector
+
+	func get_item_vector():
+		return item_vector
+
 
 class weapon:
 	var id # Weapon ID in the weapon database
@@ -47,6 +60,27 @@ class weapon:
 		self.name = database.get_wpn_name(id)
 		self.durability = database.get_durability(id)
 		self.type = database.get_wpn_type(id)
+ 
+# GETTERS
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_durability():
+		return durability
+
+	func get_type():
+		return type
+
+	# SETTERS
+	func set_durability(durability):
+		self.durability = durability
+
+	func decrease_durability():
+		self.durability -= 1
+
 
 class item:
 	var id
@@ -65,6 +99,31 @@ class item:
 		self.status = database.get_item_status(id)
 		self.max_amount = database.get_item_stack(id)
 		self.amount = self.max_amount
+
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_type():
+		return type
+
+	func get_hp():
+		return hp
+
+	func get_status():
+		return status
+
+	func get_max_amount():
+		return max_amount
+
+	func get_amount():
+		return amount
+
+	# SETTERS
+	func set_amount(amount):
+		self.amount = amount
 
 
 func _ready():
@@ -222,7 +281,7 @@ func load_game():
 		items_iter = 0
 		
 		var u = savedata.units[i]
-		units_vector.append(unit.new(u.id, u.level, char_database))
+		units_vector.append(Unit.new(u.id, u.level, char_database))
 		while (wpns_iter < u.wpn_num):
 			units_vector[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
 			units_vector[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
@@ -239,7 +298,7 @@ func load_game():
 		items_iter = 0
 		
 		var u = savedata.units[i]
-		barracks.append(unit.new(u.id, u.level, char_database))
+		barracks.append(Unit.new(u.id, u.level, char_database))
 		while (wpns_iter < u.wpn_num):
 			barracks[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
 			barracks[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
