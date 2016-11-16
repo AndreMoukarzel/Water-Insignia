@@ -477,6 +477,7 @@ onready var status_database = get_node("/root/status_database")
 
 # Acess infomenu #
 onready var infomenu = get_node("ActionMenu/InfoMenu")
+onready var sfx = get_node("SoundEffects")
 
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
@@ -2106,6 +2107,7 @@ func _fixed_process(delta):
 						var melee
 
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
+						sfx.play("Skill")
 						if act.get_from()[1] == "Allies":
 							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
 							atk_pos = allies_pos[act.get_from()[0]]
