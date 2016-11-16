@@ -2148,7 +2148,9 @@ func _fixed_process(delta):
 								unit = get_node(str("Enemies/", act.get_from()[0]))
 								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
 
-						time = 45
+						
+						time = (player.get_animation("skillmagic").get_length()) * 60
+						player.play("skillmagic")
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
 						var user_pos
