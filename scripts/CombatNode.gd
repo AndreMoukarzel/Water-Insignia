@@ -521,7 +521,7 @@ func _ready():
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 15, "Allies")
+		instance_unit(3, 1, "Allies")
 		instance_weapon("Fangs", allies_vector[2])
 		instance_weapon("Claws", allies_vector[2])
 		instance_unit(0, 1, "Allies")
