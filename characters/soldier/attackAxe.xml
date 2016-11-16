@@ -18,8 +18,8 @@
 			<int> 1 </int>
 			<string> "values" </string>
 			<array  len="4" shared="false">
-				<int> 6 </int>
 				<int> 7 </int>
+				<int> 6 </int>
 				<int> 8 </int>
 				<int> 9 </int>
 			</array>

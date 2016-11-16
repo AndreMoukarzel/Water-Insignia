@@ -22,7 +22,7 @@ var char_database = [
 	{ # ID = 0
 		FOLDER : "res://characters/bat/",
 		CHAR_NAME : "bat",
-		ANIM_ARRAY : ["idle", "attack"],
+		ANIM_ARRAY : ["idle", "attack", "skillmagic"],
 		# LV:    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
 		HP :    [7,  9,  12, 16, 22, 25, 27, 29, 30, 34, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP :    [7,  9,  11, 12, 15, 17, 19, 20, 22, 25, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
@@ -39,7 +39,7 @@ var char_database = [
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
-		ANIM_ARRAY : ["idle", "idleSword", "attackSword"],
+		ANIM_ARRAY : ["idle", "idleSword", "attackSword", "skillmagic"],
 		# LV:    1   2   3   4   5   6   7   8   9   10 11 12 13 14 15 16 17 18 19 20
 		HP :    [15, 18, 21, 23, 28, 30, 32, 33, 33, 35, 2, 1, 2, 1, 1, 2, 2, 2, 2, 60], # Max lv.: 20
 		MP :    [7,  10, 13, 15, 20, 21, 22, 22, 22, 25, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
@@ -54,9 +54,9 @@ var char_database = [
 		SKILL_VECTOR : ["Sonic Blow", "Sword Dance", "Agility"]
 	},
 	{ # ID = 2
-		FOLDER : "res://characters/tank/",
-		CHAR_NAME : "tank",
-		ANIM_ARRAY : ["idle", "idleSword", "idleAxe", "attackSword", "attackAxe", "skillmagic"],
+		FOLDER : "res://characters/soldier/",
+		CHAR_NAME : "soldier",
+		ANIM_ARRAY : ["idle", "idleSword", "idleAxe", "idleSpear", "attackSword", "attackAxe", "attackSpear", "skillmagic"],
 		# LV:    1   2   3   4   5   6   7   8   9   10 11 12 13 14 15 16 17 18 19 20
 		HP :    [20, 24, 28, 30, 35, 38, 41, 44, 46, 50, 2, 1, 2, 1, 1, 2, 2, 2, 2, 6], # Max lv.: 20
 		MP :    [10, 13, 14, 16, 20, 22, 24, 25, 27, 31, 2, 0, 1, 0, 1, 0, 0, 2, 1, 15],
