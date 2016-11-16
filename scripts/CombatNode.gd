@@ -524,6 +524,9 @@ func _ready():
 		instance_unit(3, 1, "Allies")
 		instance_weapon("Fangs", allies_vector[2])
 		instance_weapon("Claws", allies_vector[2])
+		instance_unit(0, 1, "Allies")
+		instance_weapon("Bat Fangs", allies_vector[3])
+		instance_weapon("Bat Wings", allies_vector[3])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -937,16 +940,16 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
 	var char_dex = attacker[attacker_vpos].get_total_dexterity() # Attacker's total dexterity
 	var char_luk = attacker[attacker_vpos].get_total_luck() # Attacker's total luck
-	var char_spd = attacker[attacker_vpos].get_total_speed() # Attacker's total speed
 	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].get_wpn_vector()[action_id].get_id()) # Attacker's weapon power
 
 	var defender_def = defender[defender_vpos].get_total_defense() # Defender's total defense
 	var defender_dex = defender[defender_vpos].get_total_dexterity() # Defender's total dexterity
+	var defender_spd = defender[defender_vpos].get_total_speed() # Attacker's total speed
 
 	# Check for defender avoidance
 	randomize()
-	var random = randi() % 150
-	if (random < defender_dex + char_spd):
+	var random = randi() % 200
+	if (random < defender_spd):
 		# Attack misses
 		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	else:
@@ -968,9 +971,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		
 		randomize()
 		random = randi() % 100
-		var critical = 0
+		var critical = false
 		if (random < char_luk):
-			critical = 1
+			critical = true
 
 		# Actual damage calculation
 		var damage = floor((attack_damage - defender_def) * tri)  # Damage dealt
@@ -1077,9 +1080,9 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 	
 				if damage < 0:
 					damage += reduce_damage
+					damage = ceil(damage)
 					if damage >= 0:
 						damage = -1
-					damage = ceil(damage)
 					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 				else:
 					damage = floor(damage)
