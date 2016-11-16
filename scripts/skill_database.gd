@@ -12,31 +12,200 @@ const MELEE = 7
 const TARGET = 8
 
 var skill_database = [
+	
+	# |  | ___   /\   |
+	# |--| |--  /--\  |
+	# |  | |__ /    \ |___
+	
 	{ # ID = 0
+		# BALANCED
 		SKILL_NAME : "Heal",
 		TYPE : ["HP"],
 		COST : 2,
-		MUL : [10, 0, 1.5],
+		MUL : [6, 0, 0.9],
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
 		MELEE : false,
 		TARGET : false
 	},
-
+	
 	{ # ID = 1
-		SKILL_NAME : "Blast",
+		# BALANCED
+		SKILL_NAME : "Heal Wave",
 		TYPE : ["HP"],
-		COST : 2,
-		MUL : [-15, -0.6, 0],
+		COST : 3,
+		MUL : [9, 0, 0.75],
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
 		MELEE : false,
 		TARGET : true
 	},
+	
+	{ # ID = 2
+		SKILL_NAME : "Cure",
+		TYPE : ["HP", "Effect"],
+		COST : 5,
+		MUL : [5, 1, 0],
+		STATUS : ["Detox"],
+		ELEM : null,
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	# ___    /\   |\  /|   /\   ___  ___
+	# |  \  /--\  | \/ |  /--\  | _  |__
+	# |__/ /    \ |    | /    \ |__| |__
+	
+	{ # ID = 3
+		SKILL_NAME : "Focused Blast",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-12, -1.1, -.5],
+		STATUS : [],
+		ELEM : null,
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	{ # ID = 4
+		# BALANCED
+		SKILL_NAME : "Blast",
+		TYPE : ["HP"],
+		COST : 4,
+		MUL : [-10, -1, -.4],
+		STATUS : [],
+		ELEM : null,
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
+	},
+	
+	{ # ID = 5
+		# BALANCED
+		SKILL_NAME : "Shadow Strike",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-2, -1.25, -.75],
+		STATUS : [],
+		ELEM : null,
+		IS_PHY : true,
+		MELEE : true,
+		TARGET : false
+	},
+	
+	{ # ID = 6
+		# BALANCED
+		SKILL_NAME : "Eruption",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-10, -.5, -1],
+		STATUS : [],
+		ELEM : "Fire",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	{ # ID = 7
+		# BALANCED
+		SKILL_NAME : "Volcano",
+		TYPE : ["HP"],
+		COST : 4,
+		MUL : [-8, -.4, -.8],
+		STATUS : [],
+		ELEM : "Fire",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
+	},
+	
+	{ # ID = 8
+		# BALANCED
+		SKILL_NAME : "Aqua Strike",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-10, -.5, -1],
+		STATUS : [],
+		ELEM : "Water",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	{ # ID = 9
+		# BALANCED
+		SKILL_NAME : "Aqua Blast",
+		TYPE : ["HP"],
+		COST : 4,
+		MUL : [-8, -.4, -.8],
+		STATUS : [],
+		ELEM : "Water",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
+	},
 
-		{ # ID = 2
+	{ # ID = 10
+		# BALANCED
+		SKILL_NAME : "Lightning Bolt",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-10, -.5, -1],
+		STATUS : [],
+		ELEM : "Wind",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	{ # ID = 11
+		# BALANCED
+		SKILL_NAME : "Thunder Storm",
+		TYPE : ["HP"],
+		COST : 4,
+		MUL : [-8, -.4, -.8],
+		STATUS : [],
+		ELEM : "Wind",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : true
+	},
+	
+	{ # ID = 12
+		# BALANCED
+		SKILL_NAME : "Sonic Blow",
+		TYPE : ["HP"],
+		COST : 2,
+		MUL : [-5, -.5, -1],
+		STATUS : [],
+		ELEM : null,
+		IS_PHY : true,
+		MELEE : true,
+		TARGET : false
+	},
+
+	{ # ID = 13
+		# BALANCED
+		SKILL_NAME : "Slash",
+		TYPE : ["HP"],
+		COST : 1,
+		MUL : [-7, -1.05, -.5],
+		STATUS : [],
+		ELEM : null,
+		IS_PHY : true,
+		MELEE : true,
+		TARGET : false
+	},
+	
+	# ___ ___  /\  ___      ___
+	# |__  |  /--\  |  |  | |__
+	# __|  | /    \ |  |__| __|
+	
+		{ # ID = 14
 		SKILL_NAME : "Guard",
 		TYPE : ["Effect"],
 		COST : 3,
@@ -48,7 +217,7 @@ var skill_database = [
 		TARGET : false
 	},
 
-	{ # ID = 3
+	{ # ID = 15
 		SKILL_NAME : "Agility",
 		TYPE : ["Effect"],
 		COST : 4,
@@ -59,116 +228,8 @@ var skill_database = [
 		MELEE : false,
 		TARGET : false
 	},
-
-	{ # ID = 4
-		SKILL_NAME : "Cure",
-		TYPE : ["HP", "Effect"],
-		COST : 5,
-		MUL : [5, 1, 0],
-		STATUS : ["Detox"],
-		ELEM : null,
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : false
-	},
-
-	{ # ID = 5
-		SKILL_NAME : "Poison Sting",
-		TYPE : ["HP", "Effect"],
-		COST : 1,
-		MUL : [-3, 0, 0],
-		STATUS : ["Poison"],
-		ELEM : null,
-		IS_PHY : false,
-		MELEE : true,
-		TARGET : false
-	},
-
-	{ # ID = 6
-		SKILL_NAME : "Thunderwave",
-		TYPE : ["Effect"],
-		COST : 2,
-		MUL : null,
-		STATUS : ["Paralize"],
-		ELEM : "Wind",
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : false
-	},
-
-	{ # ID = 7
-		SKILL_NAME : "Shadow Strike",
-		TYPE : ["HP"],
-		COST : 6,
-		MUL : [-10, -0.75, 0],
-		STATUS : [],
-		ELEM : null,
-		IS_PHY : true,
-		MELEE : true,
-		TARGET : false
-	},
-
-	{ # ID = 8
-		SKILL_NAME : "Eruption",
-		TYPE : ["HP"],
-		COST : 3,
-		MUL : [-10, -0.75, -1.2],
-		STATUS : [],
-		ELEM : "Fire",
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : false
-	},
-
-	{ # ID = 9
-		SKILL_NAME : "Aqua Blast",
-		TYPE : ["HP"],
-		COST : 3,
-		MUL : [-10, -1, -1],
-		STATUS : [],
-		ELEM : "Water",
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : false
-	},
-
-	{ # ID = 10
-		SKILL_NAME : "Lightning Bolt",
-		TYPE : ["HP"],
-		COST : 3,
-		MUL : [-11, -0.5, -1.1],
-		STATUS : [],
-		ELEM : "Wind",
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : false
-	},
-
-	{ # ID = 11
-		SKILL_NAME : "Sonic Blow",
-		TYPE : ["HP"],
-		COST : 2,
-		MUL : [-6, 0, -2],
-		STATUS : [],
-		ELEM : null,
-		IS_PHY : true,
-		MELEE : true,
-		TARGET : false
-	},
-
-	{ # ID = 12
-		SKILL_NAME : "Slash",
-		TYPE : ["HP"],
-		COST : 1,
-		MUL : [-8, -3, 0],
-		STATUS : [],
-		ELEM : null,
-		IS_PHY : true,
-		MELEE : true,
-		TARGET : false
-	},
-
-	{ # ID = 13
+	
+	{ # ID = 16
 		SKILL_NAME : "Sword Dance",
 		TYPE : ["Effect"],
 		COST : 1,
@@ -180,10 +241,38 @@ var skill_database = [
 		TARGET : false
 	},
 	
-	{ # ID = 14
+	{ # ID = 17
+		SKILL_NAME : "Thunderwave",
+		TYPE : ["Effect"],
+		COST : 2,
+		MUL : null,
+		STATUS : ["Paralize"],
+		ELEM : "Wind",
+		IS_PHY : false,
+		MELEE : false,
+		TARGET : false
+	},
+	
+	# ___  ___ | | ___ ___  ____
+	# |  |  |  |-| |__ |__| |__
+	# |__|  |  | | |__ |\   ___|
+	
+	{ # ID = 18
+		SKILL_NAME : "Poison Sting",
+		TYPE : ["HP", "Effect"],
+		COST : 2,
+		MUL : [-3, 0, 0],
+		STATUS : ["Poison"],
+		ELEM : null,
+		IS_PHY : false,
+		MELEE : true,
+		TARGET : false
+	},
+	
+	{ # ID = 19
 		SKILL_NAME : "Toxic Blast",
 		TYPE : ["Effect"],
-		COST : 1,
+		COST : 4,
 		MUL : [-2, 0, 0],
 		STATUS : ["Poison"],
 		ELEM : null,
@@ -191,18 +280,6 @@ var skill_database = [
 		MELEE : false,
 		TARGET : true
 	},
-	
-	{ # ID = 15
-		SKILL_NAME : "Heal Wave",
-		TYPE : ["HP"],
-		COST : 3,
-		MUL : [8, 0, 1.5],
-		STATUS : [],
-		ELEM : null,
-		IS_PHY : false,
-		MELEE : false,
-		TARGET : true
-	}
 ]
 
 var sk_map = { }
