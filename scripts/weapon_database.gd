@@ -16,7 +16,7 @@ var wpn_database = [
 	{ # ID = 0
 		WPN_NAME : "Katana",
 		TYPE : "Sword",
-		ATK : 3,
+		ATK : 15,
 		DURABILITY : 45,
 		LOCK : 0,
 		PRICE : 500
@@ -34,7 +34,7 @@ var wpn_database = [
 	{ # ID = 2
 		WPN_NAME : "Iron Axe",
 		TYPE : "Axe",
-		ATK : 3,
+		ATK : 5,
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 300
@@ -43,7 +43,7 @@ var wpn_database = [
 	{ # ID = 3
 		WPN_NAME : "Iron Spear",
 		TYPE : "Spear",
-		ATK : 4,
+		ATK : 5,
 		DURABILITY : 15,
 		LOCK : 0,
 		PRICE : 250
@@ -56,7 +56,7 @@ var wpn_database = [
 	{ # ID = 4
 		WPN_NAME : "Bat Fangs",
 		TYPE : "Natural",
-		ATK : 2,
+		ATK : 12,
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
@@ -66,7 +66,7 @@ var wpn_database = [
 	{ # ID = 5
 		WPN_NAME : "Bat Wings",
 		TYPE : "Natural",
-		ATK : 2,
+		ATK : 13,
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
@@ -75,7 +75,7 @@ var wpn_database = [
 	{
 		WPN_NAME : "Fangs",
 		TYPE : "Natural",
-		ATK : 5,
+		ATK : 14,
 		DURABILITY : -1, # infinite
 		LOCK : 1,
 		PRICE : 0
@@ -84,7 +84,7 @@ var wpn_database = [
 	{
 		WPN_NAME : "Claws",
 		TYPE : "Natural",
-		ATK : 4,
+		ATK : 13,
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
