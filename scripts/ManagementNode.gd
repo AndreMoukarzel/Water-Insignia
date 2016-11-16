@@ -74,6 +74,8 @@ onready var sm_cqs = get_node("SellManagement/CurrentQuesha")
 onready var ss_ps = get_node("SelectStage/PreviousStage")
 onready var ss_ns = get_node("SelectStage/NextStage")
 
+# Other Nodes
+onready var sfx = get_node("SoundEffects")
 
 # Databases
 var char_database
@@ -104,7 +106,7 @@ var current_screen
 
 # Classes (possibly will not need those in final version, maybe weapon or item for shop, but probably not)
 
-class unit:
+class Unit:
 	var id
 	var name
 	var level
@@ -145,6 +147,12 @@ func _ready():
 	char_database = get_node("/root/character_database")
 	wpn_database = get_node("/root/weapon_database")
 	item_database = get_node("/root/item_database")
+	
+	var scale = window_size/Vector2(600, 600) # Makes bg screen size
+	var pos = (Vector2(600, 600)*scale)/2 # Centralizes bg on screen
+
+	get_node("BackGround").set_scale(scale)
+	get_node("BackGround").set_pos(pos)
 	
 	# Settings for ItemLists
 	um_ap.set_max_columns(3)
@@ -405,6 +413,10 @@ func Update_IM():
 				im_api.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
 				im_api.set_item_tooltip(im_api.get_item_count() - 1, item.name)
 			last_selected_party = im_ap.get_selected_items()[0]
+	else:
+		im_apw.clear()
+		im_api.clear()
+		last_selected_party = -1
 			
 	# Checagens para o modo manage barracks items
 	if (item_swap_mode == 0):
@@ -422,6 +434,10 @@ func Update_IM():
 					im_bi.add_item("", load(str("res://resources/sprites/items/",item.name,".tex")), 1)
 					im_bi.set_item_tooltip(im_bi.get_item_count() - 1, item.name)
 				last_selected_barracks = im_b.get_selected_items()[0]
+		else:
+			im_bw.clear()
+			im_bi.clear()
+			last_selected_barracks = -1
 	
 		# Condições do botão de swap para armas
 		if (im_ap.get_selected_items().size() != 0 and im_b.get_selected_items().size() != 0):
@@ -482,13 +498,13 @@ func Update_IM():
 			
 		# Condições para a exibição de informações de armas
 		if (im_apw.get_selected_items().size() != 0 or im_bw.get_selected_items().size() != 0):
-			if (im_apw.get_selected_items().size() == 0):
+			if (im_b.get_selected_items().size() != 0 and im_apw.get_selected_items().size() == 0):
 				# Mostra o status para a arma do barracks,
 				# some com a da party ativa
 				im_bws.update_statusbox(barracks_units[im_b.get_selected_items()[0]].wpn_vector[im_bw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
 				im_apws.neutralize_node("Item Status")
 
-			if (im_bw.get_selected_items().size() == 0):
+			if (im_ap.get_selected_items().size() != 0 and im_bw.get_selected_items().size() == 0):
 				# Mostra o status para a arma da party ativa,
 				# some com a do barracks
 				im_apws.update_statusbox(active_units[im_ap.get_selected_items()[0]].wpn_vector[im_apw.get_selected_items()[0]], "Item Status", "Weapon", wpn_database)
@@ -1202,6 +1218,7 @@ func _on_Buy_pressed():
 			iter += 1
 			
 	sm_cqb.set_text(str("Current: ", get_parent().quesha))
+	sfx.play("Transaction")
 	
 	# Faremos uma checagem antes de concretizar a compra,
 	# por isso estar neutralizações ficarem separadas é importante
@@ -1229,6 +1246,7 @@ func _on_Sell_pressed():
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 		
 	sm_cqs.set_text(str("Current: ", get_parent().quesha))
+	sfx.play("Transaction")
 
 func _on_Plus1_pressed():
 	wpn_amount += 1
@@ -1408,7 +1426,7 @@ func _on_Begin_pressed():
 # Funções temporarias de teste
 #BEGIN TEMPORARY SECTION
 func instance_unit(id, level, path):
-	var unit_instance = unit.new()
+	var unit_instance = Unit.new()
 	unit_instance.id = id
 	unit_instance.name = char_database.get_char_name(id)
 	unit_instance.level = level

@@ -22,7 +22,7 @@ var char_database = [
 	{ # ID = 0
 		FOLDER : "res://characters/bat/",
 		CHAR_NAME : "bat",
-		ANIM_ARRAY : ["idle", "attack"],
+		ANIM_ARRAY : ["idle", "attack", "skillmagic"],
 		# Max level: 20
 		# 10 attribute points per level; 12 every 5 levels
 		# LV:    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
@@ -42,7 +42,7 @@ var char_database = [
 	{ # ID = 1
 		FOLDER : "res://characters/samurai/",
 		CHAR_NAME : "samurai",
-		ANIM_ARRAY : ["idle", "idleSword", "attackSword"],
+		ANIM_ARRAY : ["idle", "idleSword", "attackSword", "skillmagic"],
 		# Max level: 20
 		# 12 attribute points per level; 15 every 5 levels
 		# LV:    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
@@ -62,7 +62,7 @@ var char_database = [
 	{ # ID = 2
 		FOLDER : "res://characters/soldier/",
 		CHAR_NAME : "soldier",
-		ANIM_ARRAY : ["idle", "idleSword", "idleAxe", "attackSword", "attackAxe", "skillmagic"],
+		ANIM_ARRAY : ["idle", "idleSword", "idleAxe", "idleSpear", "attackSword", "attackAxe", "attackSpear", "skillmagic"],
 		# Max level: 20
 		# 12 attribute points per level; 15 every 5 levels
 		# LV:    1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20

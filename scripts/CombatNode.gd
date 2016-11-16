@@ -3,7 +3,7 @@ extends Node2D
 
 const scale = 5
 
-class unit:
+class Unit:
 	var id # Unit ID in the character database
 	var level
 	var db # Char Database
@@ -477,6 +477,7 @@ onready var status_database = get_node("/root/status_database")
 
 # Acess infomenu #
 onready var infomenu = get_node("ActionMenu/InfoMenu")
+onready var sfx = get_node("SoundEffects")
 
 # Variable to instance the game's screen size
 # Used to properly position the buttons and units as well
@@ -562,7 +563,7 @@ func instance_unit(id, level, path):
 	anim_sprite.add_child(anim_player)
 	get_node(path).add_child(anim_sprite)
 
-	var unit_instance = unit.new(char_database.get_char_name(id), level, char_database)
+	var unit_instance = Unit.new(char_database.get_char_name(id), level, char_database)
 
 	if path == "Enemies":
 		enemies_vector.append(unit_instance)
@@ -2109,6 +2110,7 @@ func _fixed_process(delta):
 						var melee
 
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
+						sfx.play("Skill")
 						if act.get_from()[1] == "Allies":
 							melee = allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
 							atk_pos = allies_pos[act.get_from()[0]]
@@ -2151,10 +2153,13 @@ func _fixed_process(delta):
 								unit = get_node(str("Enemies/", act.get_from()[0]))
 								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
 
-						time = 45
+						
+						time = (player.get_animation("skillmagic").get_length()) * 60
+						player.play("skillmagic")
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
 						var user_pos
+						var unit
 
 						if act.get_from()[1] == "Allies":
 							user_pos = allies_pos[act.get_from()[0]]

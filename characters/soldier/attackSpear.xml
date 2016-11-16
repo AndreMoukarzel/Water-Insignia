@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resource_file type="Animation" subresource_count="1" version="2.1" version_name="Godot Engine v2.1.stable.official">
+	<main_resource>
+		<string name="resource/name"> "attackSpear" </string>
+		<real name="length"> 0.7 </real>
+		<bool name="loop"> False </bool>
+		<real name="step"> 0.1 </real>
+		<string name="tracks/0/type"> "value" </string>
+		<node_path name="tracks/0/path"> ".:frame" </node_path>
+		<int name="tracks/0/interp"> 1 </int>
+		<bool name="tracks/0/imported"> False </bool>
+		<dictionary name="tracks/0/keys" shared="false">
+			<string> "times" </string>
+			<real_array  len="4"> 				0, 0.3, 0.4, 0.7 </real_array>
+			<string> "transitions" </string>
+			<real_array  len="4"> 				1, 1, 1, 1 </real_array>
+			<string> "update" </string>
+			<int> 1 </int>
+			<string> "values" </string>
+			<array  len="4" shared="false">
+				<int> 15 </int>
+				<int> 16 </int>
+				<int> 17 </int>
+				<int> 14 </int>
+			</array>
+		</dictionary>
+
+	</main_resource>
+</resource_file>

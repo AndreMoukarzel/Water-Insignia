@@ -13,7 +13,18 @@ var dialog_database = [
 ["You should buy a sword! You never know when an axe-wielding enemy might show up!",
  "It sure is boring around here."],
 #	Stage 1
-["I am error."]
+["You should buy a sword! You never know when an axe-wielding enemy might show up!",
+"It sure is boring around here.",
+"Did you know that allies that depend on natural weapons are not affected by the weapon triangle?",
+"How about buying an axe? Those are very good at dealing with enemies with a lance.",
+"Lances are sure to give you the range to deal with those sword-wielding enemies!"],
+#	Stage 2
+["You should buy a sword! You never know when an axe-wielding enemy might show up!",
+"It sure is boring around here.",
+"Did you know that allies that depend on natural weapons are not affected by the weapon triangle?",
+"How about buying an axe? Those are very good at dealing with enemies with a lance.",
+"Lances are sure to give you the range to deal with those sword-wielding enemies!"]
+
 
 ]
 

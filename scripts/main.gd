@@ -24,7 +24,7 @@ var storage_wpn = []
 var storage_itm = []
 
 # Unit class - for instancing an enemy or ally
-class unit:
+class Unit:
 	var id
 	var name
 	var level 
@@ -35,6 +35,19 @@ class unit:
 		self.id = id
 		self.level = level
 		self.name = db.get_char_name(id)
+
+	func get_id():
+		return id
+
+	func get_level():
+		return level
+
+	func get_wpn_vector():
+		return wpn_vector
+
+	func get_item_vector():
+		return item_vector
+
 
 class weapon:
 	var id # Weapon ID in the weapon database
@@ -47,6 +60,27 @@ class weapon:
 		self.name = database.get_wpn_name(id)
 		self.durability = database.get_durability(id)
 		self.type = database.get_wpn_type(id)
+ 
+# GETTERS
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_durability():
+		return durability
+
+	func get_type():
+		return type
+
+	# SETTERS
+	func set_durability(durability):
+		self.durability = durability
+
+	func decrease_durability():
+		self.durability -= 1
+
 
 class item:
 	var id
@@ -66,12 +100,34 @@ class item:
 		self.max_amount = database.get_item_stack(id)
 		self.amount = self.max_amount
 
+	func get_id():
+		return id
+
+	func get_name():
+		return name
+
+	func get_type():
+		return type
+
+	func get_hp():
+		return hp
+
+	func get_status():
+		return status
+
+	func get_max_amount():
+		return max_amount
+
+	func get_amount():
+		return amount
+
+	# SETTERS
+	func set_amount(amount):
+		self.amount = amount
+
 
 func _ready():
 	var level = menu_scn.instance()
-	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
-	get_node("Music").set_loop(true)
-	get_node("Music").play()
 	
 	level.set_name("level")
 	add_child(level)
@@ -83,6 +139,9 @@ func start_game():
 	level.set_name("level")
 	add_child(level)
 	get_node("old").queue_free()
+	get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+	get_node("Music").set_loop(true)
+	get_node("Music").play()
 
 
 # Assumes it will always be changing scenes, not reloading the same
@@ -90,6 +149,7 @@ func set_level(mode):
 	if mode == "combat":
 		scn = combat_scn
 		get_node("Music").set_stream(load("res://resources/sounds/bgm/Battle.ogg"))
+		get_node("Music").set_loop(true)
 		get_node("Music").play()
 		units_vector = get_node("level").active_units
 		barracks = get_node("level").barracks_units
@@ -98,6 +158,7 @@ func set_level(mode):
 	elif mode == "management":
 		scn = management_scn
 		get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+		get_node("Music").set_loop(true)
 		get_node("Music").play()
 		units_vector = get_node("level").allies_vector
 	save_game()
@@ -173,6 +234,7 @@ func save():
 		first_play = first_play,
 		stage = stage,
 		quesha = quesha,
+		victory = victory,
 		
 		active_units_size = units_vector.size(),
 		barracks_units_size = barracks.size(),
@@ -209,6 +271,7 @@ func load_game():
 	first_play = savedata.first_play
 	stage = savedata.stage
 	quesha = savedata.quesha
+	victory = savedata.victory
 	
 	var wpns_iter
 	var current_wpn = 0
@@ -220,7 +283,7 @@ func load_game():
 		items_iter = 0
 		
 		var u = savedata.units[i]
-		units_vector.append(unit.new(u.id, u.level, char_database))
+		units_vector.append(Unit.new(u.id, u.level, char_database))
 		while (wpns_iter < u.wpn_num):
 			units_vector[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
 			units_vector[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
@@ -237,7 +300,7 @@ func load_game():
 		items_iter = 0
 		
 		var u = savedata.units[i]
-		barracks.append(unit.new(u.id, u.level, char_database))
+		barracks.append(Unit.new(u.id, u.level, char_database))
 		while (wpns_iter < u.wpn_num):
 			barracks[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
 			barracks[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
@@ -273,6 +336,7 @@ func load_game():
 	
 	scn = management_scn
 	get_node("Music").set_stream(load("res://resources/sounds/bgm/Management.ogg"))
+	get_node("Music").set_loop(true)
 	get_node("Music").play()
 	
 	var level = scn.instance()
