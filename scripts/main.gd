@@ -295,20 +295,22 @@ func load_game():
 			items_iter += 1
 			current_item += 1
 	
-	for i in range(savedata.active_units_size, savedata.barracks_units_size):
+	for i in range(savedata.active_units_size, savedata.active_units_size + savedata.barracks_units_size):
+		print (savedata.active_units_size)
+		print (savedata.barracks_units_size)
 		wpns_iter = 0
 		items_iter = 0
 		
 		var u = savedata.units[i]
 		barracks.append(Unit.new(u.id, u.level, char_database))
 		while (wpns_iter < u.wpn_num):
-			barracks[i].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
-			barracks[i].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
+			barracks[i - savedata.active_units_size].wpn_vector.append(weapon.new(savedata.weapons[current_wpn].id, wpn_database))
+			barracks[i - savedata.active_units_size].wpn_vector[wpns_iter].durability = savedata.weapons[current_wpn].durability
 			wpns_iter += 1
 			current_wpn += 1
 		while (items_iter < u.item_num):
-			barracks[i].item_vector.append(item.new(savedata.items[current_item].id, item_database))
-			barracks[i].item_vector[items_iter].amount = savedata.items[current_item].amount
+			barracks[i - savedata.active_units_size].item_vector.append(item.new(savedata.items[current_item].id, item_database))
+			barracks[i - savedata.active_units_size].item_vector[items_iter].amount = savedata.items[current_item].amount
 			items_iter += 1
 			current_item += 1
 	
