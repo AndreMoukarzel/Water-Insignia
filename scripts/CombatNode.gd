@@ -521,7 +521,7 @@ func _ready():
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Katana", allies_vector[1])
 		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 1, "Allies")
+		instance_unit(3, 15, "Allies")
 		instance_weapon("Fangs", allies_vector[2])
 		instance_weapon("Claws", allies_vector[2])
 		instance_unit(0, 1, "Allies")
@@ -948,8 +948,11 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# Check for defender avoidance
 	randomize()
-	var random = randi() % 200
-	if (random < defender_spd):
+	var random = randi() % 100
+	var hit = (defender_spd - char_dex) / 2
+	if (hit <= 0):
+		hit = 1
+	if (random < hit):
 		# Attack misses
 		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	else:
@@ -1291,6 +1294,10 @@ func enemy_attack_beta():
 			if randf() <= p_attack:
 				# so com chance de acertar allies, por ora
 				var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
+				# Mages have a lower chance of being targeted: they must be targetted twice in a row to be attacked
+				# Just to give them a chance of not dying so quickly since they are a glass cannon with high chance of being hit if targeted
+				if (allies_vector[random_target] != null) and (allies_vector[random_target].get_name() == "mage"):
+					random_target = int(rand_range(0, get_node("Allies").get_child_count()))
 				# If the chosen target is already dead, randomly chooses another one
 				while (get_node(str("Allies/",int(random_target))) == null):
 					random_target = (random_target + 1) % allies_vector.size()
