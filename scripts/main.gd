@@ -161,7 +161,6 @@ func set_level(mode):
 		get_node("Music").set_loop(true)
 		get_node("Music").play()
 		units_vector = get_node("level").allies_vector
-	save_game()
 
 	var remove = 1
 	while remove:
@@ -172,6 +171,8 @@ func set_level(mode):
 				remove = 1
 				units_vector.remove(i)
 			i += 1
+	
+	save_game()
 
 	var level = scn.instance()
 	get_node("level").set_name("old")
