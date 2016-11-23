@@ -891,7 +891,6 @@ func process_action():
 		action_instance.set_speed(allies_vector[actor].get_total_speed())
 		action_instance.set_action(action)
 
-		print ("action = ", action)
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -1262,14 +1261,12 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
 	while(enemies < enemies_pos.size()):
-		print ("enemies attack beta ini")
 		var action_instance = action_class.new()
 		
 		# If an enemy dies, its position in enemies_vector becomes null, so goes to the next one
 		# Avoids receiving action from an enemy that doesn't exist anymore
 		while ((enemies < enemies_pos.size() - 1) and (enemies_vector[enemies] == null)):
 			enemies += 1
-			print ("blub")
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
@@ -1285,7 +1282,6 @@ func enemy_attack_beta():
 				random_target = int(rand_range(0, get_node("Allies").get_child_count()))
 			# If the chosen target is already dead, randomly chooses another one
 			while (get_node(str("Allies/",int(random_target))) == null):
-				print ("allies blub")
 				random_target = (random_target + 1) % allies_vector.size()
 
 			# Instances the attack
@@ -2013,7 +2009,6 @@ func organize_slots(type, actor):
 	if num < 5:
 		var count = 5
 		while(count > num):
-			print ("botato")
 			count -= 1
 			var node = get_node(str(path, count))
 			
@@ -2026,7 +2021,6 @@ func organize_slots(type, actor):
 # ############################### #
 
 func _fixed_process(delta):
-	print ("fp ini")
 	get_node("Target").hide()
 	get_node("MultiTarget").hide()
 
@@ -2039,7 +2033,6 @@ func _fixed_process(delta):
 		
 		# If an ally has died, skips its turn to choose an action
 		while get_node(str("Allies/", actor)) == null:
-			print ("actors")
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
@@ -2051,10 +2044,6 @@ func _fixed_process(delta):
 
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
-		for a in action_memory:
-			print(a.get_action(), " || ", a.get_to(), " || ", a.get_from())
-		print ("****************************")
-		var actor
 		var vector
 		var atk_pos
 		var def_pos
@@ -2064,21 +2053,19 @@ func _fixed_process(delta):
 		var unit
 		
 		if action_memory.empty(): # If all the actions have been executed
-			actor = 0
+			self.actor = 0
 			action_count = 0
-			print ("toggle true")
 			toggle_menu(false)
-			print ("toggle false")
 			STATE_NEXT = "SELECT TARGET"
 		else:
 			var act = action_memory[0]
 			var player = get_node(str(act.get_from()[1],"/",act.get_from()[0],"/anim_player"))
-#			var actor
+			var current_actor
 
 			if act.get_from()[1] == "Allies":
-				actor = allies_vector[act.get_from()[0]]
+				current_actor = allies_vector[act.get_from()[0]]
 			elif act.get_from()[1] == "Enemies":
-				actor = enemies_vector[act.get_from()[0]]
+				current_actor = enemies_vector[act.get_from()[0]]
 
 			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null):
 				if allies_vector[act.get_from()[0]] != null:
@@ -2096,7 +2083,7 @@ func _fixed_process(delta):
 							i += 1
 
 			if (get_node(str(act.get_to()[1],"/",act.get_to()[0])) != null) and (get_node(str(act.get_from()[1],"/",act.get_from()[0])) != null):
-				if actor.get_total_speed() <= 0:
+				if current_actor.get_total_speed() <= 0:
 					action_memory.pop_front()
 				else:
 					var flag = 1 # If the unit decides to attack itself, it doesn't move from its place (flag == 0)
@@ -2208,7 +2195,6 @@ func _fixed_process(delta):
 			else:
 				# Alvo invalido #
 				action_memory.pop_front()
-		print ("trava")
 
 
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
@@ -2250,12 +2236,8 @@ func _fixed_process(delta):
 			win_lose_cond()
 			STATE_NEXT = "EXECUTE ACTION"
 
-	print ("trava2")
-
 	# Mouse cooldown so multi clicks doesn't happen
 	if mouse_cooldown > 0:
-		print ("mc = ", mouse_cooldown)
 		mouse_cooldown -= 1
 
 	STATE = STATE_NEXT
-	print (STATE)
