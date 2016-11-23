@@ -62,16 +62,16 @@ class stage_spawner:
 var stage_database = [
 #	Stage 0
 	stage_spawner.new([ #Allowed Mobs
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("baby_dragon", 1)]) #boss
+		mob.new([spawn.new("baby_dragon", 2)]) #boss
 		],[ # Allowed Weapons
 		"Katana",
 		"Bamboo Sword",
@@ -81,14 +81,35 @@ var stage_database = [
 		"Potion",
 		"Poison Bomb",
 		"Bomb"]),
+
 #	Stage 1
 	stage_spawner.new([ #Allowed Mobs
+		mob.new([spawn.new("bat", 2), spawn.new("bat", 2)]),
 		mob.new([spawn.new("samurai", 2)]),
-		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 2)])
+		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 2)])
 		],[ # Allowed Weapons
 		"Katana"
 		],[ # Allowed Items
-		"Static Bomb"])
+		"Static Bomb"]),
+
+#	Stage 2
+	stage_spawner.new([
+		mob.new([spawn.new("samurai", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("bat", 4)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("samurai", 1), spawn.new("samurai", 1)]),
+		mob.new([spawn.new("baby_dragon", 2), spawn.new("bat", 1)]),
+		mob.new([spawn.new("samurai", 3)]),
+		],[
+		"Katana",
+		"Katana",
+		"Sharp Katana",
+		"Bamboo Sword",
+		],[
+		"Potion",
+		"Potion",
+		"Bomb",
+		"Static Bomb"]),
 ]
 
 
