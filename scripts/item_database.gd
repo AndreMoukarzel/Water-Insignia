@@ -23,7 +23,7 @@ var item_database = [
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : ["HP"],
-		HP : -70,
+		HP : -20,
 		STATUS : [],
 		STACK : 5,
 		PRICE : 100
@@ -48,7 +48,7 @@ var item_database = [
 	},
 
 	{ # ID = 4
-		ITEM_NAME : "Swiftul",
+		ITEM_NAME : "Swiftful",
 		TYPE : ["Effect"],
 		HP : null,
 		STATUS : ["Spd Up"],

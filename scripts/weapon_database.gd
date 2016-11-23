@@ -154,7 +154,7 @@ var wpn_database = [
 	{ 
 		WPN_NAME : "Bat Fangs",
 		TYPE : "Natural",
-		ATK : 7,
+		ATK : 3,
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
@@ -164,7 +164,7 @@ var wpn_database = [
 	{
 		WPN_NAME : "Bat Wings",
 		TYPE : "Natural",
-		ATK : 9,
+		ATK : 4,
 		DURABILITY : -1, #infinite
 		LOCK : 1,
 		PRICE : 0
@@ -173,7 +173,7 @@ var wpn_database = [
 	{
 		WPN_NAME : "Fangs",
 		TYPE : "Natural",
-		ATK : 10,
+		ATK : 5,
 		DURABILITY : -1, # infinite
 		LOCK : 1,
 		PRICE : 0
@@ -182,8 +182,17 @@ var wpn_database = [
 	{
 		WPN_NAME : "Claws",
 		TYPE : "Natural",
-		ATK : 12,
+		ATK : 6,
 		DURABILITY : -1, #infinite
+		LOCK : 1,
+		PRICE : 0
+	},
+	
+	{
+		WPN_NAME : "Arcane Hit",
+		TYPE : "Natural",
+		ATK : 3,
+		DURABILITY : -1,
 		LOCK : 1,
 		PRICE : 0
 	}
