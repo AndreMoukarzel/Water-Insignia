@@ -171,8 +171,6 @@ func set_level(mode):
 				remove = 1
 				units_vector.remove(i)
 			i += 1
-	
-	save_game()
 
 	var level = scn.instance()
 	get_node("level").set_name("old")
@@ -180,6 +178,7 @@ func set_level(mode):
 	if mode == "combat":
 		level.allies_vector = units_vector
 	elif mode == "management":
+		save_game()
 		level.active_units = units_vector
 		level.barracks_units = barracks
 		level.storage_weapons = storage_wpn

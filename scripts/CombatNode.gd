@@ -517,16 +517,16 @@ func _ready():
 		instance_unit(2, 1, "Allies")
 		instance_weapon("Iron Axe", allies_vector[0])
 		instance_weapon("Iron Spear", allies_vector[0])
-		instance_unit(1, 1, "Allies")
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 15, "Allies")
-		instance_weapon("Fangs", allies_vector[2])
-		instance_weapon("Claws", allies_vector[2])
-		instance_unit(0, 1, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[3])
-		instance_weapon("Bat Wings", allies_vector[3])
+#		instance_unit(1, 20, "Allies")
+#		instance_weapon("Katana", allies_vector[1])
+#		instance_weapon("Katana", allies_vector[1])
+#		instance_weapon("Bamboo Sword", allies_vector[1])
+		instance_unit(3, 1, "Allies")
+		instance_weapon("Fangs", allies_vector[1])
+		instance_weapon("Claws", allies_vector[1])
+#		instance_unit(0, 20, "Allies")
+#		instance_weapon("Bat Fangs", allies_vector[3])
+#		instance_weapon("Bat Wings", allies_vector[3])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -800,6 +800,7 @@ func turn_based_system():
 	if(targeting):
 		get_node("Tip").show()
 		# Verifies which unit is the closest to the cursor for action target choosing and reticle purposes
+		#deu problema aqui
 		toggle_button(true, BUTTON)
 		closest = target_select("All")
 		if closest[0] != -1:

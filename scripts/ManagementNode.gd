@@ -350,6 +350,16 @@ func size_update():
 	sm_stws.adjust_size("Shop Status", 300, 100, sm_stw.get_pos().x + 525, sm_stw.get_pos().y)
 	sm_stis.adjust_size("Shop Status", 300, 100, sm_sti.get_pos().x + 525, sm_sti.get_pos().y)
 	
+	get_node("SelectStage/PreviousLook").set_pos(Vector2(get_node("SelectStage/PreviousStage").get_pos().x + 110, get_node("SelectStage/PreviousStage").get_pos().y - 100))
+	get_node("SelectStage/PreviousLook").set_scale(Vector2(0.4, 0.4))
+	get_node("SelectStage/PreviousText").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x - 45, get_node("SelectStage/PreviousLook").get_pos().y - 150))
+	get_node("SelectStage/NextLook").set_pos(Vector2(get_node("SelectStage/NextStage").get_pos().x + 110, get_node("SelectStage/NextStage").get_pos().y - 100))
+	get_node("SelectStage/NextLook").set_scale(Vector2(0.4, 0.4))
+	get_node("SelectStage/NextText").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x - 45, get_node("SelectStage/PreviousLook").get_pos().y - 150))
+	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x + 215, get_node("SelectStage/NextLook").get_pos().y))
+	get_node("SelectStage/PartyIndicator").set_scale(Vector2(2, 2))
+	get_node("SelectStage/PartyIndicator").set_texture(load("res://resources/sprites/gui/map/base0000.tex"))
+	
 # This function coordinates the state of the swap button,
 # as well as the status boxes in the Unit Management screen
 func Update_UM():
@@ -1366,7 +1376,7 @@ func _on_Back3_pressed():
 	ss_ns.set_pressed(false)
 	ss_ps.set_ignore_mouse(false)
 	ss_ns.set_ignore_mouse(false)
-	get_node("SelectStage/Flavour").set_text("")
+	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x + 215, get_node("SelectStage/NextLook").get_pos().y))
 
 # Return tanto da Unit Management, quando da Item Management e do Repair Menu
 func _on_Return_pressed():
@@ -1437,24 +1447,36 @@ func _on_Play_pressed():
 	if (get_parent().stage == 0):
 		ss_ps.set_disabled(true)
 		ss_ns.set_disabled(true)
-		get_node("SelectStage/Flavour").set_text("Go to stage:\n         0")
+		get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
+		get_node("SelectStage/NextText").set_text("Stage:\n     0")
+		# Colocar o bonequinho ja posicionado
 	else:
-		ss_ns.set_pressed(true)
-		_on_NextStage_pressed()
-
+		if (get_parent().stage - 1 <= 5):
+			get_node("SelectStage/PreviousLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
+			get_node("SelectStage/PreviousText").set_text(str("Stage:\n     ", get_parent().stage - 1))
+		if (get_parent().stage <= 5):
+			get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
+			get_node("SelectStage/NextText").set_text(str("Stage:\n     ", get_parent().stage))
+		# Placeholder
+		else:
+			get_node("SelectStage/PreviousLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
+			get_node("SelectStage/PreviousText").set_text(str("Stage:\n     ", get_parent().stage - 1))
+			get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
+			get_node("SelectStage/NextText").set_text(str("Stage:\n     ", get_parent().stage))
+			
 func _on_PreviousStage_pressed():
 	# Tem que estar desabilitado se o level for 0
 	ss_ps.set_ignore_mouse(true)
 	ss_ns.set_ignore_mouse(false)
 	ss_ns.set_pressed(false)
-	get_node("SelectStage/Flavour").set_text(str("Go to stage:\n         ", get_parent().stage - 1))
+	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x - 5, get_node("SelectStage/NextLook").get_pos().y))
 
 
 func _on_NextStage_pressed():
 	ss_ns.set_ignore_mouse(true)
 	ss_ps.set_ignore_mouse(false)
 	ss_ps.set_pressed(false)
-	get_node("SelectStage/Flavour").set_text(str("Go to stage:\n         ", get_parent().stage))
+	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))
 
 
 func _on_Begin_pressed():
