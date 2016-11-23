@@ -514,19 +514,13 @@ func _ready():
 
 	if get_parent().first_play:
 		get_parent().first_play = 0
+#		instance_unit(ID, level, "Allies")
 		instance_unit(2, 1, "Allies")
 		instance_weapon("Iron Axe", allies_vector[0])
 		instance_weapon("Iron Spear", allies_vector[0])
-		instance_unit(1, 1, "Allies")
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Katana", allies_vector[1])
-		instance_weapon("Bamboo Sword", allies_vector[1])
-		instance_unit(3, 15, "Allies")
-		instance_weapon("Fangs", allies_vector[2])
-		instance_weapon("Claws", allies_vector[2])
-		instance_unit(0, 1, "Allies")
-		instance_weapon("Bat Fangs", allies_vector[3])
-		instance_weapon("Bat Wings", allies_vector[3])
+		instance_unit(3, 1, "Allies")
+		instance_weapon("Fangs", allies_vector[1])
+		instance_weapon("Claws", allies_vector[1])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -897,6 +891,7 @@ func process_action():
 		action_instance.set_speed(allies_vector[actor].get_total_speed())
 		action_instance.set_action(action)
 
+		print ("action = ", action)
 		action_memory.append(action_instance)
 		action = null
 		action_id = 10
@@ -1094,7 +1089,6 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
 					effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
-				var hp_current = target[target_vpos].get_hp_current()
 				target[target_vpos].modify_hp_current(damage)
 
 				# If the skill kills the target
@@ -1182,8 +1176,7 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 							damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", i)).get_pos())
 							effect.set_pos(Vector2(side * window_size.x/4, window_size.y/2 - 50))
 							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal wave")
-		
-						var hp_current = target[i].get_hp_current()
+
 						target[i].modify_hp_current(damage)
 		
 						# If the skill kills the target
@@ -1268,67 +1261,48 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 # Process the enemies attacks
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
-	var p_attack = 1
 	while(enemies < enemies_pos.size()):
+		print ("enemies attack beta ini")
 		var action_instance = action_class.new()
 		
 		# If an enemy dies, its position in enemies_vector becomes null, so goes to the next one
 		# Avoids receiving action from an enemy that doesn't exist anymore
-		while ((enemies_vector[enemies] == null) and (enemies < enemies_pos.size() - 1)):
+		while ((enemies < enemies_pos.size() - 1) and (enemies_vector[enemies] == null)):
 			enemies += 1
+			print ("blub")
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
 			randomize()
 			action_instance.set_from([enemies, "Enemies"])
-			
-			# If the enemy doesn't have any Heal-type item, it will always attack
-			for item in enemies_vector[enemies].get_item_vector():
-				if (item.get_type()[0] == "HP") and (item.get_hp() > 0):
-					var max_hp = enemies_vector[enemies].get_hp_max()
-					var current_hp = enemies_vector[enemies].get_hp_current()
-					p_attack = float(p_attack) - 0.5*(1 - float(current_hp)/float(max_hp))
-					break
 
 			# Attacks or uses a skill
-			if randf() <= p_attack:
-				# so com chance de acertar allies, por ora
-				var random_target = int(rand_range(0, get_node("Allies").get_child_count())) #claramente menos chance de acertar o ultimo
-				# Mages have a lower chance of being targeted: they must be targetted twice in a row to be attacked
-				# Just to give them a chance of not dying so quickly since they are a glass cannon with high chance of being hit if targeted
-				if (allies_vector[random_target] != null) and (allies_vector[random_target].get_name() == "mage"):
-					random_target = int(rand_range(0, get_node("Allies").get_child_count()))
-				# If the chosen target is already dead, randomly chooses another one
-				while (get_node(str("Allies/",int(random_target))) == null):
-					random_target = (random_target + 1) % allies_vector.size()
-	
-				# Instances the attack
-				var wpn_type = enemies_vector[enemies].get_wpn_vector()[0].get_type()
-				var skill_elem = enemies_vector[enemies].get_skill_vector()[0].get_elem()
-				enemies_vector[enemies].set_last_weapon(null)
-				enemies_vector[enemies].set_last_skill(null)
-				if wpn_type != "Natural":
-					enemies_vector[enemies].set_last_weapon(wpn_type)
-				if skill_elem != null:
-					enemies_vector[enemies].set_last_skill(skill_elem)
-	
-				action_instance.set_to([int(random_target), "Allies"])
-				action_instance.set_action("attack")
-				action_instance.set_action_id(0)
-				action_instance.set_speed(enemies_vector[enemies].get_total_speed())
-				action_memory.append(action_instance)
-			else: # Uses a Heal-type item, if has one
-				var max_hp = enemies_vector[enemies].get_hp_max()
-				var current_hp = enemies_vector[enemies].get_hp_current()
-				var id = 0
-				for item in enemies_vector[enemies].get_item_vector():
-					if (item.get_type()[0] == "HP") and (item.get_hp() > 0):
-						action_instance.set_to([enemies, "Enemies"])
-						action_instance.set_action("item")
-						action_instance.set_action_id(id)
-						action_instance.set_speed(enemies_vector[enemies].get_total_speed())
-						action_memory.append(action_instance)
-					id += 1
+			# so com chance de acertar allies, por ora
+			var random_target = int(rand_range(0, get_node("Allies").get_child_count()))
+			# Mages have a lower chance of being targeted: they must be targetted twice in a row to be attacked
+			# Just to give them a chance of not dying so quickly since they are a glass cannon with high chance of being hit if targeted
+			if (allies_vector[random_target] != null) and (allies_vector[random_target].get_name() == "mage"):
+				random_target = int(rand_range(0, get_node("Allies").get_child_count()))
+			# If the chosen target is already dead, randomly chooses another one
+			while (get_node(str("Allies/",int(random_target))) == null):
+				print ("allies blub")
+				random_target = (random_target + 1) % allies_vector.size()
+
+			# Instances the attack
+			var wpn_type = enemies_vector[enemies].get_wpn_vector()[0].get_type()
+			var skill_elem = enemies_vector[enemies].get_skill_vector()[0].get_elem()
+			enemies_vector[enemies].set_last_weapon(null)
+			enemies_vector[enemies].set_last_skill(null)
+			if wpn_type != "Natural":
+				enemies_vector[enemies].set_last_weapon(wpn_type)
+			if skill_elem != null:
+				enemies_vector[enemies].set_last_skill(skill_elem)
+
+			action_instance.set_to([int(random_target), "Allies"])
+			action_instance.set_action("attack")
+			action_instance.set_action_id(0)
+			action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+			action_memory.append(action_instance)
 		enemies += 1
 
 
@@ -1483,15 +1457,17 @@ func apply_bonus(bonus, stat, target):
 
 
 func buff_boss():
-	get_node("Enemies/0").set_scale(Vector2(-scale * 1.5, scale * 1.5))
-	enemies_vector[0].set_hp_current(ceil(enemies_vector[0].get_hp_max() * 1.5))
-	enemies_vector[0].attack = (enemies_vector[0].get_base_attack()) * 1.1
-	enemies_vector[0].special_attack = (enemies_vector[0].get_base_special_attack()) * 1.1
-	enemies_vector[0].defense = (enemies_vector[0].get_base_defense()) * 1.1
-	enemies_vector[0].special_defense = (enemies_vector[0].get_base_special_defense()) * 1.1
-	enemies_vector[0].speed = (enemies_vector[0].get_base_speed()) * 1.1
-	enemies_vector[0].dexterity = (enemies_vector[0].get_base_dexterity()) * 1.1
-	enemies_vector[0].luck = (enemies_vector[0].get_base_luck()) * 1.1
+	var i = 0
+	for i in range(enemies_vector.size()):
+		get_node(str("Enemies/", i)).set_scale(Vector2(-scale * 1.5, scale * 1.5))
+		enemies_vector[i].set_hp_current(ceil(enemies_vector[i].get_hp_max() * 1.5))
+		enemies_vector[i].attack = ceil((enemies_vector[i].get_base_attack()) * 1.15)
+		enemies_vector[i].special_attack = ceil((enemies_vector[i].get_base_special_attack()) * 1.15)
+		enemies_vector[i].defense = ceil((enemies_vector[i].get_base_defense()) * 1.15)
+		enemies_vector[i].special_defense = ceil((enemies_vector[i].get_base_special_defense()) * 1.15)
+		enemies_vector[i].speed = ceil((enemies_vector[i].get_base_speed()) * 1.15)
+		enemies_vector[i].dexterity = ceil((enemies_vector[i].get_base_dexterity()) * 1.15)
+		enemies_vector[i].luck = ceil((enemies_vector[i].get_base_luck()) * 1.15)
 
 
 # Victory or Defeat condition. Either way, goes to the management screen
@@ -1567,7 +1543,7 @@ func toggle_button(boolean, path):
 # Upon RETURN button is pressed, return to the action select screen
 func return_to_Selection():
 	var action_menu = get_node("ActionMenu")
-	
+
 	action_menu.get_node("Selection").show()
 	action_menu.get_node("Attack").hide()
 	action_menu.get_node("Skill").hide()
@@ -2037,6 +2013,7 @@ func organize_slots(type, actor):
 	if num < 5:
 		var count = 5
 		while(count > num):
+			print ("botato")
 			count -= 1
 			var node = get_node(str(path, count))
 			
@@ -2049,6 +2026,7 @@ func organize_slots(type, actor):
 # ############################### #
 
 func _fixed_process(delta):
+	print ("fp ini")
 	get_node("Target").hide()
 	get_node("MultiTarget").hide()
 
@@ -2061,6 +2039,7 @@ func _fixed_process(delta):
 		
 		# If an ally has died, skips its turn to choose an action
 		while get_node(str("Allies/", actor)) == null:
+			print ("actors")
 			actor += 1 % allies_pos.size()
 		blink(actor, blink_counter)
 
@@ -2072,15 +2051,29 @@ func _fixed_process(delta):
 
 	# If it's executing the chosen actions
 	elif STATE == "EXECUTE ACTION":
+		for a in action_memory:
+			print(a.get_action(), " || ", a.get_to(), " || ", a.get_from())
+		print ("****************************")
+		var actor
+		var vector
+		var atk_pos
+		var def_pos
+		var unit
+		var melee
+		var user_pos
+		var unit
+		
 		if action_memory.empty(): # If all the actions have been executed
 			actor = 0
 			action_count = 0
+			print ("toggle true")
 			toggle_menu(false)
+			print ("toggle false")
 			STATE_NEXT = "SELECT TARGET"
 		else:
 			var act = action_memory[0]
 			var player = get_node(str(act.get_from()[1],"/",act.get_from()[0],"/anim_player"))
-			var actor
+#			var actor
 
 			if act.get_from()[1] == "Allies":
 				actor = allies_vector[act.get_from()[0]]
@@ -2090,7 +2083,7 @@ func _fixed_process(delta):
 			if (get_node(str(act.get_to()[1], "/", act.get_to()[0])) == null):
 				if allies_vector[act.get_from()[0]] != null:
 					if allies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
-						var vector
+#						var vector
 						if act.get_to()[1] == "Enemies":
 							vector = enemies_vector
 						elif act.get_to()[1] == "Allies":
@@ -2110,10 +2103,10 @@ func _fixed_process(delta):
 					if act.get_action() == "defend":
 						action_memory.pop_front() # add defense behavior here
 					elif act.get_action() == "skill":
-						var atk_pos
-						var def_pos
-						var unit
-						var melee
+#						var atk_pos
+#						var def_pos
+#						var unit
+#						var melee
 
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
 						sfx.play("Skill")
@@ -2163,8 +2156,8 @@ func _fixed_process(delta):
 						player.play("skillmagic")
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
-						var user_pos
-						var unit
+#						var user_pos
+#						var unit
 
 						if act.get_from()[1] == "Allies":
 							user_pos = allies_pos[act.get_from()[0]]
@@ -2178,10 +2171,10 @@ func _fixed_process(delta):
 						time = 45
 						STATE_NEXT = "ANIMATION"
 					else: #action is an attack
-						var atk_pos
-						var def_pos
-						var unit
-						var vector
+#						var atk_pos
+#						var def_pos
+#						var unit
+#						var vector
 
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
 						if act.get_from()[1] == "Allies":
@@ -2215,6 +2208,7 @@ func _fixed_process(delta):
 			else:
 				# Alvo invalido #
 				action_memory.pop_front()
+		print ("trava")
 
 
 	# If an action is being executed, plays it animation and halts the action executions until the animation is over
@@ -2256,8 +2250,12 @@ func _fixed_process(delta):
 			win_lose_cond()
 			STATE_NEXT = "EXECUTE ACTION"
 
+	print ("trava2")
+
 	# Mouse cooldown so multi clicks doesn't happen
 	if mouse_cooldown > 0:
+		print ("mc = ", mouse_cooldown)
 		mouse_cooldown -= 1
 
 	STATE = STATE_NEXT
+	print (STATE)
