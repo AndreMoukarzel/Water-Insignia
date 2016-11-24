@@ -29,8 +29,8 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 				potency = round(potency)
 				if (potency < 0):
 					potency = -potency
-				get_node("NumericInfo").set_text(str("Potency: ", potency))
-				get_node("NumericInfo").set_pos(Vector2(30, 40 + (25 * spacing)))
+#				get_node("NumericInfo").set_text(str("Potency: ", potency))
+#				get_node("NumericInfo").set_pos(Vector2(30, 40 + (25 * spacing)))
 				spacing += 1
 			if (type == "Effect"):
 				get_node("Extra1").set_text(str("Effect: ", database.get_skill_status(object_id)))

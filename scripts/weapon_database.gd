@@ -43,15 +43,24 @@ var wpn_database = [
 		WPN_NAME : "Katana",
 		TYPE : "Sword",
 		ATK : 5,
-		DURABILITY : 45,
+		DURABILITY : 10,
 		LOCK : 0,
 		PRICE : 500
+	},
+	
+	{ # ID = 3.5
+		WPN_NAME : "Iron Sword",
+		TYPE : "Sword",
+		ATK : 3,
+		DURABILITY : 20,
+		LOCK : 0,
+		PRICE : 300
 	},
 	
 	{ # ID = 4
 		WPN_NAME : "Iron Axe",
 		TYPE : "Axe",
-		ATK : 5,
+		ATK : 3,
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 300
@@ -60,8 +69,8 @@ var wpn_database = [
 	{ # ID = 5
 		WPN_NAME : "Iron Spear",
 		TYPE : "Spear",
-		ATK : 5,
-		DURABILITY : 15,
+		ATK : 3,
+		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 250
 	},
@@ -70,15 +79,24 @@ var wpn_database = [
 		WPN_NAME : "Sharp Katana",
 		TYPE : "Sword",
 		ATK : 7,
-		DURABILITY : 50,
+		DURABILITY : 10,
 		LOCK : 0,
 		PRICE : 650
+	},
+	
+	{
+		WPN_NAME : "Scimitar",
+		TYPE : "Sword",
+		ATK : 5,
+		DURABILITY : 20,
+		LOCK : 0,
+		PRICE : 600
 	},
 	
 	{ # ID = 7
 		WPN_NAME : "Broad Axe",
 		TYPE : "Axe",
-		ATK : 7,
+		ATK : 5,
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 600
@@ -87,7 +105,7 @@ var wpn_database = [
 	{ # ID = 8
 		WPN_NAME : "Heavy Spear",
 		TYPE : "Spear",
-		ATK : 7,
+		ATK : 5,
 		DURABILITY : 15,
 		LOCK : 0,
 		PRICE : 600
@@ -96,8 +114,8 @@ var wpn_database = [
 	{ # ID = 9
 		WPN_NAME : "Greatsword",
 		TYPE : "Sword",
-		ATK : 8,
-		DURABILITY : 25,
+		ATK : 7,
+		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 650
 	},
@@ -105,7 +123,7 @@ var wpn_database = [
 	{ # ID = 10
 		WPN_NAME : "Bloody Axe",
 		TYPE : "Axe",
-		ATK : 8,
+		ATK : 7,
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 650
@@ -114,7 +132,7 @@ var wpn_database = [
 	{ # ID = 11
 		WPN_NAME : "Deadly Spear",
 		TYPE : "Spear",
-		ATK : 8,
+		ATK : 7,
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 650
@@ -124,7 +142,7 @@ var wpn_database = [
 		WPN_NAME : "Rapier",
 		TYPE : "Sword",
 		ATK : 9,
-		DURABILITY : 25,
+		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 700
 	},
@@ -133,7 +151,7 @@ var wpn_database = [
 		WPN_NAME : "Sturdy Axe",
 		TYPE : "Axe",
 		ATK : 9,
-		DURABILITY : 35,
+		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 700
 	},
@@ -145,6 +163,15 @@ var wpn_database = [
 		DURABILITY : 20,
 		LOCK : 0,
 		PRICE : 700
+	},
+	
+	{
+		WPN_NAME : "Best/Worst Sword",
+		TYPE : "Sword",
+		ATK : 20,
+		DURABILITY : 1,
+		LOCK : 0,
+		PRICE : 1000
 	},
 	
 	# ############################### #
@@ -189,7 +216,7 @@ var wpn_database = [
 	},
 	
 	{
-		WPN_NAME : "Arcane Hit",
+		WPN_NAME : "Book",
 		TYPE : "Natural",
 		ATK : 3,
 		DURABILITY : -1,

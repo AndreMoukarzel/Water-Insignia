@@ -12,14 +12,23 @@ const PRICE = 5
 var item_database = [
 
 	{ # ID = 0
-		ITEM_NAME : "Potion",
+		ITEM_NAME : "Small Potion",
 		TYPE : ["HP"],
 		HP : 10,
 		STATUS : [],
 		STACK : 10,
 		PRICE : 10
 	},
-
+	
+	{
+		ITEM_NAME : "Potion",
+		TYPE : ["HP"],
+		HP : 15,
+		STATUS : [],
+		STACK : 5,
+		PRICE : 15
+	},
+	
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : ["HP"],
