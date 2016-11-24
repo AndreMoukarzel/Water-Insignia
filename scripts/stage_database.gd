@@ -96,7 +96,9 @@ var stage_database = [
 		mob.new([spawn.new("samurai", 2), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 2)])
 		],[ # Allowed Weapons
-		"Katana"
+		"Katana",
+		"Sharp Katana",
+		"Bamboo Sword"
 		],[ # Allowed Items
 		"Static Bomb"]),
 
@@ -114,6 +116,29 @@ var stage_database = [
 		mob.new([spawn.new("bat", 1), spawn.new("baby_dragon", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 3)]),
 		mob.new([spawn.new("samurai", 3)]),
+		],[
+		"Katana",
+		"Katana",
+		"Sharp Katana",
+		"Bamboo Sword",
+		],[
+		"Potion",
+		"Potion",
+		"Bomb",
+		"Static Bomb"]),
+		
+#	Stage 3
+	stage_spawner.new([
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2), spawn.new("bat", 1), spawn.new("soldier", 2)]),
+		mob.new([spawn.new("baby_dragon", 4)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 2), spawn.new("samurai", 3), spawn.new("bat", 2)]),
 		],[
 		"Katana",
 		"Katana",

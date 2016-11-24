@@ -32,12 +32,21 @@ var item_database = [
 	{ # ID = 1
 		ITEM_NAME : "Bomb",
 		TYPE : ["HP"],
-		HP : -20,
+		HP : -15,
 		STATUS : [],
 		STACK : 5,
 		PRICE : 100
 	},
-
+	
+	{ # ID = 1.5
+		ITEM_NAME : "Big Bomb",
+		TYPE : ["HP"],
+		HP : -25,
+		STATUS : [],
+		STACK : 3,
+		PRICE : 120
+	},
+	
 	{ # ID = 2
 		ITEM_NAME : "Enrager",
 		TYPE : ["Effect"],
