@@ -2239,6 +2239,7 @@ margin/right = 617.0
 margin/bottom = 451.0
 custom_styles/hover = SubResource( 3 )
 custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
 custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false

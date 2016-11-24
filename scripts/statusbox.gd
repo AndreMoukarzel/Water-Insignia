@@ -71,7 +71,7 @@ func update_statusbox(object, type, nature, database):
 		get_node("Name").set_text(object.name)
 		if (nature == "Weapon"):
 			get_node("Class").set_text(str("Type: ",database.get_wpn_type(object.id)))
-			if (database.get_durability(object.id) > 10):
+			if (database.get_durability(object.id) >= 10):
 				get_node("Durability").set_pos(Vector2(65, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(85, 65))
@@ -80,7 +80,7 @@ func update_statusbox(object, type, nature, database):
 			get_node("Attack").set_text(str("ATK: ", database.get_attack(object.id)))
 		if (nature == "Item"):
 			get_node("Class").set_text(str("Type: ",database.get_item_type(object.id)))
-			if (object.amount > 10):
+			if (object.amount >= 10):
 				get_node("Durability").set_pos(Vector2(65, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(85, 65))
@@ -103,7 +103,7 @@ func update_statusbox(object, type, nature, database):
 		if (nature == "Weapon"):
 			get_node("Name").set_text(database.get_wpn_name(object))
 			get_node("Class").set_text(str("Type: ",database.get_wpn_type(object)))
-			if (database.get_durability(object) > 10):
+			if (database.get_durability(object) >= 10):
 				get_node("Durability").set_pos(Vector2(220, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(240, 65))
@@ -118,12 +118,35 @@ func update_statusbox(object, type, nature, database):
 			get_node("Icon").set_texture(load("res://resources/sprites/gui/management/icons/quesha.tex"))
 			get_node("Price").set_text(str("Price: ", database.get_price(object)))
 			# Não podemos fazer isto ainda, não existe amount na database de items
-			if (database.get_item_stack(object) > 10):
+			if (database.get_item_stack(object) >= 10):
 				get_node("Durability").set_pos(Vector2(220, 65))
 			else:
 				get_node("Durability").set_pos(Vector2(240, 65))
 			if (database.get_item_stack(object) > 0):
 				get_node("Durability").set_text(str(database.get_item_stack(object),"/",database.get_item_stack(object)))
+	
+	if (type == "Sell Status"):
+		# ###################### ATENÇÃO ####################### #
+		# Aqui voltamos ao normal, recebendo o objeto
+		# ###################### ATENÇÃO ####################### #
+		show()
+		get_node("Name").set_text(object.name)
+		if (nature == "Weapon"):
+			get_node("Class").set_text(str("Type: ",database.get_wpn_type(object.id)))
+			if (database.get_durability(object.id) >= 10):
+				get_node("Durability").set_pos(Vector2(220, 65))
+			else:
+				get_node("Durability").set_pos(Vector2(240, 65))
+			if (database.get_durability(object.id) > 0):
+				get_node("Durability").set_text(str(object.durability,"/",database.get_durability(object.id)))
+			get_node("Attack").set_text(str("ATK: ", database.get_attack(object.id)))
+		if (nature == "Item"):
+			get_node("Class").set_text(str("Type: ",database.get_item_type(object.id)))
+			if (object.amount >= 10):
+				get_node("Durability").set_pos(Vector2(220, 65))
+			else:
+				get_node("Durability").set_pos(Vector2(240, 65))
+			get_node("Durability").set_text(str(object.amount,"/",database.get_item_stack(object.id)))
 
 func neutralize_node(type):
 	# acho que essa parte possívelmente irá ser apenas para Unit Status

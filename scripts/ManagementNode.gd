@@ -861,13 +861,13 @@ func Update_SM():
 	
 	 # Condições para a statusbox da storage no menu de vendas
 	if (sm_stw.get_selected_items().size() != 0):
-		sm_stws.update_statusbox(storage_weapons[sm_stw.get_selected_items()[0]].id, "Shop Status", "Weapon", wpn_database)
+		sm_stws.update_statusbox(storage_weapons[sm_stw.get_selected_items()[0]], "Sell Status", "Weapon", wpn_database)
 		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
 		sm_stws.get_node("Price").set_text(str("Price: ", wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2))
 	else:
 		sm_stws.neutralize_node("Shop Status")
 	if (sm_sti.get_selected_items().size() != 0):
-		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]].id, "Shop Status", "Item", item_database)
+		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]], "Sell Status", "Item", item_database)
 		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
 		sm_stis.get_node("Price").set_text(str("Price: ", item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2))
 	else:
@@ -1458,6 +1458,7 @@ func _on_Play_pressed():
 	get_node("Selection").hide()
 	get_node("SelectStage").show()
 	bonfire.set_opacity(1)
+	get_node("SelectStage/Begin").set_disabled(true)
 	if (get_parent().stage == 0):
 		ss_ps.set_disabled(true)
 		ss_ns.set_disabled(true)
@@ -1483,6 +1484,7 @@ func _on_PreviousStage_pressed():
 	ss_ps.set_ignore_mouse(true)
 	ss_ns.set_ignore_mouse(false)
 	ss_ns.set_pressed(false)
+	get_node("SelectStage/Begin").set_disabled(false)
 	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x - 5, get_node("SelectStage/NextLook").get_pos().y))
 
 
@@ -1490,7 +1492,8 @@ func _on_NextStage_pressed():
 	ss_ns.set_ignore_mouse(true)
 	ss_ps.set_ignore_mouse(false)
 	ss_ps.set_pressed(false)
-	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))
+	get_node("SelectStage/Begin").set_disabled(false)
+	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x - 4, get_node("SelectStage/NextLook").get_pos().y))
 
 
 func _on_Begin_pressed():
