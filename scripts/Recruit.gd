@@ -104,12 +104,7 @@ func add_info(unit, parent):
 
 
 func calculate_chance(unit):
-	var stats = char_db.get_attack(unit.id, unit.level)
-	stats += char_db.get_defense(unit.id, unit.level)
-	stats += char_db.get_speed(unit.id, unit.level)
-
-#   max stats is 420, therefore max recruit chance is 50%
-	return 51 - (stats/84 + 1)
+	return 51 - unit.level
 
 
 func button_update():
