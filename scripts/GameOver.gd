@@ -14,4 +14,6 @@ func _ready():
 
 
 func _on_ToMenu_pressed():
-	get_node("/root/global").goto_scene("res://scenes/MainMenu.tscn")
+	get_node("/root/global").goto_scene("res://scenes/Main.tscn")
+	get_parent().get_parent().first_play = 1;
+	get_parent().get_parent().save_game()

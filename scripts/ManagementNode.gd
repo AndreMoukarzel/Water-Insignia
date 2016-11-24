@@ -76,6 +76,7 @@ onready var ss_ns = get_node("SelectStage/NextStage")
 
 # Other Nodes
 onready var sfx = get_node("SoundEffects")
+onready var bonfire = get_node("AnimatedSprite")
 
 # Databases
 var char_database
@@ -1218,6 +1219,7 @@ func _on_BuyMenu_pressed():
 	current_screen = "ShopManagement"
 	get_node("ShopKeeperContainer").neutralize_dialog()
 	get_node("ShopMenu").hide()
+	bonfire.set_opacity(0)
 	sm_cqb.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 
@@ -1225,6 +1227,7 @@ func _on_SellMenu_pressed():
 	current_screen = "SellManagement"
 	get_node("ShopKeeperContainer").neutralize_dialog()
 	get_node("ShopMenu").hide()
+	bonfire.set_opacity(0)
 	sm_cqs.set_text(str("  Current: ", get_parent().quesha))
 	get_node(current_screen).show()
 	
@@ -1328,6 +1331,7 @@ func _on_Minus2_pressed():
 func _on_Units_pressed():
 	get_node("Selection").hide()
 	get_node("PartyMenu").show()
+	bonfire.set_opacity(0)
 
 
 func _on_Repair_pressed():
@@ -1335,23 +1339,27 @@ func _on_Repair_pressed():
 	rm_cq.set_text(str("  Current: ", get_parent().quesha))
 	get_node("Selection").hide()
 	get_node(current_screen).show()
+	bonfire.set_opacity(1)
 
 func _on_Shop_pressed():
 	current_screen = "ShopMenu"
 	get_node("Selection").hide()
 	get_node(current_screen).show()
 	get_node("ShopKeeperContainer").show()
+	bonfire.set_opacity(1)
 
 
 func _on_ManageUnits_pressed():
 	get_node("PartyMenu").hide()
 	get_node("UnitManagement").show()
+	bonfire.set_opacity(1)
 
 	current_screen = "UnitManagement"
 
 func _on_ManageItems_pressed():
 	get_node("PartyMenu").hide()
 	get_node("ItemManagement").show()
+	bonfire.set_opacity(1)
 
 	current_screen = "ItemManagement"
 
@@ -1363,11 +1371,13 @@ func _on_Back_pressed():
 		get_node("Selection/Play").set_disabled(true)
 	get_node("PartyMenu").hide()
 	get_node("Selection").show()
+	bonfire.set_opacity(0)
 	
 func _on_Back2_pressed():
 	get_node("ShopMenu").hide()
 	get_node("ShopKeeperContainer").neutralize_node()
 	get_node("Selection").show()
+	bonfire.set_opacity(0)
 	
 func _on_Back3_pressed():
 	get_node("SelectStage").hide()
@@ -1377,12 +1387,14 @@ func _on_Back3_pressed():
 	ss_ps.set_ignore_mouse(false)
 	ss_ns.set_ignore_mouse(false)
 	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x + 215, get_node("SelectStage/NextLook").get_pos().y))
+	bonfire.set_opacity(0)
 
 # Return tanto da Unit Management, quando da Item Management e do Repair Menu
 func _on_Return_pressed():
 	get_node(current_screen).hide()
 	if (current_screen == "UnitManagement" or current_screen == "ItemManagement"):
 		get_node("PartyMenu").show()
+		bonfire.set_opacity(0)
 		# Deselect when returning
 		for unit in um_ap.get_selected_items():
 			um_ap.unselect(unit)
@@ -1414,6 +1426,7 @@ func _on_Return_pressed():
 		_on_StorageBarracks_pressed()
 	if (current_screen == "RepairMenu"):
 		get_node("Selection").show()
+		bonfire.set_opacity(0)
 		for unit in rm_ap.get_selected_items():
 			rm_ap.unselect(unit)
 		for unit in rm_b.get_selected_items():
@@ -1437,6 +1450,7 @@ func _on_Return_pressed():
 		
 		current_screen = "ShopMenu"
 		get_node("ShopMenu").show()
+		bonfire.set_opacity(1)
 		
 		# Tratar depois de repopular, por conta do Sell, etc (vai precisar
 		# colocar para atualizar nas funções de troca de unidades também)
@@ -1444,6 +1458,7 @@ func _on_Return_pressed():
 func _on_Play_pressed():
 	get_node("Selection").hide()
 	get_node("SelectStage").show()
+	bonfire.set_opacity(1)
 	if (get_parent().stage == 0):
 		ss_ps.set_disabled(true)
 		ss_ns.set_disabled(true)

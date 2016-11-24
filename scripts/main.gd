@@ -269,6 +269,10 @@ func load_game():
 	savegame.close()
 
 	first_play = savedata.first_play
+	
+	if first_play == 1:
+		return #Just came back from a party wipe
+	
 	stage = savedata.stage
 	quesha = savedata.quesha
 	victory = savedata.victory
