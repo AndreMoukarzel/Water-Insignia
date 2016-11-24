@@ -4,7 +4,7 @@
 	<ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" index="1"></ext_resource>
 	<resource type="Animation" path="local://1">
 		<string name="resource/name"> "base" </string>
-		<real name="length"> 0.5 </real>
+		<real name="length"> 1 </real>
 		<bool name="loop"> False </bool>
 		<real name="step"> 0.1 </real>
 		<string name="tracks/0/type"> "value" </string>
@@ -13,7 +13,7 @@
 		<bool name="tracks/0/imported"> False </bool>
 		<dictionary name="tracks/0/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="2"> 				0, 0.5 </real_array>
+			<real_array  len="2"> 				0, 1 </real_array>
 			<string> "transitions" </string>
 			<real_array  len="2"> 				1, 1 </real_array>
 			<string> "update" </string>
@@ -21,7 +21,7 @@
 			<string> "values" </string>
 			<array  len="2" shared="false">
 				<vector2> 0, 0 </vector2>
-				<vector2> 0, -20 </vector2>
+				<vector2> 0, -40 </vector2>
 			</array>
 		</dictionary>
 		<string name="tracks/1/type"> "value" </string>
@@ -30,7 +30,7 @@
 		<bool name="tracks/1/imported"> False </bool>
 		<dictionary name="tracks/1/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="2"> 				0, 0.5 </real_array>
+			<real_array  len="2"> 				0, 1 </real_array>
 			<string> "transitions" </string>
 			<real_array  len="2"> 				1, 1 </real_array>
 			<string> "update" </string>
@@ -47,7 +47,7 @@
 		<bool name="tracks/2/imported"> False </bool>
 		<dictionary name="tracks/2/keys" shared="false">
 			<string> "times" </string>
-			<real_array  len="1"> 				0.5 </real_array>
+			<real_array  len="1"> 				1 </real_array>
 			<string> "transitions" </string>
 			<real_array  len="1"> 				1 </real_array>
 			<string> "values" </string>
@@ -120,9 +120,9 @@
 				<bool> True </bool>
 				<int> 2 </int>
 				<int> 0 </int>
-				<real> -20 </real>
+				<real> -40 </real>
 				<real> 53 </real>
-				<real> -4 </real>
+				<real> -24 </real>
 				<resource  external="1">  </resource>
 				<color> 0.288096, 0.292969, 0.287247, 1 </color>
 				<color> 1, 1, 1, 1 </color>

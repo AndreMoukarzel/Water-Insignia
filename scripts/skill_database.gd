@@ -22,7 +22,7 @@ var skill_database = [
 		SKILL_NAME : "Heal",
 		TYPE : ["HP"],
 		COST : 2,
-		MUL : [6, 0, 0.9],
+		MUL : [6, 0, 1],
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
@@ -35,7 +35,7 @@ var skill_database = [
 		SKILL_NAME : "Heal Wave",
 		TYPE : ["HP"],
 		COST : 3,
-		MUL : [9, 0, 0.75],
+		MUL : [8, 0, 0.75],
 		STATUS : [],
 		ELEM : null,
 		IS_PHY : false,
@@ -75,7 +75,7 @@ var skill_database = [
 		# BALANCED
 		SKILL_NAME : "Blast",
 		TYPE : ["HP"],
-		COST : 4,
+		COST : 3,
 		MUL : [-10, -.9, -.35],
 		STATUS : [],
 		ELEM : null,
@@ -114,7 +114,7 @@ var skill_database = [
 		# BALANCED
 		SKILL_NAME : "Volcano",
 		TYPE : ["HP"],
-		COST : 4,
+		COST : 3,
 		MUL : [-6, -.35, -.75],
 		STATUS : [],
 		ELEM : "Fire",
@@ -140,7 +140,7 @@ var skill_database = [
 		# BALANCED
 		SKILL_NAME : "Aqua Blast",
 		TYPE : ["HP"],
-		COST : 4,
+		COST : 3,
 		MUL : [-6, -.35, -.75],
 		STATUS : [],
 		ELEM : "Water",
@@ -166,7 +166,7 @@ var skill_database = [
 		# BALANCED
 		SKILL_NAME : "Thunder Storm",
 		TYPE : ["HP"],
-		COST : 4,
+		COST : 3,
 		MUL : [-6, -.35, -.75],
 		STATUS : [],
 		ELEM : "Wind",

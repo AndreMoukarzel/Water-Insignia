@@ -521,6 +521,9 @@ func _ready():
 		instance_unit(3, 10, "Allies")
 		instance_weapon("Fangs", allies_vector[1])
 		instance_weapon("Claws", allies_vector[1])
+#		instance_unit(4, 1, "Allies")
+#		instance_weapon("Book", allies_vector[2])
+#		instance_weapon("Fangs", allies_vector[2])
 
 	generate_mob(get_parent().stage)
 	reposition_units() # Position each unit in the beginning of the battle
@@ -742,7 +745,7 @@ func damage_box(damage, color, pos):
 	box.set_pos(pos)
 	add_child(box)
 
-	time += 30
+	time += 60
 	STATE_NEXT = "EFFECT"
 
 
@@ -781,6 +784,9 @@ func turn_based_system():
 						char.decrease_bonus_defense(3*char.get_base_defense())
 					j += 1
 			i += 1
+#			char.modify_mp_current(1)
+#			if char.get_mp_current() > char.get_mp_max():
+#				char.set_mp_current(char.get_mp_max())
 		i = 0
 		for char in enemies_vector:
 			if (char != null):
@@ -975,12 +981,14 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 		# Actual damage calculation
 		var damage = floor((attack_damage - defender_def) * tri)  # Damage dealt
+		attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
+		if attacker[attacker_vpos].get_wpn_vector()[action_id].get_durability() == 0:
+			critical = true
 		if (critical):
-			damage * 1.5
+			damage = ceil(damage * 1.5)
 
 		# Decreases the weapon's durability
 		# If the target dies prior to the attack being dealt, the durability doesn't decrease
-		attacker[attacker_vpos].get_wpn_vector()[action_id].decrease_durability()
 
 		# DEFEND command greatly increses the unit's defense for only one attack or one turn
 		# So, after the unit is attacked or the turn ends, the bonus defense should be reduced
@@ -1457,13 +1465,13 @@ func buff_boss():
 	var i = 0
 	for i in range(enemies_vector.size()):
 		get_node(str("Enemies/", i)).set_scale(Vector2(-scale * 1.5, scale * 1.5))
-		enemies_vector[i].set_hp_current(ceil(enemies_vector[i].get_hp_max() * 1.5))
-		enemies_vector[i].attack = ceil((enemies_vector[i].get_base_attack()) * 1.15)
+		enemies_vector[i].set_hp_current(ceil(enemies_vector[i].get_hp_max() * 1.2))
+		enemies_vector[i].attack = ceil((enemies_vector[i].get_base_attack() * 0.9))
 		enemies_vector[i].special_attack = ceil((enemies_vector[i].get_base_special_attack()) * 1.15)
-		enemies_vector[i].defense = ceil((enemies_vector[i].get_base_defense()) * 1.15)
-		enemies_vector[i].special_defense = ceil((enemies_vector[i].get_base_special_defense()) * 1.15)
-		enemies_vector[i].speed = ceil((enemies_vector[i].get_base_speed()) * 1.15)
-		enemies_vector[i].dexterity = ceil((enemies_vector[i].get_base_dexterity()) * 1.15)
+		enemies_vector[i].defense = floor((enemies_vector[i].get_base_defense()) * 0.8)
+		enemies_vector[i].special_defense = ceil((enemies_vector[i].get_base_special_defense()) * 0.8)
+#		enemies_vector[i].speed = enemies_vector[i].get_base_speed()
+#		enemies_vector[i].dexterity = (enemies_vector[i].get_base_dexterity())
 		enemies_vector[i].luck = ceil((enemies_vector[i].get_base_luck()) * 1.15)
 
 
@@ -1978,9 +1986,11 @@ func organize_slots(type, actor):
 		
 		if type == "Weapon":
 			node.get_node("Label1").show()
+			node.get_node("ProgressBar/Label2").show()
 			node.get_node("ProgressBar").show()
 			node.get_node("ProgressBar").set_max(durability)
 			node.get_node("ProgressBar").set_value(object.get_durability())
+			node.get_node("ProgressBar/Label2").set_text(str(object.get_durability(), "/", durability))
 			if object.get_durability() == 0:
 				get_node(str(path, num)).set_disabled(true)
 			elif object.get_durability() <= 0:
