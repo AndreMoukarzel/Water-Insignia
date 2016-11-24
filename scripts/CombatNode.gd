@@ -515,11 +515,11 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 #		instance_unit(ID, level, "Allies")
-		instance_unit(2, 10, "Allies")
-		instance_weapon("Sturdy Axe", allies_vector[0])
-		instance_weapon("Long Spear", allies_vector[0])
+		instance_unit(2, 1, "Allies")
+		instance_weapon("Iron Axe", allies_vector[0])
+		instance_weapon("Iron Spear", allies_vector[0])
 		instance_weapon("Best/Worst Sword", allies_vector[0])
-		instance_unit(3, 10, "Allies")
+		instance_unit(3, 1, "Allies")
 		instance_weapon("Fangs", allies_vector[1])
 		instance_weapon("Claws", allies_vector[1])
 #		instance_unit(4, 1, "Allies")
