@@ -359,7 +359,6 @@ func size_update():
 	get_node("SelectStage/NextText").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x - 45, get_node("SelectStage/PreviousLook").get_pos().y - 150))
 	get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/PreviousLook").get_pos().x + 215, get_node("SelectStage/NextLook").get_pos().y))
 	get_node("SelectStage/PartyIndicator").set_scale(Vector2(2, 2))
-	get_node("SelectStage/PartyIndicator").set_texture(load("res://resources/sprites/gui/map/base0000.tex"))
 	
 # This function coordinates the state of the swap button,
 # as well as the status boxes in the Unit Management screen
@@ -1464,7 +1463,7 @@ func _on_Play_pressed():
 		ss_ns.set_disabled(true)
 		get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
 		get_node("SelectStage/NextText").set_text("Stage:\n     0")
-		# Colocar o bonequinho ja posicionado
+		get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))
 	else:
 		if (get_parent().stage - 1 <= 5):
 			get_node("SelectStage/PreviousLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
