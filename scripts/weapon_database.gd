@@ -48,7 +48,7 @@ var wpn_database = [
 		PRICE : 500
 	},
 	
-	{ # ID = 3.5
+	{ # ID = 4
 		WPN_NAME : "Iron Sword",
 		TYPE : "Sword",
 		ATK : 3,
@@ -57,7 +57,7 @@ var wpn_database = [
 		PRICE : 300
 	},
 	
-	{ # ID = 4
+	{ # ID = 5
 		WPN_NAME : "Iron Axe",
 		TYPE : "Axe",
 		ATK : 3,
@@ -66,7 +66,7 @@ var wpn_database = [
 		PRICE : 300
 	},
 	
-	{ # ID = 5
+	{ # ID = 6
 		WPN_NAME : "Iron Spear",
 		TYPE : "Spear",
 		ATK : 3,
@@ -75,7 +75,7 @@ var wpn_database = [
 		PRICE : 250
 	},
 	
-	{ # ID = 6
+	{ # ID = 7
 		WPN_NAME : "Sharp Katana",
 		TYPE : "Sword",
 		ATK : 7,
@@ -84,7 +84,7 @@ var wpn_database = [
 		PRICE : 650
 	},
 	
-	{
+	{ # ID = 8
 		WPN_NAME : "Scimitar",
 		TYPE : "Sword",
 		ATK : 5,
@@ -93,7 +93,7 @@ var wpn_database = [
 		PRICE : 600
 	},
 	
-	{ # ID = 7
+	{ # ID = 9
 		WPN_NAME : "Broad Axe",
 		TYPE : "Axe",
 		ATK : 5,
@@ -102,7 +102,7 @@ var wpn_database = [
 		PRICE : 600
 	},
 	
-	{ # ID = 8
+	{ # ID = 10
 		WPN_NAME : "Heavy Spear",
 		TYPE : "Spear",
 		ATK : 5,
@@ -111,7 +111,7 @@ var wpn_database = [
 		PRICE : 600
 	},
 	
-	{ # ID = 9
+	{ # ID = 11
 		WPN_NAME : "Greatsword",
 		TYPE : "Sword",
 		ATK : 7,
@@ -120,7 +120,7 @@ var wpn_database = [
 		PRICE : 650
 	},
 	
-	{ # ID = 10
+	{ # ID = 12
 		WPN_NAME : "Bloody Axe",
 		TYPE : "Axe",
 		ATK : 7,
@@ -129,7 +129,7 @@ var wpn_database = [
 		PRICE : 650
 	},
 	
-	{ # ID = 11
+	{ # ID = 13
 		WPN_NAME : "Deadly Spear",
 		TYPE : "Spear",
 		ATK : 7,
@@ -138,7 +138,7 @@ var wpn_database = [
 		PRICE : 650
 	},
 	
-	{ # ID = 12
+	{ # ID = 14
 		WPN_NAME : "Rapier",
 		TYPE : "Sword",
 		ATK : 9,
@@ -147,7 +147,7 @@ var wpn_database = [
 		PRICE : 700
 	},
 	
-	{ # ID = 13
+	{ # ID = 15
 		WPN_NAME : "Sturdy Axe",
 		TYPE : "Axe",
 		ATK : 9,
@@ -156,7 +156,7 @@ var wpn_database = [
 		PRICE : 700
 	},
 	
-	{ # ID = 14
+	{ # ID = 16
 		WPN_NAME : "Long Spear",
 		TYPE : "Spear",
 		ATK : 9,
@@ -165,7 +165,7 @@ var wpn_database = [
 		PRICE : 700
 	},
 	
-	{
+	{ # ID = 17
 		WPN_NAME : "Best/Worst Sword",
 		TYPE : "Sword",
 		ATK : 20,

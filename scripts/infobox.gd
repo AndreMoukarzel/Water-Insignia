@@ -6,7 +6,7 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 	if (type == "attack"):
 		set_texture(load("res://resources/sprites/gui/management/button0003.png"))
 		get_node("Name").set_pos(Vector2(30, 15))
-		get_node("Name").set_text(database.get_wpn_name(object_id))
+		get_node("Name").set_text(str("Type: ", database.get_wpn_type(object_id)))
 		#get_node("Description").set_text(database.get_wpn_description(object_id))
 		get_node("NumericInfo").set_text(str("Attack: ", database.get_attack(object_id)))
 		get_node("NumericInfo").set_pos(Vector2(30, 40))
@@ -21,16 +21,10 @@ func adjust_properties(button_id, type, pos_x, pos_y, object_id, database):
 			if (type == "HP"):
 				var mult = database.get_skill_multiplayer(object_id)
 				var potency = mult[0]
-				potency += mult[1] * 5
-				if mult[2] < 0:
-					potency -= mult[2] * mult[2] * 10
-				else:
-					potency += mult[2] * mult[2] * 10
-				potency = round(potency)
 				if (potency < 0):
 					potency = -potency
-#				get_node("NumericInfo").set_text(str("Potency: ", potency))
-#				get_node("NumericInfo").set_pos(Vector2(30, 40 + (25 * spacing)))
+				get_node("NumericInfo").set_text(str("Base Power: ", potency))
+				get_node("NumericInfo").set_pos(Vector2(30, 40 + (25 * spacing)))
 				spacing += 1
 			if (type == "Effect"):
 				get_node("Extra1").set_text(str("Effect: ", database.get_skill_status(object_id)))

@@ -197,7 +197,6 @@ transform/scale = Vector2( 3, 3 )
 
 [node name="ActionMenu" type="Panel" parent="."]
 
-editor/display_folded = true
 visibility/self_opacity = 0.0
 focus/ignore_mouse = false
 focus/stop_mouse = true
