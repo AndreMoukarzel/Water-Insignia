@@ -42,7 +42,7 @@
 			<array  len="13" shared="false">
 				<resource  external="0">  </resource>
 				<string> "default" </string>
-				<int> 3 </int>
+				<int> 5 </int>
 				<int> 1 </int>
 				<real> 0 </real>
 				<node_path> ".." </node_path>

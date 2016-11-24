@@ -755,12 +755,12 @@ func unit_info(unit_num):
 		var info = info_scn.instance()
 		var pos = allies_pos[unit_num]
 
-		if get_node("Info") != null:
-			get_node("Info").set_name("Info_old")
-			get_node("Info_old").queue_free()
+		if get_node(str("Info", unit_num)) != null:
+			get_node(str("Info", unit_num)).set_name(str("Info_old", unit_num))
+			get_node(str("Info_old", unit_num)).queue_free()
 
 		info.master = allies_vector[unit_num]
-		info.set_name("Info")
+		info.set_name(str("Info", unit_num))
 		info.set_pos(Vector2(pos.x + 100, pos.y - 50))
 		add_child(info)
 
@@ -830,7 +830,6 @@ func turn_based_system():
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
 
-				info_active = false
 				targeting = false
 
 				return_to_Selection()
@@ -874,8 +873,10 @@ func turn_based_system():
 		turn_start = true
 		STATE_NEXT = "EXECUTE ACTION"
 
-		get_node("Info").set_name("Info_old")
-		get_node("Info_old").queue_free()
+		for i in range(0, allies_pos.size()):
+			if get_node(str("Info", i)) != null:
+				get_node(str("Info", i)).set_name(str("Info_old", i))
+				get_node(str("Info_old", i)).queue_free()
 		info_active = true # So info can update on first ally before info shows up
 		get_node("Tip").hide()
 
@@ -2049,7 +2050,9 @@ func _fixed_process(delta):
 		blink(actor, blink_counter)
 
 		if !info_active:
-			unit_info(actor)
+			for i in range(0, allies_pos.size()):
+				if allies_vector[i] != null:
+					unit_info(i)
 			info_active = true
 
 		turn_based_system()
