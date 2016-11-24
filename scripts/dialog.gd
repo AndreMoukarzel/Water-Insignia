@@ -23,7 +23,11 @@ var dialog_database = [
 "It sure is boring around here.",
 "Did you know that allies that depend on natural weapons are not affected by the weapon triangle?",
 "How about buying an axe? Those are very good at dealing with enemies with a lance.",
-"Lances are sure to give you the range to deal with those sword-wielding enemies!"]
+"Lances are sure to give you the range to deal with those sword-wielding enemies!"],
+
+[
+"Gotta go fast"
+]
 
 
 ]
