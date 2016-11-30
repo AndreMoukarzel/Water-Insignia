@@ -495,7 +495,7 @@ var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
 var battle = 1 # INUTIL
-var stage_battles = 5 # É bom que seja temporário, se n te arrebentarei
+var stage_battles = 5
 
 
 func _ready():
@@ -518,7 +518,7 @@ func _ready():
 		instance_unit(2, 1, "Allies")
 		instance_weapon("Iron Axe", allies_vector[0])
 		instance_weapon("Iron Spear", allies_vector[0])
-		instance_weapon("Best/Worst Sword", allies_vector[0])
+		instance_weapon("Iron Sword", allies_vector[0])
 		instance_unit(3, 1, "Allies")
 		instance_weapon("Fangs", allies_vector[1])
 		instance_weapon("Claws", allies_vector[1])
@@ -1086,13 +1086,13 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 						damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 				damage = damage * tri
 	
-				if damage < 0:
+				if damage < 0: # If it's a damage-type HP skill
 					damage += reduce_damage
 					damage = ceil(damage)
 					if damage >= 0:
 						damage = -1
 					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-				else:
+				else: # If it's a heal-type HP skill
 					damage = floor(damage)
 					var effect = get_node("Effects")
 					damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -1241,7 +1241,10 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			if damage < 0: # If it's a damage-type HP item
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else: # If it's a heal-type HP item
+				var effect = get_node("Effects")
 				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
 			# If the item kills the target
 			if target[target_vpos].get_hp_current() <= 0:
@@ -1281,6 +1284,7 @@ func enemy_attack_beta():
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
+			# Chooses a target
 			randomize()
 			action_instance.set_from([enemies, "Enemies"])
 
@@ -1296,20 +1300,36 @@ func enemy_attack_beta():
 				random_target = (random_target + 1) % allies_vector.size()
 
 			# Instances the attack
-			var wpn_type = enemies_vector[enemies].get_wpn_vector()[0].get_type()
-			var skill_elem = enemies_vector[enemies].get_skill_vector()[0].get_elem()
-			enemies_vector[enemies].set_last_weapon(null)
-			enemies_vector[enemies].set_last_skill(null)
-			if wpn_type != "Natural":
-				enemies_vector[enemies].set_last_weapon(wpn_type)
-			if skill_elem != null:
-				enemies_vector[enemies].set_last_skill(skill_elem)
+			randomize()
+			var enemy_weapons = enemies_vector[enemies].get_wpn_vector()
+			print (enemy_weapons)
+			var random_weapon = int(rand_range(0, enemy_weapons.size()))
+			var count = 0
+			while enemy_weapons[random_weapon].get_durability() == 0:
+				if count == enemy_weapons.size(): # If every weapon is broken, defends
+					break
+				random_weapon = (random_weapon + 1) % enemy_weapons.size()
+				count += 1
+				
+			if count != enemy_weapons.size():
+				var wpn_type = enemies_vector[enemies].get_wpn_vector()[random_weapon].get_type()
+				enemies_vector[enemies].set_last_weapon(null)
+				if wpn_type != "Natural":
+					enemies_vector[enemies].set_last_weapon(wpn_type)
 
-			action_instance.set_to([int(random_target), "Allies"])
-			action_instance.set_action("attack")
-			action_instance.set_action_id(0)
-			action_instance.set_speed(enemies_vector[enemies].get_total_speed())
-			action_memory.append(action_instance)
+				action_instance.set_to([int(random_target), "Allies"])
+				action_instance.set_action("attack")
+				action_instance.set_action_id(random_weapon)
+				action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+				action_memory.append(action_instance)
+			
+			else:
+				action_instance.set_to([int(random_target), "Allies"])
+				action_instance.set_action("attack")
+				action_instance.set_action_id(0)
+				action_instance.set_speed(0)
+				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_defend())
+				action_memory.append(action_instance)
 		enemies += 1
 
 
