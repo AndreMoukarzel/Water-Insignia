@@ -495,7 +495,7 @@ var STATE = ""
 var STATE_NEXT = "SELECT TARGET"
 
 var battle = 1 # INUTIL
-var stage_battles = 5 # É bom que seja temporário, se n te arrebentarei
+var stage_battles = 5
 
 
 func _ready():
@@ -515,17 +515,11 @@ func _ready():
 	if get_parent().first_play:
 		get_parent().first_play = 0
 #		instance_unit(ID, level, "Allies")
-<<<<<<< HEAD
 		instance_unit(2, 1, "Allies")
 		instance_weapon("Iron Axe", allies_vector[0])
 		instance_weapon("Iron Spear", allies_vector[0])
-=======
-		instance_unit(2, 10, "Allies")
-		instance_weapon("Sturdy Axe", allies_vector[0])
-		instance_weapon("Long Spear", allies_vector[0])
-		instance_weapon("Best/Worst Sword", allies_vector[0])
->>>>>>> c0c2f8b77a8b1319f06e1af4d8df1d5671fa63c1
-		instance_unit(3, 10, "Allies")
+		instance_weapon("Iron Sword", allies_vector[0])
+		instance_unit(3, 1, "Allies")
 		instance_weapon("Fangs", allies_vector[1])
 		instance_weapon("Claws", allies_vector[1])
 #		instance_unit(4, 1, "Allies")
@@ -761,12 +755,12 @@ func unit_info(unit_num):
 		var info = info_scn.instance()
 		var pos = allies_pos[unit_num]
 
-		if get_node("Info") != null:
-			get_node("Info").set_name("Info_old")
-			get_node("Info_old").queue_free()
+		if get_node(str("Info", unit_num)) != null:
+			get_node(str("Info", unit_num)).set_name(str("Info_old", unit_num))
+			get_node(str("Info_old", unit_num)).queue_free()
 
 		info.master = allies_vector[unit_num]
-		info.set_name("Info")
+		info.set_name(str("Info", unit_num))
 		info.set_pos(Vector2(pos.x + 100, pos.y - 50))
 		add_child(info)
 
@@ -836,7 +830,6 @@ func turn_based_system():
 				actor = (actor + 1) % allies_pos.size()
 				action_count = (action_count + 1) % allies_pos.size()
 
-				info_active = false
 				targeting = false
 
 				return_to_Selection()
@@ -880,24 +873,26 @@ func turn_based_system():
 		turn_start = true
 		STATE_NEXT = "EXECUTE ACTION"
 
-		get_node("Info").set_name("Info_old")
-		get_node("Info_old").queue_free()
+		for i in range(0, allies_pos.size()):
+			if get_node(str("Info", i)) != null:
+				get_node(str("Info", i)).set_name(str("Info_old", i))
+				get_node(str("Info_old", i)).queue_free()
 		info_active = true # So info can update on first ally before info shows up
 		get_node("Tip").hide()
 
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
 	if action != null:
-		if action == "attack":
-			var weapon = allies_vector[actor].get_wpn_vector()[action_id].get_type()
-			allies_vector[actor].set_last_weapon(null)
-			if weapon != "Natural":
-				allies_vector[actor].set_last_weapon(weapon)
-		elif action == "skill":
-			var skill = allies_vector[actor].get_skill_vector()[action_id].get_elem()
-			allies_vector[actor].set_last_skill(null)
-			if skill != null:
-				allies_vector[actor].set_last_skill(skill)
+#		if action == "attack":
+#			var weapon = allies_vector[actor].get_wpn_vector()[action_id].get_type()
+#			allies_vector[actor].set_last_weapon(null)
+#			if weapon != "Natural":
+#				allies_vector[actor].set_last_weapon(weapon)
+#		elif action == "skill":
+#			var skill = allies_vector[actor].get_skill_vector()[action_id].get_elem()
+#			allies_vector[actor].set_last_skill(null)
+#			if skill != null:
+#				allies_vector[actor].set_last_skill(skill)
 
 		var action_instance = action_class.new()
 		action_instance.set_from([actor, "Allies"])
@@ -943,6 +938,12 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
+
+	# Set last_weapon of the attacker to weapon type used in attack
+	var lst_type = attacker[attacker_vpos].get_wpn_vector()[action_id].get_type()
+	attacker[attacker_vpos].set_last_weapon(null)
+	if lst_type != "Natural":
+		attacker[attacker_vpos].set_last_weapon(lst_type)
 
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
@@ -1049,6 +1050,10 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 	var skill = user[user_vpos].get_skill_vector()[action_id]
 	var cost = skill.get_cost()
+	var skl_type = user[user_vpos].get_skill_vector()[action_id].get_elem()
+
+	# Sets element of user for current skill's element
+	user[user_vpos].set_last_skill(skl_type)
 
 	# Reduces the user's MP in the corresponding cost.
 	# MP isn't spent if the target dies before the skill is used
@@ -1091,13 +1096,13 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 						damage += mult[2] * mult[2] * user[user_vpos].get_total_special_attack()
 				damage = damage * tri
 	
-				if damage < 0:
+				if damage < 0: # If it's a damage-type HP skill
 					damage += reduce_damage
 					damage = ceil(damage)
 					if damage >= 0:
 						damage = -1
 					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
-				else:
+				else: # If it's a heal-type HP skill
 					damage = floor(damage)
 					var effect = get_node("Effects")
 					damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
@@ -1246,7 +1251,10 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 			if damage < 0: # If it's a damage-type HP item
 				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
 			else: # If it's a heal-type HP item
+				var effect = get_node("Effects")
 				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
+				effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
 			# If the item kills the target
 			if target[target_vpos].get_hp_current() <= 0:
@@ -1286,6 +1294,7 @@ func enemy_attack_beta():
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
+			# Chooses a target
 			randomize()
 			action_instance.set_from([enemies, "Enemies"])
 
@@ -1301,20 +1310,53 @@ func enemy_attack_beta():
 				random_target = (random_target + 1) % allies_vector.size()
 
 			# Instances the attack
-			var wpn_type = enemies_vector[enemies].get_wpn_vector()[0].get_type()
-			var skill_elem = enemies_vector[enemies].get_skill_vector()[0].get_elem()
-			enemies_vector[enemies].set_last_weapon(null)
-			enemies_vector[enemies].set_last_skill(null)
-			if wpn_type != "Natural":
-				enemies_vector[enemies].set_last_weapon(wpn_type)
-			if skill_elem != null:
-				enemies_vector[enemies].set_last_skill(skill_elem)
+<<<<<<< HEAD
+#			var wpn_type = enemies_vector[enemies].get_wpn_vector()[0].get_type()
+#			var skill_elem = enemies_vector[enemies].get_skill_vector()[0].get_elem()
+#			enemies_vector[enemies].set_last_weapon(null)
+#			enemies_vector[enemies].set_last_skill(null)
+#			if wpn_type != "Natural":
+#				enemies_vector[enemies].set_last_weapon(wpn_type)
+#			if skill_elem != null:
+#				enemies_vector[enemies].set_last_skill(skill_elem)
 
 			action_instance.set_to([int(random_target), "Allies"])
 			action_instance.set_action("attack")
 			action_instance.set_action_id(0)
 			action_instance.set_speed(enemies_vector[enemies].get_total_speed())
 			action_memory.append(action_instance)
+=======
+			randomize()
+			var enemy_weapons = enemies_vector[enemies].get_wpn_vector()
+			print (enemy_weapons)
+			var random_weapon = int(rand_range(0, enemy_weapons.size()))
+			var count = 0
+			while enemy_weapons[random_weapon].get_durability() == 0:
+				if count == enemy_weapons.size(): # If every weapon is broken, defends
+					break
+				random_weapon = (random_weapon + 1) % enemy_weapons.size()
+				count += 1
+				
+			if count != enemy_weapons.size():
+				var wpn_type = enemies_vector[enemies].get_wpn_vector()[random_weapon].get_type()
+				enemies_vector[enemies].set_last_weapon(null)
+				if wpn_type != "Natural":
+					enemies_vector[enemies].set_last_weapon(wpn_type)
+
+				action_instance.set_to([int(random_target), "Allies"])
+				action_instance.set_action("attack")
+				action_instance.set_action_id(random_weapon)
+				action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+				action_memory.append(action_instance)
+			
+			else:
+				action_instance.set_to([int(random_target), "Allies"])
+				action_instance.set_action("attack")
+				action_instance.set_action_id(0)
+				action_instance.set_speed(0)
+				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_defend())
+				action_memory.append(action_instance)
+>>>>>>> 0a96d920b2b4c3192d93bdb489414f7fd549cc1e
 		enemies += 1
 
 
@@ -2055,7 +2097,9 @@ func _fixed_process(delta):
 		blink(actor, blink_counter)
 
 		if !info_active:
-			unit_info(actor)
+			for i in range(0, allies_pos.size()):
+				if allies_vector[i] != null:
+					unit_info(i)
 			info_active = true
 
 		turn_based_system()
@@ -2158,6 +2202,7 @@ func _fixed_process(delta):
 								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
 
 						time = (player.get_animation("skillmagic").get_length()) * 60
+						filter_action(act)
 						player.play("skillmagic")
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
@@ -2174,6 +2219,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(user_pos[0] - 50, user_pos[1]))
 
 						time = 45
+						filter_action(act)
 						STATE_NEXT = "ANIMATION"
 					else: #action is an attack
 #						var atk_pos
@@ -2205,6 +2251,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
 
 						unit = vector[act.get_from()[0]]
+						filter_action(act)
 						if unit.get_last_weapon() != null:
 							act.set_action(str(act.get_action(), unit.get_last_weapon()))
 						time = (player.get_animation(act.get_action()).get_length()) * 60
@@ -2243,7 +2290,6 @@ func _fixed_process(delta):
 				player.play(str("idle", unit.get_last_weapon()))
 			else:
 				player.play("idle")
-			filter_action(act)
 			action_memory.pop_front()
 			STATE_NEXT = "EFFECT"
 

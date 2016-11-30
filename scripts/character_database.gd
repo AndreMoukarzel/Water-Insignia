@@ -75,7 +75,7 @@ var char_database = [
 		SPD :   [4,  5,  6,  8,  9,  11, 13, 14, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 30], # SPD
 		DEX :   [5,  6,  6,  7,  10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30], # DEX
 		LUK :   [1,  2,  3,  4,  5,  6,  7,  8,  9,  11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 20], # LUK
-		WPN_VECTOR : ["Katana", "Sword", "Axe"],
+		WPN_VECTOR : ["Sword", "Spear", "Axe"],
 		SKILL_VECTOR : ["Cure", "Heal Wave", "Guard", "Heal"]
 	},
 	

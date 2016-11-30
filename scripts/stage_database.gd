@@ -67,23 +67,23 @@ var stage_database = [
 		mob.new([spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1)]),
 		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 1)]),
+		mob.new([spawn.new("soldier", 1)]),
+		mob.new([spawn.new("soldier", 1)]),
+		mob.new([spawn.new("soldier", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("samurai", 1)]),
 		mob.new([spawn.new("baby_dragon", 2)]) #boss
 		],[ # Allowed Weapons
 #		"Rapier",
-		"Katana",
+#		"Katana",
 		"Bamboo Sword",
-		"Bamboo Sword",
-		"Bamboo Sword",
+		"Iron Sword",
+		"Iron Sword",
 		],[ # Allowed Items
-		"Potion",
+		"Small Potion",
 		"Poison Bomb",
 		"Bomb"]),
 
-#	Stage 1
+#	Stage 1 - BALANCED
 	stage_spawner.new([ #Allowed Mobs
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
@@ -91,35 +91,41 @@ var stage_database = [
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("samurai", 2)]),
 		mob.new([spawn.new("samurai", 2)]),
-		mob.new([spawn.new("samurai", 2)]),
-		mob.new([spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 2)]),
+		mob.new([spawn.new("soldier", 2)]),
 		mob.new([spawn.new("samurai", 2), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 2)])
 		],[ # Allowed Weapons
-		"Katana",
-		"Sharp Katana",
-		"Bamboo Sword"
+#		"Katana",
+		"Bamboo Sword",
+		"Iron Sword",
+		"Iron Axe",
+		"Iron Spear"
 		],[ # Allowed Items
-		"Static Bomb"]),
+		"Static Bomb",
+		"Small Potion",
+		"Bomb"]),
 
-#	Stage 2
+#	Stage 2 - BALANCED
 	stage_spawner.new([
-		mob.new([spawn.new("samurai", 2), spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 2), spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 2), spawn.new("samurai", 1)]),
-		mob.new([spawn.new("samurai", 2), spawn.new("samurai", 1)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("soldier", 1)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("soldier", 1)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("soldier", 1)]),
+		mob.new([spawn.new("samurai", 1), spawn.new("soldier", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("bat", 1), spawn.new("baby_dragon", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 1), spawn.new("baby_dragon", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("bat", 3)]),
 		mob.new([spawn.new("samurai", 3)]),
 		],[
-		"Katana",
-		"Katana",
-		"Sharp Katana",
+#		"Katana",
+#		"Katana",
+#		"Sharp Katana",
+		"Iron Sword",
+		"Iron Axe",
+		"Iron Spear",
 		"Bamboo Sword",
 		],[
 		"Potion",
@@ -131,19 +137,22 @@ var stage_database = [
 	stage_spawner.new([
 		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
 		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
-		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
-		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
-		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
-		mob.new([spawn.new("soldier", 2), spawn.new("samurai", 2)]),
-		mob.new([spawn.new("soldier", 2), spawn.new("bat", 1), spawn.new("soldier", 2)]),
+		mob.new([spawn.new("soldier", 1), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 1), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 1), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 1), spawn.new("samurai", 2)]),
+		mob.new([spawn.new("soldier", 1), spawn.new("bat", 3)]),
 		mob.new([spawn.new("baby_dragon", 4)]),
 		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
-		mob.new([spawn.new("bat", 2), spawn.new("samurai", 3), spawn.new("bat", 2)]),
+		mob.new([spawn.new("bat", 1), spawn.new("samurai", 3), spawn.new("bat", 1)]),
 		],[
-		"Katana",
-		"Katana",
-		"Sharp Katana",
+#		"Katana",
+#		"Katana",
+#		"Sharp Katana",
 		"Bamboo Sword",
+		"Iron Sword",
+		"Iron Axe",
+		"Iron Spear"
 		],[
 		"Potion",
 		"Potion",
