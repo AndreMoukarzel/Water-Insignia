@@ -497,6 +497,10 @@ var STATE_NEXT = "SELECT TARGET"
 var battle = 1 # INUTIL
 var stage_battles = 5
 
+var damage_text = []
+var damage_color = []
+var damage_pos= []
+
 
 func _ready():
 	# Get window size #
@@ -963,7 +967,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		hit = 1
 	if (random < hit):
 		# Attack misses
-		damage_box("Miss!", Color(0.5, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+		damage_text.append("Miss!")
+		damage_color.append(Color(0.5, 0, 0))
+		damage_pos.append(get_node(str(defender_side, "/", defender_vpos)).get_pos())
 	else:
 		# Attack hits
 
@@ -1015,9 +1021,13 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	
 		# Reduces the defender's HP and shows it in the combat screen
 		if (critical):
-			damage_box(str(damage, "!!"), Color(1, 0.5, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+			damage_text.append(str(damage, "!!"))
+			damage_color.append(Color(1, 0.5, 0))
+			damage_pos.append(get_node(str(defender_side, "/", defender_vpos)).get_pos())
 		else:
-			damage_box(str(damage), Color(1, 0, 0), get_node(str(defender_side, "/", defender_vpos)).get_pos())
+			damage_text.append(str(damage))
+			damage_color.append(Color(1, 0, 0))
+			damage_pos.append(get_node(str(defender_side, "/", defender_vpos)).get_pos())
 		defender[defender_vpos].modify_hp_current(-damage)
 
 	# If the attack kills the defender
@@ -1101,11 +1111,15 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 					damage = ceil(damage)
 					if damage >= 0:
 						damage = -1
-					damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+					damage_text.append(str(-damage))
+					damage_color.append(Color(1, 0, 0))
+					damage_pos.append(get_node(str(target_side, "/", target_vpos)).get_pos())
 				else: # If it's a heal-type HP skill
 					damage = floor(damage)
 					var effect = get_node("Effects")
-					damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+					damage_text.append(str(damage))
+					damage_color.append(Color(0, 1, 0))
+					damage_pos.append(get_node(str(target_side, "/", target_vpos)).get_pos())
 					effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
 					effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
@@ -1186,14 +1200,18 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 							if damage >= 0:
 								damage = -1
 							damage = ceil(damage)
-							damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", i)).get_pos())
+							damage_text.append(str(-damage))
+							damage_color.append(Color(1, 0, 0))
+							damage_pos.append(get_node(str(target_side, "/", i)).get_pos())
 						else:
 							damage = floor(damage)
 							var effect = get_node("Effects")
 							var side = 1
 							if target_side == "Enemies":
 								side = 3
-							damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", i)).get_pos())
+							damage_text.append(str(damage))
+							damage_color.append(Color(0, 1, 0))
+							damage_pos.append(get_node(str(target_side, "/", i)).get_pos())
 							effect.set_pos(Vector2(side * window_size.x/4, window_size.y/2 - 50))
 							effect.get_node("AnimatedSprite/AnimationPlayer").play("heal wave")
 
@@ -1249,10 +1267,14 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 
 			target[target_vpos].modify_hp_current(damage)
 			if damage < 0: # If it's a damage-type HP item
-				damage_box(str(-damage), Color(1, 0, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage_text.append(str(-damage))
+				damage_color.append(Color(1, 0, 0))
+				damage_pos.append(get_node(str(target_side, "/", target_vpos)).get_pos())
 			else: # If it's a heal-type HP item
 				var effect = get_node("Effects")
-				damage_box(str(damage), Color(0, 1, 0), get_node(str(target_side, "/", target_vpos)).get_pos())
+				damage_text.append(str(damage))
+				damage_color.append(Color(0, 1, 0))
+				damage_pos.append(get_node(str(target_side, "/", target_vpos)).get_pos())
 				effect.set_pos(get_node(str(target_side, "/", target_vpos)).get_pos())
 				effect.get_node("AnimatedSprite/AnimationPlayer").play("heal")
 
@@ -1340,7 +1362,6 @@ func enemy_attack_beta():
 				action_instance.set_speed(0)
 				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_defend())
 				action_memory.append(action_instance)
->>>>>>> 0a96d920b2b4c3192d93bdb489414f7fd549cc1e
 		enemies += 1
 
 
@@ -2270,6 +2291,11 @@ func _fixed_process(delta):
 				unit.set_pos(Vector2(atk_pos))
 
 			unit = vector[act.get_from()[0]]
+			for i in range(0, damage_text.size()):
+				damage_box(damage_text[i], damage_color[i], damage_pos[i])
+			damage_text.clear()
+			damage_color.clear()
+			damage_pos.clear()
 			if unit.get_last_weapon() != null:
 				player.play(str("idle", unit.get_last_weapon()))
 			else:
