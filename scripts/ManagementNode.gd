@@ -90,6 +90,32 @@ var item_database
 # Temos que trocar por um vetor com numeros, e pega o relevante
 # para o andar.
 
+var wpn_shop_availability = [
+# We use the modulo operator to determine
+# which weapons will be availabe at which
+# stages.
+
+# Stages 0 and 1
+[ 0, 3, 5 ],
+
+# Stages 2 and 3
+[ 2, 4, 6, 8 ]
+
+]
+
+var item_shop_availability = [
+# We use the modulo operator to determine
+# which weapons will be availabe at which
+# stages.
+
+# Stages 0 and 1
+[ 0, 1, 2 ],
+
+# Stages 2 and 3
+[ 0, 1, 2, 3, 4 ]
+
+]
+
 var w_db_size
 var i_db_size
 
@@ -239,20 +265,28 @@ func _ready():
 	# uma database, um vetor para instanciar as armas a serem compradas,
 	# e mudar como populamos as statusboxes no script dos statusbox
 	
-	w_db_size = 5
-	var iter = 0
-	while (iter <= w_db_size):
-		if (wpn_database.get_lock(iter) != 1):
-			sm_sw.add_item("", load(str("res://resources/sprites/weapons/",wpn_database.get_wpn_name(iter),".tex")), 1)
-			sm_sw.set_item_tooltip(sm_sw.get_item_count() - 1, wpn_database.get_wpn_name(iter))
-		iter += 1
-		
-	i_db_size = 8
-	iter = 0
-	while (iter <= i_db_size):
-		sm_si.add_item("", load(str("res://resources/sprites/items/",item_database.get_item_name(iter),".tex")), 1)
-		sm_si.set_item_tooltip(sm_si.get_item_count() - 1, item_database.get_item_name(iter))
-		iter += 1
+	for i in wpn_shop_availability[floor(get_parent().stage / 2)]:
+		if (wpn_database.get_lock(i) != 1):
+			sm_sw.add_item("", load(str("res://resources/sprites/weapons/",wpn_database.get_wpn_name(i),".tex")), 1)
+			sm_sw.set_item_tooltip(sm_sw.get_item_count() - 1, wpn_database.get_wpn_name(i))
+	
+#	w_db_size = 5
+#	var iter = 0
+#	while (iter <= w_db_size):
+#		if (wpn_database.get_lock(iter) != 1):
+#			sm_sw.add_item("", load(str("res://resources/sprites/weapons/",wpn_database.get_wpn_name(iter),".tex")), 1)
+#			sm_sw.set_item_tooltip(sm_sw.get_item_count() - 1, wpn_database.get_wpn_name(iter))
+#		iter += 1
+	
+	for i in item_shop_availability[floor(get_parent().stage / 2)]:
+		sm_si.add_item("", load(str("res://resources/sprites/items/",item_database.get_item_name(i),".tex")), 1)
+		sm_si.set_item_tooltip(sm_si.get_item_count() - 1, item_database.get_item_name(i))
+#	i_db_size = 8
+#	iter = 0
+#	while (iter <= i_db_size):
+#		sm_si.add_item("", load(str("res://resources/sprites/items/",item_database.get_item_name(iter),".tex")), 1)
+#		sm_si.set_item_tooltip(sm_si.get_item_count() - 1, item_database.get_item_name(iter))
+#		iter += 1
 		
 	# Fix sizes and positions of some nodes
 	size_update()
@@ -792,7 +826,7 @@ func Update_SM():
 	# ver se precisa resetar o amount toda vez que troca de arma/item
 	# se precisar, vai precisar de mais uma last_selected para cada
 	if (sm_sw.get_selected_items().size() != 0):
-		sm_sws.update_statusbox(sm_sw.get_selected_items()[0], "Shop Status", "Weapon", wpn_database)
+		sm_sws.update_statusbox(wpn_shop_availability[floor(get_parent().stage / 2)][sm_sw.get_selected_items()[0]], "Shop Status", "Weapon", wpn_database)
 		get_node("ShopManagement/Plus1").show()
 		get_node("ShopManagement/Amount1").set_text(str(wpn_amount))
 		get_node("ShopManagement/Amount1").show()
@@ -808,7 +842,7 @@ func Update_SM():
 		get_node("ShopManagement/Amount1").hide()
 		get_node("ShopManagement/Minus1").hide()
 	if (sm_si.get_selected_items().size() != 0):
-		sm_sis.update_statusbox(sm_si.get_selected_items()[0], "Shop Status", "Item", item_database)
+		sm_sis.update_statusbox(item_shop_availability[floor(get_parent().stage / 2)][sm_si.get_selected_items()[0]], "Shop Status", "Item", item_database)
 		get_node("ShopManagement/Plus2").show()
 		get_node("ShopManagement/Amount2").set_text(str(item_amount))
 		get_node("ShopManagement/Amount2").show()
@@ -829,19 +863,19 @@ func Update_SM():
 	else:
 		# Apenas comprando armas
 		if (item_amount == 0):
-			if (wpn_database.get_price(sm_sw.get_selected_items()[0]) * wpn_amount <= get_parent().quesha):
+			if (wpn_database.get_price(wpn_shop_availability[floor(get_parent().stage / 2)][sm_sw.get_selected_items()[0]]) * wpn_amount <= get_parent().quesha):
 				get_node("ShopManagement/Buy").set_disabled(false)
 			else:
 				get_node("ShopManagement/Buy").set_disabled(true)
 		# Apenas comprando items
 		elif (wpn_amount == 0):
-			if (item_database.get_price(sm_si.get_selected_items()[0]) * item_amount <= get_parent().quesha):
+			if (item_database.get_price(item_shop_availability[floor(get_parent().stage / 2)][sm_si.get_selected_items()[0]]) * item_amount <= get_parent().quesha):
 				get_node("ShopManagement/Buy").set_disabled(false)
 			else:
 				get_node("ShopManagement/Buy").set_disabled(true)
 		# Comprando ambos armas e items
 		else:
-			if ((wpn_database.get_price(sm_sw.get_selected_items()[0]) * wpn_amount) + (item_database.get_price(sm_si.get_selected_items()[0]) * item_amount) <= get_parent().quesha):
+			if ((wpn_database.get_price(wpn_shop_availability[floor(get_parent().stage / 2)][sm_sw.get_selected_items()[0]]) * wpn_amount) + (item_database.get_price(item_shop_availability[floor(get_parent().stage / 2)][sm_si.get_selected_items()[0]]) * item_amount) <= get_parent().quesha):
 				get_node("ShopManagement/Buy").set_disabled(false)
 			else:
 				get_node("ShopManagement/Buy").set_disabled(true)
@@ -863,13 +897,13 @@ func Update_SM():
 	if (sm_stw.get_selected_items().size() != 0):
 		sm_stws.update_statusbox(storage_weapons[sm_stw.get_selected_items()[0]], "Sell Status", "Weapon", wpn_database)
 		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
-		sm_stws.get_node("Price").set_text(str("Price: ", wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2))
+		sm_stws.get_node("Price").set_text(str("Price: ", (wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2) * (storage_weapons[sm_stw.get_selected_items()[0]].durability / wpn_database.get_durability(storage_weapons[sm_stw.get_selected_items()[0]].id))))
 	else:
 		sm_stws.neutralize_node("Shop Status")
 	if (sm_sti.get_selected_items().size() != 0):
 		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]], "Sell Status", "Item", item_database)
 		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
-		sm_stis.get_node("Price").set_text(str("Price: ", item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2))
+		sm_stis.get_node("Price").set_text(str("Price: ", (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].durability) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))))
 	else:
 		sm_stis.neutralize_node("Shop Status")
 	if (sm_stw.get_selected_items().size() != 0 or sm_sti.get_selected_items().size() != 0):
@@ -1247,8 +1281,8 @@ func _on_Buy_pressed():
 	
 	if (sm_sw.get_selected_items().size() != 0):
 		iter = 0
-		id = sm_sw.get_selected_items()[0]
-		sw_selected = id
+		id = wpn_shop_availability[floor(get_parent().stage / 2)][sm_sw.get_selected_items()[0]]
+		sw_selected = sm_sw.get_selected_items()[0]
 		# Decrementa dinheiro
 		get_parent().quesha -= wpn_database.get_price(id) * wpn_amount
 		# Fornece armas
@@ -1263,8 +1297,8 @@ func _on_Buy_pressed():
 	
 	if (sm_si.get_selected_items().size() != 0):
 		iter = 0
-		id = sm_si.get_selected_items()[0]
-		si_selected = id
+		id = item_shop_availability[floor(get_parent().stage / 2)][sm_si.get_selected_items()[0]]
+		si_selected = sm_si.get_selected_items()[0]
 		# Decrementa dinheiro
 		get_parent().quesha -= item_database.get_price(id) * item_amount
 		# Fornece items
@@ -1291,13 +1325,13 @@ func _on_Sell_pressed():
 	
 	if (sm_stw.get_selected_items().size() != 0):
 		# acumula o preço de venda aqui, remove
-		get_parent().quesha += wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2
+		get_parent().quesha += (wpn_database.get_price(storage_weapons[sm_stw.get_selected_items()[0]].id) / 2) * (storage_weapons[sm_stw.get_selected_items()[0]].durability / wpn_database.get_durability(storage_weapons[sm_stw.get_selected_items()[0]].id))
 		storage_weapons.remove(sm_stw.get_selected_items()[0])
 		sm_stw.remove_item(sm_stw.get_selected_items()[0])
 		
 	if (sm_sti.get_selected_items().size() != 0):
 		# acumula o preço de venda aqui, remove
-		get_parent().quesha += item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2
+		get_parent().quesha += (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].durability) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))
 		storage_items.remove(sm_sti.get_selected_items()[0])
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 		
