@@ -883,16 +883,16 @@ func turn_based_system():
 # Instances the unit's action (actor, target, ...) and puts it in the action_memory array
 func process_action():
 	if action != null:
-		if action == "attack":
-			var weapon = allies_vector[actor].get_wpn_vector()[action_id].get_type()
-			allies_vector[actor].set_last_weapon(null)
-			if weapon != "Natural":
-				allies_vector[actor].set_last_weapon(weapon)
-		elif action == "skill":
-			var skill = allies_vector[actor].get_skill_vector()[action_id].get_elem()
-			allies_vector[actor].set_last_skill(null)
-			if skill != null:
-				allies_vector[actor].set_last_skill(skill)
+#		if action == "attack":
+#			var weapon = allies_vector[actor].get_wpn_vector()[action_id].get_type()
+#			allies_vector[actor].set_last_weapon(null)
+#			if weapon != "Natural":
+#				allies_vector[actor].set_last_weapon(weapon)
+#		elif action == "skill":
+#			var skill = allies_vector[actor].get_skill_vector()[action_id].get_elem()
+#			allies_vector[actor].set_last_skill(null)
+#			if skill != null:
+#				allies_vector[actor].set_last_skill(skill)
 
 		var action_instance = action_class.new()
 		action_instance.set_from([actor, "Allies"])
@@ -938,6 +938,12 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = enemies_vector
 	elif defender_side == "Allies":
 		defender = allies_vector
+
+	# Set last_weapon of the attacker to weapon type used in attack
+	var lst_type = attacker[attacker_vpos].get_wpn_vector()[action_id].get_type()
+	attacker[attacker_vpos].set_last_weapon(null)
+	if lst_type != "Natural":
+		attacker[attacker_vpos].set_last_weapon(lst_type)
 
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
@@ -1044,6 +1050,10 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 	var skill = user[user_vpos].get_skill_vector()[action_id]
 	var cost = skill.get_cost()
+	var skl_type = user[user_vpos].get_skill_vector()[action_id].get_elem()
+
+	# Sets element of user for current skill's element
+	user[user_vpos].set_last_skill(skl_type)
 
 	# Reduces the user's MP in the corresponding cost.
 	# MP isn't spent if the target dies before the skill is used
@@ -1330,6 +1340,7 @@ func enemy_attack_beta():
 				action_instance.set_speed(0)
 				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_defend())
 				action_memory.append(action_instance)
+>>>>>>> 0a96d920b2b4c3192d93bdb489414f7fd549cc1e
 		enemies += 1
 
 
@@ -2175,6 +2186,7 @@ func _fixed_process(delta):
 								unit.set_pos(Vector2(atk_pos[0] - 50, atk_pos[1]))
 
 						time = (player.get_animation("skillmagic").get_length()) * 60
+						filter_action(act)
 						player.play("skillmagic")
 						STATE_NEXT = "ANIMATION"
 					elif act.get_action() == "item":
@@ -2191,6 +2203,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(user_pos[0] - 50, user_pos[1]))
 
 						time = 45
+						filter_action(act)
 						STATE_NEXT = "ANIMATION"
 					else: #action is an attack
 #						var atk_pos
@@ -2222,6 +2235,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(def_pos[0] + 200, def_pos[1]))
 
 						unit = vector[act.get_from()[0]]
+						filter_action(act)
 						if unit.get_last_weapon() != null:
 							act.set_action(str(act.get_action(), unit.get_last_weapon()))
 						time = (player.get_animation(act.get_action()).get_length()) * 60
@@ -2260,7 +2274,6 @@ func _fixed_process(delta):
 				player.play(str("idle", unit.get_last_weapon()))
 			else:
 				player.play("idle")
-			filter_action(act)
 			action_memory.pop_front()
 			STATE_NEXT = "EFFECT"
 
