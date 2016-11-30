@@ -166,7 +166,7 @@ var wpn_database = [
 	},
 	
 	{ # ID = 17
-		WPN_NAME : "Best/Worst Sword",
+		WPN_NAME : "Bewor Sword",
 		TYPE : "Sword",
 		ATK : 20,
 		DURABILITY : 1,
