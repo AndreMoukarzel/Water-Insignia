@@ -27,6 +27,10 @@ var dialog_database = [
 
 [
 "Gotta go fast"
+],
+
+[
+"No, this is Patrick"
 ]
 
 

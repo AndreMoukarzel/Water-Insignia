@@ -1305,7 +1305,7 @@ func enemy_attack_beta():
 			print (enemy_weapons)
 			var random_weapon = int(rand_range(0, enemy_weapons.size()))
 			var count = 0
-			while enemy_weapons[random_weapon].get_durability() == 0:
+			while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
 				if count == enemy_weapons.size(): # If every weapon is broken, defends
 					break
 				random_weapon = (random_weapon + 1) % enemy_weapons.size()

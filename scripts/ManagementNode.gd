@@ -96,10 +96,13 @@ var wpn_shop_availability = [
 # stages.
 
 # Stages 0 and 1
-[ 0, 3, 5 ],
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
 
 # Stages 2 and 3
-[ 2, 4, 6, 8 ]
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+
+# Stage 4
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
 
 ]
 
@@ -109,10 +112,12 @@ var item_shop_availability = [
 # stages.
 
 # Stages 0 and 1
-[ 0, 1, 2 ],
+[ 0, 2, 4, 5, 6 ],
 
 # Stages 2 and 3
-[ 0, 1, 2, 3, 4 ]
+[ 0, 2, 4, 5, 6, 7, 8, 9 ],
+
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 ]
 
@@ -903,7 +908,7 @@ func Update_SM():
 	if (sm_sti.get_selected_items().size() != 0):
 		sm_stis.update_statusbox(storage_items[sm_sti.get_selected_items()[0]], "Sell Status", "Item", item_database)
 		# Possivelmente fazer o preço depender da durabilidade restante, no futuro?
-		sm_stis.get_node("Price").set_text(str("Price: ", (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].durability) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))))
+		sm_stis.get_node("Price").set_text(str("Price: ", (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].amount) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))))
 	else:
 		sm_stis.neutralize_node("Shop Status")
 	if (sm_stw.get_selected_items().size() != 0 or sm_sti.get_selected_items().size() != 0):
@@ -1331,7 +1336,7 @@ func _on_Sell_pressed():
 		
 	if (sm_sti.get_selected_items().size() != 0):
 		# acumula o preço de venda aqui, remove
-		get_parent().quesha += (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].durability) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))
+		get_parent().quesha += (item_database.get_price(storage_items[sm_sti.get_selected_items()[0]].id) / 2) * (storage_items[sm_sti.get_selected_items()[0]].amount) / item_database.get_item_stack((storage_items[sm_sti.get_selected_items()[0]].id))
 		storage_items.remove(sm_sti.get_selected_items()[0])
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 		
