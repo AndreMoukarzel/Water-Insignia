@@ -197,12 +197,17 @@ func save():
 	var total_weapons = []
 	var items_vector_size_per_unit = []
 	var total_items = []
-	
+
+	var i = 0
 	for unit in units_vector:
-		total_units.append(unit)
+		if unit == null:
+			units_vector.remove(i)
+		else:
+			total_units.append(unit)
+		i += 1
 	for unit in barracks:
 		total_units.append(unit)
-	
+
 	for unit in total_units:
 		for weapon in unit.wpn_vector:
 			total_weapons.append(weapon)

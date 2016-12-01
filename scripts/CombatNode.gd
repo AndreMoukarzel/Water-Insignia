@@ -2333,7 +2333,8 @@ func _fixed_process(delta):
 				vector = allies_vector
 				atk_pos = allies_pos[act.get_from()[0]]
 				unit = get_node(str("Allies/", act.get_from()[0]))
-				unit.set_pos(Vector2(atk_pos))
+				if unit != null:
+					unit.set_pos(Vector2(atk_pos))
 
 			elif act.get_from()[1] == "Enemies":
 				vector = enemies_vector
@@ -2347,10 +2348,11 @@ func _fixed_process(delta):
 			damage_text.clear()
 			damage_color.clear()
 			damage_pos.clear()
-			if unit.get_last_weapon() != null:
-				player.play(str("idle", unit.get_last_weapon()))
-			else:
-				player.play("idle")
+			if unit != null:
+				if unit.get_last_weapon() != null:
+					player.play(str("idle", unit.get_last_weapon()))
+				else:
+					player.play("idle")
 			action_memory.pop_front()
 			STATE_NEXT = "EFFECT"
 
