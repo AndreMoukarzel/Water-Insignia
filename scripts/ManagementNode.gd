@@ -1312,7 +1312,7 @@ func _on_Buy_pressed():
 			storage_items.append(item_instance)
 			iter += 1
 			
-	sm_cqb.set_text(str("Current: ", get_parent().quesha))
+	sm_cqb.set_text(str("  Current: ", get_parent().quesha))
 	sfx.play("Transaction")
 	
 	# Faremos uma checagem antes de concretizar a compra,
@@ -1340,7 +1340,7 @@ func _on_Sell_pressed():
 		storage_items.remove(sm_sti.get_selected_items()[0])
 		sm_sti.remove_item(sm_sti.get_selected_items()[0])
 		
-	sm_cqs.set_text(str("Current: ", get_parent().quesha))
+	sm_cqs.set_text(str("  Current: ", get_parent().quesha))
 	sfx.play("Transaction")
 
 func _on_Plus1_pressed():
@@ -1503,7 +1503,7 @@ func _on_Play_pressed():
 		ss_ns.set_disabled(false)
 		get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
 		get_node("SelectStage/NextText").set_text("Stage\n     0")
-		get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))
+		# get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))
 	else:
 		if (get_parent().stage - 1 <= 5):
 			get_node("SelectStage/PreviousLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))

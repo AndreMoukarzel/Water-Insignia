@@ -1584,6 +1584,7 @@ flat = false
 
 [node name="ShopKeeperContainer" type="Container" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1597,14 +1598,14 @@ script/script = ExtResource( 34 )
 
 [node name="ShopKeeper" type="Sprite" parent="ShopKeeperContainer"]
 
-transform/pos = Vector2( 825, 360 )
-transform/scale = Vector2( 4, 4 )
+transform/pos = Vector2( 773.839, 408.729 )
+transform/scale = Vector2( 3.37678, 3.18785 )
 texture = ExtResource( 35 )
 
 [node name="DialogBubble" type="Sprite" parent="ShopKeeperContainer"]
 
 visibility/visible = false
-transform/pos = Vector2( 644.856, 168.325 )
+transform/pos = Vector2( 644.856, 178.325 )
 transform/scale = Vector2( 0.799136, 1.00219 )
 texture = ExtResource( 36 )
 
@@ -1615,9 +1616,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 554.0
-margin/top = 121.0
+margin/top = 131.0
 margin/right = 734.0
-margin/bottom = 197.0
+margin/bottom = 207.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode/enabled = false
 bbcode/bbcode = ""
