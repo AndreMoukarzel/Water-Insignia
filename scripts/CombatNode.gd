@@ -1032,7 +1032,16 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 
 	# If the attack kills the defender
 	if (defender[defender_vpos].get_hp_current() <= 0):
-		#efeito visual aqui#
+		# Death effect
+		var dthcloud_scn = load("res://scenes/DeathCloud.tscn")
+		var dthcloud = dthcloud_scn.instance()
+
+		if defender_side == "Enemies":
+			dthcloud.set_pos(enemies_pos[defender_vpos])
+		else:
+			dthcloud.set_pos(allies_pos[defender_vpos])
+		add_child(dthcloud)
+
 		defender[defender_vpos] = null
 		get_node(str(defender_side, "/", defender_vpos)).queue_free()
 		# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
@@ -1127,6 +1136,16 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 
 				# If the skill kills the target
 				if target[target_vpos].get_hp_current() <= 0:
+					# Death effect
+					var dthcloud_scn = load("res://scenes/DeathCloud.tscn")
+					var dthcloud = dthcloud_scn.instance()
+
+					if target_side == "Enemies":
+						dthcloud.set_pos(enemies_pos[target_vpos])
+					else:
+						dthcloud.set_pos(allies_pos[target_vpos])
+					add_child(dthcloud)
+
 					target[target_vpos] = null
 					get_node(str(target_side, "/", target_vpos)).queue_free()
 
@@ -1219,6 +1238,16 @@ func process_skill(action_id, user_side, user_vpos, target_side, target_vpos):
 		
 						# If the skill kills the target
 						if target[i].get_hp_current() <= 0:
+							# Death effect
+							var dthcloud_scn = load("res://scenes/DeathCloud.tscn")
+							var dthcloud = dthcloud_scn.instance()
+
+							if target_side == "Enemies":
+								dthcloud.set_pos(enemies_pos[i])
+							else:
+								dthcloud.set_pos(allies_pos[i])
+							add_child(dthcloud)
+
 							target[i] = null
 							get_node(str(target_side, "/", i)).queue_free()
 		
@@ -1280,6 +1309,16 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 
 			# If the item kills the target
 			if target[target_vpos].get_hp_current() <= 0:
+				# Death effect
+				var dthcloud_scn = load("res://scenes/DeathCloud.tscn")
+				var dthcloud = dthcloud_scn.instance()
+
+				if target_side == "Enemies":
+					dthcloud.set_pos(enemies_pos[target_vpos])
+				else:
+					dthcloud.set_pos(allies_pos[target_vpos])
+				add_child(dthcloud)
+
 				target[target_vpos] = null
 				get_node(str(target_side, "/", target_vpos)).queue_free()
 
@@ -1412,6 +1451,17 @@ func status_apply(target_side, target_vpos):
 
 					if target.get_hp_current() <= 0: # If the item kills the target
 						target = null
+
+						# Death effect
+						var dthcloud_scn = load("res://scenes/DeathCloud.tscn")
+						var dthcloud = dthcloud_scn.instance()
+
+						if target_side == "Enemies":
+							dthcloud.set_pos(enemies_pos[target_vpos])
+						else:
+							dthcloud.set_pos(allies_pos[target_vpos])
+						add_child(dthcloud)
+
 						get_node(str(target_side, "/", target_vpos)).queue_free()
 						# Pushes the defender's position outside the screen so it can't be targeted/clicked anymore
 						if target_side == "Enemies":
