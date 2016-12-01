@@ -34,7 +34,7 @@
 [ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=32]
 [ext_resource path="res://resources/pkm20Shadow.fnt" type="BitmapFont" id=33]
 [ext_resource path="res://scripts/dialog.gd" type="Script" id=34]
-[ext_resource path="res://resources/sprites/gui/management/shopkeeper.png" type="Texture" id=35]
+[ext_resource path="res://resources/sprites/gui/management/Ronaldinho.tex" type="Texture" id=35]
 [ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=36]
 [ext_resource path="res://resources/sprites/gui/map/dude0000.tex" type="Texture" id=37]
 [ext_resource path="res://resources/sprites/gui/map/dude0001.tex" type="Texture" id=38]
@@ -464,11 +464,11 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="SpriteFrames" id=28]
+[sub_resource type="SpriteFrames" id=27]
 
 animations = [ { "frames":[ ExtResource( 37 ), ExtResource( 38 ) ], "loop":true, "name":"default", "speed":5.0 } ]
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=28]
 
 resource/name = "idle"
 length = 1.0
@@ -480,7 +480,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ 0, 1 ] }
 
-[sub_resource type="SampleLibrary" id=27]
+[sub_resource type="SampleLibrary" id=29]
 
 samples/Transaction = { "db":0.0, "pitch":1.0, "sample":ExtResource( 39 ) }
 
@@ -1598,8 +1598,8 @@ script/script = ExtResource( 34 )
 
 [node name="ShopKeeper" type="Sprite" parent="ShopKeeperContainer"]
 
-transform/pos = Vector2( 790.227, 388.356 )
-transform/scale = Vector2( 2.48329, 2.47687 )
+transform/pos = Vector2( 825, 360 )
+transform/scale = Vector2( 4, 4 )
 texture = ExtResource( 35 )
 
 [node name="DialogBubble" type="Sprite" parent="ShopKeeperContainer"]
@@ -2172,6 +2172,7 @@ texture = ExtResource( 32 )
 
 [node name="SelectStage" type="Container" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -2306,7 +2307,7 @@ max_lines_visible = -1
 [node name="PartyIndicator" type="AnimatedSprite" parent="SelectStage"]
 
 editor/display_folded = true
-frames = SubResource( 28 )
+frames = SubResource( 27 )
 animation = "default"
 frame = 1
 
@@ -2315,7 +2316,7 @@ frame = 1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/idle = SubResource( 29 )
+anims/idle = SubResource( 28 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -2324,7 +2325,7 @@ autoplay = "idle"
 [node name="SoundEffects" type="SamplePlayer" parent="."]
 
 config/polyphony = 1
-config/samples = SubResource( 27 )
+config/samples = SubResource( 29 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
