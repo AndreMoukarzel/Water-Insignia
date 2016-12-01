@@ -36,7 +36,6 @@ texture = ExtResource( 2 )
 
 [node name="Base" type="VBoxContainer" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -55,9 +54,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
 margin/left = 392.0
-margin/top = 23.0
+margin/top = 48.0
 margin/right = 632.0
-margin/bottom = 123.0
+margin/bottom = 148.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -93,9 +92,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
 margin/left = 392.0
-margin/top = 174.0
+margin/top = 249.0
 margin/right = 632.0
-margin/bottom = 274.0
+margin/bottom = 349.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -126,6 +125,7 @@ max_lines_visible = -1
 [node name="Settings" type="TextureButton" parent="Base"]
 
 editor/display_folded = true
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -169,9 +169,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 1
 margin/left = 392.0
-margin/top = 476.0
+margin/top = 451.0
 margin/right = 632.0
-margin/bottom = 576.0
+margin/bottom = 551.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -201,7 +201,6 @@ max_lines_visible = -1
 
 [node name="SettingsMenu" type="VBoxContainer" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false

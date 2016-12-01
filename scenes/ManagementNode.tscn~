@@ -1,32 +1,4 @@
-<<<<<<< HEAD
-[gd_scene load_steps=41 format=1]
-
-[ext_resource path="res://scripts/ManagementNode.gd" type="Script" id=1]
-[ext_resource path="res://resources/sprites/gui/management/bluehover.tex" type="Texture" id=2]
-[ext_resource path="res://resources/sprites/gui/management/bluepressed.tex" type="Texture" id=3]
-[ext_resource path="res://resources/sprites/gui/management/bluenormal.tex" type="Texture" id=4]
-[ext_resource path="res://resources/pkm24.fnt" type="BitmapFont" id=5]
-[ext_resource path="res://resources/sprites/gui/management/button0004.tex" type="Texture" id=6]
-[ext_resource path="res://resources/sprites/gui/management/button0005.tex" type="Texture" id=7]
-[ext_resource path="res://resources/sprites/gui/management/button0003.tex" type="Texture" id=8]
-[ext_resource path="res://resources/sprites/gui/management/swaphover.tex" type="Texture" id=9]
-[ext_resource path="res://resources/sprites/gui/management/swappressed.tex" type="Texture" id=10]
-[ext_resource path="res://resources/sprites/gui/management/swapnormal.tex" type="Texture" id=11]
-[ext_resource path="res://resources/sprites/gui/management/redhover.tex" type="Texture" id=12]
-[ext_resource path="res://resources/sprites/gui/management/redpressed.tex" type="Texture" id=13]
-[ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=14]
-[ext_resource path="res://scenes/StatusBox.tscn" type="PackedScene" id=15]
-[ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=16]
-[ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" id=17]
-[ext_resource path="res://resources/pkmndpb.fnt" type="BitmapFont" id=18]
-[ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=19]
-[ext_resource path="res://resources/pkm20Shadow.fnt" type="BitmapFont" id=20]
-[ext_resource path="res://scripts/dialog.gd" type="Script" id=21]
-[ext_resource path="res://resources/sprites/gui/management/shopkeeper.png" type="Texture" id=22]
-[ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=23]
-[ext_resource path="res://resources/sounds/sfx/Shop.wav" type="Sample" id=24]
-=======
-[gd_scene load_steps=45 format=1]
+[gd_scene load_steps=69 format=1]
 
 [ext_resource path="res://scripts/ManagementNode.gd" type="Script" id=1]
 [ext_resource path="res://resources/sprites/gui/black.png" type="Texture" id=2]
@@ -40,27 +12,39 @@
 [ext_resource path="res://resources/sprites/gui/management/button0004.tex" type="Texture" id=10]
 [ext_resource path="res://resources/sprites/gui/management/button0005.tex" type="Texture" id=11]
 [ext_resource path="res://resources/sprites/gui/management/button0003.tex" type="Texture" id=12]
-[ext_resource path="res://resources/sprites/gui/management/swaphover.tex" type="Texture" id=13]
-[ext_resource path="res://resources/sprites/gui/management/swappressed.tex" type="Texture" id=14]
-[ext_resource path="res://resources/sprites/gui/management/swapnormal.tex" type="Texture" id=15]
-[ext_resource path="res://resources/sprites/gui/management/redhover.tex" type="Texture" id=16]
-[ext_resource path="res://resources/sprites/gui/management/redpressed.tex" type="Texture" id=17]
-[ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=18]
-[ext_resource path="res://scenes/StatusBox.tscn" type="PackedScene" id=19]
-[ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=20]
-[ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" id=21]
-[ext_resource path="res://resources/pkmndpb.fnt" type="BitmapFont" id=22]
-[ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=23]
-[ext_resource path="res://resources/pkm20Shadow.fnt" type="BitmapFont" id=24]
-[ext_resource path="res://scripts/dialog.gd" type="Script" id=25]
-[ext_resource path="res://resources/sprites/gui/management/shopkeeper.png" type="Texture" id=26]
-[ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=27]
+[ext_resource path="res://resources/sprites/gui/management/swap_boxes0002.png" type="Texture" id=13]
+[ext_resource path="res://resources/sprites/gui/management/swaphover.tex" type="Texture" id=14]
+[ext_resource path="res://resources/sprites/gui/management/swap0002.tex" type="Texture" id=15]
+[ext_resource path="res://resources/sprites/gui/management/swap0000.tex" type="Texture" id=16]
+[ext_resource path="res://resources/sprites/gui/management/redhover.tex" type="Texture" id=17]
+[ext_resource path="res://resources/sprites/gui/management/redpressed.tex" type="Texture" id=18]
+[ext_resource path="res://resources/sprites/gui/management/rednormal.tex" type="Texture" id=19]
+[ext_resource path="res://scenes/StatusBox.tscn" type="PackedScene" id=20]
+[ext_resource path="res://resources/pkm20Gold.fnt" type="BitmapFont" id=21]
+[ext_resource path="res://resources/sprites/gui/management/swap_boxes0001.png" type="Texture" id=22]
+[ext_resource path="res://resources/sprites/gui/management/swap_boxes0000.png" type="Texture" id=23]
+[ext_resource path="res://resources/sprites/gui/management/swap0004.tex" type="Texture" id=24]
+[ext_resource path="res://resources/sprites/gui/management/swap0005.tex" type="Texture" id=25]
+[ext_resource path="res://resources/sprites/gui/management/swap0003.tex" type="Texture" id=26]
+[ext_resource path="res://resources/sprites/gui/management/swap0007.tex" type="Texture" id=27]
+[ext_resource path="res://resources/sprites/gui/management/swap0008.tex" type="Texture" id=28]
+[ext_resource path="res://resources/sprites/gui/management/swap0006.tex" type="Texture" id=29]
+[ext_resource path="res://resources/pkm16.fnt" type="BitmapFont" id=30]
+[ext_resource path="res://resources/pkmndpb.fnt" type="BitmapFont" id=31]
+[ext_resource path="res://resources/sprites/gui/management/icons/quesha.tex" type="Texture" id=32]
+[ext_resource path="res://resources/pkm20Shadow.fnt" type="BitmapFont" id=33]
+[ext_resource path="res://scripts/dialog.gd" type="Script" id=34]
+[ext_resource path="res://resources/sprites/gui/management/Ronaldinho.tex" type="Texture" id=35]
+[ext_resource path="res://resources/sprites/gui/management/dialogbubble.png" type="Texture" id=36]
+[ext_resource path="res://resources/sprites/gui/map/dude0000.tex" type="Texture" id=37]
+[ext_resource path="res://resources/sprites/gui/map/dude0001.tex" type="Texture" id=38]
+[ext_resource path="res://resources/sounds/sfx/Shop.wav" type="Sample" id=39]
 
-[sub_resource type="SpriteFrames" id=16]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ { "frames":[ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ], "loop":true, "name":"default", "speed":5.0 } ]
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=2]
 
 resource/name = "idle"
 length = 0.6
@@ -71,9 +55,8 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.2, 0.4 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ 0, 1, 2 ] }
->>>>>>> ae04ff5150b1f8f67df75400543b72c02f20289f
 
-[sub_resource type="StyleBoxTexture" id=1]
+[sub_resource type="StyleBoxTexture" id=3]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -90,7 +73,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=2]
+[sub_resource type="StyleBoxTexture" id=4]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -107,7 +90,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="StyleBoxTexture" id=5]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -124,7 +107,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=4]
+[sub_resource type="StyleBoxTexture" id=6]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -141,7 +124,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=5]
+[sub_resource type="StyleBoxTexture" id=7]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -158,7 +141,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=6]
+[sub_resource type="StyleBoxTexture" id=8]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -175,7 +158,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxTexture" id=9]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -192,7 +175,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=8]
+[sub_resource type="StyleBoxTexture" id=10]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -209,7 +192,7 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=9]
+[sub_resource type="StyleBoxTexture" id=11]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -226,47 +209,13 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="StyleBoxTexture" id=10]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-texture = ExtResource( 16 )
-margin/left = 0.0
-margin/right = 0.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=11]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-texture = ExtResource( 17 )
-margin/left = 0.0
-margin/right = 0.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
 [sub_resource type="StyleBoxTexture" id=12]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 18 )
+texture = ExtResource( 16 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -283,7 +232,7 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -317,6 +266,159 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
+texture = ExtResource( 19 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=16]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 22 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=17]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 23 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=18]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 24 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=19]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 25 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=20]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 26 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=21]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 27 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=22]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 28 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=23]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 29 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=24]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
 texture = ExtResource( 17 )
 margin/left = 0.0
 margin/right = 0.0
@@ -328,9 +430,59 @@ expand_margin/top = 0.0
 expand_margin/bottom = 0.0
 draw_center = true
 
-[sub_resource type="SampleLibrary" id=16]
+[sub_resource type="StyleBoxTexture" id=25]
 
-samples/Transaction = { "db":0.0, "pitch":1.0, "sample":ExtResource( 24 ) }
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 19 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=26]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 18 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="SpriteFrames" id=27]
+
+animations = [ { "frames":[ ExtResource( 37 ), ExtResource( 38 ) ], "loop":true, "name":"default", "speed":5.0 } ]
+
+[sub_resource type="Animation" id=28]
+
+resource/name = "idle"
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ 0, 1 ] }
+
+[sub_resource type="SampleLibrary" id=29]
+
+samples/Transaction = { "db":0.0, "pitch":1.0, "sample":ExtResource( 39 ) }
 
 [node name="ManagementNode" type="Panel"]
 
@@ -352,18 +504,20 @@ texture = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
 editor/display_folded = true
+visibility/opacity = 0.0
 transform/pos = Vector2( 508.269, 279.581 )
 transform/scale = Vector2( 5, 5 )
-frames = SubResource( 16 )
+frames = SubResource( 1 )
 animation = "default"
 frame = 2
+offset = Vector2( 0, -10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/idle = SubResource( 17 )
+anims/idle = SubResource( 2 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -394,9 +548,9 @@ margin/left = 407.0
 margin/top = 33.0
 margin/right = 617.0
 margin/bottom = 113.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -415,9 +569,9 @@ margin/left = 407.0
 margin/top = 184.0
 margin/right = 617.0
 margin/bottom = 264.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -436,9 +590,9 @@ margin/left = 407.0
 margin/top = 335.0
 margin/right = 617.0
 margin/bottom = 415.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -457,10 +611,10 @@ margin/left = 407.0
 margin/top = 486.0
 margin/right = 617.0
 margin/bottom = 566.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/disabled = SubResource( 5 )
-custom_styles/normal = SubResource( 6 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -470,7 +624,6 @@ flat = false
 
 [node name="PartyMenu" type="VBoxContainer" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -494,9 +647,9 @@ margin/left = 407.0
 margin/top = 58.0
 margin/right = 617.0
 margin/bottom = 138.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -515,9 +668,9 @@ margin/left = 407.0
 margin/top = 259.0
 margin/right = 617.0
 margin/bottom = 339.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -536,14 +689,14 @@ margin/left = 407.0
 margin/top = 461.0
 margin/right = 617.0
 margin/bottom = 541.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 6 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "FUCK GO BACK"
+text = "Return"
 flat = false
 
 [node name="UnitManagement" type="Control" parent="."]
@@ -571,6 +724,7 @@ margin/left = 40.0
 margin/top = 40.0
 margin/right = 110.0
 margin/bottom = 110.0
+custom_styles/bg = SubResource( 9 )
 custom_constants/icon_margin = -5
 custom_constants/hseparation = 20
 
@@ -585,6 +739,7 @@ margin/left = 660.0
 margin/top = 40.0
 margin/right = 730.0
 margin/bottom = 110.0
+custom_styles/bg = SubResource( 9 )
 custom_constants/icon_margin = -5
 custom_constants/hseparation = 20
 
@@ -598,10 +753,10 @@ margin/left = 465.0
 margin/top = 100.0
 margin/right = 555.0
 margin/bottom = 190.0
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -617,9 +772,9 @@ margin/left = 800.0
 margin/top = 500.0
 margin/right = 944.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/normal = SubResource( 12 )
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -627,7 +782,7 @@ shortcut = null
 text = "Return"
 flat = false
 
-[node name="ActivePartyStatus" parent="UnitManagement" instance=ExtResource( 19 )]
+[node name="ActivePartyStatus" parent="UnitManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 
@@ -637,16 +792,16 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="UnitManagement/ActivePartyStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 
 [node name="Attack" parent="UnitManagement/ActivePartyStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="UnitManagement/ActivePartyStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="SpecialAttack" type="Label" parent="UnitManagement/ActivePartyStatus"]
@@ -659,7 +814,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -675,7 +830,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -691,7 +846,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -707,7 +862,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -723,13 +878,13 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="BarracksStatus" parent="UnitManagement" instance=ExtResource( 19 )]
+[node name="BarracksStatus" parent="UnitManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 
@@ -739,16 +894,16 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="UnitManagement/BarracksStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 
 [node name="Attack" parent="UnitManagement/BarracksStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="UnitManagement/BarracksStatus"]
 
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="SpecialAttack" type="Label" parent="UnitManagement/BarracksStatus"]
@@ -761,7 +916,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -777,7 +932,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -793,7 +948,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -809,7 +964,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -825,7 +980,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
@@ -855,6 +1010,7 @@ margin/left = 40.0
 margin/top = 40.0
 margin/right = 80.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="ActivePartyWeapons" type="ItemList" parent="ItemManagement"]
 
@@ -866,6 +1022,7 @@ margin/left = 40.0
 margin/top = 240.0
 margin/right = 80.0
 margin/bottom = 280.0
+custom_styles/bg = SubResource( 16 )
 
 [node name="ActivePartyItems" type="ItemList" parent="ItemManagement"]
 
@@ -877,6 +1034,7 @@ margin/left = 40.0
 margin/top = 250.0
 margin/right = 80.0
 margin/bottom = 290.0
+custom_styles/bg = SubResource( 17 )
 
 [node name="StorageWeapons" type="ItemList" parent="ItemManagement"]
 
@@ -889,6 +1047,7 @@ margin/left = 640.0
 margin/top = 40.0
 margin/right = 680.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 16 )
 
 [node name="StorageItems" type="ItemList" parent="ItemManagement"]
 
@@ -901,6 +1060,7 @@ margin/left = 640.0
 margin/top = 40.0
 margin/right = 680.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 17 )
 
 [node name="Barracks" type="ItemList" parent="ItemManagement"]
 
@@ -912,6 +1072,7 @@ margin/left = 640.0
 margin/top = 40.0
 margin/right = 680.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="BarracksWeapons" type="ItemList" parent="ItemManagement"]
 
@@ -923,6 +1084,7 @@ margin/left = 640.0
 margin/top = 40.0
 margin/right = 680.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 16 )
 
 [node name="BarracksItems" type="ItemList" parent="ItemManagement"]
 
@@ -934,6 +1096,7 @@ margin/left = 640.0
 margin/top = 40.0
 margin/right = 680.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 17 )
 
 [node name="SwapWeapons" type="Button" parent="ItemManagement"]
 
@@ -945,10 +1108,10 @@ margin/left = 480.0
 margin/top = 65.0
 margin/right = 550.0
 margin/bottom = 135.0
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 18 )
+custom_styles/pressed = SubResource( 19 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -964,10 +1127,10 @@ margin/left = 480.0
 margin/top = 145.0
 margin/right = 550.0
 margin/bottom = 215.0
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 21 )
+custom_styles/pressed = SubResource( 22 )
+custom_styles/disabled = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -983,9 +1146,9 @@ margin/left = 640.0
 margin/top = 500.0
 margin/right = 798.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1003,9 +1166,9 @@ margin/left = 800.0
 margin/top = 500.0
 margin/right = 944.0
 margin/bottom = 560.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1013,124 +1176,124 @@ shortcut = null
 text = "Return"
 flat = false
 
-[node name="APWStatus" parent="ItemManagement" instance=ExtResource( 19 )]
+[node name="APWStatus" parent="ItemManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
 
 [node name="Name" parent="ItemManagement/APWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/APWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/APWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/APWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="ItemManagement/APWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
-[node name="APIStatus" parent="ItemManagement" instance=ExtResource( 19 )]
+[node name="APIStatus" parent="ItemManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
 
 [node name="Name" parent="ItemManagement/APIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/APIStatus"]
 
-custom_fonts/font = ExtResource( 22 )
+custom_fonts/font = ExtResource( 31 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/APIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/APIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="ItemManagement/APIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
-[node name="BWStatus" parent="ItemManagement" instance=ExtResource( 19 )]
+[node name="BWStatus" parent="ItemManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
 
 [node name="Name" parent="ItemManagement/BWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/BWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/BWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/BWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="ItemManagement/BWStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
-[node name="BIStatus" parent="ItemManagement" instance=ExtResource( 19 )]
+[node name="BIStatus" parent="ItemManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
 
 [node name="Name" parent="ItemManagement/BIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Class" parent="ItemManagement/BIStatus"]
 
-custom_fonts/font = ExtResource( 22 )
+custom_fonts/font = ExtResource( 31 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Durability" parent="ItemManagement/BIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Attack" parent="ItemManagement/BIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="Defense" parent="ItemManagement/BIStatus"]
 
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 
 [node name="RepairMenu" type="Control" parent="."]
@@ -1156,6 +1319,7 @@ margin/left = 40.0
 margin/top = 40.0
 margin/right = 80.0
 margin/bottom = 80.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="Barracks" type="ItemList" parent="RepairMenu"]
 
@@ -1167,6 +1331,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="Weapons" type="ItemList" parent="RepairMenu"]
 
@@ -1178,6 +1343,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 16 )
 
 [node name="RepairWeapon" type="Button" parent="RepairMenu"]
 
@@ -1190,10 +1356,10 @@ margin/left = 740.0
 margin/top = 254.0
 margin/right = 950.0
 margin/bottom = 334.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1211,10 +1377,10 @@ margin/left = 740.0
 margin/top = 349.0
 margin/right = 950.0
 margin/bottom = 429.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 26 )
+custom_styles/disabled = SubResource( 26 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1232,9 +1398,9 @@ margin/left = 600.0
 margin/top = 510.0
 margin/right = 744.0
 margin/bottom = 570.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1242,7 +1408,7 @@ shortcut = null
 text = "Return"
 flat = false
 
-[node name="RepairStatus" parent="RepairMenu" instance=ExtResource( 19 )]
+[node name="RepairStatus" parent="RepairMenu" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 
@@ -1256,7 +1422,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 20 )
+custom_fonts/font = ExtResource( 21 )
 custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
@@ -1274,8 +1440,8 @@ margin/left = 750.0
 margin/top = 500.0
 margin/right = 940.0
 margin/bottom = 580.0
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 20 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 21 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -1285,7 +1451,7 @@ flat = false
 [node name="Sprite" type="Sprite" parent="RepairMenu/CurrentQuesha"]
 
 transform/pos = Vector2( 20, 40 )
-texture = ExtResource( 23 )
+texture = ExtResource( 32 )
 
 [node name="RepairAllPrice" type="Button" parent="RepairMenu"]
 
@@ -1300,8 +1466,8 @@ margin/left = 555.0
 margin/top = 349.0
 margin/right = 730.0
 margin/bottom = 429.0
-custom_styles/normal = SubResource( 14 )
-custom_fonts/font = ExtResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_fonts/font = ExtResource( 33 )
 custom_colors/font_color_disabled = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color_hover = Color( 0.937255, 0.878431, 0.00392157, 1 )
@@ -1315,7 +1481,7 @@ flat = false
 [node name="Sprite" type="Sprite" parent="RepairMenu/RepairAllPrice"]
 
 transform/pos = Vector2( 20, 40 )
-texture = ExtResource( 23 )
+texture = ExtResource( 32 )
 
 [node name="ShopMenu" type="VBoxContainer" parent="."]
 
@@ -1342,9 +1508,9 @@ margin/left = 407.0
 margin/top = 33.0
 margin/right = 617.0
 margin/bottom = 113.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1363,9 +1529,9 @@ margin/left = 407.0
 margin/top = 184.0
 margin/right = 617.0
 margin/bottom = 264.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1384,10 +1550,10 @@ margin/left = 407.0
 margin/top = 335.0
 margin/right = 617.0
 margin/bottom = 415.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1406,9 +1572,9 @@ margin/left = 407.0
 margin/top = 486.0
 margin/right = 617.0
 margin/bottom = 566.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1418,7 +1584,6 @@ flat = false
 
 [node name="ShopKeeperContainer" type="Container" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -1428,20 +1593,25 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
-script/script = ExtResource( 25 )
+script/script = ExtResource( 34 )
 
 [node name="ShopKeeper" type="Sprite" parent="ShopKeeperContainer"]
 
-transform/pos = Vector2( 790.227, 388.356 )
-transform/scale = Vector2( 2.48329, 2.47687 )
-texture = ExtResource( 26 )
+<<<<<<< HEAD
+transform/pos = Vector2( 805.3, 362.731 )
+transform/scale = Vector2( 0.8, 0.8 )
+=======
+transform/pos = Vector2( 825, 360 )
+transform/scale = Vector2( 4, 4 )
+>>>>>>> 185905109686d8b6b06183796f058705ef4de724
+texture = ExtResource( 35 )
 
 [node name="DialogBubble" type="Sprite" parent="ShopKeeperContainer"]
 
 visibility/visible = false
 transform/pos = Vector2( 644.856, 168.325 )
 transform/scale = Vector2( 0.799136, 1.00219 )
-texture = ExtResource( 27 )
+texture = ExtResource( 36 )
 
 [node name="DialogText" type="RichTextLabel" parent="ShopKeeperContainer"]
 
@@ -1481,6 +1651,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="ShopItems" type="ItemList" parent="ShopManagement"]
 
@@ -1492,6 +1663,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="Buy" type="Button" parent="ShopManagement"]
 
@@ -1504,10 +1676,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 240.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1525,9 +1697,9 @@ margin/left = 300.0
 margin/top = 510.0
 margin/right = 510.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1535,7 +1707,7 @@ shortcut = null
 text = "Return"
 flat = false
 
-[node name="SWStatus" parent="ShopManagement" instance=ExtResource( 19 )]
+[node name="SWStatus" parent="ShopManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
@@ -1582,7 +1754,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color = Color( 0.9375, 0.879364, 0.00732422, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
@@ -1600,10 +1772,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 110.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1623,7 +1795,7 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 130.0
 margin/bottom = 610.0
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1642,10 +1814,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 110.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1653,7 +1825,7 @@ shortcut = null
 text = "-"
 flat = false
 
-[node name="SIStatus" parent="ShopManagement" instance=ExtResource( 19 )]
+[node name="SIStatus" parent="ShopManagement" instance=ExtResource( 20 )]
 
 editor/display_folded = true
 visibility/visible = false
@@ -1700,7 +1872,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
@@ -1718,10 +1890,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 110.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1741,9 +1913,9 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 130.0
 margin/bottom = 610.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1762,10 +1934,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 110.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1784,8 +1956,8 @@ margin/left = 800.0
 margin/top = 510.0
 margin/right = 990.0
 margin/bottom = 590.0
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 20 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 21 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -1795,7 +1967,7 @@ flat = false
 [node name="Sprite" type="Sprite" parent="ShopManagement/CurrentQuesha"]
 
 transform/pos = Vector2( 20, 40 )
-texture = ExtResource( 23 )
+texture = ExtResource( 32 )
 
 [node name="SellManagement" type="Control" parent="."]
 
@@ -1820,6 +1992,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="StorageItems" type="ItemList" parent="SellManagement"]
 
@@ -1831,6 +2004,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+custom_styles/bg = SubResource( 9 )
 
 [node name="Sell" type="Button" parent="SellManagement"]
 
@@ -1843,10 +2017,10 @@ margin/left = 30.0
 margin/top = 510.0
 margin/right = 240.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1864,9 +2038,9 @@ margin/left = 300.0
 margin/top = 510.0
 margin/right = 510.0
 margin/bottom = 590.0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 24 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 25 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1874,7 +2048,7 @@ shortcut = null
 text = "Return"
 flat = false
 
-[node name="STWStatus" parent="SellManagement" instance=ExtResource( 19 )]
+[node name="STWStatus" parent="SellManagement" instance=ExtResource( 20 )]
 
 visibility/visible = false
 
@@ -1920,14 +2094,14 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="STIStatus" parent="SellManagement" instance=ExtResource( 19 )]
+[node name="STIStatus" parent="SellManagement" instance=ExtResource( 20 )]
 
 visibility/visible = false
 
@@ -1969,7 +2143,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 14.0
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 30 )
 custom_colors/font_color = Color( 0.937255, 0.878431, 0.00392157, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 percent_visible = 1.0
@@ -1987,8 +2161,8 @@ margin/left = 800.0
 margin/top = 510.0
 margin/right = 990.0
 margin/bottom = 590.0
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 20 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 21 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -1998,7 +2172,7 @@ flat = false
 [node name="Sprite" type="Sprite" parent="SellManagement/CurrentQuesha"]
 
 transform/pos = Vector2( 20, 40 )
-texture = ExtResource( 23 )
+texture = ExtResource( 32 )
 
 [node name="SelectStage" type="Container" parent="."]
 
@@ -2013,21 +2187,6 @@ margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
 
-[node name="Flavour" type="Label" parent="SelectStage"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 447.0
-margin/top = 281.0
-margin/right = 580.0
-margin/bottom = 332.0
-custom_fonts/font = ExtResource( 9 )
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
 [node name="PreviousStage" type="Button" parent="SelectStage"]
 
 rect/min_size = Vector2( 210, 80 )
@@ -2039,9 +2198,10 @@ margin/left = 187.0
 margin/top = 261.0
 margin/right = 397.0
 margin/bottom = 361.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = true
 enabled_focus_mode = 2
@@ -2060,9 +2220,10 @@ margin/left = 627.0
 margin/top = 261.0
 margin/right = 837.0
 margin/bottom = 361.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = true
 enabled_focus_mode = 2
@@ -2081,9 +2242,10 @@ margin/left = 407.0
 margin/top = 371.0
 margin/right = 617.0
 margin/bottom = 451.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2102,20 +2264,72 @@ margin/left = 407.0
 margin/top = 461.0
 margin/right = 617.0
 margin/bottom = 541.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/normal = SubResource( 6 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 custom_fonts/font = ExtResource( 9 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "FUCK GO BACK"
+text = "Return"
 flat = false
+
+[node name="PreviousText" type="Label" parent="SelectStage"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 447.0
+margin/top = 281.0
+margin/right = 580.0
+margin/bottom = 332.0
+custom_fonts/font = ExtResource( 9 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NextText" type="Label" parent="SelectStage"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 447.0
+margin/top = 281.0
+margin/right = 580.0
+margin/bottom = 332.0
+custom_fonts/font = ExtResource( 9 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="PreviousLook" type="Sprite" parent="SelectStage"]
+
+[node name="NextLook" type="Sprite" parent="SelectStage"]
+
+[node name="PartyIndicator" type="AnimatedSprite" parent="SelectStage"]
+
+editor/display_folded = true
+frames = SubResource( 27 )
+animation = "default"
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SelectStage/PartyIndicator"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = SubResource( 28 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "idle"
 
 [node name="SoundEffects" type="SamplePlayer" parent="."]
 
 config/polyphony = 1
-config/samples = SubResource( 16 )
+config/samples = SubResource( 29 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
