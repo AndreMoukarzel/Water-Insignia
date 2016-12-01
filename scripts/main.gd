@@ -224,10 +224,14 @@ func save():
 	for item in total_items:
 		items.append( { id = item.id, amount = item.amount })
 	
+	print("Storage weapons:")
+	print(storage_wpn)
 	for weapon in storage_wpn:
 		storage_weapons.append( { id = weapon.id, durability = weapon.durability })
+	print("Storage items:")
+	print(storage_itm)
 	for item in storage_itm:
-		items.append( { id = item.id, amount = item.amount })
+		storage_items.append( { id = item.id, amount = item.amount })
 		
 	# Begin dictionary
 	var savedict = {
@@ -325,13 +329,13 @@ func load_game():
 	current_wpn = 0
 	current_item = 0
 	
-	for weapon in savedata.storage_weapons:
-		storage_wpn.append(weapon.new(weapon.id, wpn_database))
-		storage_wpn[current_wpn].durability = weapon.durability
+	for wpn in savedata.storage_weapons:
+		storage_wpn.append(weapon.new(wpn.id, wpn_database))
+		storage_wpn[current_wpn].durability = wpn.durability
 		current_wpn += 1
-	for item in savedata.storage_items:
-		storage_itm.append(item.new(item.id, item_database))
-		storage_itm[current_item].amount = item.amount
+	for itm in savedata.storage_items:
+		storage_itm.append(item.new(itm.id, item_database))
+		storage_itm[current_item].amount = itm.amount
 		current_item += 1
 	
 	if (current_wpn != savedata.storage_weapons.size() or current_item != savedata.storage_items.size()):

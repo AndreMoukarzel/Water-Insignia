@@ -1337,11 +1337,12 @@ func enemy_attack_beta():
 			print (enemy_weapons)
 			var random_weapon = int(rand_range(0, enemy_weapons.size()))
 			var count = 0
-			while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
-				if count == enemy_weapons.size(): # If every weapon is broken, defends
-					break
-				random_weapon = (random_weapon + 1) % enemy_weapons.size()
-				count += 1
+			if (enemy_weapons.size() > 0):
+				while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
+					if count == enemy_weapons.size(): # If every weapon is broken, defends
+						break
+					random_weapon = (random_weapon + 1) % enemy_weapons.size()
+					count += 1
 				
 			if count != enemy_weapons.size():
 				var wpn_type = enemies_vector[enemies].get_wpn_vector()[random_weapon].get_type()
@@ -1360,7 +1361,7 @@ func enemy_attack_beta():
 				action_instance.set_action("attack")
 				action_instance.set_action_id(0)
 				action_instance.set_speed(0)
-				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_defend())
+				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_base_defense())
 				action_memory.append(action_instance)
 		enemies += 1
 
