@@ -1500,7 +1500,7 @@ func _on_Play_pressed():
 	get_node("SelectStage/Begin").set_disabled(true)
 	if (get_parent().stage == 0):
 		ss_ps.set_disabled(true)
-		ss_ns.set_disabled(true)
+		ss_ns.set_disabled(false)
 		get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
 		get_node("SelectStage/NextText").set_text("Stage\n     0")
 		get_node("SelectStage/PartyIndicator").set_pos(Vector2(get_node("SelectStage/NextLook").get_pos().x, get_node("SelectStage/NextLook").get_pos().y))

@@ -1584,7 +1584,6 @@ flat = false
 
 [node name="ShopKeeperContainer" type="Container" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true

@@ -125,7 +125,7 @@ func clear_recruit():
 
 	get_node("RecruitsBox").set_size(Vector2(100, 100))
 	get_node("RecruitsBox").set_pos(OS.get_window_size()/2 - Vector2(100, 100))
-
+	get_node("Outcome").set_pos(OS.get_window_size()/2 + Vector2(0, 120))
 
 func goto_management():
 	var main = get_parent().get_parent()
