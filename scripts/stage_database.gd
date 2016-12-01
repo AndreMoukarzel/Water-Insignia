@@ -62,9 +62,9 @@ class stage_spawner:
 var stage_database = [
 #	Stage 0 - BALANCED
 	stage_spawner.new([ #Allowed Mobs
-		mob.new([spawn.new("mage", 1)]),
-		mob.new([spawn.new("mage", 1)]),
-		mob.new([spawn.new("mage", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("mage", 1)]),
 		mob.new([spawn.new("samurai", 1)]),
 		mob.new([spawn.new("soldier", 1)]),
@@ -82,14 +82,13 @@ var stage_database = [
 		"Book",
 		],[ # Allowed Items
 		"Small Potion",
-		"Poison Bomb",
 		"Bomb"]),
 
 #	Stage 1 - BALANCED
 	stage_spawner.new([ #Allowed Mobs
-		mob.new([spawn.new("mage", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("mage", 1), spawn.new("bat", 1)]),
-		mob.new([spawn.new("mage", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("mage", 1), spawn.new("bat", 1)]),
 		mob.new([spawn.new("samurai", 2)]),
 		mob.new([spawn.new("samurai", 2)]),
@@ -145,7 +144,7 @@ var stage_database = [
 		mob.new([spawn.new("soldier", 1), spawn.new("samurai", 2)]),
 		mob.new([spawn.new("soldier", 1), spawn.new("bat", 3)]),
 		mob.new([spawn.new("baby_dragon", 4)]),
-		mob.new([spawn.new("bat", 1), spawn.new("bat", 2), spawn.new("bat", 1)]),
+		mob.new([spawn.new("bat", 2), spawn.new("mage", 1), spawn.new("bat", 2)]),
 		mob.new([spawn.new("bat", 1), spawn.new("samurai", 3), spawn.new("bat", 1)]),
 		],[
 #		"Katana",

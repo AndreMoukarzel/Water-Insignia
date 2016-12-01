@@ -944,10 +944,11 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 		defender = allies_vector
 
 	# Set last_weapon of the attacker to weapon type used in attack
-	var lst_type = attacker[attacker_vpos].get_wpn_vector()[action_id].get_type()
 	attacker[attacker_vpos].set_last_weapon(null)
-	if lst_type != "Natural":
-		attacker[attacker_vpos].set_last_weapon(lst_type)
+	if attacker[attacker_vpos].get_wpn_vector().size() != 0:
+		var lst_type = attacker[attacker_vpos].get_wpn_vector()[action_id].get_type()
+		if lst_type != "Natural":
+			attacker[attacker_vpos].set_last_weapon(lst_type)
 
 	# Calculates the damage of the attack, including attack bonus of the attacker, and defense and defense bonus of the defender #
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
@@ -1345,6 +1346,7 @@ func process_item(action_id, user_side, user_vpos, target_side, target_vpos):
 # Process the enemies attacks
 func enemy_attack_beta():
 	var enemies = 0 # Counts how many enemy actions were chosen so far
+	var choice
 	while(enemies < enemies_pos.size()):
 		var action_instance = action_class.new()
 		
@@ -1355,53 +1357,113 @@ func enemy_attack_beta():
 
 		# Randomly chooses a target to attack, but only from the opposite side
 		if enemies_vector[enemies] != null:
-			# Chooses a target
 			randomize()
 			action_instance.set_from([enemies, "Enemies"])
 
-			# Attacks or uses a skill
-			# so com chance de acertar allies, por ora
-			var random_target = int(rand_range(0, get_node("Allies").get_child_count()))
-			# Mages have a lower chance of being targeted: they must be targetted twice in a row to be attacked
-			# Just to give them a chance of not dying so quickly since they are a glass cannon with high chance of being hit if targeted
-			if (allies_vector[random_target] != null) and (allies_vector[random_target].get_name() == "mage"):
-				random_target = int(rand_range(0, get_node("Allies").get_child_count()))
-			# If the chosen target is already dead, randomly chooses another one
-			while (get_node(str("Allies/",int(random_target))) == null):
-				random_target = (random_target + 1) % allies_vector.size()
-
-			# Instances the attack
-			randomize()
-			var enemy_weapons = enemies_vector[enemies].get_wpn_vector()
-			print (enemy_weapons)
-			var random_weapon = int(rand_range(0, enemy_weapons.size()))
-			var count = 0
-			if (enemy_weapons.size() > 0):
-				while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
-					if count == enemy_weapons.size(): # If every weapon is broken, defends
-						break
-					random_weapon = (random_weapon + 1) % enemy_weapons.size()
-					count += 1
-				
-			if count != enemy_weapons.size():
-				var wpn_type = enemies_vector[enemies].get_wpn_vector()[random_weapon].get_type()
-				enemies_vector[enemies].set_last_weapon(null)
-				if wpn_type != "Natural":
-					enemies_vector[enemies].set_last_weapon(wpn_type)
-
-				action_instance.set_to([int(random_target), "Allies"])
-				action_instance.set_action("attack")
-				action_instance.set_action_id(random_weapon)
-				action_instance.set_speed(enemies_vector[enemies].get_total_speed())
-				action_memory.append(action_instance)
+			choice = true
+			if (enemies_vector[enemies].get_name() == "mage") and (enemies_vector[enemies].get_mp_current() > 1): # A mage will use a skill whenever it's possible and basic attack otherwise
+				choice = false
 			
-			else:
-				action_instance.set_to([int(random_target), "Allies"])
-				action_instance.set_action("attack")
-				action_instance.set_action_id(0)
-				action_instance.set_speed(0)
-				enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_base_defense())
-				action_memory.append(action_instance)
+			if choice: # Basic attack
+				# Randomly chooses a target for the attack
+				var random_target = int(rand_range(0, get_node("Allies").get_child_count()))
+				# Mages have a lower chance of being targeted: they must be targetted twice in a row to be attacked
+				# Just to give them a chance of not dying so quickly since they are a glass cannon with high chance of being hit if targeted
+				if (allies_vector[random_target] != null) and (allies_vector[random_target].get_name() == "mage"):
+					random_target = int(rand_range(0, get_node("Allies").get_child_count()))
+				# If the chosen target is already dead, randomly chooses another one
+				while (get_node(str("Allies/",int(random_target))) == null):
+					random_target = (random_target + 1) % allies_vector.size()
+	
+				# Instances the attack
+				randomize()
+				var enemy_weapons = enemies_vector[enemies].get_wpn_vector()
+				print (enemy_weapons)
+				var random_weapon = int(rand_range(0, enemy_weapons.size()))
+				var count = 0
+				
+				if enemy_weapons.size() != 0:
+					while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
+						if count == enemy_weapons.size(): # If every weapon is broken, defends
+							break
+						random_weapon = (random_weapon + 1) % enemy_weapons.size()
+						count += 1
+					
+				if count != enemy_weapons.size():
+					var wpn_type = enemies_vector[enemies].get_wpn_vector()[random_weapon].get_type()
+					enemies_vector[enemies].set_last_weapon(null)
+					if wpn_type != "Natural":
+						enemies_vector[enemies].set_last_weapon(wpn_type)
+	
+					action_instance.set_to([int(random_target), "Allies"])
+					action_instance.set_action("attack")
+					action_instance.set_action_id(random_weapon)
+					action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+					action_memory.append(action_instance)
+				
+				else:
+					action_instance.set_to([int(random_target), "Allies"])
+					action_instance.set_action("attack")
+					action_instance.set_action_id(0)
+					action_instance.set_speed(0)
+					enemies_vector[enemies].set_bonus_defense(2 * enemies_vector[enemies].get_base_defense())
+					action_memory.append(action_instance)
+
+			else: # Skill or Item
+				randomize()
+				
+				choice = 0
+				if enemies_vector[enemies].get_item_vector().size() > 0: # If it has any item, it has a chance of using it
+					for i in enemies_vector[enemies].get_item_vector():
+						if i.get_amount() > 0:
+							choice = rand_range(0, 1)
+							break
+				
+				if choice < 0.5: # skill
+					while true: # Always uses skills which alters the current HP
+						choice = int(rand_range(0, enemies_vector[enemies].get_skill_vector().size())) # Randomly chooses a skill
+						if enemies_vector[enemies].get_skill_vector()[choice].get_mult()[0] > 0: # If it's a heal skill, targets an ally randomly
+							action_instance.set_action_id(choice)
+							choice = int(rand_range(0, enemies_vector.size()))
+							while enemies_vector[choice] == null:
+								choice = int(rand_range(0, enemies_vector.size()))
+							action_instance.set_to([choice, "Enemies"])
+							action_instance.set_action("skill")
+							action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+							action_memory.append(action_instance)
+							break
+						
+						elif enemies_vector[enemies].get_skill_vector()[choice].get_mult()[0] < 0: # If it's a damage skill, targets an enemy randomly
+							action_instance.set_action_id(choice)
+							choice = int(rand_range(0, allies_vector.size()))
+							while allies_vector[choice] == null: # Avoids choosing a dead unit as a target
+								choice = int(rand_range(0, allies_vector.size()))
+							action_instance.set_to([choice, "Allies"])
+							action_instance.set_action("skill")
+							action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+							action_memory.append(action_instance)
+							break
+				else: # Item
+					choice = int(rand_range(0, enemies_vector[enemies].get_item_vector().size())) # Randomly chooses an item
+					if enemies_vector[enemies].get_item_vector()[choice].get_hp() < 0: # if it's a damage item
+						action_instance.set_action_id(choice)
+						choice = int(rand_range(0, allies_vector.size()))
+						while allies_vector[choice] == null: # Avoids targetting a dead unit
+							choice = int(rand_range(0, allies_vector.size()))
+						action_instance.set_to([choice, "Allies"])
+						action_instance.set_action("item")
+						action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+						action_memory.append(action_instance)
+					else: # if it's NOT a damage item
+						action_instance.set_action_id(choice)
+						choice = int(rand_range(0, enemies_vector.size()))
+						while enemies_vector[choice] == null: # Avoids targetting a dead unit
+							choice = int(rand_range(0, enemies_vector.size()))
+						action_instance.set_to([choice, "Enemies"])
+						action_instance.set_action("item")
+						action_instance.set_speed(enemies_vector[enemies].get_total_speed())
+						action_memory.append(action_instance)
+
 		enemies += 1
 
 
@@ -2168,7 +2230,6 @@ func _fixed_process(delta):
 		var unit
 		var melee
 		var user_pos
-		var unit
 		
 		if action_memory.empty(): # If all the actions have been executed
 			self.actor = 0
@@ -2213,6 +2274,7 @@ func _fixed_process(delta):
 #						var unit
 #						var melee
 
+						print(act.get_from()[0], " ", act.get_from()[1], " || ", act.get_to()[0], " ", act.get_to()[1])
 						# Verifies who is attacking and who is being attacked, and moves the attacker to in front of the defender
 						sfx.play("Skill")
 						if act.get_from()[1] == "Allies":
@@ -2243,7 +2305,7 @@ func _fixed_process(delta):
 							melee = enemies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_melee()
 							atk_pos = enemies_pos[act.get_from()[0]]
 							if enemies_vector[act.get_from()[0]].get_skill_vector()[act.get_action_id()].get_is_multi_target():
-								unit = get_node(str("Allies/", act.get_from()[0]))
+								unit = get_node(str("Enemies/", act.get_from()[0]))
 								unit.set_pos(Vector2(window_size[0]/2 + 50, window_size[1]/2))
 
 							elif melee:
@@ -2271,7 +2333,7 @@ func _fixed_process(delta):
 							unit.set_pos(Vector2(user_pos[0] + 50, user_pos[1]))
 						elif act.get_from()[1] == "Enemies":
 							user_pos = enemies_pos[act.get_from()[0]]
-							unit = get_node(str("Allies/", act.get_from()[0]))
+							unit = get_node(str("Enemies/", act.get_from()[0]))
 							unit.set_pos(Vector2(user_pos[0] - 50, user_pos[1]))
 
 						time = 45
