@@ -954,7 +954,9 @@ func process_attack(action_id, attacker_side, attacker_vpos, defender_side, defe
 	var char_atk = attacker[attacker_vpos].get_total_attack() # Attacker's total attack
 	var char_dex = attacker[attacker_vpos].get_total_dexterity() # Attacker's total dexterity
 	var char_luk = attacker[attacker_vpos].get_total_luck() # Attacker's total luck
-	var wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].get_wpn_vector()[action_id].get_id()) # Attacker's weapon power
+	var wpn_atk = 1
+	if attacker[attacker_vpos].get_wpn_vector().size() != 0:
+		wpn_atk = wpn_database.get_attack(attacker[attacker_vpos].get_wpn_vector()[action_id].get_id()) # Attacker's weapon power
 
 	var defender_def = defender[defender_vpos].get_total_defense() # Defender's total defense
 	var defender_dex = defender[defender_vpos].get_total_dexterity() # Defender's total dexterity
@@ -1382,7 +1384,7 @@ func enemy_attack_beta():
 				var random_weapon = int(rand_range(0, enemy_weapons.size()))
 				var count = 0
 				
-				if enemy_weapons.size() != 0:
+				if !enemy_weapons.empty():
 					while (enemy_weapons[random_weapon] != null) and (enemy_weapons[random_weapon].get_durability() == 0):
 						if count == enemy_weapons.size(): # If every weapon is broken, defends
 							break
