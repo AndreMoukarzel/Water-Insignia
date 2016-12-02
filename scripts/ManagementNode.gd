@@ -1517,6 +1517,8 @@ func _on_Play_pressed():
 			get_node("SelectStage/PreviousText").set_text(str("Stage:\n     ", get_parent().stage - 1))
 			get_node("SelectStage/NextLook").set_texture(load("res://resources/sprites/gui/map/forest1.tex"))
 			get_node("SelectStage/NextText").set_text(str("Stage:\n     ", get_parent().stage))
+	if (parent().stage == 5):
+		ss_ns.set_disbled(true)
 			
 func _on_PreviousStage_pressed():
 	# Tem que estar desabilitado se o level for 0
