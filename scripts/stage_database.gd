@@ -52,9 +52,6 @@ class stage_spawner:
 	func get_random_item(): # 50% chance of returning no item
 		var random
 		randomize()
-		if (randi() % 100) < 50:
-			return null
-		randomize()
 		random = randi() % items.size()
 		return items[random]
 
