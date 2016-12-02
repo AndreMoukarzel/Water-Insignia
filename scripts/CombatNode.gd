@@ -1711,7 +1711,8 @@ func toggle_menu(boolean):
 
 # Disables a button
 func toggle_button(boolean, path):
-	get_node(str("ActionMenu/",path)).set_disabled(boolean)
+	if (path.length != 0):
+		get_node(str("ActionMenu/",path)).set_disabled(boolean)
 
 
 # Upon RETURN button is pressed, return to the action select screen
